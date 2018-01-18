@@ -1,0 +1,9 @@
+# CLion project files
+.idea/
+
+# CLion build directories
+cmake-build-debug/
+cmake-build-release/
+
+# Manual build directory
+build/
