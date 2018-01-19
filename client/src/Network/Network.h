@@ -4,9 +4,10 @@
 #include <string>
 
 #include "FileDescriptor.h"
+#include "Message.h"
 
 /**
- * A TCP connection capable of sending and receiving json messages
+ * A TCP connection capable of sending and receiving @see Message instances
  */
 class Network final {
 public:
@@ -37,6 +38,20 @@ public:
      * Close the connection
      */
     void disconnect();
+
+    /**
+     * Synchronously send a message
+     *
+     * @param message The message object to send
+     */
+    void send(const Message& message);
+
+    /**
+     * Synchronously receive a message
+     *
+     * @return The message object that was received
+     */
+    Message receive();
 
     /**
      * @return True if the connection is established and not terminated, false otherwise
