@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include <json/json.h>
+
 /**
  * A json message sent/received across the network
  */
@@ -27,6 +29,11 @@ public:
      * @return The message in string form
      */
     std::string to_string() const;
+
+protected:
+
+    /// Json tree root
+    Json::Value m_root;
 
 };
 
