@@ -64,7 +64,7 @@ Message Network::receive() {
     memset(buffer, 0, MAX_MESSAGE_LENGTH);
     ssize_t bytes_received = ::recv(m_sockfd.get(), buffer, MAX_MESSAGE_LENGTH, 0);
     if (bytes_received == 0)
-        throw NetworkError("Reached EOF");
+        throw NetworkEOFError();
     else if (bytes_received < 0)
         throw NetworkError(std::strerror(errno));
 

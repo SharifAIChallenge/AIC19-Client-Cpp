@@ -16,5 +16,13 @@ public:
     }
 };
 
+class NetworkEOFError : public NetworkError {
+public:
+
+    explicit inline NetworkEOFError()
+            : NetworkError("Reached EOF")
+    {
+    }
+};
 
 #endif // AIC18_CLIENT_CPP_NETWORK_ERROR_H
