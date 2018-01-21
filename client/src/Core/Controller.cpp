@@ -18,7 +18,18 @@ Controller::~Controller() {
 }
 
 void Controller::run() {
-    m_network.connect();
+    constexpr size_t MAX_RETRY_COUNT = 3;
+
+    for (size_t i = 1; i <= MAX_RETRY_COUNT && !m_network.is_connected(); ++i)
+        try {
+            std::cerr << "Trying to connect #" << i << std::endl;
+            m_network.connect();
+        }
+        catch (NetworkError &e) {
+            if (i == MAX_RETRY_COUNT)
+                throw;
+        }
+    std::cerr << "Connected" << std::endl;
 
     m_event_handling_thread = std::thread(&Controller::event_handling_loop, this);
 
@@ -37,6 +48,7 @@ void Controller::run() {
         }
     }
 
+    std::cerr << "Closing the connection" << std::endl;
     m_event_queue.terminate();
     m_network.disconnect();
 }
