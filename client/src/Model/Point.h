@@ -17,6 +17,8 @@ public:
     Point(const Point&) = default;
     Point& operator= (const Point&) = default;
 
+    Point(const Json::Value& json);
+
     Point(int x, int y);
 
     int& x();
