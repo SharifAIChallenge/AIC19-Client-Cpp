@@ -1,9 +1,14 @@
 #include "Entity.h"
 
-Entity::Entity(Point location, Owner owner)
-        : m_location(location)
+Entity::Entity(int id, Point location, Owner owner)
+        : m_id(id)
+        , m_location(location)
         , m_owner(owner)
 {
+}
+
+void Entity::set_id(int id) {
+    m_id = id;
 }
 
 void Entity::set_location(Point location) {
@@ -20,4 +25,8 @@ Point Entity::get_location() const {
 
 Owner Entity::get_owner() const {
     return m_owner;
+}
+
+int Entity::get_id() const {
+    return m_id;
 }

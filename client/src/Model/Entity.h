@@ -23,15 +23,20 @@ public:
     Entity(const Entity&) = default;
     Entity& operator= (const Entity&) = default;
 
-    Entity(Point location, Owner owner);
+    Entity(int id, Point location, Owner owner);
 
+    void set_id(int id);
     void set_location(Point location);
     void set_owner(Owner owner);
 
+    int get_id() const;
     Point get_location() const;
     Owner get_owner() const;
 
 private:
+
+    /// Unique id for this entity
+    int m_id;
 
     /// The location of this entity on the game map
     Point m_location;
