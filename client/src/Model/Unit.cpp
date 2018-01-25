@@ -1,7 +1,7 @@
 #include "Unit.h"
 
 Unit::Unit(UnitType type, int health, int level, int price, int added_income, int bounty, int damage, int move_speed,
-           int vision_range)
+           int vision_range, const Path& path)
         : m_type(type)
         , m_health(health)
         , m_level(level)
@@ -11,6 +11,7 @@ Unit::Unit(UnitType type, int health, int level, int price, int added_income, in
         , m_damage(damage)
         , m_move_speed(move_speed)
         , m_vision_range(vision_range)
+        , m_path(&path)
 {
 }
 
@@ -50,6 +51,10 @@ void Unit::set_vision_range(int vision_range) {
     m_vision_range = vision_range;
 }
 
+void Unit::set_path(const Path& path) {
+    m_path = &path;
+}
+
 UnitType Unit::get_type() const {
     return m_type;
 }
@@ -84,4 +89,8 @@ int Unit::get_move_speed() const {
 
 int Unit::get_vision_range() const {
     return m_vision_range;
+}
+
+const Path& Unit::get_path() const {
+    return *m_path;
 }

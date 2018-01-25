@@ -2,6 +2,7 @@
 #define AIC18_CLIENT_CPP_UNIT_H
 
 #include "Entity.h"
+#include "Path.h"
 
 /**
  * Type of a unit
@@ -24,7 +25,7 @@ public:
     Unit& operator= (const Unit&) = default;
 
     Unit(UnitType type, int health, int level, int price, int added_income, int bounty, int damage, int move_speed,
-        int vision_range);
+        int vision_range, const Path& path);
 
     void set_type(UnitType type);
     void set_health(int health);
@@ -35,6 +36,7 @@ public:
     void set_damage(int damage);
     void set_move_speed(int move_speed);
     void set_vision_range(int vision_range);
+    void set_path(const Path& path);
 
     UnitType get_type() const;
     int get_health() const;
@@ -45,6 +47,7 @@ public:
     int get_damage() const;
     int get_move_speed() const;
     int get_vision_range() const;
+    const Path& get_path() const;
 
 private:
 
@@ -74,6 +77,9 @@ private:
 
     /// Maximum distance of map cells this unit sees
     int m_vision_range;
+
+    /// Pointer to the path this unit is on
+    const Path* m_path;
 };
 
 #endif // AIC18_CLIENT_CPP_UNIT_H
