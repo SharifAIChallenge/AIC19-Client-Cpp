@@ -94,3 +94,23 @@ int Unit::get_vision_range() const {
 const Path& Unit::get_path() const {
     return *m_path;
 }
+
+int HeavyUnit::INITIAL_PRICE = 0;
+int HeavyUnit::PRICE_SUM = 0;
+int HeavyUnit::INITIAL_HEALTH = 0;
+int HeavyUnit::HEALTH_COEFF = 0;
+int HeavyUnit::INITIAL_BOUNTY = 0;
+int HeavyUnit::BOUNTY_SUM = 0;
+int HeavyUnit::INITIAL_MOVE_SPEED = 0;
+int HeavyUnit::INITIAL_DAMAGE = 0;
+int HeavyUnit::INITIAL_VISION_RANGE = 0;
+
+int LightUnit::INITIAL_PRICE = 0;
+int LightUnit::PRICE_SUM = 0;
+int LightUnit::INITIAL_HEALTH = 0;
+int LightUnit::HEALTH_COEFF = 0;
+int LightUnit::INITIAL_BOUNTY = 0;
+int LightUnit::BOUNTY_SUM = 0;
+int LightUnit::INITIAL_MOVE_SPEED = 0;
+int LightUnit::INITIAL_DAMAGE = 0;
+int LightUnit::INITIAL_VISION_RANGE = 0;

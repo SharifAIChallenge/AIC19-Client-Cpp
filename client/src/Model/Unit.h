@@ -82,4 +82,42 @@ private:
     const Path* m_path;
 };
 
+class HeavyUnit {
+public:
+
+    static int INITIAL_PRICE;
+    static int PRICE_SUM;
+
+    static int INITIAL_HEALTH;
+    static int HEALTH_COEFF;
+
+    static int INITIAL_BOUNTY;
+    static int BOUNTY_SUM;
+
+    static int INITIAL_MOVE_SPEED;
+
+    static int INITIAL_DAMAGE;
+
+    static int INITIAL_VISION_RANGE;
+};
+
+class LightUnit {
+public:
+
+    static int INITIAL_PRICE;
+    static int PRICE_SUM;
+
+    static int INITIAL_HEALTH;
+    static int HEALTH_COEFF;
+
+    static int INITIAL_BOUNTY;
+    static int BOUNTY_SUM;
+
+    static int INITIAL_MOVE_SPEED;
+
+    static int INITIAL_DAMAGE;
+
+    static int INITIAL_VISION_RANGE;
+};
+
 #endif // AIC18_CLIENT_CPP_UNIT_H
