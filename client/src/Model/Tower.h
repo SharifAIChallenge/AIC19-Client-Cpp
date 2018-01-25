@@ -61,4 +61,31 @@ private:
 
 };
 
+class CannonTower {
+public:
+
+    static int INITIAL_PRICE;
+    static int INITIAL_LEVEL_UP_PRICE;
+    static int PRICE_COEFF;
+
+    static int INITIAL_DAMAGE;
+    static int DAMAGE_COEFF;
+
+    static int INITIAL_ATTACK_RANGE;
+    static int ATTACK_RANGE_SUM;
+};
+
+class ArcherTower {
+
+    static int INITIAL_PRICE;
+    static int INITIAL_LEVEL_UP_PRICE;
+    static int PRICE_COEFF;
+
+    static int INITIAL_DAMAGE;
+    static int DAMAGE_COEFF;
+
+    static int INITIAL_ATTACK_RANGE;
+    static int ATTACK_RANGE_SUM;
+};
+
 #endif // AIC18_CLIENT_CPP_TOWER_H

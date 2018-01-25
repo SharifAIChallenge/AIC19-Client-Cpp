@@ -57,3 +57,19 @@ int Tower::get_attack_speed() const {
 int Tower::get_attack_range() const {
     return m_attack_range;
 }
+
+int CannonTower::INITIAL_PRICE = 0;
+int CannonTower::INITIAL_LEVEL_UP_PRICE = 0;
+int CannonTower::PRICE_COEFF = 0;
+int CannonTower::INITIAL_DAMAGE = 0;
+int CannonTower::DAMAGE_COEFF = 0;
+int CannonTower::INITIAL_ATTACK_RANGE = 0;
+int CannonTower::ATTACK_RANGE_SUM = 0;
+
+int ArcherTower::INITIAL_PRICE = 0;
+int ArcherTower::INITIAL_LEVEL_UP_PRICE = 0;
+int ArcherTower::PRICE_COEFF = 0;
+int ArcherTower::INITIAL_DAMAGE = 0;
+int ArcherTower::DAMAGE_COEFF = 0;
+int ArcherTower::INITIAL_ATTACK_RANGE = 0;
+int ArcherTower::ATTACK_RANGE_SUM = 0;
