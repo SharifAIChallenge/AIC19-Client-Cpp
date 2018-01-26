@@ -30,9 +30,7 @@ Cell::UnitList& Cell::get_units() {
 }
 
 Cell::ConstUnitList Cell::get_units() const {
-    ConstUnitList result(m_units.size());
-    std::transform(m_units.begin(), m_units.end(), result.begin(), [] (auto x) { return x; });
-    return result;
+    return ConstUnitList(m_units.begin(), m_units.end());
 }
 
 void Cell::set_tower(const std::shared_ptr<Tower>& tower) {
