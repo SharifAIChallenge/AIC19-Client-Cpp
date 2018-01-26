@@ -25,6 +25,10 @@ Point Cell::get_location() const {
     return m_location;
 }
 
+void Cell::set_units(const UnitList& units) {
+    m_units = units;
+}
+
 Cell::UnitList& Cell::get_units() {
     return m_units;
 }

@@ -41,6 +41,7 @@ public:
     CellType get_type() const;
     Point get_location() const;
 
+    void set_units(const UnitList& units);
     UnitList& get_units();
     ConstUnitList get_units() const;
 
