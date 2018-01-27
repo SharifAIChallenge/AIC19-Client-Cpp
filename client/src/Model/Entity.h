@@ -2,14 +2,7 @@
 #define AIC18_CLIENT_CPP_ENTITY_H
 
 #include "Point.h"
-
-/**
- * Owner of an entity in the game world
- */
-enum class Owner {
-    ME,
-    ENEMY
-};
+#include "Player.h"
 
 /**
  * An entity in the game world

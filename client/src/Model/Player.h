@@ -2,6 +2,14 @@
 #define AIC18_CLIENT_CPP_PLAYER_H
 
 /**
+ * Identifier for the two players
+ */
+enum Owner {
+    ME = 0,
+    ENEMY = 1
+};
+
+/**
  * Information about a player in game
  */
 class Player {
