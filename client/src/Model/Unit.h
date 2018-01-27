@@ -1,6 +1,8 @@
 #ifndef AIC18_CLIENT_CPP_UNIT_H
 #define AIC18_CLIENT_CPP_UNIT_H
 
+#include <memory>
+
 #include "Entity.h"
 #include "Path.h"
 
@@ -25,7 +27,7 @@ public:
     Unit& operator= (const Unit&) = default;
 
     Unit(UnitType type, int health, int level, int price, int added_income, int bounty, int damage, int move_speed,
-        int vision_range, const Path& path);
+        int vision_range, std::shared_ptr<const Path> path);
 
     void set_type(UnitType type);
     void set_health(int health);
@@ -36,7 +38,7 @@ public:
     void set_damage(int damage);
     void set_move_speed(int move_speed);
     void set_vision_range(int vision_range);
-    void set_path(const Path& path);
+    void set_path(std::shared_ptr<const Path> path);
 
     UnitType get_type() const;
     int get_health() const;
@@ -47,7 +49,7 @@ public:
     int get_damage() const;
     int get_move_speed() const;
     int get_vision_range() const;
-    const Path& get_path() const;
+    std::shared_ptr<const Path> get_path() const;
 
 private:
 
@@ -79,7 +81,7 @@ private:
     int m_vision_range;
 
     /// Pointer to the path this unit is on
-    const Path* m_path;
+    std::shared_ptr<const Path> m_path;
 };
 
 class HeavyUnit {
