@@ -21,29 +21,32 @@ public:
     Player(const Player&) = default;
     Player& operator=(const Player&) = default;
 
-    Player(int health, int money, int income, int beans_left, int storms_left);
+    Player(int strength, int money, int income, int beans_left, int storms_left);
 
-    void set_health(int health);
+    void set_strength(int strength);
+    int get_strength() const;
+
     void set_money(int money);
-    void set_income(int income);
-    void set_beans_left(int beans_left);
-    void set_storms_left(int storms_left);
-
-    int get_health() const;
     int get_money() const;
+
+    void set_income(int income);
     int get_income() const;
+
+    void set_beans_left(int beans_left);
     int get_beans_left() const;
+
+    void set_storms_left(int storms_left);
     int get_storms_left() const;
 
 private:
 
-    /// The amount of health this player has
-    int m_health;
+    /// The amount of strength this player has
+    int m_strength;
 
-    /// The amount of money this player has
+    /// The amount of money this player has (set to zero for enemy)
     int m_money;
 
-    /// The current income for this player
+    /// The current income for this player (set to zero for enemy)
     int m_income;
 
     /// Number of remaining unused beans
