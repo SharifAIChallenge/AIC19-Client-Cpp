@@ -6,19 +6,19 @@ Point::Point(int x, int y)
 {
 }
 
-int& Point::x() {
+void Point::set_x(int x) {
+    m_x = x;
+}
+
+int Point::get_x() const {
     return m_x;
 }
 
-int& Point::y() {
-    return m_y;
+void Point::set_y(int y) {
+    m_y = y;
 }
 
-int Point::x() const {
-    return m_x;
-}
-
-int Point::y() const {
+int Point::get_y() const {
     return m_y;
 }
 
