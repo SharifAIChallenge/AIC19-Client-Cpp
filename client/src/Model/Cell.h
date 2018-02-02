@@ -1,67 +1,86 @@
 #ifndef AIC18_CLIENT_CPP_CELL_H
 #define AIC18_CLIENT_CPP_CELL_H
 
-#include <vector>
-#include <memory>
-
+#include "../Core/Utility.h"
 #include "Point.h"
 #include "Unit.h"
 #include "Tower.h"
 
 /**
- * Type of a map cell
- */
-enum class CellType {
-    ROAD,
-    GRASS,
-    BLOCK
-};
-
-/**
  * A single cell in game map grid
  */
 class Cell {
-
-    using UnitList = std::vector<std::shared_ptr<Unit>>;
-    using ConstUnitList = std::vector<std::shared_ptr<const Unit>>;
-
 public:
 
     Cell() = default;
-    ~Cell() = default;
+    virtual ~Cell() = default;
 
     Cell(const Cell&) = default;
     Cell& operator= (const Cell&) = default;
 
-    Cell(CellType type, Point location);
+    explicit Cell(Point location);
 
-    void set_type(CellType type);
     void set_location(Point location);
-
-    CellType get_type() const;
     Point get_location() const;
 
-    void set_units(const UnitList& units);
-    UnitList& get_units();
-    ConstUnitList get_units() const;
+private:
+
+    /// Location of this cell on game map
+    Point m_location;
+};
+
+class RoadCell : public Cell {
+public:
+
+    RoadCell() = default;
+    ~RoadCell() override = default;
+
+    RoadCell(const RoadCell&) = default;
+    RoadCell& operator=(const RoadCell&) = default;
+
+    explicit RoadCell(Point location);
+
+    void set_units(const SharedPtrList<Unit>& units);
+    const SharedPtrList<Unit>& get_units();
+    SharedPtrList<const Unit> get_units() const;
+
+private:
+
+    /// List of units currently on this cell
+    SharedPtrList<Unit> m_units;
+};
+
+class GrassCell : public Cell {
+public:
+
+    GrassCell() = default;
+    ~GrassCell() override = default;
+
+    GrassCell(const GrassCell&) = default;
+    GrassCell& operator=(const GrassCell&) = default;
+
+    explicit GrassCell(Point location);
 
     void set_tower(const std::shared_ptr<Tower>& tower);
-    bool has_tower() const;
+    std::shared_ptr<Tower> get_tower();
     std::shared_ptr<const Tower> get_tower() const;
 
 private:
 
-    /// The type of this cell
-    CellType m_type;
-
-    /// Location of this cell on game map
-    Point m_location;
-
-    /// List of units currently located on this cell
-    std::vector<std::shared_ptr<Unit>> m_units;
-
-    /// An optional tower that may be built on this cell
+    /// Pointer to the tower built in this grass cell
     std::shared_ptr<Tower> m_tower;
+};
+
+class BlockCell : public Cell {
+public:
+
+    BlockCell() = default;
+    ~BlockCell() override = default;
+
+    BlockCell(const BlockCell&) = default;
+    BlockCell& operator=(const BlockCell&) = default;
+
+    explicit BlockCell(Point location);
 };
 
 #endif // AIC18_CLIENT_CPP_CELL_H
