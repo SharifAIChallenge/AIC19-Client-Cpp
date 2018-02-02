@@ -70,7 +70,7 @@ SharedPtrList<const Unit> World::get_my_units() const {
     SharedPtrList<const Unit> result;
 
     for (const auto& cell : get_attack_map().get_cells_list())
-        if (const RoadCell* road_cell = dynamic_cast<const RoadCell*>(&cell))
+        if (auto road_cell = std::dynamic_pointer_cast<const RoadCell>(cell))
             result.insert(result.end(), road_cell->get_units().begin(), road_cell->get_units().end());
 
     return result;
@@ -80,7 +80,7 @@ SharedPtrList<const Unit> World::get_enemy_units() const {
     SharedPtrList<const Unit> result;
 
     for (const auto& cell : get_defence_map().get_cells_list())
-        if (const RoadCell* road_cell = dynamic_cast<const RoadCell*>(&cell))
+        if (auto road_cell = std::dynamic_pointer_cast<const RoadCell>(cell))
             result.insert(result.end(), road_cell->get_units().begin(), road_cell->get_units().end());
 
     return result;
@@ -90,7 +90,7 @@ SharedPtrList<const Tower> World::get_my_towers() const {
     SharedPtrList<const Tower> result;
 
     for (const auto& cell : get_defence_map().get_cells_list())
-        if (const GrassCell* grass_cell = dynamic_cast<const GrassCell*>(&cell))
+        if (auto grass_cell = std::dynamic_pointer_cast<const GrassCell>(cell))
             if (grass_cell->get_tower())
                 result.push_back(grass_cell->get_tower());
 
@@ -101,7 +101,7 @@ SharedPtrList<const Tower> World::get_visible_enemy_towers() const {
     SharedPtrList<const Tower> result;
 
     for (const auto& cell : get_attack_map().get_cells_list())
-        if (const GrassCell* grass_cell = dynamic_cast<const GrassCell*>(&cell))
+        if (auto grass_cell = std::dynamic_pointer_cast<const GrassCell>(cell))
             if (grass_cell->get_tower())
                 result.push_back(grass_cell->get_tower());
 
