@@ -2,7 +2,8 @@
 #define AIC18_CLIENT_CPP_PATH_H
 
 #include "../Core/Utility.h"
-#include "Cell.h"
+
+class RoadCell;
 
 /**
  * A list of road cells that units may pass
