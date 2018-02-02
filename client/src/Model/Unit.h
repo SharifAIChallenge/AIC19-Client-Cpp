@@ -7,14 +7,6 @@
 #include "Path.h"
 
 /**
- * Type of a unit
- */
-enum class UnitType {
-    HEAVY,
-    LIGHT
-};
-
-/**
  * An attacking unit in the game
  */
 class Unit : public Entity {
@@ -26,35 +18,38 @@ public:
     Unit(const Unit&) = default;
     Unit& operator= (const Unit&) = default;
 
-    Unit(UnitType type, int health, int level, int price, int added_income, int bounty, int damage, int move_speed,
-        int vision_range, std::shared_ptr<const Path> path);
+    Unit(int id, Point location, Owner owner,
+         int health, int level, int price, int added_income, int bounty, int damage,int move_speed, int vision_range,
+         const std::shared_ptr<const Path>& path);
 
-    void set_type(UnitType type);
     void set_health(int health);
-    void set_level(int level);
-    void set_price(int price);
-    void set_added_income(int added_income);
-    void set_bounty(int bounty);
-    void set_damage(int damage);
-    void set_move_speed(int move_speed);
-    void set_vision_range(int vision_range);
-    void set_path(std::shared_ptr<const Path> path);
-
-    UnitType get_type() const;
     int get_health() const;
+
+    void set_level(int level);
     int get_level() const;
+
+    void set_price(int price);
     int get_price() const;
+
+    void set_added_income(int added_income);
     int get_added_income() const;
+
+    void set_bounty(int bounty);
     int get_bounty() const;
+
+    void set_damage(int damage);
     int get_damage() const;
+
+    void set_move_speed(int move_speed);
     int get_move_speed() const;
+
+    void set_vision_range(int vision_range);
     int get_vision_range() const;
+
+    void set_path(const std::shared_ptr<const Path>& path);
     std::shared_ptr<const Path> get_path() const;
 
 private:
-
-    /// The type of this unit
-    UnitType m_type;
 
     /// Current amount of health
     int m_health;
@@ -84,42 +79,61 @@ private:
     std::shared_ptr<const Path> m_path;
 };
 
-class HeavyUnit {
+class HeavyUnit : public Unit {
 public:
 
+    HeavyUnit() = default;
+    ~HeavyUnit() override = default;
+
+    HeavyUnit(const HeavyUnit&) = default;
+    HeavyUnit& operator= (const HeavyUnit&) = default;
+
+    HeavyUnit(int id, Point location, Owner owner,
+         int health, int level, int price, int added_income, int bounty, int damage,int move_speed, int vision_range,
+         const std::shared_ptr<const Path>& path);
+
     static int INITIAL_PRICE;
-    static int PRICE_SUM;
+    static int PRICE_INCREASE;
 
     static int INITIAL_HEALTH;
-    static int HEALTH_COEFF;
+    static double HEALTH_COEFF;
 
     static int INITIAL_BOUNTY;
-    static int BOUNTY_SUM;
+    static int BOUNTY_INCREASE;
 
-    static int INITIAL_MOVE_SPEED;
+    static int MOVE_SPEED;
+    static int DAMAGE;
+    static int VISION_RANGE;
 
-    static int INITIAL_DAMAGE;
-
-    static int INITIAL_VISION_RANGE;
+    static int LEVEL_UP_THRESHOLD;
 };
 
-class LightUnit {
+class LightUnit : public Unit {
 public:
+    LightUnit() = default;
+    ~LightUnit() override = default;
+
+    LightUnit(const LightUnit&) = default;
+    LightUnit& operator= (const LightUnit&) = default;
+
+    LightUnit(int id, Point location, Owner owner,
+         int health, int level, int price, int added_income, int bounty, int damage,int move_speed, int vision_range,
+         const std::shared_ptr<const Path>& path);
 
     static int INITIAL_PRICE;
-    static int PRICE_SUM;
+    static int PRICE_INCREASE;
 
     static int INITIAL_HEALTH;
-    static int HEALTH_COEFF;
+    static double HEALTH_COEFF;
 
     static int INITIAL_BOUNTY;
-    static int BOUNTY_SUM;
+    static int BOUNTY_INCREASE;
 
-    static int INITIAL_MOVE_SPEED;
+    static int MOVE_SPEED;
+    static int DAMAGE;
+    static int VISION_RANGE;
 
-    static int INITIAL_DAMAGE;
-
-    static int INITIAL_VISION_RANGE;
+    static int LEVEL_UP_THRESHOLD;
 };
 
 #endif // AIC18_CLIENT_CPP_UNIT_H
