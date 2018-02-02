@@ -11,22 +11,22 @@ void Entity::set_id(int id) {
     m_id = id;
 }
 
-void Entity::set_location(Point location) {
-    m_location = location;
+int Entity::get_id() const {
+    return m_id;
 }
 
-void Entity::set_owner(Owner owner) {
-    m_owner = owner;
+void Entity::set_location(Point location) {
+    m_location = location;
 }
 
 Point Entity::get_location() const {
     return m_location;
 }
 
-Owner Entity::get_owner() const {
-    return m_owner;
+void Entity::set_owner(Owner owner) {
+    m_owner = owner;
 }
 
-int Entity::get_id() const {
-    return m_id;
+Owner Entity::get_owner() const {
+    return m_owner;
 }

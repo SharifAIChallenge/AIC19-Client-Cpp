@@ -19,11 +19,12 @@ public:
     Entity(int id, Point location, Owner owner);
 
     void set_id(int id);
-    void set_location(Point location);
-    void set_owner(Owner owner);
-
     int get_id() const;
+
+    void set_location(Point location);
     Point get_location() const;
+
+    void set_owner(Owner owner);
     Owner get_owner() const;
 
 private:
