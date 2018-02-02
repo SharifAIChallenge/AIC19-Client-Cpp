@@ -4,14 +4,6 @@
 #include "Entity.h"
 
 /**
- * Type of a tower
- */
-enum class TowerType {
-    CANNON,
-    ARCHER
-};
-
-/**
  * A defending tower
  */
 class Tower : public Entity {
@@ -23,26 +15,24 @@ public:
     Tower(const Tower&) = default;
     Tower& operator= (const Tower&) = default;
 
-    Tower(TowerType type, int level, int price, int damage, int attack_speed, int attack_range);
+    Tower(int id, Point location, Owner owner, int level, int price, int damage, int attack_speed, int attack_range);
 
-    void set_type(TowerType type);
     void set_level(int level);
-    void set_price(int price);
-    void set_damage(int damage);
-    void set_attack_speed(int attack_speed);
-    void set_attack_range(int attack_range);
-
-    TowerType get_type() const;
     int get_level() const;
+
+    void set_price(int price);
     int get_price() const;
+
+    void set_damage(int damage);
     int get_damage() const;
+
+    void set_attack_speed(int attack_speed);
     int get_attack_speed() const;
+
+    void set_attack_range(int attack_range);
     int get_attack_range() const;
 
 private:
-
-    /// The type of this tower
-    TowerType m_type;
 
     /// Current level
     int m_level;
@@ -61,31 +51,48 @@ private:
 
 };
 
-class CannonTower {
+class CannonTower : public Tower {
 public:
 
+    CannonTower() = default;
+    ~CannonTower() override = default;
+
+    CannonTower(const CannonTower&) = default;
+    CannonTower& operator=(const CannonTower&) = default;
+
+    CannonTower(int id, Point location, Owner owner, int level, int price, int damage, int attack_speed,
+                int attack_range);
+
     static int INITIAL_PRICE;
     static int INITIAL_LEVEL_UP_PRICE;
-    static int PRICE_COEFF;
+    static double PRICE_COEFF;
 
     static int INITIAL_DAMAGE;
-    static int DAMAGE_COEFF;
+    static double DAMAGE_COEFF;
 
-    static int INITIAL_ATTACK_RANGE;
-    static int ATTACK_RANGE_SUM;
+    static int ATTACK_RANGE;
 };
 
-class ArcherTower {
+class ArcherTower : public Tower {
+public:
+
+    ArcherTower() = default;
+    ~ArcherTower() override = default;
+
+    ArcherTower(const ArcherTower&) = default;
+    ArcherTower& operator=(const ArcherTower&) = default;
+
+    ArcherTower(int id, Point location, Owner owner, int level, int price, int damage, int attack_speed,
+                int attack_range);
 
     static int INITIAL_PRICE;
     static int INITIAL_LEVEL_UP_PRICE;
-    static int PRICE_COEFF;
+    static double PRICE_COEFF;
 
     static int INITIAL_DAMAGE;
-    static int DAMAGE_COEFF;
+    static double DAMAGE_COEFF;
 
-    static int INITIAL_ATTACK_RANGE;
-    static int ATTACK_RANGE_SUM;
+    static int ATTACK_RANGE;
 };
 
 #endif // AIC18_CLIENT_CPP_TOWER_H
