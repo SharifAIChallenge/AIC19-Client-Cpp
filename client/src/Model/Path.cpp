@@ -1,14 +1,18 @@
 #include "Path.h"
 
-void Path::set_road(const std::vector<Point>& road) {
+Path::Path(const SharedPtrList<RoadCell>& road)
+        : m_road(road)
+{
+}
+
+void Path::set_road(const SharedPtrList<RoadCell>& road) {
     m_road = road;
 }
 
-std::vector<Point>& Path::get_road() {
+const SharedPtrList<RoadCell>& Path::get_road() {
     return m_road;
 }
 
-const std::vector<Point>& Path::get_road() const {
-    return m_road;
+SharedPtrList<const RoadCell> Path::get_road() const {
+    return SharedPtrList<const RoadCell>(m_road.begin(), m_road.end());
 }
-

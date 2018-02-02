@@ -1,11 +1,11 @@
 #ifndef AIC18_CLIENT_CPP_PATH_H
 #define AIC18_CLIENT_CPP_PATH_H
 
-#include <vector>
-#include "Point.h"
+#include "../Core/Utility.h"
+#include "Cell.h"
 
 /**
- * A list of cells that units may pass
+ * A list of road cells that units may pass
  */
 class Path {
 public:
@@ -16,15 +16,16 @@ public:
     Path(const Path&) = default;
     Path& operator= (const Path&) = default;
 
-    void set_road(const std::vector<Point>& road);
+    explicit Path(const SharedPtrList<RoadCell>& road);
 
-    std::vector<Point>& get_road();
-    const std::vector<Point>& get_road() const;
+    void set_road(const SharedPtrList<RoadCell>& road);
+    const SharedPtrList<RoadCell>& get_road();
+    SharedPtrList<const RoadCell> get_road() const;
 
 private:
 
-    /// List of points for this path
-    std::vector<Point> m_road;
+    /// List of road cells for this path
+    SharedPtrList<RoadCell> m_road;
 };
 
 #endif // AIC18_CLIENT_CPP_PATH_H
