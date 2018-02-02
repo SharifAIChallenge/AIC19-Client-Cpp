@@ -30,5 +30,5 @@ Json::Value Point::to_json() const {
 }
 
 std::ostream& operator<<(std::ostream& output, const Point& point) {
-    return output << "(" << point.x() << ", " << point.y() << ")";
+    return output << "(" << point.m_x << ", " << point.m_y << ")";
 }
