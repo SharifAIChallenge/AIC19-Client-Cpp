@@ -4,10 +4,9 @@
 #include <string>
 
 #include "FileDescriptor.h"
-#include "Message.h"
 
 /**
- * A TCP connection capable of sending and receiving @see Message instances
+ * A TCP connection capable of sending and receiving byte streams
  */
 class Network final {
 public:
@@ -42,16 +41,16 @@ public:
     /**
      * Synchronously send a message
      *
-     * @param message The message object to send
+     * @param message The buffer to send
      */
-    void send(const Message& message);
+    void send(const std::string& message);
 
     /**
      * Synchronously receive a message
      *
-     * @return The message object that was received
+     * @return The buffer that was received
      */
-    Message receive();
+    std::string receive();
 
     /**
      * @return True if the connection is established and not terminated, false otherwise

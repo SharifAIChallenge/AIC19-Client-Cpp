@@ -45,16 +45,15 @@ void Network::disconnect() {
     m_sockfd.reset();
 }
 
-void Network::send(const Message &message) {
+void Network::send(const std::string &message) {
     if (!is_connected())
         throw NetworkError("Cannot send message because the connection is not established.");
 
-    std::string buffer = message.to_string();
-    if (::send(m_sockfd.get(), buffer.c_str(), buffer.size(), 0) < 0)
+    if (::send(m_sockfd.get(), message.c_str(), message.size(), 0) < 0)
         throw NetworkError(std::strerror(errno));
 }
 
-Message Network::receive() {
+std::string Network::receive() {
     constexpr size_t MAX_MESSAGE_LENGTH = 66000;
     static char buffer[MAX_MESSAGE_LENGTH];
 
@@ -68,7 +67,7 @@ Message Network::receive() {
     else if (bytes_received < 0)
         throw NetworkError(std::strerror(errno));
 
-    return Message(std::string(buffer, static_cast<size_t>(bytes_received)));
+    return std::string(buffer, static_cast<size_t>(bytes_received));
 }
 
 bool Network::is_connected() const {

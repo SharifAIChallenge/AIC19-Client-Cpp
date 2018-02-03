@@ -7,7 +7,7 @@
 #include <memory>
 #include <atomic>
 
-#include "../Network/Message.h"
+#include "Message/Message.h"
 
 /**
  * A thread-safe queue of @see Message objects

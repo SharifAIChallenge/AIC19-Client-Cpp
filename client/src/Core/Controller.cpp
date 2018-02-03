@@ -35,10 +35,10 @@ void Controller::run() {
 
     while (m_network.is_connected()) {
         try {
-            Message msg = m_network.receive();
+            std::string msg = m_network.receive();
 
             // TODO: Parse the message
-            std::cout << msg.to_string() << std::endl;
+            std::cout << msg << std::endl;
         }
         catch (NetworkEOFError& e) {
             break;
@@ -58,6 +58,6 @@ void Controller::event_handling_loop() noexcept {
         auto message = m_event_queue.pop();
         if (!message)
             break;
-        m_network.send(*message);
+        m_network.send(message->to_string());
     }
 }
