@@ -2,6 +2,8 @@
 #define AIC18_CLIENT_CPP_WORLD_H
 
 #include "../Core/Utility.h"
+#include "../Core/EventQueue.h"
+
 #include "Player.h"
 #include "Unit.h"
 #include "Tower.h"
@@ -12,14 +14,13 @@
 class World final {
 public:
 
-    World() = default;
+    World(const World&) = delete;
+    World& operator=(const World&) = delete;
+
+    World(EventQueue& event_queue, const Player& my_information, const Player& enemy_information, const Map& attack_map,
+          const Map& defence_map, const SharedPtrList<Path>& attack_paths, const SharedPtrList<Path>& defence_paths);
+
     ~World() = default;
-
-    World(const World&) = default;
-    World& operator=(const World&) = default;
-
-    World(const Player& my_information, const Player& enemy_information, const Map& attack_map, const Map& defence_map,
-        const SharedPtrList<Path>& attack_paths, const SharedPtrList<Path>& defence_paths);
 
     // Member setter/getters:
 
@@ -107,6 +108,7 @@ private:
     SharedPtrList<BeanEvent> m_bean_events;
     SharedPtrList<StormEvent> m_storm_events;
 
+    EventQueue& m_event_queue;
 };
 
 #endif // AIC18_CLIENT_CPP_WORLD_H

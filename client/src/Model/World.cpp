@@ -1,12 +1,19 @@
 #include "World.h"
 
-World::World(const Player& my_information, const Player& enemy_information, const Map& attack_map,
-             const Map& defence_map, const SharedPtrList<Path>& attack_paths,
+#include "../Core/Message/CreateUnitMessage.h"
+#include "../Core/Message/CreateTowerMessage.h"
+#include "../Core/Message/UpgradeTowerMessage.h"
+#include "../Core/Message/PlantBeanMessage.h"
+#include "../Core/Message/CreateStormMessage.h"
+
+World::World(EventQueue& event_queue, const Player& my_information, const Player& enemy_information,
+             const Map& attack_map, const Map& defence_map, const SharedPtrList<Path>& attack_paths,
              const SharedPtrList<Path>& defence_paths)
         : m_players{my_information, enemy_information}
         , m_maps{attack_map, defence_map}
         , m_paths{attack_paths, defence_paths}
         , m_current_turn(0)
+        , m_event_queue(event_queue)
 {
 }
 
@@ -149,31 +156,31 @@ std::vector<const StormEvent*> World::get_storms_in_this_turn() const {
 }
 
 void World::create_light_unit(const std::shared_ptr<const Path>& path) {
-    // TODO: Implement this
+    m_event_queue.push(CreateUnitMessage(UnitType::LIGHT, path));
 }
 
 void World::create_heavy_unit(const std::shared_ptr<const Path>& path) {
-    // TODO: Implement this
+    m_event_queue.push(CreateUnitMessage(UnitType::HEAVY, path));
 }
 
 void World::create_cannon_tower(int level, Point location) {
-    // TODO: Implement this
+    m_event_queue.push(CreateTowerMessage(TowerType::CANNON, level, location));
 }
 
 void World::create_archer_tower(int level, Point location) {
-    // TODO: Implement this
+    m_event_queue.push(CreateTowerMessage(TowerType::ARCHER, level, location));
 }
 
 void World::upgrade_tower(const std::shared_ptr<const Tower>& tower) {
-    // TODO: Implement this
+    m_event_queue.push(UpgradeTowerMessage(tower));
 }
 
 void World::plant_bean(Point location) {
-    // TODO: Implement this
+    m_event_queue.push(PlantBeanMessage(location));
 }
 
 void World::create_storm(Point location) {
-    // TODO: Implement this
+    m_event_queue.push(CreateStormMessage(location));
 }
 
 int World::INITIAL_HEALTH = 0;
