@@ -6,6 +6,12 @@ Point::Point(int x, int y)
 {
 }
 
+Point::Point(const Json::Value& json_form)
+        : m_x(json_form["x"].asInt())
+        , m_y(json_form["y"].asInt())
+{
+}
+
 void Point::set_x(int x) {
     m_x = x;
 }

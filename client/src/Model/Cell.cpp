@@ -38,7 +38,7 @@ void RoadCell::set_units(const std::vector<Unit*>& units) {
     m_units = units;
 }
 
-const std::vector<Unit*>& RoadCell::get_units() {
+std::vector<Unit*>& RoadCell::get_units() {
     return m_units;
 }
 

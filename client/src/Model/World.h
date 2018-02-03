@@ -97,6 +97,10 @@ private:
     void clear_attack_paths();
     void clear_defence_paths();
 
+    void clear_dead_units();
+    void clear_passed_units();
+    void clear_destroyed_towers();
+
     void clear_bean_events();
     void clear_storm_events();
 

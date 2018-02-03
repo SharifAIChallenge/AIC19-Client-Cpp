@@ -22,6 +22,8 @@ public:
      */
     Point(int x, int y);
 
+    Point(const Json::Value& json_form);
+
     void set_x(int x);
     int get_x() const;
 

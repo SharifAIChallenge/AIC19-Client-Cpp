@@ -121,6 +121,7 @@ std::vector<const Tower*> World::get_visible_enemy_towers() const {
 }
 
 void World::set_dead_units_in_this_turn(const std::vector<Unit*>& dead_units) {
+    clear_dead_units();
     m_dead_units = dead_units;
 }
 
@@ -129,6 +130,7 @@ std::vector<const Unit*> World::get_dead_units_in_this_turn() const {
 }
 
 void World::set_passed_units_in_this_turn(const std::vector<Unit*>& passed_units) {
+    clear_passed_units();
     m_passed_units = passed_units;
 }
 
@@ -137,6 +139,7 @@ std::vector<const Unit*> World::get_passed_units_in_this_turn() const {
 }
 
 void World::set_destroyed_towers_in_this_turn(const std::vector<Tower*>& destroyed_towers) {
+    clear_destroyed_towers();
     m_destroyed_towers = destroyed_towers;
 }
 
@@ -219,4 +222,22 @@ void World::clear_storm_events() {
     for (StormEvent* event : m_storm_events)
         delete event;
     m_storm_events.clear();
+}
+
+void World::clear_dead_units() {
+    for (Unit* unit : m_dead_units)
+        delete unit;
+    m_dead_units.clear();
+}
+
+void World::clear_passed_units() {
+    for (Unit* unit : m_passed_units)
+        delete unit;
+    m_passed_units.clear();
+}
+
+void World::clear_destroyed_towers() {
+    for (Tower* tower : m_destroyed_towers)
+        delete tower;
+    m_destroyed_towers.clear();
 }

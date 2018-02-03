@@ -53,7 +53,7 @@ public:
     ~RoadCell() override;
 
     void set_units(const std::vector<Unit*>& units);
-    const std::vector<Unit*>& get_units();
+    std::vector<Unit*>& get_units();
     std::vector<const Unit*> get_units() const;
 
 private:

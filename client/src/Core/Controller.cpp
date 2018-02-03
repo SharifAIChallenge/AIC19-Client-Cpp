@@ -60,7 +60,22 @@ void Controller::run() {
     while (m_network.is_connected()) {
         try {
             TurnMessage turn_message(m_network.receive());
-            // TODO: Apply the changes
+
+            m_world.set_dead_units_in_this_turn(turn_message.parse_dead_units(m_world));
+            m_world.set_passed_units_in_this_turn(turn_message.parse_passed_units(m_world));
+            m_world.set_destroyed_towers_in_this_turn(turn_message.parse_destroyed_towers(m_world));
+
+            m_world.set_beans_in_this_turn(turn_message.parse_bean_events());
+            m_world.set_storms_in_this_turn(turn_message.parse_storm_events());
+
+            turn_message.parse_my_units(const_cast<Map&>(m_world.get_attack_map()), m_world.get_attack_map_paths());
+            turn_message.parse_enemy_units(const_cast<Map&>(m_world.get_defence_map()), m_world.get_defence_map_paths());
+
+            turn_message.parse_my_towers(const_cast<Map&>(m_world.get_defence_map()));
+            turn_message.parse_enemy_towers(const_cast<Map&>(m_world.get_attack_map()));
+
+            m_world.set_my_information(turn_message.parse_my_information());
+            m_world.set_enemy_information(turn_message.parse_enemy_information());
 
             m_world.set_current_turn(m_world.get_current_turn() + 1);
 
