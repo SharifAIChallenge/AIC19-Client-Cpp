@@ -1,5 +1,7 @@
 #include "World.h"
 
+#include "../Utility.h"
+
 #include "../Core/Message/CreateUnitMessage.h"
 #include "../Core/Message/CreateTowerMessage.h"
 #include "../Core/Message/UpgradeTowerMessage.h"
@@ -9,6 +11,13 @@
 World::World(EventQueue& event_queue)
         : m_event_queue(event_queue)
 {
+}
+
+World::~World() {
+    clear_attack_paths();
+    clear_defence_paths();
+    clear_bean_events();
+    clear_storm_events();
 }
 
 void World::set_my_information(const Player& my_information) {
@@ -43,20 +52,22 @@ const Map& World::get_defence_map() const {
     return m_maps[1];
 }
 
-void World::set_attack_map_paths(const SharedPtrList<Path>& attack_paths) {
+void World::set_attack_map_paths(const std::vector<Path*>& attack_paths) {
+    clear_attack_paths();
     m_paths[0] = attack_paths;
 }
 
 std::vector<const Path*> World::get_attack_map_paths() const {
-    return shared_ptr_list_to_raw_pointer_list<const Path>(m_paths[0]);
+    return const_list_cast<const Path*>(m_paths[0]);
 }
 
-void World::set_defence_map_paths(const SharedPtrList<Path>& defence_paths) {
+void World::set_defence_map_paths(const std::vector<Path*>& defence_paths) {
+    clear_defence_paths();
     m_paths[1] = defence_paths;
 }
 
 std::vector<const Path*> World::get_defence_map_paths() const {
-    return shared_ptr_list_to_raw_pointer_list<const Path>(m_paths[1]);
+    return const_list_cast<const Path*>(m_paths[1]);
 }
 
 void World::set_current_turn(int current_turn) {
@@ -109,51 +120,53 @@ std::vector<const Tower*> World::get_visible_enemy_towers() const {
     return result;
 }
 
-void World::set_dead_units_in_this_turn(const SharedPtrList<Unit>& dead_units) {
+void World::set_dead_units_in_this_turn(const std::vector<Unit*>& dead_units) {
     m_dead_units = dead_units;
 }
 
 std::vector<const Unit*> World::get_dead_units_in_this_turn() const {
-    return shared_ptr_list_to_raw_pointer_list<const Unit>(m_dead_units);
+    return const_list_cast<const Unit*>(m_dead_units);
 }
 
-void World::set_passed_units_in_this_turn(const SharedPtrList<Unit>& passed_units) {
+void World::set_passed_units_in_this_turn(const std::vector<Unit*>& passed_units) {
     m_passed_units = passed_units;
 }
 
 std::vector<const Unit*> World::get_passed_units_in_this_turn() const {
-    return shared_ptr_list_to_raw_pointer_list<const Unit>(m_passed_units);
+    return const_list_cast<const Unit*>(m_passed_units);
 }
 
-void World::set_destroyed_towers_in_this_turn(const SharedPtrList<Tower>& destroyed_towers) {
+void World::set_destroyed_towers_in_this_turn(const std::vector<Tower*>& destroyed_towers) {
     m_destroyed_towers = destroyed_towers;
 }
 
 std::vector<const Tower*> World::get_destroyed_towers_in_this_turn() const {
-    return shared_ptr_list_to_raw_pointer_list<const Tower>(m_destroyed_towers);
+    return const_list_cast<const Tower*>(m_destroyed_towers);
 }
 
-void World::set_beans_in_this_turn(const SharedPtrList<BeanEvent>& beans) {
+void World::set_beans_in_this_turn(const std::vector<BeanEvent*>& beans) {
+    clear_bean_events();
     m_bean_events = beans;
 }
 
 std::vector<const BeanEvent*> World::get_beans_in_this_turn() const {
-    return shared_ptr_list_to_raw_pointer_list<const BeanEvent>(m_bean_events);
+    return const_list_cast<const BeanEvent*>(m_bean_events);
 }
 
-void World::set_storms_in_this_turn(const SharedPtrList<StormEvent>& storms) {
+void World::set_storms_in_this_turn(const std::vector<StormEvent*>& storms) {
+    clear_storm_events();
     m_storm_events = storms;
 }
 
 std::vector<const StormEvent*> World::get_storms_in_this_turn() const {
-    return shared_ptr_list_to_raw_pointer_list<const StormEvent>(m_storm_events);
+    return const_list_cast<const StormEvent*>(m_storm_events);
 }
 
-void World::create_light_unit(const std::shared_ptr<const Path>& path) {
+void World::create_light_unit(const Path* path) {
     m_event_queue.push(CreateUnitMessage(UnitType::LIGHT, path));
 }
 
-void World::create_heavy_unit(const std::shared_ptr<const Path>& path) {
+void World::create_heavy_unit(const Path* path) {
     m_event_queue.push(CreateUnitMessage(UnitType::HEAVY, path));
 }
 
@@ -165,7 +178,7 @@ void World::create_archer_tower(int level, Point location) {
     m_event_queue.push(CreateTowerMessage(TowerType::ARCHER, level, location));
 }
 
-void World::upgrade_tower(const std::shared_ptr<const Tower>& tower) {
+void World::upgrade_tower(const Tower* tower) {
     m_event_queue.push(UpgradeTowerMessage(tower));
 }
 
@@ -183,3 +196,27 @@ int World::INITIAL_MONEY = 0;
 int World::INITIAL_BEANS_COUNT = 0;
 int World::INITIAL_STORMS_COUNT = 0;
 int World::STORM_RANGE = 0;
+
+void World::clear_attack_paths() {
+    for (Path* path : m_paths[0])
+        delete path;
+    m_paths[0].clear();
+}
+
+void World::clear_defence_paths() {
+    for (Path* path : m_paths[1])
+        delete path;
+    m_paths[1].clear();
+}
+
+void World::clear_bean_events() {
+    for (BeanEvent* event : m_bean_events)
+        delete event;
+    m_bean_events.clear();
+}
+
+void World::clear_storm_events() {
+    for (StormEvent* event : m_storm_events)
+        delete event;
+    m_storm_events.clear();
+}

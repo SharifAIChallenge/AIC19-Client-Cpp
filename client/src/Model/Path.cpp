@@ -1,8 +1,8 @@
 #include "Path.h"
 
-#include <algorithm>
+#include "../Utility.h"
 
-Path::Path(int id, const SharedPtrList<RoadCell>& road)
+Path::Path(int id, const std::vector<RoadCell*>& road)
         : m_id(id)
         , m_road(road)
 {
@@ -16,18 +16,14 @@ int Path::get_id() const {
     return m_id;
 }
 
-void Path::set_road(const SharedPtrList<RoadCell>& road) {
+void Path::set_road(const std::vector<RoadCell*>& road) {
     m_road = road;
 }
 
-std::vector<RoadCell*> Path::get_road() {
-    std::vector<RoadCell*> result(m_road.size());
-    std::transform(m_road.begin(), m_road.end(), result.begin(), [](const auto& x) { return x.get(); });
-    return result;
+const std::vector<RoadCell*>& Path::get_road() {
+    return m_road;
 }
 
 std::vector<const RoadCell*> Path::get_road() const {
-    std::vector<const RoadCell*> result(m_road.size());
-    std::transform(m_road.begin(), m_road.end(), result.begin(), [](const auto& x) { return x.get(); });
-    return result;
+    return const_list_cast<const RoadCell*>(m_road);
 }

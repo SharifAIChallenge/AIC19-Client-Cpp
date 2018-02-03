@@ -1,7 +1,6 @@
 #ifndef AIC18_CLIENT_CPP_CELL_H
 #define AIC18_CLIENT_CPP_CELL_H
 
-#include "../Core/Utility.h"
 #include "Point.h"
 #include "Unit.h"
 #include "Tower.h"
@@ -45,42 +44,47 @@ class RoadCell : public Cell {
 public:
 
     RoadCell() = default;
-    ~RoadCell() override = default;
 
     RoadCell(const RoadCell&) = default;
     RoadCell& operator=(const RoadCell&) = default;
 
     explicit RoadCell(Point location);
 
-    void set_units(const SharedPtrList<Unit>& units);
-    std::vector<Unit*> get_units();
+    ~RoadCell() override;
+
+    void set_units(const std::vector<Unit*>& units);
+    const std::vector<Unit*>& get_units();
     std::vector<const Unit*> get_units() const;
 
 private:
 
+    void clear_units();
+
     /// List of units currently on this cell
-    SharedPtrList<Unit> m_units;
+    std::vector<Unit*> m_units;
 };
 
 class GrassCell : public Cell {
 public:
 
-    GrassCell() = default;
-    ~GrassCell() override = default;
-
     GrassCell(const GrassCell&) = default;
     GrassCell& operator=(const GrassCell&) = default;
 
+    GrassCell();
     explicit GrassCell(Point location);
 
-    void set_tower(const std::shared_ptr<Tower>& tower);
+    ~GrassCell() override;
+
+    void set_tower(Tower* tower);
     Tower* get_tower();
     const Tower* get_tower() const;
 
 private:
 
+    void clear_tower();
+
     /// Pointer to the tower built in this grass cell
-    std::shared_ptr<Tower> m_tower;
+    Tower* m_tower;
 };
 
 class BlockCell : public Cell {

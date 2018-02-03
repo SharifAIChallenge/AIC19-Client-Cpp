@@ -1,7 +1,7 @@
 #ifndef AIC18_CLIENT_CPP_PATH_H
 #define AIC18_CLIENT_CPP_PATH_H
 
-#include "../Core/Utility.h"
+#include <vector>
 
 class RoadCell;
 
@@ -17,13 +17,13 @@ public:
     Path(const Path&) = default;
     Path& operator= (const Path&) = default;
 
-    Path(int id, const SharedPtrList<RoadCell>& road);
+    Path(int id, const std::vector<RoadCell*>& road);
 
     void set_id(int id);
     int get_id() const;
 
-    void set_road(const SharedPtrList<RoadCell>& road);
-    std::vector<RoadCell*> get_road();
+    void set_road(const std::vector<RoadCell*>& road);
+    const std::vector<RoadCell*>& get_road();
     std::vector<const RoadCell*> get_road() const;
 
 private:
@@ -32,7 +32,7 @@ private:
     int m_id;
 
     /// List of road cells for this path
-    SharedPtrList<RoadCell> m_road;
+    std::vector<RoadCell*> m_road;
 };
 
 #endif // AIC18_CLIENT_CPP_PATH_H

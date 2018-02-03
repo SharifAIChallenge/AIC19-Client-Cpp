@@ -1,7 +1,6 @@
 #ifndef AIC18_CLIENT_CPP_MAP_H
 #define AIC18_CLIENT_CPP_MAP_H
 
-#include "../Core/Utility.h"
 #include "Cell.h"
 #include "Point.h"
 
@@ -12,19 +11,20 @@ class Map {
 public:
 
     Map() = default;
-    ~Map() = default;
 
     Map(const Map&) = default;
     Map& operator=(const Map&) = default;
 
-    explicit Map(const SharedPtrGrid<Cell>& cells_grid);
+    explicit Map(const std::vector<std::vector<Cell*>>& cells_grid);
+
+    ~Map();
 
     size_t get_width() const;
     size_t get_height() const;
 
-    void set_cells_grid(const SharedPtrGrid<Cell>& cells_grid);
+    void set_cells_grid(const std::vector<std::vector<Cell*>>& cells_grid);
 
-    std::vector<std::vector<Cell*>> get_cells_grid();
+    const std::vector<std::vector<Cell*>>& get_cells_grid();
     std::vector<std::vector<const Cell*>> get_cells_grid() const;
 
     std::vector<Cell*> get_cells_list();
@@ -35,8 +35,10 @@ public:
 
 private:
 
+    void clear_cells_grid();
+
     /// 2d array of map cells
-    SharedPtrGrid<Cell> m_cells_grid;
+    std::vector<std::vector<Cell*>> m_cells_grid;
 
 };
 

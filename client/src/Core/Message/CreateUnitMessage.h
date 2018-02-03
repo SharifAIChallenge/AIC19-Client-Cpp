@@ -7,7 +7,7 @@
 class CreateUnitMessage final : public Message {
 public:
 
-    inline CreateUnitMessage(UnitType type, const std::shared_ptr<const Path>& path)
+    inline CreateUnitMessage(UnitType type, const Path* path)
             : Message()
     {
         m_root["type"] = "cu";

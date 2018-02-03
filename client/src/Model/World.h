@@ -1,7 +1,8 @@
 #ifndef AIC18_CLIENT_CPP_WORLD_H
 #define AIC18_CLIENT_CPP_WORLD_H
 
-#include "../Core/Utility.h"
+#include <vector>
+
 #include "../Core/EventQueue.h"
 
 #include "Player.h"
@@ -18,7 +19,8 @@ public:
     World& operator=(const World&) = delete;
 
     explicit World(EventQueue& event_queue);
-    ~World() = default;
+
+    ~World();
 
     // Member setter/getters:
 
@@ -34,10 +36,10 @@ public:
     void set_defence_map(const Map& defence_map);
     const Map& get_defence_map() const;
 
-    void set_attack_map_paths(const SharedPtrList<Path>& attack_paths);
+    void set_attack_map_paths(const std::vector<Path*>& attack_paths);
     std::vector<const Path*> get_attack_map_paths() const;
 
-    void set_defence_map_paths(const SharedPtrList<Path>& defence_paths);
+    void set_defence_map_paths(const std::vector<Path*>& defence_paths);
     std::vector<const Path*> get_defence_map_paths() const;
 
     void set_current_turn(int current_turn);
@@ -53,30 +55,30 @@ public:
 
     // Events:
 
-    void set_dead_units_in_this_turn(const SharedPtrList<Unit>& dead_units);
+    void set_dead_units_in_this_turn(const std::vector<Unit*>& dead_units);
     std::vector<const Unit*> get_dead_units_in_this_turn() const;
 
-    void set_passed_units_in_this_turn(const SharedPtrList<Unit>& passed_units);
+    void set_passed_units_in_this_turn(const std::vector<Unit*>& passed_units);
     std::vector<const Unit*> get_passed_units_in_this_turn() const;
 
-    void set_destroyed_towers_in_this_turn(const SharedPtrList<Tower>& destroyed_towers);
+    void set_destroyed_towers_in_this_turn(const std::vector<Tower*>& destroyed_towers);
     std::vector<const Tower*> get_destroyed_towers_in_this_turn() const;
 
-    void set_beans_in_this_turn(const SharedPtrList<BeanEvent>& beans);
+    void set_beans_in_this_turn(const std::vector<BeanEvent*>& beans);
     std::vector<const BeanEvent*> get_beans_in_this_turn() const;
 
-    void set_storms_in_this_turn(const SharedPtrList<StormEvent>& storms);
+    void set_storms_in_this_turn(const std::vector<StormEvent*>& storms);
     std::vector<const StormEvent*> get_storms_in_this_turn() const;
 
     // Actions:
 
-    void create_light_unit(const std::shared_ptr<const Path>& path);
-    void create_heavy_unit(const std::shared_ptr<const Path>& path);
+    void create_light_unit(const Path* path);
+    void create_heavy_unit(const Path* path);
 
     void create_cannon_tower(int level, Point location);
     void create_archer_tower(int level, Point location);
 
-    void upgrade_tower(const std::shared_ptr<const Tower>& tower);
+    void upgrade_tower(const Tower* tower);
 
     void plant_bean(Point location);
     void create_storm(Point location);
@@ -92,19 +94,25 @@ public:
 
 private:
 
+    void clear_attack_paths();
+    void clear_defence_paths();
+
+    void clear_bean_events();
+    void clear_storm_events();
+
     Player m_players[2];
     Map m_maps[2];
-    SharedPtrList<Path> m_paths[2];
+    std::vector<Path*> m_paths[2];
 
     int m_current_turn;
 
-    SharedPtrList<Unit> m_dead_units;
-    SharedPtrList<Unit> m_passed_units;
+    std::vector<Unit*> m_dead_units;
+    std::vector<Unit*> m_passed_units;
 
-    SharedPtrList<Tower> m_destroyed_towers;
+    std::vector<Tower*> m_destroyed_towers;
 
-    SharedPtrList<BeanEvent> m_bean_events;
-    SharedPtrList<StormEvent> m_storm_events;
+    std::vector<BeanEvent*> m_bean_events;
+    std::vector<StormEvent*> m_storm_events;
 
     EventQueue& m_event_queue;
 };

@@ -1,7 +1,7 @@
 #include "Unit.h"
 
 Unit::Unit(int id, Point location, Owner owner, UnitType type, int health, int level, int price, int added_income,
-           int bounty, int damage, int move_speed, int vision_range, const std::shared_ptr<const Path>& path)
+           int bounty, int damage, int move_speed, int vision_range, const Path* path)
         : Entity(id, location, owner)
         , m_type(type)
         , m_health(health)
@@ -88,16 +88,16 @@ int Unit::get_vision_range() const {
     return m_vision_range;
 }
 
-void Unit::set_path(const std::shared_ptr<const Path>& path) {
+void Unit::set_path(const Path* path) {
     m_path = path;
 }
 
 const Path* Unit::get_path() const {
-    return m_path.get();
+    return m_path;
 }
 
 HeavyUnit::HeavyUnit(int id, Point location, Owner owner, int health, int level, int price, int added_income,
-                     int bounty, int damage, int move_speed, int vision_range, const std::shared_ptr<const Path>& path)
+                     int bounty, int damage, int move_speed, int vision_range, const Path* path)
         : Unit(id, location, owner, UnitType::HEAVY, health, level, price, added_income, bounty, damage, move_speed,
                vision_range, path)
 {
@@ -115,7 +115,7 @@ int HeavyUnit::VISION_RANGE = 0;
 int HeavyUnit::LEVEL_UP_THRESHOLD = 0;
 
 LightUnit::LightUnit(int id, Point location, Owner owner, int health, int level, int price, int added_income,
-                     int bounty, int damage, int move_speed, int vision_range, const std::shared_ptr<const Path>& path)
+                     int bounty, int damage, int move_speed, int vision_range, const Path* path)
         : Unit(id, location, owner, UnitType::LIGHT, health, level, price, added_income, bounty, damage, move_speed,
                vision_range, path)
 {

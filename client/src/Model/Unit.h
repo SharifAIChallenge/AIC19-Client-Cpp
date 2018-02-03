@@ -1,8 +1,6 @@
 #ifndef AIC18_CLIENT_CPP_UNIT_H
 #define AIC18_CLIENT_CPP_UNIT_H
 
-#include <memory>
-
 #include "Entity.h"
 #include "Path.h"
 
@@ -25,7 +23,7 @@ public:
 
     Unit(int id, Point location, Owner owner, UnitType type,
          int health, int level, int price, int added_income, int bounty, int damage,int move_speed, int vision_range,
-         const std::shared_ptr<const Path>& path);
+         const Path* path);
 
     void set_type(UnitType type);
     UnitType get_type() const;
@@ -54,7 +52,7 @@ public:
     void set_vision_range(int vision_range);
     int get_vision_range() const;
 
-    void set_path(const std::shared_ptr<const Path>& path);
+    void set_path(const Path* path);
     const Path* get_path() const;
 
 private:
@@ -87,7 +85,7 @@ private:
     int m_vision_range;
 
     /// Pointer to the path this unit is on
-    std::shared_ptr<const Path> m_path;
+    const Path* m_path;
 };
 
 class HeavyUnit : public Unit {
@@ -101,7 +99,7 @@ public:
 
     HeavyUnit(int id, Point location, Owner owner,
          int health, int level, int price, int added_income, int bounty, int damage,int move_speed, int vision_range,
-         const std::shared_ptr<const Path>& path);
+         const Path* path);
 
     static int INITIAL_PRICE;
     static int PRICE_INCREASE;
@@ -129,7 +127,7 @@ public:
 
     LightUnit(int id, Point location, Owner owner,
          int health, int level, int price, int added_income, int bounty, int damage,int move_speed, int vision_range,
-         const std::shared_ptr<const Path>& path);
+         const Path* path);
 
     static int INITIAL_PRICE;
     static int PRICE_INCREASE;

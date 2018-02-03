@@ -1,6 +1,6 @@
 #include "Cell.h"
 
-#include <algorithm>
+#include "../Utility.h"
 
 Cell::Cell(CellType type, Point location)
         : m_type(type)
@@ -29,37 +29,60 @@ RoadCell::RoadCell(Point location)
 {
 }
 
-void RoadCell::set_units(const SharedPtrList<Unit>& units) {
+RoadCell::~RoadCell() {
+    clear_units();
+}
+
+void RoadCell::set_units(const std::vector<Unit*>& units) {
+    clear_units();
     m_units = units;
 }
 
-std::vector<Unit*> RoadCell::get_units() {
-    std::vector<Unit*> result(m_units.size());
-    std::transform(m_units.begin(), m_units.end(), result.begin(), [](const auto& x) { return x.get(); });
-    return result;
+const std::vector<Unit*>& RoadCell::get_units() {
+    return m_units;
 }
 
 std::vector<const Unit*> RoadCell::get_units() const {
-    std::vector<const Unit*> result(m_units.size());
-    std::transform(m_units.begin(), m_units.end(), result.begin(), [](const auto& x) { return x.get(); });
-    return result;
+    return const_list_cast<const Unit*>(m_units);
+}
+
+void RoadCell::clear_units() {
+   for (Unit* unit : m_units)
+       delete unit;
+    m_units.clear();
+}
+
+GrassCell::GrassCell()
+        : Cell()
+        , m_tower(nullptr)
+{
 }
 
 GrassCell::GrassCell(Point location)
         : Cell(CellType::GRASS, location)
+        , m_tower(nullptr)
 {
 }
 
-void GrassCell::set_tower(const std::shared_ptr<Tower>& tower) {
+GrassCell::~GrassCell() {
+    clear_tower();
+}
+
+void GrassCell::set_tower(Tower* tower) {
     m_tower = tower;
 }
 
 Tower* GrassCell::get_tower() {
-    return m_tower.get();
+    return m_tower;
 }
 
 const Tower* GrassCell::get_tower() const {
-    return m_tower.get();
+    return m_tower;
+}
+
+void GrassCell::clear_tower() {
+    delete m_tower;
+    m_tower = nullptr;
 }
 
 BlockCell::BlockCell(Point location)
