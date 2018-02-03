@@ -6,6 +6,8 @@
 
 #include "../Network/Network.h"
 #include "EventQueue.h"
+#include "../Model/World.h"
+#include "../AI/AI.h"
 
 /**
  * High level client logic is implemented here
@@ -49,6 +51,12 @@ private:
 
     /// Thread object that will run @see event_handling_loop
     std::thread m_event_handling_thread;
+
+    /// Instance of the game world
+    World m_world;
+
+    /// Instance of the client AI
+    AI m_client;
 };
 
 #endif // AIC18_CLIENT_CPP_CONTROLLER_H

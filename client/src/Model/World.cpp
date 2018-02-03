@@ -6,14 +6,8 @@
 #include "../Core/Message/PlantBeanMessage.h"
 #include "../Core/Message/CreateStormMessage.h"
 
-World::World(EventQueue& event_queue, const Player& my_information, const Player& enemy_information,
-             const Map& attack_map, const Map& defence_map, const SharedPtrList<Path>& attack_paths,
-             const SharedPtrList<Path>& defence_paths)
-        : m_players{my_information, enemy_information}
-        , m_maps{attack_map, defence_map}
-        , m_paths{attack_paths, defence_paths}
-        , m_current_turn(0)
-        , m_event_queue(event_queue)
+World::World(EventQueue& event_queue)
+        : m_event_queue(event_queue)
 {
 }
 

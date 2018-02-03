@@ -6,9 +6,9 @@
 class AI {
 public:
 
-    void simple_turn(World& world);
+    void simple_turn(World* world);
 
-    void complex_turn(World& world);
+    void complex_turn(World* world);
 
 };
 

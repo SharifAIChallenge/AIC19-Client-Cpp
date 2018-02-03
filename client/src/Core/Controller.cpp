@@ -2,11 +2,12 @@
 
 #include <iostream>
 #include "../Network/NetworkError.h"
+#include "Message/InitMessage.h"
+#include "Message/TurnMessage.h"
 
 Controller::Controller(const std::string& host, uint16_t port)
         : m_network(host, port)
-        , m_event_queue()
-        , m_event_handling_thread()
+        , m_world(m_event_queue)
 {
 }
 
@@ -18,8 +19,9 @@ Controller::~Controller() {
 }
 
 void Controller::run() {
-    constexpr size_t MAX_RETRY_COUNT = 3;
+    // Connect to the server
 
+    constexpr size_t MAX_RETRY_COUNT = 3;
     for (size_t i = 1; i <= MAX_RETRY_COUNT && !m_network.is_connected(); ++i)
         try {
             std::cerr << "Trying to connect #" << i << std::endl;
@@ -31,14 +33,25 @@ void Controller::run() {
         }
     std::cerr << "Connected" << std::endl;
 
+    InitMessage init_message(m_network.receive());
+    // TODO: Parse init message
+
+    // Start the event handling thread
     m_event_handling_thread = std::thread(&Controller::event_handling_loop, this);
 
     while (m_network.is_connected()) {
         try {
-            std::string msg = m_network.receive();
+            TurnMessage turn_message(m_network.receive());
+            // TODO: Apply the changes
 
-            // TODO: Parse the message
-            std::cout << msg << std::endl;
+            m_world.set_current_turn(m_world.get_current_turn() + 1);
+
+            // Run the client AI
+            constexpr size_t COMPLEX_TURN_INTERVAL = 10;
+            std::thread ai_thread(
+                    m_world.get_current_turn() % COMPLEX_TURN_INTERVAL == 0 ? &AI::complex_turn : &AI::simple_turn,
+                    m_client, &m_world);
+            ai_thread.detach();
         }
         catch (NetworkEOFError& e) {
             break;
