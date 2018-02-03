@@ -30,8 +30,8 @@ public:
     std::vector<Cell*> get_cells_list();
     std::vector<const Cell*> get_cells_list() const;
 
-    Cell* get_cell(Point location);
-    const Cell* get_cell(Point location) const;
+    Cell* get_cell(int x, int y);
+    const Cell* get_cell(int x, int y) const;
 
 private:
 

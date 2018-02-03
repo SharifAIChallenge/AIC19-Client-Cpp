@@ -72,16 +72,16 @@ public:
 
     // Actions:
 
-    void create_light_unit(const Path* path);
-    void create_heavy_unit(const Path* path);
+    void create_light_unit(int path_index);
+    void create_heavy_unit(int path_index);
 
-    void create_cannon_tower(int level, Point location);
-    void create_archer_tower(int level, Point location);
+    void create_cannon_tower(int level, int x, int y);
+    void create_archer_tower(int level, int x, int y);
 
     void upgrade_tower(const Tower* tower);
 
-    void plant_bean(Point location);
-    void create_storm(Point location);
+    void plant_bean(int x, int y);
+    void create_storm(int x, int y);
 
     // Constants:
 

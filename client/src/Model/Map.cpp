@@ -40,12 +40,12 @@ std::vector<const Cell*> Map::get_cells_list() const {
     return const_list_cast<const Cell*>(flatten_list(m_cells_grid));
 }
 
-Cell* Map::get_cell(Point location) {
-    return m_cells_grid[location.get_x()][location.get_y()];
+Cell* Map::get_cell(int x, int y) {
+    return m_cells_grid[x][y];
 }
 
-const Cell* Map::get_cell(Point location) const {
-    return m_cells_grid[location.get_x()][location.get_y()];
+const Cell* Map::get_cell(int x, int y) const {
+    return m_cells_grid[x][y];
 }
 
 void Map::clear_cells_grid() {

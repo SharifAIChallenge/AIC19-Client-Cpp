@@ -2,18 +2,9 @@
 
 #include "../Utility.h"
 
-Path::Path(int id, const std::vector<RoadCell*>& road)
-        : m_id(id)
-        , m_road(road)
+Path::Path(const std::vector<RoadCell*>& road)
+        : m_road(road)
 {
-}
-
-void Path::set_id(int id) {
-    m_id = id;
-}
-
-int Path::get_id() const {
-    return m_id;
 }
 
 void Path::set_road(const std::vector<RoadCell*>& road) {

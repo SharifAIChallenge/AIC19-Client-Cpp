@@ -162,32 +162,32 @@ std::vector<const StormEvent*> World::get_storms_in_this_turn() const {
     return const_list_cast<const StormEvent*>(m_storm_events);
 }
 
-void World::create_light_unit(const Path* path) {
-    m_event_queue.push(CreateUnitMessage(UnitType::LIGHT, path));
+void World::create_light_unit(int path_index) {
+    m_event_queue.push(CreateUnitMessage(UnitType::LIGHT, path_index));
 }
 
-void World::create_heavy_unit(const Path* path) {
-    m_event_queue.push(CreateUnitMessage(UnitType::HEAVY, path));
+void World::create_heavy_unit(int path_index) {
+    m_event_queue.push(CreateUnitMessage(UnitType::HEAVY, path_index));
 }
 
-void World::create_cannon_tower(int level, Point location) {
-    m_event_queue.push(CreateTowerMessage(TowerType::CANNON, level, location));
+void World::create_cannon_tower(int level, int x, int y) {
+    m_event_queue.push(CreateTowerMessage(TowerType::CANNON, level, Point(x, y)));
 }
 
-void World::create_archer_tower(int level, Point location) {
-    m_event_queue.push(CreateTowerMessage(TowerType::ARCHER, level, location));
+void World::create_archer_tower(int level, int x, int y) {
+    m_event_queue.push(CreateTowerMessage(TowerType::ARCHER, level, Point(x, y)));
 }
 
 void World::upgrade_tower(const Tower* tower) {
     m_event_queue.push(UpgradeTowerMessage(tower));
 }
 
-void World::plant_bean(Point location) {
-    m_event_queue.push(PlantBeanMessage(location));
+void World::plant_bean(int x, int y) {
+    m_event_queue.push(PlantBeanMessage(Point(x, y)));
 }
 
-void World::create_storm(Point location) {
-    m_event_queue.push(CreateStormMessage(location));
+void World::create_storm(int x, int y) {
+    m_event_queue.push(CreateStormMessage(Point(x, y)));
 }
 
 int World::INITIAL_HEALTH = 0;

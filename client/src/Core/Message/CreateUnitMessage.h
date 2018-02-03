@@ -7,12 +7,12 @@
 class CreateUnitMessage final : public Message {
 public:
 
-    inline CreateUnitMessage(UnitType type, const Path* path)
+    inline CreateUnitMessage(UnitType type, int path_index)
             : Message()
     {
         m_root["type"] = "cu";
         m_root["args"].append(type == UnitType::LIGHT ? "h" : "l");
-        m_root["args"].append(path->get_id());
+        m_root["args"].append(path_index);
     }
 
 };
