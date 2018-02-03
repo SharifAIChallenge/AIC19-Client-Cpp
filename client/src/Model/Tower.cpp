@@ -1,13 +1,22 @@
 #include "Tower.h"
 
-Tower::Tower(int id, Point location, Owner owner, int level, int price, int damage, int attack_speed, int attack_range)
+Tower::Tower(int id, Point location, Owner owner, TowerType type, int level, int price, int damage, int attack_speed, int attack_range)
         : Entity(id, location, owner)
+        , m_type(type)
         , m_level(level)
         , m_price(price)
         , m_damage(damage)
         , m_attack_speed(attack_speed)
         , m_attack_range(attack_range)
 {
+}
+
+void Tower::set_type(TowerType type) {
+    m_type = type;
+}
+
+TowerType Tower::get_type() const {
+    return m_type;
 }
 
 void Tower::set_level(int level) {
@@ -52,7 +61,7 @@ int Tower::get_attack_range() const {
 
 CannonTower::CannonTower(int id, Point location, Owner owner, int level, int price, int damage, int attack_speed,
                          int attack_range)
-        : Tower(id, location, owner, level, price, damage, attack_speed, attack_range)
+        : Tower(id, location, owner, TowerType::CANNON, level, price, damage, attack_speed, attack_range)
 {
 }
 
@@ -65,7 +74,7 @@ int CannonTower::ATTACK_RANGE = 0;
 
 ArcherTower::ArcherTower(int id, Point location, Owner owner, int level, int price, int damage, int attack_speed,
                          int attack_range)
-        : Tower(id, location, owner, level, price, damage, attack_speed, attack_range)
+        : Tower(id, location, owner, TowerType::ARCHER, level, price, damage, attack_speed, attack_range)
 {
 }
 

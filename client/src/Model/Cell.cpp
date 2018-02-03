@@ -2,9 +2,18 @@
 
 #include <algorithm>
 
-Cell::Cell(Point location)
-        : m_location(location)
+Cell::Cell(CellType type, Point location)
+        : m_type(type)
+        , m_location(location)
 {
+}
+
+void Cell::set_type(CellType type) {
+    m_type = type;
+}
+
+CellType Cell::get_type() const {
+    return m_type;
 }
 
 void Cell::set_location(Point location) {
@@ -16,7 +25,7 @@ Point Cell::get_location() const {
 }
 
 RoadCell::RoadCell(Point location)
-        : Cell(location)
+        : Cell(CellType::ROAD, location)
 {
 }
 
@@ -37,7 +46,7 @@ std::vector<const Unit*> RoadCell::get_units() const {
 }
 
 GrassCell::GrassCell(Point location)
-        : Cell(location)
+        : Cell(CellType::GRASS, location)
 {
 }
 
@@ -54,6 +63,6 @@ const Tower* GrassCell::get_tower() const {
 }
 
 BlockCell::BlockCell(Point location)
-        : Cell(location)
+        : Cell(CellType::BLOCK, location)
 {
 }

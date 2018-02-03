@@ -3,6 +3,11 @@
 
 #include "Entity.h"
 
+enum TowerType {
+    CANNON = 0,
+    ARCHER = 1
+};
+
 /**
  * A defending tower
  */
@@ -15,7 +20,11 @@ public:
     Tower(const Tower&) = default;
     Tower& operator= (const Tower&) = default;
 
-    Tower(int id, Point location, Owner owner, int level, int price, int damage, int attack_speed, int attack_range);
+    Tower(int id, Point location, Owner owner, TowerType type, int level, int price, int damage, int attack_speed,
+          int attack_range);
+
+    void set_type(TowerType type);
+    TowerType get_type() const;
 
     void set_level(int level);
     int get_level() const;
@@ -33,6 +42,9 @@ public:
     int get_attack_range() const;
 
 private:
+
+    /// Type of this tower
+    TowerType m_type;
 
     /// Current level
     int m_level;

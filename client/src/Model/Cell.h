@@ -6,6 +6,12 @@
 #include "Unit.h"
 #include "Tower.h"
 
+enum CellType {
+    ROAD = 0,
+    GRASS = 1,
+    BLOCK = 2
+};
+
 /**
  * A single cell in game map grid
  */
@@ -18,12 +24,18 @@ public:
     Cell(const Cell&) = default;
     Cell& operator= (const Cell&) = default;
 
-    explicit Cell(Point location);
+    Cell(CellType type, Point location);
+
+    void set_type(CellType type);
+    CellType get_type() const;
 
     void set_location(Point location);
     Point get_location() const;
 
 private:
+
+    /// Type of this cell
+    CellType m_type;
 
     /// Location of this cell on game map
     Point m_location;

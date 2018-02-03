@@ -2,9 +2,18 @@
 
 #include <algorithm>
 
-Path::Path(const SharedPtrList<RoadCell>& road)
-        : m_road(road)
+Path::Path(int id, const SharedPtrList<RoadCell>& road)
+        : m_id(id)
+        , m_road(road)
 {
+}
+
+void Path::set_id(int id) {
+    m_id = id;
+}
+
+int Path::get_id() const {
+    return m_id;
 }
 
 void Path::set_road(const SharedPtrList<RoadCell>& road) {

@@ -1,8 +1,9 @@
 #include "Unit.h"
 
-Unit::Unit(int id, Point location, Owner owner, int health, int level, int price, int added_income, int bounty,
-           int damage, int move_speed, int vision_range, const std::shared_ptr<const Path>& path)
+Unit::Unit(int id, Point location, Owner owner, UnitType type, int health, int level, int price, int added_income,
+           int bounty, int damage, int move_speed, int vision_range, const std::shared_ptr<const Path>& path)
         : Entity(id, location, owner)
+        , m_type(type)
         , m_health(health)
         , m_level(level)
         , m_price(price)
@@ -13,6 +14,14 @@ Unit::Unit(int id, Point location, Owner owner, int health, int level, int price
         , m_vision_range(vision_range)
         , m_path(path)
 {
+}
+
+void Unit::set_type(UnitType type) {
+    m_type = type;
+}
+
+UnitType Unit::get_type() const {
+    return m_type;
 }
 
 void Unit::set_health(int health) {
@@ -89,7 +98,8 @@ const Path* Unit::get_path() const {
 
 HeavyUnit::HeavyUnit(int id, Point location, Owner owner, int health, int level, int price, int added_income,
                      int bounty, int damage, int move_speed, int vision_range, const std::shared_ptr<const Path>& path)
-        : Unit(id, location, owner, health, level, price, added_income, bounty, damage, move_speed, vision_range, path)
+        : Unit(id, location, owner, UnitType::HEAVY, health, level, price, added_income, bounty, damage, move_speed,
+               vision_range, path)
 {
 }
 
@@ -106,7 +116,8 @@ int HeavyUnit::LEVEL_UP_THRESHOLD = 0;
 
 LightUnit::LightUnit(int id, Point location, Owner owner, int health, int level, int price, int added_income,
                      int bounty, int damage, int move_speed, int vision_range, const std::shared_ptr<const Path>& path)
-        : Unit(id, location, owner, health, level, price, added_income, bounty, damage, move_speed, vision_range, path)
+        : Unit(id, location, owner, UnitType::LIGHT, health, level, price, added_income, bounty, damage, move_speed,
+               vision_range, path)
 {
 }
 

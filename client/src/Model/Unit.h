@@ -6,6 +6,11 @@
 #include "Entity.h"
 #include "Path.h"
 
+enum UnitType {
+    HEAVY = 0,
+    LIGHT = 1
+};
+
 /**
  * An attacking unit in the game
  */
@@ -18,9 +23,12 @@ public:
     Unit(const Unit&) = default;
     Unit& operator= (const Unit&) = default;
 
-    Unit(int id, Point location, Owner owner,
+    Unit(int id, Point location, Owner owner, UnitType type,
          int health, int level, int price, int added_income, int bounty, int damage,int move_speed, int vision_range,
          const std::shared_ptr<const Path>& path);
+
+    void set_type(UnitType type);
+    UnitType get_type() const;
 
     void set_health(int health);
     int get_health() const;
@@ -50,6 +58,9 @@ public:
     const Path* get_path() const;
 
 private:
+
+    /// Type of this unit
+    UnitType m_type;
 
     /// Current amount of health
     int m_health;
