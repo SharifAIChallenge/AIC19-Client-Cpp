@@ -1,6 +1,7 @@
 #ifndef AIC18_CLIENT_CPP_UTILITY_H
 #define AIC18_CLIENT_CPP_UTILITY_H
 
+#include <iostream>
 #include <vector>
 
 template <class T, class U>
@@ -23,5 +24,8 @@ std::vector<T> flatten_list(const std::vector<std::vector<T>>& input) {
         result.insert(result.end(), row.begin(), row.end());
     return result;
 }
+
+extern bool global_verbose_flag;
+#define DEBUG(x) if (global_verbose_flag) std::cerr << x << std::endl
 
 #endif // AIC18_CLIENT_CPP_UTILITY_H
