@@ -33,8 +33,26 @@ void Controller::run() {
         }
     std::cerr << "Connected" << std::endl;
 
+    // Parse init message
+
     InitMessage init_message(m_network.receive());
-    // TODO: Parse init message
+
+    init_message.parse_world_constants();
+    m_world.set_my_information(Player(World::INITIAL_HEALTH, World::INITIAL_MONEY, 0, World::INITIAL_BEANS_COUNT,
+                                      World::INITIAL_STORMS_COUNT));
+    m_world.set_enemy_information(Player(World::INITIAL_HEALTH, 0, 0, World::INITIAL_BEANS_COUNT,
+                                         World::INITIAL_STORMS_COUNT));
+
+    m_world.set_defence_map(init_message.parse_map());
+    m_world.set_attack_map(init_message.parse_map());
+
+    m_world.set_attack_map_paths(init_message.parse_paths(m_world.get_attack_map()));
+    m_world.set_defence_map_paths(init_message.parse_paths(m_world.get_defence_map()));
+
+    init_message.parse_unit_constants();
+    init_message.parse_tower_constants();
+
+    m_world.set_current_turn(0);
 
     // Start the event handling thread
     m_event_handling_thread = std::thread(&Controller::event_handling_loop, this);
