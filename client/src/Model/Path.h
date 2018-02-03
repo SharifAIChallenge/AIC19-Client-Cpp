@@ -20,8 +20,8 @@ public:
     explicit Path(const SharedPtrList<RoadCell>& road);
 
     void set_road(const SharedPtrList<RoadCell>& road);
-    const SharedPtrList<RoadCell>& get_road();
-    SharedPtrList<const RoadCell> get_road() const;
+    std::vector<RoadCell*> get_road();
+    std::vector<const RoadCell*> get_road() const;
 
 private:
 

@@ -41,8 +41,8 @@ public:
     explicit RoadCell(Point location);
 
     void set_units(const SharedPtrList<Unit>& units);
-    const SharedPtrList<Unit>& get_units();
-    SharedPtrList<const Unit> get_units() const;
+    std::vector<Unit*> get_units();
+    std::vector<const Unit*> get_units() const;
 
 private:
 
@@ -62,8 +62,8 @@ public:
     explicit GrassCell(Point location);
 
     void set_tower(const std::shared_ptr<Tower>& tower);
-    std::shared_ptr<Tower> get_tower();
-    std::shared_ptr<const Tower> get_tower() const;
+    Tower* get_tower();
+    const Tower* get_tower() const;
 
 private:
 

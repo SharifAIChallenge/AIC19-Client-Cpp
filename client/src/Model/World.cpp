@@ -46,16 +46,16 @@ void World::set_attack_map_paths(const SharedPtrList<Path>& attack_paths) {
     m_paths[0] = attack_paths;
 }
 
-SharedPtrList<const Path> World::get_attack_map_paths() const {
-    return SharedPtrList<const Path>(m_paths[0].begin(), m_paths[0].end());
+std::vector<const Path*> World::get_attack_map_paths() const {
+    return shared_ptr_list_to_raw_pointer_list<const Path>(m_paths[0]);
 }
 
 void World::set_defence_map_paths(const SharedPtrList<Path>& defence_paths) {
     m_paths[1] = defence_paths;
 }
 
-SharedPtrList<const Path> World::get_defence_map_paths() const {
-    return SharedPtrList<const Path>(m_paths[1].begin(), m_paths[1].end());
+std::vector<const Path*> World::get_defence_map_paths() const {
+    return shared_ptr_list_to_raw_pointer_list<const Path>(m_paths[1]);
 }
 
 void World::set_current_turn(int current_turn) {
@@ -66,42 +66,42 @@ int World::get_current_turn() const {
     return m_current_turn;
 }
 
-SharedPtrList<const Unit> World::get_my_units() const {
-    SharedPtrList<const Unit> result;
+std::vector<const Unit*> World::get_my_units() const {
+    std::vector<const Unit*> result;
 
-    for (const auto& cell : get_attack_map().get_cells_list())
-        if (auto road_cell = std::dynamic_pointer_cast<const RoadCell>(cell))
+    for (const Cell* cell : get_attack_map().get_cells_list())
+        if (auto road_cell = dynamic_cast<const RoadCell*>(cell))
             result.insert(result.end(), road_cell->get_units().begin(), road_cell->get_units().end());
 
     return result;
 }
 
-SharedPtrList<const Unit> World::get_enemy_units() const {
-    SharedPtrList<const Unit> result;
+std::vector<const Unit*> World::get_enemy_units() const {
+    std::vector<const Unit*> result;
 
-    for (const auto& cell : get_defence_map().get_cells_list())
-        if (auto road_cell = std::dynamic_pointer_cast<const RoadCell>(cell))
+    for (const Cell* cell : get_defence_map().get_cells_list())
+        if (auto road_cell = dynamic_cast<const RoadCell*>(cell))
             result.insert(result.end(), road_cell->get_units().begin(), road_cell->get_units().end());
 
     return result;
 }
 
-SharedPtrList<const Tower> World::get_my_towers() const {
-    SharedPtrList<const Tower> result;
+std::vector<const Tower*> World::get_my_towers() const {
+    std::vector<const Tower*> result;
 
-    for (const auto& cell : get_defence_map().get_cells_list())
-        if (auto grass_cell = std::dynamic_pointer_cast<const GrassCell>(cell))
+    for (const Cell* cell : get_defence_map().get_cells_list())
+        if (auto grass_cell = dynamic_cast<const GrassCell*>(cell))
             if (grass_cell->get_tower())
                 result.push_back(grass_cell->get_tower());
 
     return result;
 }
 
-SharedPtrList<const Tower> World::get_visible_enemy_towers() const {
-    SharedPtrList<const Tower> result;
+std::vector<const Tower*> World::get_visible_enemy_towers() const {
+    std::vector<const Tower*> result;
 
-    for (const auto& cell : get_attack_map().get_cells_list())
-        if (auto grass_cell = std::dynamic_pointer_cast<const GrassCell>(cell))
+    for (const Cell* cell : get_attack_map().get_cells_list())
+        if (auto grass_cell = dynamic_cast<const GrassCell*>(cell))
             if (grass_cell->get_tower())
                 result.push_back(grass_cell->get_tower());
 
@@ -112,40 +112,40 @@ void World::set_dead_units_in_this_turn(const SharedPtrList<Unit>& dead_units) {
     m_dead_units = dead_units;
 }
 
-SharedPtrList<const Unit> World::get_dead_units_in_this_turn() const {
-    return SharedPtrList<const Unit>(m_dead_units.begin(), m_dead_units.end());
+std::vector<const Unit*> World::get_dead_units_in_this_turn() const {
+    return shared_ptr_list_to_raw_pointer_list<const Unit>(m_dead_units);
 }
 
 void World::set_passed_units_in_this_turn(const SharedPtrList<Unit>& passed_units) {
     m_passed_units = passed_units;
 }
 
-SharedPtrList<const Unit> World::get_passed_units_in_this_turn() const {
-    return SharedPtrList<const Unit>(m_passed_units.begin(), m_passed_units.end());
+std::vector<const Unit*> World::get_passed_units_in_this_turn() const {
+    return shared_ptr_list_to_raw_pointer_list<const Unit>(m_passed_units);
 }
 
 void World::set_destroyed_towers_in_this_turn(const SharedPtrList<Tower>& destroyed_towers) {
     m_destroyed_towers = destroyed_towers;
 }
 
-SharedPtrList<const Tower> World::get_destroyed_towers_in_this_turn() const {
-    return SharedPtrList<const Tower>(m_destroyed_towers.begin(), m_destroyed_towers.end());
+std::vector<const Tower*> World::get_destroyed_towers_in_this_turn() const {
+    return shared_ptr_list_to_raw_pointer_list<const Tower>(m_destroyed_towers);
 }
 
 void World::set_beans_in_this_turn(const SharedPtrList<BeanEvent>& beans) {
     m_bean_events = beans;
 }
 
-SharedPtrList<const BeanEvent> World::get_beans_in_this_turn() const {
-    return SharedPtrList<const BeanEvent>(m_bean_events.begin(), m_bean_events.end());
+std::vector<const BeanEvent*> World::get_beans_in_this_turn() const {
+    return shared_ptr_list_to_raw_pointer_list<const BeanEvent>(m_bean_events);
 }
 
 void World::set_storms_in_this_turn(const SharedPtrList<StormEvent>& storms) {
     m_storm_events = storms;
 }
 
-SharedPtrList<const StormEvent> World::get_storms_in_this_turn() const {
-    return SharedPtrList<const StormEvent>(m_storm_events.begin(), m_storm_events.end());
+std::vector<const StormEvent*> World::get_storms_in_this_turn() const {
+    return shared_ptr_list_to_raw_pointer_list<const StormEvent>(m_storm_events);
 }
 
 void World::create_light_unit(const std::shared_ptr<const Path>& path) {

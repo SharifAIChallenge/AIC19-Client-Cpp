@@ -47,7 +47,7 @@ public:
     int get_vision_range() const;
 
     void set_path(const std::shared_ptr<const Path>& path);
-    std::shared_ptr<const Path> get_path() const;
+    const Path* get_path() const;
 
 private:
 

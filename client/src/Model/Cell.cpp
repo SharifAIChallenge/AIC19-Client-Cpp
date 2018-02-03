@@ -1,5 +1,7 @@
 #include "Cell.h"
 
+#include <algorithm>
+
 Cell::Cell(Point location)
         : m_location(location)
 {
@@ -22,12 +24,16 @@ void RoadCell::set_units(const SharedPtrList<Unit>& units) {
     m_units = units;
 }
 
-const SharedPtrList<Unit>& RoadCell::get_units() {
-    return m_units;
+std::vector<Unit*> RoadCell::get_units() {
+    std::vector<Unit*> result(m_units.size());
+    std::transform(m_units.begin(), m_units.end(), result.begin(), [](const auto& x) { return x.get(); });
+    return result;
 }
 
-SharedPtrList<const Unit> RoadCell::get_units() const {
-    return SharedPtrList<const Unit>(m_units.begin(), m_units.end());
+std::vector<const Unit*> RoadCell::get_units() const {
+    std::vector<const Unit*> result(m_units.size());
+    std::transform(m_units.begin(), m_units.end(), result.begin(), [](const auto& x) { return x.get(); });
+    return result;
 }
 
 GrassCell::GrassCell(Point location)
@@ -39,12 +45,12 @@ void GrassCell::set_tower(const std::shared_ptr<Tower>& tower) {
     m_tower = tower;
 }
 
-std::shared_ptr<Tower> GrassCell::get_tower() {
-    return m_tower;
+Tower* GrassCell::get_tower() {
+    return m_tower.get();
 }
 
-std::shared_ptr<const Tower> GrassCell::get_tower() const {
-    return std::const_pointer_cast<const Tower>(m_tower);
+const Tower* GrassCell::get_tower() const {
+    return m_tower.get();
 }
 
 BlockCell::BlockCell(Point location)

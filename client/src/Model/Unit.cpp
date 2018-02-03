@@ -83,8 +83,8 @@ void Unit::set_path(const std::shared_ptr<const Path>& path) {
     m_path = path;
 }
 
-std::shared_ptr<const Path> Unit::get_path() const {
-    return m_path;
+const Path* Unit::get_path() const {
+    return m_path.get();
 }
 
 HeavyUnit::HeavyUnit(int id, Point location, Owner owner, int health, int level, int price, int added_income,

@@ -36,38 +36,38 @@ public:
     const Map& get_defence_map() const;
 
     void set_attack_map_paths(const SharedPtrList<Path>& attack_paths);
-    SharedPtrList<const Path> get_attack_map_paths() const;
+    std::vector<const Path*> get_attack_map_paths() const;
 
     void set_defence_map_paths(const SharedPtrList<Path>& defence_paths);
-    SharedPtrList<const Path> get_defence_map_paths() const;
+    std::vector<const Path*> get_defence_map_paths() const;
 
     void set_current_turn(int current_turn);
     int get_current_turn() const;
 
     // Computational getters:
 
-    SharedPtrList<const Unit> get_my_units() const;
-    SharedPtrList<const Unit> get_enemy_units() const;
+    std::vector<const Unit*> get_my_units() const;
+    std::vector<const Unit*> get_enemy_units() const;
 
-    SharedPtrList<const Tower> get_my_towers() const;
-    SharedPtrList<const Tower> get_visible_enemy_towers() const;
+    std::vector<const Tower*> get_my_towers() const;
+    std::vector<const Tower*> get_visible_enemy_towers() const;
 
     // Events:
 
     void set_dead_units_in_this_turn(const SharedPtrList<Unit>& dead_units);
-    SharedPtrList<const Unit> get_dead_units_in_this_turn() const;
+    std::vector<const Unit*> get_dead_units_in_this_turn() const;
 
     void set_passed_units_in_this_turn(const SharedPtrList<Unit>& passed_units);
-    SharedPtrList<const Unit> get_passed_units_in_this_turn() const;
+    std::vector<const Unit*> get_passed_units_in_this_turn() const;
 
     void set_destroyed_towers_in_this_turn(const SharedPtrList<Tower>& destroyed_towers);
-    SharedPtrList<const Tower> get_destroyed_towers_in_this_turn() const;
+    std::vector<const Tower*> get_destroyed_towers_in_this_turn() const;
 
     void set_beans_in_this_turn(const SharedPtrList<BeanEvent>& beans);
-    SharedPtrList<const BeanEvent> get_beans_in_this_turn() const;
+    std::vector<const BeanEvent*> get_beans_in_this_turn() const;
 
     void set_storms_in_this_turn(const SharedPtrList<StormEvent>& storms);
-    SharedPtrList<const StormEvent> get_storms_in_this_turn() const;
+    std::vector<const StormEvent*> get_storms_in_this_turn() const;
 
     // Actions:
 

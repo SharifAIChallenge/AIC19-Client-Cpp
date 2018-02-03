@@ -19,16 +19,19 @@ public:
 
     explicit Map(const SharedPtrGrid<Cell>& cells_grid);
 
+    size_t get_width() const;
+    size_t get_height() const;
+
     void set_cells_grid(const SharedPtrGrid<Cell>& cells_grid);
 
-    const SharedPtrGrid<Cell>& get_cells_grid();
-    SharedPtrGrid<const Cell> get_cells_grid() const;
+    std::vector<std::vector<Cell*>> get_cells_grid();
+    std::vector<std::vector<const Cell*>> get_cells_grid() const;
 
-    SharedPtrList<Cell> get_cells_list();
-    SharedPtrList<const Cell> get_cells_list() const;
+    std::vector<Cell*> get_cells_list();
+    std::vector<const Cell*> get_cells_list() const;
 
-    std::shared_ptr<Cell> get_cell(Point location);
-    std::shared_ptr<const Cell> get_cell(Point location) const;
+    Cell* get_cell(Point location);
+    const Cell* get_cell(Point location) const;
 
 private:
 
