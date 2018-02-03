@@ -82,6 +82,7 @@ public:
     static int INITIAL_DAMAGE;
     static double DAMAGE_COEFF;
 
+    static int ATTACK_SPEED;
     static int ATTACK_RANGE;
 };
 
@@ -104,6 +105,7 @@ public:
     static int INITIAL_DAMAGE;
     static double DAMAGE_COEFF;
 
+    static int ATTACK_SPEED;
     static int ATTACK_RANGE;
 };
 

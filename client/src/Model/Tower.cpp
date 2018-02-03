@@ -70,6 +70,7 @@ int CannonTower::INITIAL_LEVEL_UP_PRICE = 0;
 double CannonTower::PRICE_COEFF = 0.0;
 int CannonTower::INITIAL_DAMAGE = 0;
 double CannonTower::DAMAGE_COEFF = 0.0;
+int CannonTower::ATTACK_SPEED = 0;
 int CannonTower::ATTACK_RANGE = 0;
 
 ArcherTower::ArcherTower(int id, Point location, Owner owner, int level, int price, int damage, int attack_speed,
@@ -83,4 +84,5 @@ int ArcherTower::INITIAL_LEVEL_UP_PRICE = 0;
 double ArcherTower::PRICE_COEFF = 0.0;
 int ArcherTower::INITIAL_DAMAGE = 0;
 double ArcherTower::DAMAGE_COEFF = 0.0;
+int ArcherTower::ATTACK_SPEED = 0;
 int ArcherTower::ATTACK_RANGE = 0;

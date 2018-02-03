@@ -113,6 +113,7 @@ public:
     static int MOVE_SPEED;
     static int DAMAGE;
     static int VISION_RANGE;
+    static int ADDED_INCOME;
 
     static int LEVEL_UP_THRESHOLD;
 };
@@ -141,6 +142,7 @@ public:
     static int MOVE_SPEED;
     static int DAMAGE;
     static int VISION_RANGE;
+    static int ADDED_INCOME;
 
     static int LEVEL_UP_THRESHOLD;
 };

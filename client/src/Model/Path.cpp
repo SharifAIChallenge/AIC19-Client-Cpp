@@ -2,16 +2,16 @@
 
 #include "../Utility.h"
 
-Path::Path(const std::vector<RoadCell*>& road)
+Path::Path(const std::vector<const RoadCell*>& road)
         : m_road(road)
 {
 }
 
-void Path::set_road(const std::vector<RoadCell*>& road) {
+void Path::set_road(const std::vector<const RoadCell*>& road) {
     m_road = road;
 }
 
-const std::vector<RoadCell*>& Path::get_road() {
+const std::vector<const RoadCell*>& Path::get_road() {
     return m_road;
 }
 

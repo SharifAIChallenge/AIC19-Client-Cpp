@@ -112,6 +112,7 @@ int HeavyUnit::BOUNTY_INCREASE = 0;
 int HeavyUnit::MOVE_SPEED = 0;
 int HeavyUnit::DAMAGE = 0;
 int HeavyUnit::VISION_RANGE = 0;
+int HeavyUnit::ADDED_INCOME = 0;
 int HeavyUnit::LEVEL_UP_THRESHOLD = 0;
 
 LightUnit::LightUnit(int id, Point location, Owner owner, int health, int level, int price, int added_income,
@@ -130,4 +131,5 @@ int LightUnit::BOUNTY_INCREASE = 0;
 int LightUnit::MOVE_SPEED = 0;
 int LightUnit::DAMAGE = 0;
 int LightUnit::VISION_RANGE = 0;
+int LightUnit::ADDED_INCOME = 0;
 int LightUnit::LEVEL_UP_THRESHOLD = 0;
