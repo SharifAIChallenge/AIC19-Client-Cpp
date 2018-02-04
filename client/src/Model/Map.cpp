@@ -42,12 +42,12 @@ Map::~Map() {
     clear_cells_grid();
 }
 
-size_t Map::get_width() const {
-    return m_cells_grid.size();
+int Map::get_width() const {
+    return static_cast<int>(m_cells_grid.size());
 }
 
-size_t Map::get_height() const {
-    return m_cells_grid.front().size();
+int Map::get_height() const {
+    return static_cast<int>(m_cells_grid.front().size());
 }
 
 void Map::set_cells_grid(const std::vector<std::vector<Cell*>>& cells_grid) {

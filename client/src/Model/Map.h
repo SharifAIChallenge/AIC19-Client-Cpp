@@ -21,8 +21,8 @@ public:
 
     ~Map();
 
-    size_t get_width() const;
-    size_t get_height() const;
+    int get_width() const;
+    int get_height() const;
 
     void set_cells_grid(const std::vector<std::vector<Cell*>>& cells_grid);
 
