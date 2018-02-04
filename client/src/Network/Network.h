@@ -43,7 +43,7 @@ public:
      *
      * @param message The buffer to send
      */
-    void send(const std::string& message);
+    void send(std::string message);
 
     /**
      * Synchronously receive a message

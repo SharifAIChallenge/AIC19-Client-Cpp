@@ -8,6 +8,7 @@
 #include <cstring>
 
 #include "NetworkError.h"
+#include "../Utility.h"
 
 Network::Network(const std::string &host, uint16_t port)
         : m_host(host)
@@ -45,29 +46,44 @@ void Network::disconnect() {
     m_sockfd.reset();
 }
 
-void Network::send(const std::string &message) {
+void Network::send(std::string message) {
+    DEBUG("Trying to send:\n" << message);
+
+    message.push_back('\0');
+
     if (!is_connected())
         throw NetworkError("Cannot send message because the connection is not established.");
 
     if (::send(m_sockfd.get(), message.c_str(), message.size(), 0) < 0)
         throw NetworkError(std::strerror(errno));
+
+    DEBUG("Sent");
 }
 
 std::string Network::receive() {
+    DEBUG("Waiting to receive");
+
     constexpr size_t MAX_MESSAGE_LENGTH = 66000;
     static char buffer[MAX_MESSAGE_LENGTH];
 
     if (!is_connected())
         throw NetworkError("Cannot receive message because the connection is not established.");
 
-    memset(buffer, 0, MAX_MESSAGE_LENGTH);
-    ssize_t bytes_received = ::recv(m_sockfd.get(), buffer, MAX_MESSAGE_LENGTH, 0);
-    if (bytes_received == 0)
-        throw NetworkEOFError();
-    else if (bytes_received < 0)
-        throw NetworkError(std::strerror(errno));
+    memset(buffer, -1, MAX_MESSAGE_LENGTH);
 
-    return std::string(buffer, static_cast<size_t>(bytes_received));
+    ssize_t bytes_received = 0;
+    do {
+        bytes_received += ::recv(m_sockfd.get(), buffer + bytes_received, MAX_MESSAGE_LENGTH, 0);
+        if (bytes_received == 0)
+            throw NetworkEOFError();
+        else if (bytes_received < 0)
+            throw NetworkError(std::strerror(errno));
+    } while (buffer[bytes_received - 1] != '\0');
+
+    std::string result(buffer, static_cast<size_t>(bytes_received));
+
+    DEBUG("Received:\n" << result);
+    return result;
 }
 
 bool Network::is_connected() const {
