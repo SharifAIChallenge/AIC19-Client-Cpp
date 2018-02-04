@@ -10,9 +10,12 @@ public:
     inline CreateUnitMessage(UnitType type, int path_index)
             : Message()
     {
-        m_root["type"] = "cu";
-        m_root["args"].append(type == UnitType::LIGHT ? "h" : "l");
-        m_root["args"].append(path_index);
+        m_root["name"] = "event";
+        Json::Value& args = m_root["args"][0];
+
+        args["type"] = "cu";
+        args["args"].append(type == UnitType::LIGHT ? "h" : "l");
+        args["args"].append(path_index);
     }
 
 };

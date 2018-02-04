@@ -10,8 +10,11 @@ public:
     inline explicit UpgradeTowerMessage(const Tower* tower)
             : Message()
     {
-        m_root["type"] = "ut";
-        m_root["args"].append(tower->get_id());
+        m_root["name"] = "event";
+        Json::Value& args = m_root["args"][0];
+
+        args["type"] = "ut";
+        args["args"].append(tower->get_id());
     }
 };
 

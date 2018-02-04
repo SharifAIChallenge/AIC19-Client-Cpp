@@ -10,9 +10,12 @@ public:
     inline explicit PlantBeanMessage(Point location)
     : Message()
     {
-        m_root["type"] = "b";
-        m_root["args"].append(location.get_x());
-        m_root["args"].append(location.get_y());
+        m_root["name"] = "event";
+        Json::Value& args = m_root["args"][0];
+
+        args["type"] = "b";
+        args["args"].append(location.get_x());
+        args["args"].append(location.get_y());
     }
 };
 

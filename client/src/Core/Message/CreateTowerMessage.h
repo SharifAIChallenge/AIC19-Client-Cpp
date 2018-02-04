@@ -10,11 +10,14 @@ public:
     inline CreateTowerMessage(TowerType type, int level, Point location)
             : Message()
     {
-        m_root["type"] = "ct";
-        m_root["args"].append(type == TowerType::CANNON ? "c" : "a");
-        m_root["args"].append(level);
-        m_root["args"].append(location.get_x());
-        m_root["args"].append(location.get_y());
+        m_root["name"] = "event";
+        Json::Value& args = m_root["args"][0];
+
+        args["type"] = "ct";
+        args["args"].append(type == TowerType::CANNON ? "c" : "a");
+        args["args"].append(level);
+        args["args"].append(location.get_x());
+        args["args"].append(location.get_y());
     }
 
 };
