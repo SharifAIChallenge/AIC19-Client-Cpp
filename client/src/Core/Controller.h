@@ -20,8 +20,10 @@ public:
      *
      * @param host The server host to connect to
      * @param port The server port
+     * @param token Authentication token to send to server
+     * @param retry_delay Number of milliseconds to wait before retrying connection
      */
-    Controller(const std::string& host, uint16_t port);
+    Controller(const std::string& host, uint16_t port, const std::string& token, unsigned retry_delay);
 
     /**
      * Destructor
@@ -42,6 +44,12 @@ private:
      * The loop to dequeue events and send them across the network
      */
     void event_handling_loop() noexcept;
+
+    /// Authentication token to send to server
+    std::string m_token;
+
+    /// Number of milliseconds to wait before retrying connection
+    unsigned m_retry_delay;
 
     /// The network connection used for talking to server
     Network m_network;

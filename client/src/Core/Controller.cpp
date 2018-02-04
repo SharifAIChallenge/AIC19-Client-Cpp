@@ -1,6 +1,8 @@
 #include "Controller.h"
 
 #include <iostream>
+#include <thread>
+#include <chrono>
 
 #include "../Network/NetworkError.h"
 #include "Message/AuthenticationMessage.h"
@@ -8,11 +10,15 @@
 #include "Message/TurnMessage.h"
 #include "../Utility.h"
 
-Controller::Controller(const std::string& host, uint16_t port)
-        : m_network(host, port)
+Controller::Controller(const std::string& host, uint16_t port, const std::string& token, unsigned retry_delay)
+        : m_token(token)
+        , m_retry_delay(retry_delay)
+        , m_network(host, port)
         , m_world(m_event_queue)
 {
     DEBUG("Server is " << host << ":" << port);
+    DEBUG("Token is " << token);
+    DEBUG("Retry delay is " << retry_delay);
 }
 
 Controller::~Controller() {
@@ -34,11 +40,13 @@ void Controller::run() {
         catch (NetworkError &e) {
             if (i == MAX_RETRY_COUNT)
                 throw;
+            else
+                std::this_thread::sleep_for(std::chrono::milliseconds(m_retry_delay));
         }
     std::cerr << "Connected" << std::endl;
 
     DEBUG("Sending authentication message");
-    m_network.send(AuthenticationMessage("00000000000000000000000000000000", "token").to_string());
+    m_network.send(AuthenticationMessage(m_token, "token").to_string());
 
     // Parse init message
     try {

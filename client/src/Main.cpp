@@ -1,30 +1,45 @@
+#include <cstdlib>
+
 #include <iostream>
 #include <memory>
 #include <algorithm>
+#include <utility>
 #include <vector>
+#include <unordered_map>
 #include <string>
 #include <exception>
 
 #include "Utility.h"
 #include "Core/Controller.h"
 
-bool global_verbose_flag = true;
+bool global_verbose_flag = false;
 
 int main(int argc, char** argv) {
     try {
-        std::vector<std::string> args;
-        for (int i = 1; i < argc; ++i)
-            args.emplace_back(argv[i]);
+        using std::pair;
+        using std::string;
 
-        global_verbose_flag = (std::find(args.begin(), args.end(), "--verbose") != args.end());
+        pair<string, string> host = {"AICHostIP", "127.0.0.1"};
+        pair<string, string> port = {"AICHostPort", "7099"};
+        pair<string, string> token = {"AICToken", "00000000000000000000000000000000"};
+        pair<string, string> retry_delay = {"AICRetryDelay", "1000"};
 
-        auto iter = std::find(args.begin(), args.end(), "--host");
-        std::string host = (iter == args.end() ? "localhost" : *(iter + 1));
+        if (argc > 1 && std::string(argv[1]) == "--verbose")
+            global_verbose_flag = true;
 
-        iter = std::find(args.begin(), args.end(), "--port");
-        int port = (iter == args.end() ? 7099 : std::stoi(*(iter + 1)));
+        if (const char* host_env = std::getenv(host.first.c_str()))
+            host.second = std::string(host_env);
+        if (const char* port_env = std::getenv(port.first.c_str()))
+            port.second = std::string(port_env);
+        if (const char* token_env = std::getenv(token.first.c_str()))
+            token.second = std::string(token_env);
+        if (const char* retry_delay_env = std::getenv(retry_delay.first.c_str()))
+            retry_delay.second = std::string(retry_delay_env);
 
-        auto controller = std::make_unique<Controller>(host, port);
+        auto controller = std::make_unique<Controller>(host.second,
+                                                       std::stoi(port.second),
+                                                       token.second,
+                                                       std::stoi(retry_delay.second));
         controller->run();
     }
     catch (std::exception& e) {
