@@ -16,6 +16,12 @@ public:
     Entity(const Entity&) = default;
     Entity& operator= (const Entity&) = default;
 
+    Entity(Entity&&) noexcept = default;
+    Entity& operator=(Entity&&) noexcept = default;
+
+    /**
+     * Construct an entity from its parameters
+     */
     Entity(int id, Point location, Owner owner);
 
     void set_id(int id);

@@ -21,6 +21,12 @@ public:
     Player(const Player&) = default;
     Player& operator=(const Player&) = default;
 
+    Player(Player&&) noexcept = default;
+    Player& operator=(Player&&) noexcept = default;
+
+    /**
+     * Construct a player from its initial parameters
+     */
     Player(int strength, int money, int income, int beans_left, int storms_left);
 
     void set_strength(int strength);
