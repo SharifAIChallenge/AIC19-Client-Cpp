@@ -1,8 +1,14 @@
 #include "Network.h"
 
+#ifdef _WIN32
+#include <winsock2.h>
+#include <windows.h>
+#include <ws2tcpip.h>
+#else
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>
+#endif
 
 #include <utility>
 #include <cstring>
@@ -22,6 +28,13 @@ Network::~Network() noexcept {
 }
 
 void Network::connect() {
+#ifdef _WIN32
+    WSADATA wsa_data;
+    int result = WSAStartup(MAKEWORD(2,2), &wsa_data);
+    if (result != 0)
+        throw NetworkError("WSAStartup failed");
+#endif
+
     FileDescriptor fd(socket(AF_INET, SOCK_STREAM, 0));
     if (!fd)
         throw NetworkError(std::strerror(errno));
@@ -44,6 +57,10 @@ void Network::connect() {
 
 void Network::disconnect() {
     m_sockfd.reset();
+
+#ifdef _WIN32
+    WSACleanup();
+#endif
 }
 
 void Network::send(std::string message) {
