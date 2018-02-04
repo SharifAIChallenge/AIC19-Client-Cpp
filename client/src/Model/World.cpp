@@ -82,8 +82,10 @@ std::vector<const Unit*> World::get_my_units() const {
     std::vector<const Unit*> result;
 
     for (const Cell* cell : get_attack_map().get_cells_list())
-        if (auto road_cell = dynamic_cast<const RoadCell*>(cell))
-            result.insert(result.end(), road_cell->get_units().begin(), road_cell->get_units().end());
+        if (auto road_cell = dynamic_cast<const RoadCell*>(cell)) {
+            const auto& units = road_cell->get_units();
+            result.insert(result.end(), units.begin(), units.end());
+        }
 
     return result;
 }
@@ -92,8 +94,10 @@ std::vector<const Unit*> World::get_enemy_units() const {
     std::vector<const Unit*> result;
 
     for (const Cell* cell : get_defence_map().get_cells_list())
-        if (auto road_cell = dynamic_cast<const RoadCell*>(cell))
-            result.insert(result.end(), road_cell->get_units().begin(), road_cell->get_units().end());
+        if (auto road_cell = dynamic_cast<const RoadCell*>(cell)) {
+            const auto& units = road_cell->get_units();
+            result.insert(result.end(), units.begin(), units.end());
+        }
 
     return result;
 }
