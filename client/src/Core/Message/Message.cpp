@@ -1,6 +1,7 @@
 #include "Message.h"
 
 #include <sstream>
+#include <algorithm>
 
 Message::Message(std::string&& string_form) {
     std::istringstream stream(std::move(string_form));
@@ -8,7 +9,8 @@ Message::Message(std::string&& string_form) {
 }
 
 std::string Message::to_string() const {
-    std::ostringstream stream;
-    stream << m_root;
-    return stream.str();
+    static Json::StreamWriterBuilder builder;
+    builder["indentation"] = "";
+
+    return Json::writeString(builder, m_root);
 }
