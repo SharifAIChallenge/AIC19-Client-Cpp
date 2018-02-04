@@ -2,6 +2,7 @@
 #define AIC18_CLIENT_CPP_PATH_H
 
 #include <vector>
+#include <iostream>
 
 class RoadCell;
 
@@ -22,6 +23,8 @@ public:
     void set_road(const std::vector<const RoadCell*>& road);
     const std::vector<const RoadCell*>& get_road();
     std::vector<const RoadCell*> get_road() const;
+
+    friend std::ostream& operator<< (std::ostream& output, const Path& path);
 
 private:
 
