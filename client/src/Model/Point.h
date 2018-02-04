@@ -17,18 +17,30 @@ public:
     Point(const Point&) = default;
     Point& operator= (const Point&) = default;
 
+    Point(Point&&) noexcept = default;
+    Point& operator=(Point&&) noexcept = default;
+
     /**
      * Construct a point from given coordinates
      */
     Point(int x, int y);
 
-    Point(const Json::Value& json_form);
+    /**
+     * Construct a point from its json form
+     */
+    explicit Point(const Json::Value& json_form);
 
     void set_x(int x);
     int get_x() const;
 
+    int& x();
+    int x() const;
+
     void set_y(int y);
     int get_y() const;
+
+    int& y();
+    int y() const;
 
     /**
      * @return This point's representation in json

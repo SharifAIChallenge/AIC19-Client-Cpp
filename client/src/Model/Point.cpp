@@ -20,11 +20,27 @@ int Point::get_x() const {
     return m_x;
 }
 
+int& Point::x() {
+    return m_x;
+}
+
+int Point::x() const {
+    return m_x;
+}
+
 void Point::set_y(int y) {
     m_y = y;
 }
 
 int Point::get_y() const {
+    return m_y;
+}
+
+int& Point::y() {
+    return m_y;
+}
+
+int Point::y() const {
     return m_y;
 }
 
