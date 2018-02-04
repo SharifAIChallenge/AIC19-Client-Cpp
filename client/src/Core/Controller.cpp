@@ -47,6 +47,9 @@ void Controller::run() {
         DEBUG("Parsing init message");
 
         init_message.parse_world_constants();
+        init_message.parse_unit_constants();
+        init_message.parse_tower_constants();
+
         m_world.set_my_information(Player(World::INITIAL_HEALTH, World::INITIAL_MONEY, 0, World::INITIAL_BEANS_COUNT,
                                           World::INITIAL_STORMS_COUNT));
         m_world.set_enemy_information(Player(World::INITIAL_HEALTH, 0, 0, World::INITIAL_BEANS_COUNT,
@@ -57,9 +60,6 @@ void Controller::run() {
 
         m_world.set_attack_map_paths(init_message.parse_paths(m_world.get_attack_map()));
         m_world.set_defence_map_paths(init_message.parse_paths(m_world.get_defence_map()));
-
-        init_message.parse_unit_constants();
-        init_message.parse_tower_constants();
 
         m_world.set_current_turn(0);
     }
@@ -94,6 +94,10 @@ void Controller::run() {
             m_world.set_current_turn(m_world.get_current_turn() + 1);
 
             // Run the client AI
+
+            DEBUG("Current turn is " << m_world.get_current_turn());
+            DEBUG("Running client ai");
+
             constexpr size_t COMPLEX_TURN_INTERVAL = 10;
             std::thread ai_thread(
                     m_world.get_current_turn() % COMPLEX_TURN_INTERVAL == 0 ? &AI::complex_turn : &AI::simple_turn,
