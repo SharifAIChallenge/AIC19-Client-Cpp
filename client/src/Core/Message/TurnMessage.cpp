@@ -5,6 +5,7 @@
 TurnMessage::TurnMessage(std::string&& string_form)
         : Message(std::move(string_form))
 {
+    m_root = m_root["args"][0];
 }
 
 void TurnMessage::parse_my_units(Map& attack_map, const std::vector<const Path*>& paths) {

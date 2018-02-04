@@ -5,6 +5,7 @@
 InitMessage::InitMessage(std::string&& string_form)
         : Message(std::move(string_form))
 {
+    m_root = m_root["args"][0];
 }
 
 Map InitMessage::parse_map() const {
