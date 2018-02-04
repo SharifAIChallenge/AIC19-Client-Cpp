@@ -11,11 +11,13 @@ class Map {
 public:
 
     Map() = default;
-
-    Map(const Map&) = default;
-    Map& operator=(const Map&) = default;
-
     explicit Map(const std::vector<std::vector<Cell*>>& cells_grid);
+
+    Map(const Map& other);
+    Map& operator=(const Map& other);
+
+    Map(Map&& other) noexcept;
+    Map& operator=(Map&& other) noexcept;
 
     ~Map();
 

@@ -29,6 +29,15 @@ std::vector<T> flatten_list(const std::vector<std::vector<T>>& input) {
     return result;
 }
 
+template <class T>
+std::vector<std::vector<T>> rotate_grid(const std::vector<std::vector<T>>& input) {
+    std::vector<std::vector<T>> result(input.front().size(), std::vector<T>(input.size()));
+    for (size_t i = 0; i < input.size(); ++i)
+        for (size_t j = 0; j < input[i].size(); ++j)
+            result[j][i] = input[i][j];
+    return result;
+}
+
 inline std::string format_string(const std::string& format, ...) {
     constexpr size_t BUFFER_LEN = 512;
     static char buffer[BUFFER_LEN];

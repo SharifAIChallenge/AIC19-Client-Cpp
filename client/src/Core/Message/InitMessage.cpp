@@ -2,6 +2,7 @@
 
 #include "../../Model/World.h"
 #include "../../Utility.h"
+#include "../ParseError.h"
 
 InitMessage::InitMessage(std::string&& string_form)
         : Message(std::move(string_form))
@@ -9,20 +10,21 @@ InitMessage::InitMessage(std::string&& string_form)
     m_root = m_root["args"][0];
 }
 
-Map InitMessage::parse_map() const {
+Map InitMessage::parse_map() {
     size_t width = m_root["map"]["size"][0].asUInt64();
     DEBUG("Map width = " << width);
 
     size_t height = m_root["map"]["size"][1].asUInt64();
     DEBUG("Map height = " << height);
 
-    const std::string& map_string = m_root["map"]["cells"].asString();
-    DEBUG("Map str = " << map_string);
+    Json::Value& map_json = m_root["map"]["cells"];
 
     std::vector<std::vector<Cell*>> cells(width, std::vector<Cell*>(height, nullptr));
-    for (size_t i = 0; i < width; ++i)
+    for (size_t i = 0; i < width; ++i) {
+        DEBUG(map_json[static_cast<int>(i)].asString());
+
         for (size_t j = 0; j < height; ++j) {
-            const char& ch = map_string.at(i * width + height);
+            const char& ch = map_json[static_cast<int>(i)].asString()[j];
             if (ch == 'g')
                 cells[i][j] = new GrassCell(Point(i, j));
             else if (ch == 'r')
@@ -30,8 +32,9 @@ Map InitMessage::parse_map() const {
             else
                 cells[i][j] = new BlockCell(Point(i, j));
         }
+    }
 
-    return Map(cells);
+    return Map(rotate_grid(cells));
 }
 
 std::vector<Path*> InitMessage::parse_paths(const Map& map) {
@@ -41,9 +44,22 @@ std::vector<Path*> InitMessage::parse_paths(const Map& map) {
 
     for (Json::Value& path_json : m_root["paths"]) {
         std::vector<const RoadCell*> cells;
-        for (Json::Value& point_json : path_json["cells"])
-            cells.push_back(dynamic_cast<const RoadCell*>(map.get_cell(
-                    point_json["x"].asInt(), point_json["y"].asInt())));
+        for (Json::Value& point_json : path_json["cells"]) {
+            int x = point_json["x"].asInt();
+            int y = point_json["y"].asInt();
+
+            auto cell = map.get_cell(x, y);
+            if (!cell)
+                throw ParseError("Null-Pointer exception");
+
+            auto road_cell = dynamic_cast<const RoadCell*>(cell);
+            if (!road_cell) {
+                DEBUG("Cell " << Point(x, y) << " type is " << cell->get_type());
+                throw ParseError("Bad coordinates");
+            }
+
+            cells.push_back(road_cell);
+        }
 
         result.push_back(new Path(cells));
 

@@ -7,6 +7,37 @@ Map::Map(const std::vector<std::vector<Cell*>>& cells_grid)
 {
 }
 
+Map::Map(const Map& other)
+        : m_cells_grid(other.get_width(), std::vector<Cell*>(other.get_height(), nullptr))
+{
+    for (size_t i = 0; i < other.get_width(); ++i)
+        for (size_t j = 0; j < other.get_height(); ++j)
+            if (auto road_cell = dynamic_cast<RoadCell*>(other.m_cells_grid[i][j]))
+                m_cells_grid[i][j] = new RoadCell(*road_cell);
+            else if (auto grass_cell = dynamic_cast<GrassCell*>(other.m_cells_grid[i][j]))
+                m_cells_grid[i][j] = new GrassCell(*grass_cell);
+            else if (auto block_cell = dynamic_cast<BlockCell*>(other.m_cells_grid[i][j]))
+                m_cells_grid[i][j] = new BlockCell(*block_cell);
+}
+
+Map& Map::operator=(const Map& other) {
+    clear_cells_grid();
+
+    m_cells_grid = std::vector<std::vector<Cell*>>(other.get_width(),
+                                                   std::vector<Cell*>(other.get_height(), nullptr));
+
+    for (size_t i = 0; i < other.get_width(); ++i)
+        for (size_t j = 0; j < other.get_height(); ++j)
+            if (auto road_cell = dynamic_cast<RoadCell*>(other.m_cells_grid[i][j]))
+                m_cells_grid[i][j] = new RoadCell(*road_cell);
+            else if (auto grass_cell = dynamic_cast<GrassCell*>(other.m_cells_grid[i][j]))
+                m_cells_grid[i][j] = new GrassCell(*grass_cell);
+            else if (auto block_cell = dynamic_cast<BlockCell*>(other.m_cells_grid[i][j]))
+                m_cells_grid[i][j] = new BlockCell(*block_cell);
+
+    return *this;
+}
+
 Map::~Map() {
     clear_cells_grid();
 }
@@ -41,15 +72,27 @@ std::vector<const Cell*> Map::get_cells_list() const {
 }
 
 Cell* Map::get_cell(int x, int y) {
-    return m_cells_grid[x][y];
+    return m_cells_grid.at(x).at(y);
 }
 
 const Cell* Map::get_cell(int x, int y) const {
-    return m_cells_grid[x][y];
+    return m_cells_grid.at(x).at(y);
 }
 
 void Map::clear_cells_grid() {
     for (Cell* cell : get_cells_list())
         delete cell;
     m_cells_grid.clear();
+}
+
+Map::Map(Map&& other) noexcept
+        : m_cells_grid(std::move(other.m_cells_grid))
+{
+    other.m_cells_grid.clear();
+}
+
+Map& Map::operator=(Map&& other) noexcept {
+    m_cells_grid = std::move(other.m_cells_grid);
+    other.m_cells_grid.clear();
+    return *this;
 }

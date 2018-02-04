@@ -45,10 +45,13 @@ public:
 
     RoadCell() = default;
 
-    RoadCell(const RoadCell&) = default;
-    RoadCell& operator=(const RoadCell&) = default;
-
     explicit RoadCell(Point location);
+
+    RoadCell(const RoadCell& other);
+    RoadCell& operator=(const RoadCell& other);
+
+    RoadCell(RoadCell&& other) noexcept ;
+    RoadCell& operator=(RoadCell&& other) noexcept;
 
     ~RoadCell() override;
 
@@ -67,11 +70,14 @@ private:
 class GrassCell : public Cell {
 public:
 
-    GrassCell(const GrassCell&) = default;
-    GrassCell& operator=(const GrassCell&) = default;
-
     GrassCell();
     explicit GrassCell(Point location);
+
+    GrassCell(const GrassCell& other);
+    GrassCell& operator=(const GrassCell& other);
+
+    GrassCell(GrassCell&& other) noexcept;
+    GrassCell& operator=(GrassCell&& other) noexcept;
 
     ~GrassCell() override;
 

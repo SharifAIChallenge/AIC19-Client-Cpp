@@ -1,5 +1,6 @@
 #include "Cell.h"
 
+#include <algorithm>
 #include "../Utility.h"
 
 Cell::Cell(CellType type, Point location)
@@ -29,6 +30,43 @@ RoadCell::RoadCell(Point location)
 {
 }
 
+RoadCell::RoadCell(const RoadCell& other)
+        : Cell(other)
+{
+    for (Unit* unit : other.m_units)
+        if (auto light_unit = dynamic_cast<LightUnit*>(unit))
+            m_units.push_back(new LightUnit(*light_unit));
+        else if (auto heavy_unit = dynamic_cast<HeavyUnit*>(unit))
+            m_units.push_back(new HeavyUnit(*heavy_unit));
+}
+
+RoadCell& RoadCell::operator=(const RoadCell& other) {
+    Cell::operator=(other);
+
+    clear_units();
+    for (Unit* unit : other.m_units)
+        if (auto light_unit = dynamic_cast<LightUnit*>(unit))
+            m_units.push_back(new LightUnit(*light_unit));
+        else if (auto heavy_unit = dynamic_cast<HeavyUnit*>(unit))
+            m_units.push_back(new HeavyUnit(*heavy_unit));
+
+    return *this;
+}
+
+RoadCell::RoadCell(RoadCell&& other) noexcept
+        : Cell(std::move(other))
+        , m_units(std::move(other.m_units))
+{
+    other.m_units.clear();
+}
+
+RoadCell& RoadCell::operator=(RoadCell&& other) noexcept {
+    Cell::operator= (std::move(other));
+    m_units = std::move(other.m_units);
+    other.m_units.clear();
+    return *this;
+}
+
 RoadCell::~RoadCell() {
     clear_units();
 }
@@ -51,7 +89,6 @@ void RoadCell::clear_units() {
        delete unit;
     m_units.clear();
 }
-
 GrassCell::GrassCell()
         : Cell()
         , m_tower(nullptr)
@@ -83,6 +120,37 @@ const Tower* GrassCell::get_tower() const {
 void GrassCell::clear_tower() {
     delete m_tower;
     m_tower = nullptr;
+}
+
+GrassCell::GrassCell(const GrassCell& other)
+        : Cell(other)
+{
+    if (other.m_tower)
+        m_tower = new Tower(*other.m_tower);
+}
+
+GrassCell& GrassCell::operator=(const GrassCell& other) {
+    Cell::operator=(other);
+
+    clear_tower();
+    if (other.m_tower)
+        m_tower = new Tower(*other.m_tower);
+
+    return *this;
+}
+
+GrassCell::GrassCell(GrassCell&& other) noexcept
+        : Cell(std::move(other))
+        , m_tower(std::move(other.m_tower))
+{
+    other.m_tower = nullptr;
+}
+
+GrassCell& GrassCell::operator=(GrassCell&& other) noexcept {
+    Cell::operator=(std::move(other));
+    m_tower = std::move(other.m_tower);
+    other.m_tower = nullptr;
+    return *this;
 }
 
 BlockCell::BlockCell(Point location)

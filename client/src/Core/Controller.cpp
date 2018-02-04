@@ -55,8 +55,9 @@ void Controller::run() {
         m_world.set_enemy_information(Player(World::INITIAL_HEALTH, 0, 0, World::INITIAL_BEANS_COUNT,
                                              World::INITIAL_STORMS_COUNT));
 
-        m_world.set_defence_map(init_message.parse_map());
-        m_world.set_attack_map(init_message.parse_map());
+        const Map& map = init_message.parse_map();
+        m_world.set_defence_map(map);
+        m_world.set_attack_map(map);
 
         m_world.set_attack_map_paths(init_message.parse_paths(m_world.get_attack_map()));
         m_world.set_defence_map_paths(init_message.parse_paths(m_world.get_defence_map()));

@@ -10,7 +10,7 @@ public:
 
     explicit InitMessage(std::string&& string_form);
 
-    Map parse_map() const;
+    Map parse_map();
 
     std::vector<Path*> parse_paths(const Map& map);
 
