@@ -118,8 +118,10 @@ std::vector<Unit*> TurnMessage::parse_dead_units(World& world) {
     std::vector<Unit*> result;
     for (Json::Value& unit_json : m_root["events"]["deadunits"]) {
         std::vector<const Unit*>& units = (unit_json[0].asInt() == 0 ? enemy_units : my_units);
-        result.push_back(new Unit(**std::find_if(units.begin(), units.end(),
-                                       [&](auto& x) { return x->get_id() == unit_json[1].asInt(); })));
+        auto iter = std::find_if(units.begin(), units.end(),
+                                 [&](auto& x) { return x->get_id() == unit_json[1].asInt(); });
+        if (iter != units.end())
+            result.push_back(new Unit(**iter));
     }
 
     return result;
@@ -132,8 +134,10 @@ std::vector<Unit*> TurnMessage::parse_passed_units(World& world) {
     std::vector<Unit*> result;
     for (Json::Value& unit_json : m_root["events"]["endofpath"]) {
         std::vector<const Unit*>& units = (unit_json[0].asInt() == 0 ? enemy_units : my_units);
-        result.push_back(new Unit(**std::find_if(units.begin(), units.end(),
-                                                 [&](auto& x) { return x->get_id() == unit_json[1].asInt(); })));
+        auto iter = std::find_if(units.begin(), units.end(),
+                                 [&](auto& x) { return x->get_id() == unit_json[1].asInt(); });
+        if (iter != units.end())
+            result.push_back(new Unit(**iter));
     }
 
     return result;
@@ -146,8 +150,10 @@ std::vector<Tower*> TurnMessage::parse_destroyed_towers(World& world) {
     std::vector<Tower*> result;
     for (Json::Value& tower_json : m_root["events"]["destroyedtowers"]) {
         std::vector<const Tower*>& towers = (tower_json[0].asInt() == 0 ? enemy_towers : my_towers);
-        result.push_back(new Tower(**std::find_if(towers.begin(), towers.end(),
-                                                 [&](auto& x) { return x->get_id() == tower_json[1].asInt(); })));
+        auto iter = std::find_if(towers.begin(), towers.end(),
+                                 [&](auto& x) { return x->get_id() == tower_json[1].asInt(); });
+        if (iter != towers.end())
+            result.push_back(new Tower(**iter));
     }
 
     return result;
