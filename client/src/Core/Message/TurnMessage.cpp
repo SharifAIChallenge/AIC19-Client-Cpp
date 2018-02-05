@@ -1,11 +1,14 @@
 #include "TurnMessage.h"
 
 #include <algorithm>
+#include "../ParseError.h"
 #include "../../Utility.h"
 
 TurnMessage::TurnMessage(std::string&& string_form)
         : Message(std::move(string_form))
 {
+    if (m_root["name"] == "shutdown")
+        throw ParseError("Received shutdown message");
     m_root = m_root["args"][0];
 }
 
