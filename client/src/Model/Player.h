@@ -1,6 +1,8 @@
 #ifndef AIC18_CLIENT_CPP_PLAYER_H
 #define AIC18_CLIENT_CPP_PLAYER_H
 
+#include <iostream>
+
 /**
  * Identifier for the two players
  */
@@ -43,6 +45,8 @@ public:
 
     void set_storms_left(int storms_left);
     int get_storms_left() const;
+
+    friend std::ostream& operator<< (std::ostream& output, const Player& player);
 
 private:
 

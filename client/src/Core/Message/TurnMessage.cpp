@@ -127,13 +127,17 @@ void TurnMessage::parse_enemy_towers(Map& attack_map) {
 
 Player TurnMessage::parse_my_information() {
     Json::Value& player_json = m_root["players"][0];
-    return Player(player_json[0].asInt(), player_json[1].asInt(), player_json[2].asInt(), player_json[3].asInt(),
+    Player result(player_json[0].asInt(), player_json[1].asInt(), player_json[2].asInt(), player_json[3].asInt(),
                   player_json[4].asInt());
+    DEBUG("Me: " << result);
+    return result;
 }
 
 Player TurnMessage::parse_enemy_information() {
     Json::Value& player_json = m_root["players"][1];
-    return Player(player_json[0].asInt(), 0, 0, player_json[1].asInt(), player_json[2].asInt());
+    Player result(player_json[0].asInt(), 0, 0, player_json[1].asInt(), player_json[2].asInt());
+    DEBUG("Enemy: " << result);
+    return result;
 }
 
 std::vector<Unit*> TurnMessage::parse_dead_units(World& world) {

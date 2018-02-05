@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "../Utility.h"
 
 Player::Player(int strength, int money, int income, int beans_left, int storms_left)
         : m_strength(strength)
@@ -47,4 +48,10 @@ void Player::set_storms_left(int storms_left) {
 
 int Player::get_storms_left() const {
     return m_storms_left;
+}
+
+std::ostream& operator<<(std::ostream &output, const Player& player) {
+    return output << format_string("[strength=%d, money=%d, income=%d, beans=%d, storms=%d]",
+                                   player.m_strength, player.m_money, player.m_income, player.m_beans_left,
+                                   player.m_storms_left);
 }
