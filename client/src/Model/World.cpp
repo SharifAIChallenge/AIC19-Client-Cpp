@@ -301,6 +301,10 @@ bool World::is_tower_constructible(int x, int y) const {
     const int width = get_defence_map().get_width();
     const int height = get_defence_map().get_height();
 
+    auto grass_cell = dynamic_cast<GrassCell*>(get_defence_map().get_cell(x, y));
+    if (!grass_cell || grass_cell->get_tower())
+        return false;
+
     if (0 <= x + 1 && x + 1 < width)
         if (auto grass_cell = dynamic_cast<GrassCell*>(get_defence_map().get_cell(x + 1, y)))
             if (grass_cell->get_tower())
