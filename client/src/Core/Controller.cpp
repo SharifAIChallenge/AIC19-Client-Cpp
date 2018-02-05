@@ -95,6 +95,17 @@ void Controller::run() {
             m_world.set_beans_in_this_turn(turn_message.parse_bean_events());
             m_world.set_storms_in_this_turn(turn_message.parse_storm_events());
 
+            // Apply beans
+            for (BeanEvent* bean : m_world.get_beans_in_this_turn()) {
+                Map& map = (bean->get_owner() == Owner::ME ? m_world.get_attack_map() : m_world.get_defence_map());
+
+                int x = bean->get_location().x();
+                int y = bean->get_location().y();
+
+                delete map.get_cells_grid()[x][y];
+                map.get_cells_grid()[x][y] = new BlockCell(Point(x, y));
+            }
+
             turn_message.parse_my_units(m_world.get_attack_map(), m_world.get_attack_map_paths());
             turn_message.parse_enemy_units(m_world.get_defence_map(), m_world.get_defence_map_paths());
 
