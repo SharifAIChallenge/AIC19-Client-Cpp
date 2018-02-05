@@ -57,7 +57,7 @@ public:
 
     void set_units(const std::vector<Unit*>& units);
     std::vector<Unit*>& get_units();
-    std::vector<const Unit*> get_units() const;
+    const std::vector<Unit*>& get_units() const;
 
 private:
 
@@ -82,8 +82,7 @@ public:
     ~GrassCell() override;
 
     void set_tower(Tower* tower);
-    Tower* get_tower();
-    const Tower* get_tower() const;
+    Tower* get_tower() const;
 
 private:
 

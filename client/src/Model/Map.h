@@ -26,14 +26,12 @@ public:
 
     void set_cells_grid(const std::vector<std::vector<Cell*>>& cells_grid);
 
-    const std::vector<std::vector<Cell*>>& get_cells_grid();
-    std::vector<std::vector<const Cell*>> get_cells_grid() const;
+    std::vector<std::vector<Cell*>>& get_cells_grid();
+    const std::vector<std::vector<Cell*>>& get_cells_grid() const;
 
-    std::vector<Cell*> get_cells_list();
-    std::vector<const Cell*> get_cells_list() const;
+    std::vector<Cell*> get_cells_list() const;
 
-    Cell* get_cell(int x, int y);
-    const Cell* get_cell(int x, int y) const;
+    Cell* get_cell(int x, int y) const;
 
 private:
 

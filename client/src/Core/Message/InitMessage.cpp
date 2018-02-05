@@ -43,7 +43,7 @@ std::vector<Path*> InitMessage::parse_paths(const Map& map) {
     DEBUG("Paths count = " << m_root["paths"].size());
 
     for (Json::Value& path_json : m_root["paths"]) {
-        std::vector<const RoadCell*> cells;
+        std::vector<RoadCell*> cells;
         for (Json::Value& point_json : path_json["cells"]) {
             int x = point_json["x"].asInt();
             int y = point_json["y"].asInt();
@@ -52,7 +52,7 @@ std::vector<Path*> InitMessage::parse_paths(const Map& map) {
             if (!cell)
                 throw ParseError("Null-Pointer exception");
 
-            auto road_cell = dynamic_cast<const RoadCell*>(cell);
+            auto road_cell = dynamic_cast<RoadCell*>(cell);
             if (!road_cell) {
                 DEBUG("Cell " << Point(x, y) << " type is " << cell->get_type());
                 throw ParseError("Bad coordinates");

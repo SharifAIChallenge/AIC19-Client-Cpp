@@ -24,12 +24,20 @@ void World::set_my_information(const Player& my_information) {
     m_players[0] = my_information;
 }
 
+Player& World::get_my_information() {
+    return m_players[0];
+}
+
 const Player& World::get_my_information() const {
     return m_players[0];
 }
 
 void World::set_enemy_information(const Player& enemy_information) {
     m_players[1] = enemy_information;
+}
+
+Player& World::get_enemy_information() {
+    return m_players[1];
 }
 
 const Player& World::get_enemy_information() const {
@@ -40,12 +48,20 @@ void World::set_attack_map(const Map& attack_map) {
     m_maps[0] = attack_map;
 }
 
+Map& World::get_attack_map() {
+    return m_maps[0];
+}
+
 const Map& World::get_attack_map() const {
     return m_maps[0];
 }
 
 void World::set_defence_map(const Map& defence_map) {
     m_maps[1] = defence_map;
+}
+
+Map& World::get_defence_map() {
+    return m_maps[1];
 }
 
 const Map& World::get_defence_map() const {
@@ -57,8 +73,12 @@ void World::set_attack_map_paths(const std::vector<Path*>& attack_paths) {
     m_paths[0] = attack_paths;
 }
 
-std::vector<const Path*> World::get_attack_map_paths() const {
-    return const_list_cast<const Path*>(m_paths[0]);
+std::vector<Path*>& World::get_attack_map_paths() {
+    return m_paths[0];
+}
+
+const std::vector<Path*>& World::get_attack_map_paths() const {
+    return m_paths[0];
 }
 
 void World::set_defence_map_paths(const std::vector<Path*>& defence_paths) {
@@ -66,8 +86,12 @@ void World::set_defence_map_paths(const std::vector<Path*>& defence_paths) {
     m_paths[1] = defence_paths;
 }
 
-std::vector<const Path*> World::get_defence_map_paths() const {
-    return const_list_cast<const Path*>(m_paths[1]);
+std::vector<Path*>& World::get_defence_map_paths() {
+    return m_paths[1];
+}
+
+const std::vector<Path*>& World::get_defence_map_paths() const {
+    return m_paths[1];
 }
 
 void World::set_current_turn(int current_turn) {
@@ -78,11 +102,11 @@ int World::get_current_turn() const {
     return m_current_turn;
 }
 
-std::vector<const Unit*> World::get_my_units() const {
-    std::vector<const Unit*> result;
+std::vector<Unit*> World::get_my_units() const {
+    std::vector<Unit*> result;
 
-    for (const Cell* cell : get_attack_map().get_cells_list())
-        if (auto road_cell = dynamic_cast<const RoadCell*>(cell)) {
+    for (Cell* cell : get_attack_map().get_cells_list())
+        if (auto road_cell = dynamic_cast<RoadCell*>(cell)) {
             const auto& units = road_cell->get_units();
             result.insert(result.end(), units.begin(), units.end());
         }
@@ -90,11 +114,11 @@ std::vector<const Unit*> World::get_my_units() const {
     return result;
 }
 
-std::vector<const Unit*> World::get_enemy_units() const {
-    std::vector<const Unit*> result;
+std::vector<Unit*> World::get_enemy_units() const {
+    std::vector<Unit*> result;
 
-    for (const Cell* cell : get_defence_map().get_cells_list())
-        if (auto road_cell = dynamic_cast<const RoadCell*>(cell)) {
+    for (Cell* cell : get_defence_map().get_cells_list())
+        if (auto road_cell = dynamic_cast<RoadCell*>(cell)) {
             const auto& units = road_cell->get_units();
             result.insert(result.end(), units.begin(), units.end());
         }
@@ -102,22 +126,22 @@ std::vector<const Unit*> World::get_enemy_units() const {
     return result;
 }
 
-std::vector<const Tower*> World::get_my_towers() const {
-    std::vector<const Tower*> result;
+std::vector<Tower*> World::get_my_towers() const {
+    std::vector<Tower*> result;
 
-    for (const Cell* cell : get_defence_map().get_cells_list())
-        if (auto grass_cell = dynamic_cast<const GrassCell*>(cell))
+    for (Cell* cell : get_defence_map().get_cells_list())
+        if (auto grass_cell = dynamic_cast<GrassCell*>(cell))
             if (grass_cell->get_tower())
                 result.push_back(grass_cell->get_tower());
 
     return result;
 }
 
-std::vector<const Tower*> World::get_visible_enemy_towers() const {
-    std::vector<const Tower*> result;
+std::vector<Tower*> World::get_visible_enemy_towers() const {
+    std::vector<Tower*> result;
 
-    for (const Cell* cell : get_attack_map().get_cells_list())
-        if (auto grass_cell = dynamic_cast<const GrassCell*>(cell))
+    for (Cell* cell : get_attack_map().get_cells_list())
+        if (auto grass_cell = dynamic_cast<GrassCell*>(cell))
             if (grass_cell->get_tower())
                 result.push_back(grass_cell->get_tower());
 
@@ -129,8 +153,12 @@ void World::set_dead_units_in_this_turn(const std::vector<Unit*>& dead_units) {
     m_dead_units = dead_units;
 }
 
-std::vector<const Unit*> World::get_dead_units_in_this_turn() const {
-    return const_list_cast<const Unit*>(m_dead_units);
+std::vector<Unit*>& World::get_dead_units_in_this_turn() {
+    return m_dead_units;
+}
+
+const std::vector<Unit*>& World::get_dead_units_in_this_turn() const {
+    return m_dead_units;
 }
 
 void World::set_passed_units_in_this_turn(const std::vector<Unit*>& passed_units) {
@@ -138,8 +166,12 @@ void World::set_passed_units_in_this_turn(const std::vector<Unit*>& passed_units
     m_passed_units = passed_units;
 }
 
-std::vector<const Unit*> World::get_passed_units_in_this_turn() const {
-    return const_list_cast<const Unit*>(m_passed_units);
+std::vector<Unit*>& World::get_passed_units_in_this_turn() {
+    return m_passed_units;
+}
+
+const std::vector<Unit*>& World::get_passed_units_in_this_turn() const {
+    return m_passed_units;
 }
 
 void World::set_destroyed_towers_in_this_turn(const std::vector<Tower*>& destroyed_towers) {
@@ -147,8 +179,12 @@ void World::set_destroyed_towers_in_this_turn(const std::vector<Tower*>& destroy
     m_destroyed_towers = destroyed_towers;
 }
 
-std::vector<const Tower*> World::get_destroyed_towers_in_this_turn() const {
-    return const_list_cast<const Tower*>(m_destroyed_towers);
+std::vector<Tower*>& World::get_destroyed_towers_in_this_turn() {
+    return m_destroyed_towers;
+}
+
+const std::vector<Tower*>& World::get_destroyed_towers_in_this_turn() const {
+    return m_destroyed_towers;
 }
 
 void World::set_beans_in_this_turn(const std::vector<BeanEvent*>& beans) {
@@ -156,8 +192,12 @@ void World::set_beans_in_this_turn(const std::vector<BeanEvent*>& beans) {
     m_bean_events = beans;
 }
 
-std::vector<const BeanEvent*> World::get_beans_in_this_turn() const {
-    return const_list_cast<const BeanEvent*>(m_bean_events);
+std::vector<BeanEvent*>& World::get_beans_in_this_turn() {
+    return m_bean_events;
+}
+
+const std::vector<BeanEvent*>& World::get_beans_in_this_turn() const {
+    return m_bean_events;
 }
 
 void World::set_storms_in_this_turn(const std::vector<StormEvent*>& storms) {
@@ -165,8 +205,12 @@ void World::set_storms_in_this_turn(const std::vector<StormEvent*>& storms) {
     m_storm_events = storms;
 }
 
-std::vector<const StormEvent*> World::get_storms_in_this_turn() const {
-    return const_list_cast<const StormEvent*>(m_storm_events);
+std::vector<StormEvent*>& World::get_storms_in_this_turn() {
+    return m_storm_events;
+}
+
+const std::vector<StormEvent*>& World::get_storms_in_this_turn() const {
+    return m_storm_events;
 }
 
 void World::create_light_unit(int path_index) {
@@ -189,7 +233,7 @@ void World::create_archer_tower(int level, int x, int y) {
     m_event_queue.push(CreateTowerMessage(TowerType::ARCHER, level, Point(x, y)));
 }
 
-void World::upgrade_tower(const Tower* tower) {
+void World::upgrade_tower(Tower* tower) {
     DEBUG(format_string("upgrade_tower(tower_id=%d)", tower->get_id()));
     m_event_queue.push(UpgradeTowerMessage(tower));
 }
@@ -258,22 +302,22 @@ bool World::is_tower_constructible(int x, int y) const {
     const int height = get_defence_map().get_height();
 
     if (0 <= x + 1 && x + 1 < width)
-        if (auto grass_cell = dynamic_cast<const GrassCell*>(get_defence_map().get_cell(x + 1, y)))
+        if (auto grass_cell = dynamic_cast<GrassCell*>(get_defence_map().get_cell(x + 1, y)))
             if (grass_cell->get_tower())
                 return false;
 
     if (0 <= x - 1 && x - 1 < width)
-        if (auto grass_cell = dynamic_cast<const GrassCell*>(get_defence_map().get_cell(x - 1, y)))
+        if (auto grass_cell = dynamic_cast<GrassCell*>(get_defence_map().get_cell(x - 1, y)))
             if (grass_cell->get_tower())
                 return false;
 
     if (0 <= y + 1 && y + 1 < height)
-        if (auto grass_cell = dynamic_cast<const GrassCell*>(get_defence_map().get_cell(x, y + 1)))
+        if (auto grass_cell = dynamic_cast<GrassCell*>(get_defence_map().get_cell(x, y + 1)))
             if (grass_cell->get_tower())
                 return false;
 
     if (0 <= y - 1 && y - 1 < height)
-        if (auto grass_cell = dynamic_cast<const GrassCell*>(get_defence_map().get_cell(x, y - 1)))
+        if (auto grass_cell = dynamic_cast<GrassCell*>(get_defence_map().get_cell(x, y - 1)))
             if (grass_cell->get_tower())
                 return false;
 

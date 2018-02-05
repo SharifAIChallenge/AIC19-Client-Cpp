@@ -80,8 +80,8 @@ std::vector<Unit*>& RoadCell::get_units() {
     return m_units;
 }
 
-std::vector<const Unit*> RoadCell::get_units() const {
-    return const_list_cast<const Unit*>(m_units);
+const std::vector<Unit*>& RoadCell::get_units() const {
+    return m_units;
 }
 
 void RoadCell::clear_units() {
@@ -109,11 +109,7 @@ void GrassCell::set_tower(Tower* tower) {
     m_tower = tower;
 }
 
-Tower* GrassCell::get_tower() {
-    return m_tower;
-}
-
-const Tower* GrassCell::get_tower() const {
+Tower* GrassCell::get_tower() const {
     return m_tower;
 }
 

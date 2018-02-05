@@ -23,7 +23,7 @@ public:
 
     Unit(int id, Point location, Owner owner, UnitType type,
          int health, int level, int price, int added_income, int bounty, int damage,int move_speed, int vision_range,
-         const Path* path);
+         Path* path);
 
     void set_type(UnitType type);
     UnitType get_type() const;
@@ -52,8 +52,8 @@ public:
     void set_vision_range(int vision_range);
     int get_vision_range() const;
 
-    void set_path(const Path* path);
-    const Path* get_path() const;
+    void set_path(Path* path);
+    Path* get_path() const;
 
 private:
 
@@ -85,7 +85,7 @@ private:
     int m_vision_range;
 
     /// Pointer to the path this unit is on
-    const Path* m_path;
+    Path* m_path;
 };
 
 class HeavyUnit : public Unit {
@@ -99,7 +99,7 @@ public:
 
     HeavyUnit(int id, Point location, Owner owner,
          int health, int level, int price, int added_income, int bounty, int damage,int move_speed, int vision_range,
-         const Path* path);
+         Path* path);
 
     static int INITIAL_PRICE;
     static int PRICE_INCREASE;
@@ -128,7 +128,7 @@ public:
 
     LightUnit(int id, Point location, Owner owner,
          int health, int level, int price, int added_income, int bounty, int damage,int move_speed, int vision_range,
-         const Path* path);
+         Path* path);
 
     static int INITIAL_PRICE;
     static int PRICE_INCREASE;

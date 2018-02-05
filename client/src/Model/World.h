@@ -25,52 +25,63 @@ public:
     // Member setter/getters:
 
     void set_my_information(const Player& my_information);
+    Player& get_my_information();
     const Player& get_my_information() const;
 
     void set_enemy_information(const Player& enemy_information);
+    Player& get_enemy_information();
     const Player& get_enemy_information() const;
 
     void set_attack_map(const Map& attack_map);
+    Map& get_attack_map();
     const Map& get_attack_map() const;
 
     void set_defence_map(const Map& defence_map);
+    Map& get_defence_map();
     const Map& get_defence_map() const;
 
     void set_attack_map_paths(const std::vector<Path*>& attack_paths);
-    std::vector<const Path*> get_attack_map_paths() const;
+    std::vector<Path*>& get_attack_map_paths();
+    const std::vector<Path*>& get_attack_map_paths() const;
 
     void set_defence_map_paths(const std::vector<Path*>& defence_paths);
-    std::vector<const Path*> get_defence_map_paths() const;
+    std::vector<Path*>& get_defence_map_paths();
+    const std::vector<Path*>& get_defence_map_paths() const;
 
     void set_current_turn(int current_turn);
     int get_current_turn() const;
 
     // Computational getters:
 
-    std::vector<const Unit*> get_my_units() const;
-    std::vector<const Unit*> get_enemy_units() const;
+    std::vector<Unit*> get_my_units() const;
+    std::vector<Unit*> get_enemy_units() const;
 
-    std::vector<const Tower*> get_my_towers() const;
-    std::vector<const Tower*> get_visible_enemy_towers() const;
+    std::vector<Tower*> get_my_towers() const;
+    std::vector<Tower*> get_visible_enemy_towers() const;
 
     bool is_tower_constructible(int x, int y) const;
 
     // Events:
 
     void set_dead_units_in_this_turn(const std::vector<Unit*>& dead_units);
-    std::vector<const Unit*> get_dead_units_in_this_turn() const;
+    std::vector<Unit*>& get_dead_units_in_this_turn();
+    const std::vector<Unit*>& get_dead_units_in_this_turn() const;
 
     void set_passed_units_in_this_turn(const std::vector<Unit*>& passed_units);
-    std::vector<const Unit*> get_passed_units_in_this_turn() const;
+    std::vector<Unit*>& get_passed_units_in_this_turn();
+    const std::vector<Unit*>& get_passed_units_in_this_turn() const;
 
     void set_destroyed_towers_in_this_turn(const std::vector<Tower*>& destroyed_towers);
-    std::vector<const Tower*> get_destroyed_towers_in_this_turn() const;
+    std::vector<Tower*>& get_destroyed_towers_in_this_turn();
+    const std::vector<Tower*>& get_destroyed_towers_in_this_turn() const;
 
     void set_beans_in_this_turn(const std::vector<BeanEvent*>& beans);
-    std::vector<const BeanEvent*> get_beans_in_this_turn() const;
+    std::vector<BeanEvent*>& get_beans_in_this_turn();
+    const std::vector<BeanEvent*>& get_beans_in_this_turn() const;
 
     void set_storms_in_this_turn(const std::vector<StormEvent*>& storms);
-    std::vector<const StormEvent*> get_storms_in_this_turn() const;
+    std::vector<StormEvent*>& get_storms_in_this_turn();
+    const std::vector<StormEvent*>& get_storms_in_this_turn() const;
 
     // Actions:
 
@@ -80,7 +91,7 @@ public:
     void create_cannon_tower(int level, int x, int y);
     void create_archer_tower(int level, int x, int y);
 
-    void upgrade_tower(const Tower* tower);
+    void upgrade_tower(Tower* tower);
 
     void plant_bean(int x, int y);
     void create_storm(int x, int y);

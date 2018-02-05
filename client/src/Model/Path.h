@@ -18,18 +18,18 @@ public:
     Path(const Path&) = default;
     Path& operator= (const Path&) = default;
 
-    explicit Path(const std::vector<const RoadCell*>& road);
+    explicit Path(const std::vector<RoadCell*>& road);
 
-    void set_road(const std::vector<const RoadCell*>& road);
-    const std::vector<const RoadCell*>& get_road();
-    std::vector<const RoadCell*> get_road() const;
+    void set_road(const std::vector<RoadCell*>& road);
+    std::vector<RoadCell*>& get_road();
+    const std::vector<RoadCell*>& get_road() const;
 
     friend std::ostream& operator<< (std::ostream& output, const Path& path);
 
 private:
 
     /// List of road cells for this path
-    std::vector<const RoadCell*> m_road;
+    std::vector<RoadCell*> m_road;
 };
 
 #endif // AIC18_CLIENT_CPP_PATH_H

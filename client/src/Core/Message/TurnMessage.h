@@ -10,9 +10,9 @@ public:
 
     explicit TurnMessage(std::string&& string_form);
 
-    void parse_my_units(Map& attack_map, const std::vector<const Path*>& paths);
+    void parse_my_units(Map& attack_map, const std::vector<Path*>& paths);
 
-    void parse_enemy_units(Map& defence_map, const std::vector<const Path*>& paths);
+    void parse_enemy_units(Map& defence_map, const std::vector<Path*>& paths);
 
     void parse_my_towers(Map& defence_map);
 

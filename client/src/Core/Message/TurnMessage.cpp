@@ -12,11 +12,12 @@ TurnMessage::TurnMessage(std::string&& string_form)
     m_root = m_root["args"][0];
 }
 
-void TurnMessage::parse_my_units(Map& attack_map, const std::vector<const Path*>& paths) {
-    for (const Cell* cell : attack_map.get_cells_list())
-        if (auto road_cell = dynamic_cast<const RoadCell*>(cell))
-            const_cast<RoadCell*>(road_cell)->set_units({});
+void TurnMessage::parse_my_units(Map& attack_map, const std::vector<Path*>& paths) {
+    for (Cell* cell : attack_map.get_cells_list())
+        if (auto road_cell = dynamic_cast<RoadCell*>(cell))
+            road_cell->set_units({});
 
+    int count = 0;
     for (Json::Value& unit_json : m_root["myunits"]) {
         Unit* unit = nullptr;
         if (unit_json[1].asString() == "l")
@@ -33,14 +34,18 @@ void TurnMessage::parse_my_units(Map& attack_map, const std::vector<const Path*>
         RoadCell* road_cell = dynamic_cast<RoadCell*>(attack_map.get_cell(unit->get_location().get_x(),
                                                                           unit->get_location().get_y()));
         road_cell->get_units().push_back(unit);
+        ++count;
     }
+
+    DEBUG("My units = " << count);
 }
 
-void TurnMessage::parse_enemy_units(Map& defence_map, const std::vector<const Path*>& paths) {
-    for (const Cell* cell : defence_map.get_cells_list())
-        if (auto road_cell = dynamic_cast<const RoadCell*>(cell))
-            const_cast<RoadCell*>(road_cell)->set_units({});
+void TurnMessage::parse_enemy_units(Map& defence_map, const std::vector<Path*>& paths) {
+    for (Cell* cell : defence_map.get_cells_list())
+        if (auto road_cell = dynamic_cast<RoadCell*>(cell))
+            road_cell->set_units({});
 
+    int count = 0;
     for (Json::Value& unit_json : m_root["enemyunits"]) {
         Unit* unit = nullptr;
         if (unit_json[1].asString() == "l")
@@ -56,14 +61,18 @@ void TurnMessage::parse_enemy_units(Map& defence_map, const std::vector<const Pa
         RoadCell* road_cell = dynamic_cast<RoadCell*>(defence_map.get_cell(unit->get_location().get_x(),
                                                                           unit->get_location().get_y()));
         road_cell->get_units().push_back(unit);
+        ++count;
     }
+
+    DEBUG("Enemy units = " << count);
 }
 
 void TurnMessage::parse_my_towers(Map& defence_map) {
-    for (const Cell* cell : defence_map.get_cells_list())
-        if (auto grass_cell = dynamic_cast<const GrassCell*>(cell))
-            const_cast<GrassCell*>(grass_cell)->set_tower(nullptr);
+    for (Cell* cell : defence_map.get_cells_list())
+        if (auto grass_cell = dynamic_cast<GrassCell*>(cell))
+            grass_cell->set_tower(nullptr);
 
+    int count = 0;
     for (Json::Value& tower_json : m_root["mytowers"]) {
         Tower* tower = nullptr;
         if (tower_json[1].asString() == "a")
@@ -76,16 +85,23 @@ void TurnMessage::parse_my_towers(Map& defence_map) {
         tower->set_location(Point(tower_json[3]));
 
         GrassCell* grass_cell = dynamic_cast<GrassCell*>(defence_map.get_cell(tower->get_location().get_x(),
-                                                                           tower->get_location().get_y()));
+                                                                              tower->get_location().get_y()));
+        if (!grass_cell)
+            throw ParseError("Wrong coordinates");
         grass_cell->set_tower(tower);
+
+        ++count;
     }
+
+    DEBUG("My towers = " << count);
 }
 
 void TurnMessage::parse_enemy_towers(Map& attack_map) {
-    for (const Cell* cell : attack_map.get_cells_list())
-        if (auto grass_cell = dynamic_cast<const GrassCell*>(cell))
-            const_cast<GrassCell*>(grass_cell)->set_tower(nullptr);
+    for (Cell* cell : attack_map.get_cells_list())
+        if (auto grass_cell = dynamic_cast<GrassCell*>(cell))
+            grass_cell->set_tower(nullptr);
 
+    int count = 0;
     for (Json::Value& tower_json : m_root["enemytowers"]) {
         Tower* tower = nullptr;
         if (tower_json[1].asString() == "a")
@@ -99,8 +115,14 @@ void TurnMessage::parse_enemy_towers(Map& attack_map) {
 
         GrassCell* grass_cell = dynamic_cast<GrassCell*>(attack_map.get_cell(tower->get_location().get_x(),
                                                                               tower->get_location().get_y()));
+        if (!grass_cell)
+            throw ParseError("Wrong coordinates");
         grass_cell->set_tower(tower);
+
+        ++count;
     }
+
+    DEBUG("Enemy towers = " << count);
 }
 
 Player TurnMessage::parse_my_information() {
@@ -115,58 +137,67 @@ Player TurnMessage::parse_enemy_information() {
 }
 
 std::vector<Unit*> TurnMessage::parse_dead_units(World& world) {
-    std::vector<const Unit*> my_units = world.get_my_units();
-    std::vector<const Unit*> enemy_units = world.get_enemy_units();
+    std::vector<Unit*> my_units = world.get_my_units();
+    std::vector<Unit*> enemy_units = world.get_enemy_units();
 
     std::vector<Unit*> result;
     for (Json::Value& unit_json : m_root["events"]["deadunits"]) {
-        std::vector<const Unit*>& units = (unit_json[0].asInt() == 0 ? enemy_units : my_units);
+        std::vector<Unit*>& units = (unit_json[0].asInt() == 0 ? enemy_units : my_units);
         auto iter = std::find_if(units.begin(), units.end(),
                                  [&](auto& x) { return x->get_id() == unit_json[1].asInt(); });
         if (iter != units.end())
             result.push_back(new Unit(**iter));
     }
+
+    DEBUG("Dead units = " << result.size());
 
     return result;
 }
 
 std::vector<Unit*> TurnMessage::parse_passed_units(World& world) {
-    std::vector<const Unit*> my_units = world.get_my_units();
-    std::vector<const Unit*> enemy_units = world.get_enemy_units();
+    std::vector<Unit*> my_units = world.get_my_units();
+    std::vector<Unit*> enemy_units = world.get_enemy_units();
 
     std::vector<Unit*> result;
     for (Json::Value& unit_json : m_root["events"]["endofpath"]) {
-        std::vector<const Unit*>& units = (unit_json[0].asInt() == 0 ? enemy_units : my_units);
+        std::vector<Unit*>& units = (unit_json[0].asInt() == 0 ? enemy_units : my_units);
         auto iter = std::find_if(units.begin(), units.end(),
                                  [&](auto& x) { return x->get_id() == unit_json[1].asInt(); });
         if (iter != units.end())
             result.push_back(new Unit(**iter));
     }
 
+    DEBUG("Passed units = " << result.size());
+
     return result;
 }
 
 std::vector<Tower*> TurnMessage::parse_destroyed_towers(World& world) {
-    std::vector<const Tower*> my_towers = world.get_my_towers();
-    std::vector<const Tower*> enemy_towers = world.get_visible_enemy_towers();
+    std::vector<Tower*> my_towers = world.get_my_towers();
+    std::vector<Tower*> enemy_towers = world.get_visible_enemy_towers();
 
     std::vector<Tower*> result;
     for (Json::Value& tower_json : m_root["events"]["destroyedtowers"]) {
-        std::vector<const Tower*>& towers = (tower_json[0].asInt() == 0 ? enemy_towers : my_towers);
+        std::vector<Tower*>& towers = (tower_json[0].asInt() == 0 ? enemy_towers : my_towers);
         auto iter = std::find_if(towers.begin(), towers.end(),
                                  [&](auto& x) { return x->get_id() == tower_json[1].asInt(); });
         if (iter != towers.end())
             result.push_back(new Tower(**iter));
     }
 
+    DEBUG("Destroyed towers = " << result.size());
+
     return result;
 }
 
 std::vector<BeanEvent*> TurnMessage::parse_bean_events() {
     std::vector<BeanEvent*> result;
-    for (Json::Value& bean_json : m_root["events"]["beans"])
+    for (Json::Value& bean_json : m_root["events"]["beans"]) {
+        DEBUG(bean_json.toStyledString());
         result.push_back(new BeanEvent(bean_json[0].asInt() == 0 ? Owner::ME : Owner::ENEMY,
                                        Point(bean_json[1])));
+    }
+    DEBUG("Bean events = " << result.size());
     return result;
 }
 
@@ -175,5 +206,6 @@ std::vector<StormEvent*> TurnMessage::parse_storm_events() {
     for (Json::Value& storm_json : m_root["events"]["storms"])
         result.push_back(new StormEvent(storm_json[0].asInt() == 1 ? Owner::ME : Owner::ENEMY,
                                        Point(storm_json[1])));
+    DEBUG("Storm events = " << result.size());
     return result;
 }

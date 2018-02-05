@@ -55,27 +55,19 @@ void Map::set_cells_grid(const std::vector<std::vector<Cell*>>& cells_grid) {
     m_cells_grid = cells_grid;
 }
 
-const std::vector<std::vector<Cell*>>& Map::get_cells_grid() {
+std::vector<std::vector<Cell*>>& Map::get_cells_grid() {
     return m_cells_grid;
 }
 
-std::vector<std::vector<const Cell*>> Map::get_cells_grid() const {
-    return const_grid_cast<const Cell*>(m_cells_grid);
+const std::vector<std::vector<Cell*>>& Map::get_cells_grid() const {
+    return m_cells_grid;
 }
 
-std::vector<Cell*> Map::get_cells_list() {
+std::vector<Cell*> Map::get_cells_list() const {
     return flatten_list(m_cells_grid);
 }
 
-std::vector<const Cell*> Map::get_cells_list() const {
-    return const_list_cast<const Cell*>(flatten_list(m_cells_grid));
-}
-
-Cell* Map::get_cell(int x, int y) {
-    return m_cells_grid.at(x).at(y);
-}
-
-const Cell* Map::get_cell(int x, int y) const {
+Cell* Map::get_cell(int x, int y) const {
     return m_cells_grid.at(x).at(y);
 }
 

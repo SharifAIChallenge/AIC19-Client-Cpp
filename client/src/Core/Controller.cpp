@@ -8,6 +8,7 @@
 #include "Message/AuthenticationMessage.h"
 #include "Message/InitMessage.h"
 #include "Message/TurnMessage.h"
+#include "ParseError.h"
 #include "../Utility.h"
 
 Controller::Controller(const std::string& host, uint16_t port, const std::string& token, unsigned retry_delay)
@@ -82,7 +83,10 @@ void Controller::run() {
 
     while (m_network.is_connected()) {
         try {
+            DEBUG("Waiting for turn message");
             TurnMessage turn_message(m_network.receive());
+
+            DEBUG("Parsing turn message");
 
             m_world.set_dead_units_in_this_turn(turn_message.parse_dead_units(m_world));
             m_world.set_passed_units_in_this_turn(turn_message.parse_passed_units(m_world));
@@ -91,11 +95,11 @@ void Controller::run() {
             m_world.set_beans_in_this_turn(turn_message.parse_bean_events());
             m_world.set_storms_in_this_turn(turn_message.parse_storm_events());
 
-            turn_message.parse_my_units(const_cast<Map&>(m_world.get_attack_map()), m_world.get_attack_map_paths());
-            turn_message.parse_enemy_units(const_cast<Map&>(m_world.get_defence_map()), m_world.get_defence_map_paths());
+            turn_message.parse_my_units(m_world.get_attack_map(), m_world.get_attack_map_paths());
+            turn_message.parse_enemy_units(m_world.get_defence_map(), m_world.get_defence_map_paths());
 
-            turn_message.parse_my_towers(const_cast<Map&>(m_world.get_defence_map()));
-            turn_message.parse_enemy_towers(const_cast<Map&>(m_world.get_attack_map()));
+            turn_message.parse_my_towers(m_world.get_defence_map());
+            turn_message.parse_enemy_towers(m_world.get_attack_map());
 
             m_world.set_my_information(turn_message.parse_my_information());
             m_world.set_enemy_information(turn_message.parse_enemy_information());
@@ -113,11 +117,16 @@ void Controller::run() {
                     m_client, &m_world);
             ai_thread.detach();
         }
-        catch (NetworkEOFError& e) {
-            break;
-        }
         catch (Json::Exception& e) {
             std::cerr << "Warning: Received malformed json string" << std::endl;
+        }
+        catch (NetworkEOFError& e) {
+            std::cerr << "Received EOF from server" << std::endl;
+            break;
+        }
+        catch (ParseError& e) {
+            std::cerr << "Received shutdown message from server" << std::endl;
+            break;
         }
     }
 
