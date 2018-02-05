@@ -14,7 +14,7 @@ public:
         Json::Value& args = m_root["args"][0];
 
         args["type"] = "cu";
-        args["args"].append(type == UnitType::LIGHT ? "h" : "l");
+        args["args"].append(type == UnitType::LIGHT ? "l" : "h");
         args["args"].append(path_index);
     }
 
