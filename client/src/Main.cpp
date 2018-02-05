@@ -1,4 +1,5 @@
 #include <cstdlib>
+#include <ctime>
 
 #include <iostream>
 #include <memory>
@@ -18,6 +19,8 @@ int main(int argc, char** argv) {
     try {
         using std::pair;
         using std::string;
+
+        srand(time(nullptr));
 
         pair<string, string> host = {"AICHostIP", "127.0.0.1"};
         pair<string, string> port = {"AICHostPort", "7099"};
