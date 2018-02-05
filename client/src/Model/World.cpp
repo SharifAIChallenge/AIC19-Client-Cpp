@@ -252,3 +252,30 @@ void World::clear_destroyed_towers() {
         delete tower;
     m_destroyed_towers.clear();
 }
+
+bool World::is_tower_constructible(int x, int y) const {
+    const int width = get_defence_map().get_width();
+    const int height = get_defence_map().get_height();
+
+    if (0 <= x + 1 && x + 1 < width)
+        if (auto grass_cell = dynamic_cast<const GrassCell*>(get_defence_map().get_cell(x + 1, y)))
+            if (grass_cell->get_tower())
+                return false;
+
+    if (0 <= x - 1 && x - 1 < width)
+        if (auto grass_cell = dynamic_cast<const GrassCell*>(get_defence_map().get_cell(x - 1, y)))
+            if (grass_cell->get_tower())
+                return false;
+
+    if (0 <= y + 1 && y + 1 < height)
+        if (auto grass_cell = dynamic_cast<const GrassCell*>(get_defence_map().get_cell(x, y + 1)))
+            if (grass_cell->get_tower())
+                return false;
+
+    if (0 <= y - 1 && y - 1 < height)
+        if (auto grass_cell = dynamic_cast<const GrassCell*>(get_defence_map().get_cell(x, y - 1)))
+            if (grass_cell->get_tower())
+                return false;
+
+    return true;
+}

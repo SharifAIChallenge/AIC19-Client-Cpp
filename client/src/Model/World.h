@@ -53,6 +53,8 @@ public:
     std::vector<const Tower*> get_my_towers() const;
     std::vector<const Tower*> get_visible_enemy_towers() const;
 
+    bool is_tower_constructible(int x, int y) const;
+
     // Events:
 
     void set_dead_units_in_this_turn(const std::vector<Unit*>& dead_units);
