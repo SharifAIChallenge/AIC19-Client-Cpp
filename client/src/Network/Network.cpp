@@ -64,7 +64,7 @@ void Network::disconnect() {
 }
 
 void Network::send(std::string message) {
-    DEBUG("Trying to send:\n" << message);
+    DEBUG("Trying to send \"" << message << "\"");
 
     message.push_back('\0');
 
@@ -99,7 +99,7 @@ std::string Network::receive() {
 
     std::string result(buffer, static_cast<size_t>(bytes_received));
 
-    DEBUG("Received:\n" << result);
+    DEBUG("Received \"" << std::string(result.begin(), result.end() - 1) << "\"");
     return result;
 }
 
