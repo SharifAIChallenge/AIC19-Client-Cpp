@@ -2,6 +2,7 @@
 #include <ctime>
 
 #include <iostream>
+#include <fstream>
 #include <memory>
 #include <algorithm>
 #include <utility>
@@ -14,6 +15,7 @@
 #include "Core/Controller.h"
 
 bool global_verbose_flag = false;
+std::ofstream log_output("client.log", std::ios_base::out | std::ios_base::trunc);
 
 int main(int argc, char** argv) {
     try {
