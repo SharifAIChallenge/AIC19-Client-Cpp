@@ -13,6 +13,7 @@
 #include <utility>
 #include <cstring>
 
+#include <Utility/Logger.h>
 #include "NetworkError.h"
 #include "../Utility.h"
 
@@ -41,7 +42,7 @@ void Network::connect() {
 
     struct hostent* server = gethostbyname(m_host.c_str());
     if (!server)
-        throw std::runtime_error(hstrerror(h_errno));
+        throw NetworkError(hstrerror(h_errno));
 
     sockaddr_in s_addr{};
     s_addr.sin_family = AF_INET;
@@ -64,7 +65,8 @@ void Network::disconnect() {
 }
 
 void Network::send(std::string message) {
-    DEBUG("Trying to send \"" << message << "\"");
+    Logger::Get(TRACE) << "Enter Network::send" << std::endl;
+    Logger::Get(DEBUG) << "Trying to send " << message << std::endl;
 
     message.push_back('\0');
 
@@ -74,11 +76,11 @@ void Network::send(std::string message) {
     if (::send(m_sockfd.get(), message.c_str(), message.size(), 0) < 0)
         throw NetworkError(std::strerror(errno));
 
-    DEBUG("Sent");
+    Logger::Get(TRACE) << "Exit Network::send" << std::endl;
 }
 
 std::string Network::receive() {
-    DEBUG("Waiting to receive");
+    Logger::Get(TRACE) << "Enter Network::receive" << std::endl;
 
     constexpr size_t MAX_MESSAGE_LENGTH = 66000;
     static char buffer[MAX_MESSAGE_LENGTH];
@@ -99,7 +101,8 @@ std::string Network::receive() {
 
     std::string result(buffer, static_cast<size_t>(bytes_received));
 
-    DEBUG("Received \"" << std::string(result.begin(), result.end() - 1) << "\"");
+    Logger::Get(TRACE) << "Received " << std::string(result.begin(), result.end() - 1) << std::endl;
+    Logger::Get(TRACE) << "Exit Network::receive" << std::endl;
     return result;
 }
 

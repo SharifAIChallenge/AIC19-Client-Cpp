@@ -92,9 +92,4 @@ inline std::string format_string(const std::string& format, ...) {
     return std::string(buffer);
 }
 
-extern bool global_verbose_flag;
-extern std::ofstream log_output;
-
-#define DEBUG(x) if (global_verbose_flag) log_output << x << std::endl
-
 #endif // AIC18_CLIENT_CPP_UTILITY_H

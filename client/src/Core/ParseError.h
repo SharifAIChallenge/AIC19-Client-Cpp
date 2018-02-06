@@ -10,7 +10,7 @@
 class ParseError : public std::runtime_error {
 public:
     explicit inline ParseError(const std::string& message)
-            : std::runtime_error("Parse error: " + message)
+            : std::runtime_error(message)
     {
     }
 };

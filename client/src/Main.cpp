@@ -12,10 +12,13 @@
 #include <exception>
 
 #include "Utility.h"
+#include "Utility/Logger.h"
 #include "Core/Controller.h"
 
+#include <Network/NetworkError.h>
+#include <Core/ParseError.h>
+
 bool global_verbose_flag = false;
-std::ofstream log_output("client.log", std::ios_base::out | std::ios_base::trunc);
 
 int main(int argc, char** argv) {
     try {
@@ -29,8 +32,8 @@ int main(int argc, char** argv) {
         pair<string, string> token = {"AICToken", "00000000000000000000000000000000"};
         pair<string, string> retry_delay = {"AICRetryDelay", "1000"};
 
-        if (argc > 1 && std::string(argv[1]) == "--verbose")
-            global_verbose_flag = true;
+        if (global_verbose_flag || (argc > 1 && std::string(argv[1]) == "--verbose"))
+            Logger::Get().set_stderr_min_level(LogLevel::TRACE);
 
         if (const char* host_env = std::getenv(host.first.c_str()))
             host.second = std::string(host_env);
@@ -47,12 +50,19 @@ int main(int argc, char** argv) {
                                                        std::stoi(retry_delay.second));
         controller->run();
     }
+    catch (NetworkError& e) {
+        Logger::Get(ERROR) << "Network error: " << e.what() << std::endl;
+        return -1;
+    }
+    catch (ParseError& e) {
+        Logger::Get(ERROR) << "Parse error" << e.what() << std::endl;
+    }
     catch (std::exception& e) {
-        std::cerr << e.what() << std::endl;
+        Logger::Get(ERROR) << e.what() << std::endl;
         return -1;
     }
     catch (...) {
-        std::cerr << "Unknown exception" << std::endl;
+        Logger::Get(ERROR) << "Unknown exception thrown at main" << std::endl;
         return -1;
     }
 

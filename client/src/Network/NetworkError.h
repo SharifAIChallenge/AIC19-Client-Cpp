@@ -11,7 +11,7 @@ class NetworkError : public std::runtime_error {
 public:
 
     explicit inline NetworkError(const std::string& message)
-            : std::runtime_error("Network error: " + message)
+            : std::runtime_error(message)
     {
     }
 };

@@ -1,6 +1,8 @@
 #include "TurnMessage.h"
 
 #include <algorithm>
+
+#include <Utility/Logger.h>
 #include "../ParseError.h"
 #include "../../Utility.h"
 
@@ -37,7 +39,7 @@ void TurnMessage::parse_my_units(Map& attack_map, const std::vector<Path*>& path
         ++count;
     }
 
-    DEBUG("My units = " << count);
+    Logger::Get(DEBUG) << "My units = " << count << std::endl;
 }
 
 void TurnMessage::parse_enemy_units(Map& defence_map, const std::vector<Path*>& paths) {
@@ -64,7 +66,7 @@ void TurnMessage::parse_enemy_units(Map& defence_map, const std::vector<Path*>& 
         ++count;
     }
 
-    DEBUG("Enemy units = " << count);
+    Logger::Get(DEBUG) << "Enemy units = " << count << std::endl;
 }
 
 void TurnMessage::parse_my_towers(Map& defence_map) {
@@ -93,7 +95,7 @@ void TurnMessage::parse_my_towers(Map& defence_map) {
         ++count;
     }
 
-    DEBUG("My towers = " << count);
+    Logger::Get(DEBUG) << "My towers = " << count << std::endl;
 }
 
 void TurnMessage::parse_enemy_towers(Map& attack_map) {
@@ -122,21 +124,21 @@ void TurnMessage::parse_enemy_towers(Map& attack_map) {
         ++count;
     }
 
-    DEBUG("Enemy towers = " << count);
+    Logger::Get(DEBUG) << "Enemy towers = " << count << std::endl;
 }
 
 Player TurnMessage::parse_my_information() {
     Json::Value& player_json = m_root["players"][0];
     Player result(player_json[0].asInt(), player_json[1].asInt(), player_json[2].asInt(), player_json[3].asInt(),
                   player_json[4].asInt());
-    DEBUG("Me: " << result);
+    Logger::Get(DEBUG) << "Me: " << result << std::endl;
     return result;
 }
 
 Player TurnMessage::parse_enemy_information() {
     Json::Value& player_json = m_root["players"][1];
     Player result(player_json[0].asInt(), 0, 0, player_json[1].asInt(), player_json[2].asInt());
-    DEBUG("Enemy: " << result);
+    Logger::Get(DEBUG) << "Enemy: " << result << std::endl;
     return result;
 }
 
@@ -153,7 +155,7 @@ std::vector<Unit*> TurnMessage::parse_dead_units(World& world) {
             result.push_back(new Unit(**iter));
     }
 
-    DEBUG("Dead units = " << result.size());
+    Logger::Get(DEBUG) << "Dead units = " << result.size() << std::endl;
 
     return result;
 }
@@ -171,7 +173,7 @@ std::vector<Unit*> TurnMessage::parse_passed_units(World& world) {
             result.push_back(new Unit(**iter));
     }
 
-    DEBUG("Passed units = " << result.size());
+    Logger::Get(DEBUG) << "Passed units = " << result.size() << std::endl;
 
     return result;
 }
@@ -189,19 +191,17 @@ std::vector<Tower*> TurnMessage::parse_destroyed_towers(World& world) {
             result.push_back(new Tower(**iter));
     }
 
-    DEBUG("Destroyed towers = " << result.size());
+    Logger::Get(DEBUG) << "Destroyed towers = " << result.size() << std::endl;
 
     return result;
 }
 
 std::vector<BeanEvent*> TurnMessage::parse_bean_events() {
     std::vector<BeanEvent*> result;
-    for (Json::Value& bean_json : m_root["events"]["beans"]) {
-        DEBUG(bean_json.toStyledString());
+    for (Json::Value& bean_json : m_root["events"]["beans"])
         result.push_back(new BeanEvent(bean_json[0].asInt() == 0 ? Owner::ME : Owner::ENEMY,
                                        Point(bean_json[1])));
-    }
-    DEBUG("Bean events = " << result.size());
+    Logger::Get(DEBUG) << "Bean events = " << result.size() << std::endl;
     return result;
 }
 
@@ -210,6 +210,6 @@ std::vector<StormEvent*> TurnMessage::parse_storm_events() {
     for (Json::Value& storm_json : m_root["events"]["storms"])
         result.push_back(new StormEvent(storm_json[0].asInt() == 1 ? Owner::ME : Owner::ENEMY,
                                        Point(storm_json[1])));
-    DEBUG("Storm events = " << result.size());
+    Logger::Get(DEBUG) << "Storm events = " << result.size() << std::endl;
     return result;
 }

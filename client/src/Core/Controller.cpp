@@ -4,6 +4,7 @@
 #include <thread>
 #include <chrono>
 
+#include <Utility/Logger.h>
 #include "../Network/NetworkError.h"
 #include "Message/AuthenticationMessage.h"
 #include "Message/InitMessage.h"
@@ -17,9 +18,9 @@ Controller::Controller(const std::string& host, uint16_t port, const std::string
         , m_network(host, port)
         , m_world(m_event_queue)
 {
-    DEBUG("Server is " << host << ":" << port);
-    DEBUG("Token is " << token);
-    DEBUG("Retry delay is " << retry_delay);
+    Logger::Get(DEBUG) << "Server is " << host << ":" << port << std::endl;
+    Logger::Get(DEBUG) << "Authentication token is " << token << std::endl;
+    Logger::Get(DEBUG) << "Retry delay is " << retry_delay << std::endl;
 }
 
 Controller::~Controller() {
@@ -30,12 +31,14 @@ Controller::~Controller() {
 }
 
 void Controller::run() {
+    Logger::Get(TRACE) << "Enter Controller::run" << std::endl;
+
     // Connect to the server
 
     constexpr size_t MAX_RETRY_COUNT = 3;
     for (size_t i = 1; i <= MAX_RETRY_COUNT && !m_network.is_connected(); ++i)
         try {
-            std::cerr << "Trying to connect #" << i << std::endl;
+            Logger::Get(INFO) << "Trying to connect #" << i << std::endl;
             m_network.connect();
         }
         catch (NetworkError &e) {
@@ -44,16 +47,17 @@ void Controller::run() {
             else
                 std::this_thread::sleep_for(std::chrono::milliseconds(m_retry_delay));
         }
-    std::cerr << "Connected" << std::endl;
+    Logger::Get(INFO) << "Connected" << std::endl;
 
-    DEBUG("Sending authentication message");
+    Logger::Get(TRACE) << "Sending authentication message" << std::endl;
     m_network.send(AuthenticationMessage(m_token, "token").to_string());
 
     // Parse init message
     try {
+        Logger::Get(TRACE) << "Waiting for init message" << std::endl;
         InitMessage init_message(m_network.receive());
 
-        DEBUG("Parsing init message");
+        Logger::Get(TRACE) << "Parsing init message" << std::endl;
 
         init_message.parse_world_constants();
         init_message.parse_unit_constants();
@@ -74,8 +78,7 @@ void Controller::run() {
         m_world.set_current_turn(0);
     }
     catch (Json::Exception& e) {
-        std::cerr << "Parsing init message failed" << std::endl;
-        throw;
+        throw ParseError("Malformed json string");
     }
 
     // Start the event handling thread
@@ -83,10 +86,10 @@ void Controller::run() {
 
     while (m_network.is_connected()) {
         try {
-            DEBUG("Waiting for turn message");
+            Logger::Get(TRACE) << "Waiting for turn message" << std::endl;
             TurnMessage turn_message(m_network.receive());
 
-            DEBUG("Parsing turn message");
+            Logger::Get(TRACE) << "Parsing turn message";
 
             m_world.set_dead_units_in_this_turn(turn_message.parse_dead_units(m_world));
             m_world.set_passed_units_in_this_turn(turn_message.parse_passed_units(m_world));
@@ -119,8 +122,8 @@ void Controller::run() {
 
             // Run the client AI
 
-            DEBUG("Current turn is " << m_world.get_current_turn());
-            DEBUG("Running client ai");
+            Logger::Get(DEBUG) << "Current turn is " << m_world.get_current_turn() << std::endl;
+            Logger::Get(TRACE) << "Running client ai" << std::endl;
 
             constexpr size_t COMPLEX_TURN_INTERVAL = 10;
             std::thread ai_thread(
@@ -129,21 +132,24 @@ void Controller::run() {
             ai_thread.detach();
         }
         catch (Json::Exception& e) {
-            std::cerr << "Warning: Received malformed json string" << std::endl;
+            throw ParseError("Malformed json string");
         }
         catch (NetworkEOFError& e) {
-            std::cerr << "Received EOF from server" << std::endl;
+            Logger::Get(INFO) << "Received EOF from server" << std::endl;
             break;
         }
         catch (ParseError& e) {
-            std::cerr << "Received shutdown message from server" << std::endl;
+            // TODO: Fix shutdown detection method
+            Logger::Get(INFO) << "Received shutdown message from server" << std::endl;
             break;
         }
     }
 
-    std::cerr << "Closing the connection" << std::endl;
+    Logger::Get(INFO) << "Closing the connection" << std::endl;
     m_event_queue.terminate();
     m_network.disconnect();
+
+    Logger::Get(TRACE) << "Exit Controller::run" << std::endl;
 }
 
 void Controller::event_handling_loop() noexcept {
