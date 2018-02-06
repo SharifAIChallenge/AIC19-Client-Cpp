@@ -24,7 +24,7 @@ Map InitMessage::parse_map() {
         DEBUG(map_json[static_cast<int>(i)].asString());
 
         for (size_t j = 0; j < height; ++j) {
-            const char& ch = map_json[static_cast<int>(i)].asString()[j];
+            char ch = map_json[static_cast<int>(i)].asString()[j];
             if (ch == 'g')
                 cells[i][j] = new GrassCell(Point(i, j));
             else if (ch == 'r')
