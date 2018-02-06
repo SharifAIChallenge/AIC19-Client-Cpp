@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "../Core/EventQueue.h"
+#include <Core/EventQueue.h>
 
 #include "Player.h"
 #include "Unit.h"

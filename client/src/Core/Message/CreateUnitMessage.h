@@ -1,8 +1,8 @@
 #ifndef AIC18_CLIENT_CPP_CREATE_UNIT_MESSAGE_H
 #define AIC18_CLIENT_CPP_CREATE_UNIT_MESSAGE_H
 
+#include <Model/Unit.h>
 #include "Message.h"
-#include "../../Model/Unit.h"
 
 class CreateUnitMessage final : public Message {
 public:

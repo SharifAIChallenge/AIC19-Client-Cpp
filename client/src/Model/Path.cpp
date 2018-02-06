@@ -1,7 +1,6 @@
 #include "Path.h"
 
 #include "Cell.h"
-#include "../Utility.h"
 
 Path::Path(const std::vector<RoadCell*>& road)
         : m_road(road)

@@ -1,8 +1,5 @@
 #include "Cell.h"
 
-#include <algorithm>
-#include "../Utility.h"
-
 Cell::Cell(CellType type, Point location)
         : m_type(type)
         , m_location(location)

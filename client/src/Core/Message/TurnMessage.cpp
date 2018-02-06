@@ -2,9 +2,10 @@
 
 #include <algorithm>
 
+#include <Utility/Utility.h>
 #include <Utility/Logger.h>
-#include "../ParseError.h"
-#include "../../Utility.h"
+
+#include <Core/ParseError.h>
 
 TurnMessage::TurnMessage(std::string&& string_form)
         : Message(std::move(string_form))

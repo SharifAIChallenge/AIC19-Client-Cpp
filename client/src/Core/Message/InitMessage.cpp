@@ -1,9 +1,10 @@
 #include "InitMessage.h"
 
+#include <Utility/Utility.h>
 #include <Utility/Logger.h>
-#include "../../Model/World.h"
-#include "../../Utility.h"
-#include "../ParseError.h"
+
+#include <Model/World.h>
+#include <Core/ParseError.h>
 
 InitMessage::InitMessage(std::string&& string_form)
         : Message(std::move(string_form))

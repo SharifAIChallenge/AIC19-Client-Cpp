@@ -4,10 +4,11 @@
 #include <string>
 #include <thread>
 
-#include "../Network/Network.h"
+#include <Network/Network.h>
+#include <Model/World.h>
+#include <AI/AI.h>
+
 #include "EventQueue.h"
-#include "../Model/World.h"
-#include "../AI/AI.h"
 
 /**
  * High level client logic is implemented here

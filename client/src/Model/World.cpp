@@ -1,13 +1,13 @@
 #include "World.h"
 
+#include <Utility/Utility.h>
 #include <Utility/Logger.h>
-#include "../Utility.h"
 
-#include "../Core/Message/CreateUnitMessage.h"
-#include "../Core/Message/CreateTowerMessage.h"
-#include "../Core/Message/UpgradeTowerMessage.h"
-#include "../Core/Message/PlantBeanMessage.h"
-#include "../Core/Message/CreateStormMessage.h"
+#include <Core/Message/CreateUnitMessage.h>
+#include <Core/Message/CreateTowerMessage.h>
+#include <Core/Message/UpgradeTowerMessage.h>
+#include <Core/Message/PlantBeanMessage.h>
+#include <Core/Message/CreateStormMessage.h>
 
 World::World(EventQueue& event_queue)
         : m_event_queue(event_queue)

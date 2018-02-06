@@ -1,9 +1,10 @@
 #ifndef AIC18_CLIENT_CPP_INIT_MESSAGE_H
 #define AIC18_CLIENT_CPP_INIT_MESSAGE_H
 
+#include <Model/Map.h>
+#include <Model/Path.h>
+
 #include "Message.h"
-#include "../../Model/Map.h"
-#include "../../Model/Path.h"
 
 class InitMessage final : public Message {
 public:

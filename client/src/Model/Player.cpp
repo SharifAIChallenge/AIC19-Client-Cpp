@@ -1,5 +1,6 @@
 #include "Player.h"
-#include "../Utility.h"
+
+#include <Utility/Utility.h>
 
 Player::Player(int strength, int money, int income, int beans_left, int storms_left)
         : m_strength(strength)

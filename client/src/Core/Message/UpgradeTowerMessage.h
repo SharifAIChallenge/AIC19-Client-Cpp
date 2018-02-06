@@ -1,8 +1,8 @@
 #ifndef AIC18_CLIENT_CPP_UPGRADE_TOWER_MESSAGE_H
 #define AIC18_CLIENT_CPP_UPGRADE_TOWER_MESSAGE_H
 
+#include <Model/World.h>
 #include "Message.h"
-#include "../../Model/Tower.h"
 
 class UpgradeTowerMessage final : public Message {
 public:

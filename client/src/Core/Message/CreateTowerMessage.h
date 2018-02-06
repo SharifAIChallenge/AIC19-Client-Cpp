@@ -1,8 +1,8 @@
 #ifndef AIC18_CLIENT_CPP_CREATE_TOWER_MESSAGE_H
 #define AIC18_CLIENT_CPP_CREATE_TOWER_MESSAGE_H
 
+#include <Model/Tower.h>
 #include "Message.h"
-#include "../../Model/Tower.h"
 
 class CreateTowerMessage final : public Message {
 public:

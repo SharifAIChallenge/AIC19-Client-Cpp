@@ -1,9 +1,8 @@
 #ifndef AIC18_CLIENT_CPP_TURN_MESSAGE_H
 #define AIC18_CLIENT_CPP_TURN_MESSAGE_H
 
+#include <Model/World.h>
 #include "Message.h"
-#include "../../Model/World.h"
-
 
 class TurnMessage final : public Message {
 public:

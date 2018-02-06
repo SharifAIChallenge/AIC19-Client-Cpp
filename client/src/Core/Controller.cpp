@@ -4,13 +4,15 @@
 #include <thread>
 #include <chrono>
 
+#include <Utility/Utility.h>
 #include <Utility/Logger.h>
-#include "../Network/NetworkError.h"
+
+#include <Network/NetworkError.h>
+
 #include "Message/AuthenticationMessage.h"
 #include "Message/InitMessage.h"
 #include "Message/TurnMessage.h"
 #include "ParseError.h"
-#include "../Utility.h"
 
 Controller::Controller(const std::string& host, uint16_t port, const std::string& token, unsigned retry_delay)
         : m_token(token)

@@ -1,6 +1,6 @@
 #include "Map.h"
 
-#include "../Utility.h"
+#include <Utility/Utility.h>
 
 Map::Map(const std::vector<std::vector<Cell*>>& cells_grid)
         : m_cells_grid(cells_grid)

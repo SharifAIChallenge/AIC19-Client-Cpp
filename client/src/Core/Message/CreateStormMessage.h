@@ -1,8 +1,8 @@
 #ifndef AIC18_CLIENT_CPP_CREATE_STORM_MESSAGE_H
 #define AIC18_CLIENT_CPP_CREATE_STORM_MESSAGE_H
 
+#include <Model/Point.h>
 #include "Message.h"
-#include "../../Model/Point.h"
 
 class CreateStormMessage final : public Message {
 public:
