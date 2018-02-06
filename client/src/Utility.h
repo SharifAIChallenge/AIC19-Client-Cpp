@@ -10,39 +10,6 @@
 #include <vector>
 
 /**
- * const_cast all elements of a vector
- *
- * @tparam T Return value type
- * @tparam U Input value type
- *
- * @param input The vector to convert
- *
- * @return A vector containing casted copies of all elements in the input vector
- */
-template <class T, class U>
-std::vector<T> const_list_cast(const std::vector<U>& input) {
-    return std::vector<T>(input.begin(), input.end());
-}
-
-/**
- * const_cast a 2d vector
- *
- * @tparam T Return value type
- * @tparam U Input value type
- *
- * @param input The 2d vector to convert
- *
- * @return A 2d vector containing casted copies of all elements in the input vector
- */
-template <class T, class U>
-std::vector<std::vector<T>> const_grid_cast(const std::vector<std::vector<U>>& input) {
-    std::vector<std::vector<T>> result;
-    for (const auto& row : input)
-        result.push_back(const_list_cast<T>(row));
-    return result;
-}
-
-/**
  * Convert a 2d vector to a 1d vector
  *
  * @param input The 2d vector to convert
