@@ -5,10 +5,11 @@
 #include <fstream>
 
 enum LogLevel {
-    DEBUG = 0,
-    INFO = 1,
-    WARNING = 2,
-    ERROR = 3
+    TRACE = 0,
+    DEBUG = 1,
+    INFO = 2,
+    WARNING = 3,
+    ERROR = 4
 };
 
 class Logger final {
@@ -26,7 +27,7 @@ public:
     inline static Logger& Get(LogLevel level) {
         instance.m_current_level = level;
 
-        constexpr const char* LOG_LEVEL_STRING[] = {"Debug", "Info", "Warning", "Error"};
+        constexpr const char* LOG_LEVEL_STRING[] = {"Trace", "Debug", "Info", "Warning", "Error"};
         constexpr size_t INDENT_WIDTH = 12;
 
         std::string line = "[" + std::string(LOG_LEVEL_STRING[level]) + "]";
@@ -64,7 +65,7 @@ private:
     inline Logger()
             : m_output_file("client.log"),
               m_current_level(DEBUG),
-              m_stderr_min_level(WARNING)
+              m_stderr_min_level(INFO)
     {
     }
 
