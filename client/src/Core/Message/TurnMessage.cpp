@@ -200,7 +200,7 @@ std::vector<Tower*> TurnMessage::parse_destroyed_towers(World& world) {
 std::vector<BeanEvent*> TurnMessage::parse_bean_events() {
     std::vector<BeanEvent*> result;
     for (Json::Value& bean_json : m_root["events"]["beans"])
-        result.push_back(new BeanEvent(bean_json[0].asInt() == 0 ? Owner::ME : Owner::ENEMY,
+        result.push_back(new BeanEvent(bean_json[0].asInt() == 0 ? Owner::ENEMY : Owner::ME,
                                        Point(bean_json[1])));
     Logger::Get(DEBUG) << "Bean events = " << result.size() << std::endl;
     return result;
@@ -209,7 +209,7 @@ std::vector<BeanEvent*> TurnMessage::parse_bean_events() {
 std::vector<StormEvent*> TurnMessage::parse_storm_events() {
     std::vector<StormEvent*> result;
     for (Json::Value& storm_json : m_root["events"]["storms"])
-        result.push_back(new StormEvent(storm_json[0].asInt() == 1 ? Owner::ME : Owner::ENEMY,
+        result.push_back(new StormEvent(storm_json[0].asInt() == 0 ? Owner::ME : Owner::ENEMY,
                                        Point(storm_json[1])));
     Logger::Get(DEBUG) << "Storm events = " << result.size() << std::endl;
     return result;
