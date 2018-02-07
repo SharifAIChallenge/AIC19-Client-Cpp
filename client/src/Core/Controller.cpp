@@ -91,7 +91,7 @@ void Controller::run() {
             Logger::Get(TRACE) << "Waiting for turn message" << std::endl;
             TurnMessage turn_message(m_network.receive());
 
-            Logger::Get(TRACE) << "Parsing turn message";
+            Logger::Get(TRACE) << "Parsing turn message" << std::endl;
 
             m_world.set_dead_units_in_this_turn(turn_message.parse_dead_units(m_world));
             m_world.set_passed_units_in_this_turn(turn_message.parse_passed_units(m_world));
