@@ -12,6 +12,7 @@
 #include "Message/AuthenticationMessage.h"
 #include "Message/InitMessage.h"
 #include "Message/TurnMessage.h"
+#include "Message/EndTurnMessage.h"
 #include "ParseError.h"
 
 Controller::Controller(const std::string& host, uint16_t port, const std::string& token, unsigned retry_delay)
@@ -125,13 +126,24 @@ void Controller::run() {
             // Run the client AI
 
             Logger::Get(DEBUG) << "Current turn is " << m_world.get_current_turn() << std::endl;
-            Logger::Get(TRACE) << "Running client ai" << std::endl;
 
-            constexpr size_t COMPLEX_TURN_INTERVAL = 10;
-            std::thread ai_thread(
-                    m_world.get_current_turn() % COMPLEX_TURN_INTERVAL == 0 ? &AI::complex_turn : &AI::simple_turn,
-                    m_client, &m_world);
-            ai_thread.detach();
+            std::thread([this]{
+                constexpr size_t COMPLEX_TURN_INTERVAL = 10;
+
+                int current_turn = m_world.get_current_turn();
+
+                if (m_world.get_current_turn() % COMPLEX_TURN_INTERVAL == 0) {
+                    Logger::Get(DEBUG) << "Running complex turn" << std::endl;
+                    m_client.complex_turn(&m_world);
+                } else {
+                    Logger::Get(DEBUG) << "Running simple turn" << std::endl;
+                    m_client.simple_turn(&m_world);
+                }
+
+                Logger::Get(TRACE) << "Sending end message with turn = " << current_turn << std::endl;
+                m_event_queue.push(EndTurnMessage(current_turn));
+            }).detach();
+
         }
         catch (Json::Exception& e) {
             throw ParseError("Malformed json string");
