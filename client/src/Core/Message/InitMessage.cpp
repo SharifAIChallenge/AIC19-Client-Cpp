@@ -7,18 +7,28 @@
 
 #include <Model/World.h>
 
-InitMessage::InitMessage(std::string&& string_form)
-        : Message(std::move(string_form))
+InitMessage::InitMessage(Json::Value&& root)
+        : Message(std::move(root))
 {
-    m_root = m_root["args"][0];
+    if (Message::get_name() != "init")
+        throw ParseError("Invalid init message");
+}
+
+InitMessage::InitMessage(std::string&& json_form)
+        : Message(std::move(json_form))
+{
+    if (Message::get_name() != "init")
+        throw ParseError("Invalid init message");
 }
 
 Map InitMessage::parse_map() {
-    size_t width = m_root["map"]["size"][0].asUInt64();
-    size_t height = m_root["map"]["size"][1].asUInt64();
+    Json::Value root = Message::get_args()[0];
+
+    size_t width = root["map"]["size"][0].asUInt64();
+    size_t height = root["map"]["size"][1].asUInt64();
     Logger::Get(DEBUG) << "Map dimensions are " << Point(width, height) << std::endl;
 
-    Json::Value& map_json = m_root["map"]["cells"];
+    Json::Value& map_json = root["map"]["cells"];
 
     std::vector<std::vector<Cell*>> cells(width, std::vector<Cell*>(height, nullptr));
     for (size_t i = 0; i < width; ++i) {
@@ -39,11 +49,13 @@ Map InitMessage::parse_map() {
 }
 
 std::vector<Path*> InitMessage::parse_paths(const Map& map) {
+    Json::Value root = Message::get_args()[0];
+
     std::vector<Path*> result;
 
-    Logger::Get(DEBUG) << "Paths count = " << m_root["paths"].size() << std::endl;
+    Logger::Get(DEBUG) << "Paths count = " << root["paths"].size() << std::endl;
 
-    for (Json::Value& path_json : m_root["paths"]) {
+    for (Json::Value& path_json : root["paths"]) {
         std::vector<RoadCell*> cells;
         for (Json::Value& point_json : path_json["cells"]) {
             int x = point_json["x"].asInt();
@@ -73,27 +85,31 @@ std::vector<Path*> InitMessage::parse_paths(const Map& map) {
 }
 
 void InitMessage::parse_world_constants() {
-    World::INITIAL_HEALTH = m_root["params"][0].asInt();
+    Json::Value root = Message::get_args()[0];
+
+    World::INITIAL_HEALTH = root["params"][0].asInt();
     Logger::Get(DEBUG) << "INITIAL_HEALTH = " << World::INITIAL_HEALTH << std::endl;
 
-    World::INITIAL_MONEY = m_root["params"][1].asInt();
+    World::INITIAL_MONEY = root["params"][1].asInt();
     Logger::Get(DEBUG) << "INITIAL_MONEY = " << World::INITIAL_MONEY << std::endl;
 
-    World::MAX_TURNS_IN_GAME = m_root["params"][2].asInt();
+    World::MAX_TURNS_IN_GAME = root["params"][2].asInt();
     Logger::Get(DEBUG) << "MAX_TURNS_IN_GAME = " << World::MAX_TURNS_IN_GAME << std::endl;
 
-    World::INITIAL_BEANS_COUNT = m_root["params"][3].asInt();
+    World::INITIAL_BEANS_COUNT = root["params"][3].asInt();
     Logger::Get(DEBUG) << "INITIAL_BEANS_COUNT = " << World::INITIAL_BEANS_COUNT << std::endl;
 
-    World::INITIAL_STORMS_COUNT = m_root["params"][4].asInt();
+    World::INITIAL_STORMS_COUNT = root["params"][4].asInt();
     Logger::Get(DEBUG) << "INITIAL_STORMS_COUNT = " << World::INITIAL_STORMS_COUNT << std::endl;
 
-    World::STORM_RANGE = m_root["params"][5].asInt();
+    World::STORM_RANGE = root["params"][5].asInt();
     Logger::Get(DEBUG) << "STORM_RANGE = " << World::STORM_RANGE << std::endl;
 }
 
 void InitMessage::parse_unit_constants() {
-    Json::Value& light_unit_constants_json = m_root["params"][6][0];
+    Json::Value root = Message::get_args()[0];
+
+    Json::Value& light_unit_constants_json = root["params"][6][0];
 
     LightUnit::INITIAL_PRICE = light_unit_constants_json[0].asInt();
     Logger::Get(DEBUG) << "LightUnit::INITIAL_PRICE = " << LightUnit::INITIAL_PRICE << std::endl;
@@ -129,7 +145,7 @@ void InitMessage::parse_unit_constants() {
     Logger::Get(DEBUG) << "LightUnit::ADDED_INCOME = " << LightUnit::ADDED_INCOME << std::endl;
 
 
-    Json::Value& heavy_unit_constants_json = m_root["params"][6][1];
+    Json::Value& heavy_unit_constants_json = root["params"][6][1];
 
     HeavyUnit::INITIAL_PRICE = heavy_unit_constants_json[0].asInt();
     Logger::Get(DEBUG) << "HeavyUnit::INITIAL_PRICE = " << HeavyUnit::INITIAL_PRICE << std::endl;
@@ -166,7 +182,9 @@ void InitMessage::parse_unit_constants() {
 }
 
 void InitMessage::parse_tower_constants() {
-    Json::Value& archer_tower_constants_json = m_root["params"][7][0];
+    Json::Value root = Message::get_args()[0];
+
+    Json::Value& archer_tower_constants_json = root["params"][7][0];
 
     ArcherTower::INITIAL_PRICE = archer_tower_constants_json[0].asInt();
     Logger::Get(DEBUG) << "ArcherTower::INITIAL_PRICE = " << ArcherTower::INITIAL_PRICE << std::endl;
@@ -190,7 +208,7 @@ void InitMessage::parse_tower_constants() {
     Logger::Get(DEBUG) << "ArcherTower::ATTACK_RANGE = " << ArcherTower::ATTACK_RANGE << std::endl;
 
 
-    Json::Value& cannon_tower_constants_json = m_root["params"][7][1];
+    Json::Value& cannon_tower_constants_json = root["params"][7][1];
 
     CannonTower::INITIAL_PRICE = cannon_tower_constants_json[0].asInt();
     Logger::Get(DEBUG) << "CannonTower::INITIAL_PRICE = " << CannonTower::INITIAL_PRICE << std::endl;

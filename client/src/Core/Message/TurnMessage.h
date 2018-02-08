@@ -7,7 +7,9 @@
 class TurnMessage final : public Message {
 public:
 
-    explicit TurnMessage(std::string&& string_form);
+    explicit TurnMessage(Json::Value&& root);
+
+    explicit TurnMessage(std::string&& json_form);
 
     void parse_my_units(Map& attack_map, const std::vector<Path*>& paths);
 

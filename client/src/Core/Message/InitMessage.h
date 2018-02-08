@@ -9,7 +9,9 @@
 class InitMessage final : public Message {
 public:
 
-    explicit InitMessage(std::string&& string_form);
+    explicit InitMessage(Json::Value&& root);
+
+    explicit InitMessage(std::string&& json_form);
 
     Map parse_map();
 

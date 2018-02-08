@@ -3,9 +3,25 @@
 #include <sstream>
 #include <algorithm>
 
-Message::Message(std::string&& string_form) {
-    std::istringstream stream(std::move(string_form));
+#include "ParseError.h"
+
+#include "InitMessage.h"
+#include "TurnMessage.h"
+#include "ShutdownMessage.h"
+
+Message::Message(Json::Value&& root)
+        : m_root(std::move(root))
+{
+}
+
+Message::Message(std::string&& json_form) {
+    std::istringstream stream(json_form);
     stream >> m_root;
+}
+
+Message::Message(const std::string& name, const std::vector<Json::Value>& args) {
+    set_name(name);
+    set_args(args);
 }
 
 std::string Message::to_string() const {
@@ -13,11 +29,6 @@ std::string Message::to_string() const {
     builder["indentation"] = "";
 
     return Json::writeString(builder, m_root);
-}
-
-Message::Message(const std::string& name, const std::vector<Json::Value>& args) {
-    set_name(name);
-    set_args(args);
 }
 
 void Message::set_name(const std::string& name) {
@@ -40,4 +51,20 @@ Json::Value& Message::get_mutable_args() {
 
 Json::Value Message::get_args() const {
     return m_root["args"];
+}
+
+std::unique_ptr<Message> Message::CreateFromJsonString(const std::string& string_form) {
+    Json::Value root;
+
+    std::istringstream stream(string_form);
+    stream >> root;
+
+    if (root["name"] == "init")
+        return std::make_unique<InitMessage>(std::move(root));
+    else if (root["name"] == "turn")
+        return std::make_unique<TurnMessage>(std::move(root));
+    else if (root["name"] == "shutdown")
+        return std::make_unique<ShutdownMessage>(std::move(root));
+
+    throw ParseError("Unknown message type");
 }

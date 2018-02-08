@@ -8,6 +8,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <memory>
 
 /**
  * Convert a 2d vector to a 1d vector
@@ -57,6 +58,13 @@ inline std::string format_string(const std::string& format, ...) {
     va_end(vl);
 
     return std::string(buffer);
+}
+
+template <class T, class U>
+std::unique_ptr<T> dynamic_unique_ptr_cast(std::unique_ptr<U>&& input) {
+    if (dynamic_cast<T*>(input.get()))
+        return std::unique_ptr<T>(dynamic_cast<T*>(input.release()));
+    return std::unique_ptr<T>();
 }
 
 #endif // AIC18_CLIENT_CPP_UTILITY_H

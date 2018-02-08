@@ -21,17 +21,10 @@ public:
     EventMessage(EventMessage&&) noexcept = default;
     EventMessage& operator=(EventMessage&&) noexcept = default;
 
-protected:
-
-    /**
-     * Construct an event message with the given type
-     */
-    explicit EventMessage(const std::string& type);
-
     /**
      * Construct an event message with the given type and args
      */
-    EventMessage(const std::string& type, const std::vector<Json::Value>& args);
+    explicit EventMessage(const std::string& type, const std::vector<Json::Value>& args);
 
     void set_type(const std::string& type);
     std::string get_type() const;

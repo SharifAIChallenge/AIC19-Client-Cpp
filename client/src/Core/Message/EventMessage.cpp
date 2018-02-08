@@ -1,11 +1,5 @@
 #include "EventMessage.h"
 
-EventMessage::EventMessage(const std::string& type)
-        : Message("event", {})
-{
-    set_type(type);
-}
-
 EventMessage::EventMessage(const std::string& type, const std::vector<Json::Value>& args)
         : Message("event", {})
 {
