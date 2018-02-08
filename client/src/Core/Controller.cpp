@@ -23,9 +23,9 @@ Controller::Controller(const std::string& host, uint16_t port, const std::string
         , m_network(host, port)
         , m_world(m_event_queue)
 {
-    Logger::Get(DEBUG) << "Server is " << host << ":" << port << std::endl;
-    Logger::Get(DEBUG) << "Authentication token is " << token << std::endl;
-    Logger::Get(DEBUG) << "Retry delay is " << retry_delay << std::endl;
+    Logger::Get(LogLevel_DEBUG) << "Server is " << host << ":" << port << std::endl;
+    Logger::Get(LogLevel_DEBUG) << "Authentication token is " << token << std::endl;
+    Logger::Get(LogLevel_DEBUG) << "Retry delay is " << retry_delay << std::endl;
 }
 
 Controller::~Controller() {
@@ -36,14 +36,14 @@ Controller::~Controller() {
 }
 
 void Controller::run() try {
-    Logger::Get(TRACE) << "Enter Controller::run" << std::endl;
+    Logger::Get(LogLevel_TRACE) << "Enter Controller::run" << std::endl;
 
     // Connect to the server
 
     constexpr size_t MAX_RETRY_COUNT = 3;
     for (size_t i = 1; i <= MAX_RETRY_COUNT && !m_network.is_connected(); ++i)
         try {
-            Logger::Get(INFO) << "Trying to connect #" << i << std::endl;
+            Logger::Get(LogLevel_INFO) << "Trying to connect #" << i << std::endl;
             m_network.connect();
         }
         catch (NetworkError &e) {
@@ -53,16 +53,16 @@ void Controller::run() try {
                 std::this_thread::sleep_for(std::chrono::milliseconds(m_retry_delay));
         }
 
-    Logger::Get(INFO) << "Connected" << std::endl;
+    Logger::Get(LogLevel_INFO) << "Connected" << std::endl;
 
-    Logger::Get(TRACE) << "Sending authentication message" << std::endl;
+    Logger::Get(LogLevel_TRACE) << "Sending authentication message" << std::endl;
     m_network.send(AuthenticationMessage(m_token).to_string());
 
     // Parse init message
-    Logger::Get(TRACE) << "Waiting for init message" << std::endl;
+    Logger::Get(LogLevel_TRACE) << "Waiting for init message" << std::endl;
     InitMessage init_message(m_network.receive());
 
-    Logger::Get(TRACE) << "Parsing init message" << std::endl;
+    Logger::Get(LogLevel_TRACE) << "Parsing init message" << std::endl;
 
     init_message.parse_world_constants();
     init_message.parse_unit_constants();
@@ -86,17 +86,17 @@ void Controller::run() try {
     m_event_handling_thread = std::thread(&Controller::event_handling_loop, this);
 
     while (m_network.is_connected()) {
-        Logger::Get(TRACE) << "Waiting for turn/shutdown message" << std::endl;
+        Logger::Get(LogLevel_TRACE) << "Waiting for turn/shutdown message" << std::endl;
 
         auto message = Message::CreateFromJsonString(m_network.receive());
         if (dynamic_unique_ptr_cast<ShutdownMessage>(std::move(message))) {
-            Logger::Get(INFO) << "Received shutdown message from server" << std::endl;
+            Logger::Get(LogLevel_INFO) << "Received shutdown message from server" << std::endl;
             break;
         }
 
         auto turn_message = dynamic_unique_ptr_cast<TurnMessage>(std::move(message));
 
-        Logger::Get(TRACE) << "Parsing turn message" << std::endl;
+        Logger::Get(LogLevel_TRACE) << "Parsing turn message" << std::endl;
 
         m_world.set_dead_units_in_this_turn(turn_message->parse_dead_units(m_world));
         m_world.set_passed_units_in_this_turn(turn_message->parse_passed_units(m_world));
@@ -129,7 +129,7 @@ void Controller::run() try {
 
         // Run the client AI
 
-        Logger::Get(DEBUG) << "Current turn is " << m_world.get_current_turn() << std::endl;
+        Logger::Get(LogLevel_DEBUG) << "Current turn is " << m_world.get_current_turn() << std::endl;
 
         std::thread([this]{
             constexpr size_t COMPLEX_TURN_INTERVAL = 10;
@@ -137,23 +137,23 @@ void Controller::run() try {
             int current_turn = m_world.get_current_turn();
 
             if (m_world.get_current_turn() % COMPLEX_TURN_INTERVAL == 0) {
-                Logger::Get(DEBUG) << "Running complex turn" << std::endl;
+                Logger::Get(LogLevel_DEBUG) << "Running complex turn" << std::endl;
                 m_client.complex_turn(&m_world);
             } else {
-                Logger::Get(DEBUG) << "Running simple turn" << std::endl;
+                Logger::Get(LogLevel_DEBUG) << "Running simple turn" << std::endl;
                 m_client.simple_turn(&m_world);
             }
 
-            Logger::Get(TRACE) << "Sending end message with turn = " << current_turn << std::endl;
+            Logger::Get(LogLevel_TRACE) << "Sending end message with turn = " << current_turn << std::endl;
             m_event_queue.push(EndTurnMessage(current_turn));
         }).detach();
     }
 
-    Logger::Get(INFO) << "Closing the connection" << std::endl;
+    Logger::Get(LogLevel_INFO) << "Closing the connection" << std::endl;
     m_event_queue.terminate();
     m_network.disconnect();
 
-    Logger::Get(TRACE) << "Exit Controller::run" << std::endl;
+    Logger::Get(LogLevel_TRACE) << "Exit Controller::run" << std::endl;
 }
 catch (Json::Exception&) {
     throw ParseError("Malformed json string");

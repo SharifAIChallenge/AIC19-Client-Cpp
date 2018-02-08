@@ -5,11 +5,11 @@
 #include <fstream>
 
 enum LogLevel {
-    TRACE = 0,
-    DEBUG = 1,
-    INFO = 2,
-    WARNING = 3,
-    ERROR = 4
+    LogLevel_TRACE = 0,
+    LogLevel_DEBUG = 1,
+    LogLevel_INFO = 2,
+    LogLevel_WARNING = 3,
+    LogLevel_ERROR = 4
 };
 
 class Logger final {
@@ -64,8 +64,8 @@ private:
 
     inline Logger()
             : m_output_file("client.log"),
-              m_current_level(DEBUG),
-              m_stderr_min_level(INFO)
+              m_current_level(LogLevel_DEBUG),
+              m_stderr_min_level(LogLevel_INFO)
     {
     }
 

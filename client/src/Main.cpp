@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
         pair<string, string> retry_delay = {"AICRetryDelay", "1000"};
 
         if (global_verbose_flag || (argc > 1 && std::string(argv[1]) == "--verbose"))
-            Logger::Get().set_stderr_min_level(LogLevel::TRACE);
+            Logger::Get().set_stderr_min_level(LogLevel_TRACE);
 
         if (const char* host_env = std::getenv(host.first.c_str()))
             host.second = std::string(host_env);
@@ -52,18 +52,18 @@ int main(int argc, char** argv) {
         controller->run();
     }
     catch (NetworkError& e) {
-        Logger::Get(ERROR) << "Network error: " << e.what() << std::endl;
+        Logger::Get(LogLevel_ERROR) << "Network error: " << e.what() << std::endl;
         return -1;
     }
     catch (ParseError& e) {
-        Logger::Get(ERROR) << "Parse error" << e.what() << std::endl;
+        Logger::Get(LogLevel_ERROR) << "Parse error" << e.what() << std::endl;
     }
     catch (std::exception& e) {
-        Logger::Get(ERROR) << e.what() << std::endl;
+        Logger::Get(LogLevel_ERROR) << e.what() << std::endl;
         return -1;
     }
     catch (...) {
-        Logger::Get(ERROR) << "Unknown exception thrown at main" << std::endl;
+        Logger::Get(LogLevel_ERROR) << "Unknown exception thrown at main" << std::endl;
         return -1;
     }
 

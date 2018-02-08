@@ -49,7 +49,7 @@ void TurnMessage::parse_my_units(Map& attack_map, const std::vector<Path*>& path
         ++count;
     }
 
-    Logger::Get(DEBUG) << "My units = " << count << std::endl;
+    Logger::Get(LogLevel_DEBUG) << "My units = " << count << std::endl;
 }
 
 void TurnMessage::parse_enemy_units(Map& defence_map, const std::vector<Path*>& paths) {
@@ -78,7 +78,7 @@ void TurnMessage::parse_enemy_units(Map& defence_map, const std::vector<Path*>& 
         ++count;
     }
 
-    Logger::Get(DEBUG) << "Enemy units = " << count << std::endl;
+    Logger::Get(LogLevel_DEBUG) << "Enemy units = " << count << std::endl;
 }
 
 void TurnMessage::parse_my_towers(Map& defence_map) {
@@ -109,7 +109,7 @@ void TurnMessage::parse_my_towers(Map& defence_map) {
         ++count;
     }
 
-    Logger::Get(DEBUG) << "My towers = " << count << std::endl;
+    Logger::Get(LogLevel_DEBUG) << "My towers = " << count << std::endl;
 }
 
 void TurnMessage::parse_enemy_towers(Map& attack_map) {
@@ -140,7 +140,7 @@ void TurnMessage::parse_enemy_towers(Map& attack_map) {
         ++count;
     }
 
-    Logger::Get(DEBUG) << "Enemy towers = " << count << std::endl;
+    Logger::Get(LogLevel_DEBUG) << "Enemy towers = " << count << std::endl;
 }
 
 Player TurnMessage::parse_my_information() {
@@ -149,7 +149,7 @@ Player TurnMessage::parse_my_information() {
     Json::Value& player_json = root["players"][0];
     Player result(player_json[0].asInt(), player_json[1].asInt(), player_json[2].asInt(), player_json[3].asInt(),
                   player_json[4].asInt());
-    Logger::Get(DEBUG) << "Me: " << result << std::endl;
+    Logger::Get(LogLevel_DEBUG) << "Me: " << result << std::endl;
     return result;
 }
 
@@ -158,7 +158,7 @@ Player TurnMessage::parse_enemy_information() {
 
     Json::Value& player_json = root["players"][1];
     Player result(player_json[0].asInt(), 0, 0, player_json[1].asInt(), player_json[2].asInt());
-    Logger::Get(DEBUG) << "Enemy: " << result << std::endl;
+    Logger::Get(LogLevel_DEBUG) << "Enemy: " << result << std::endl;
     return result;
 }
 
@@ -177,7 +177,7 @@ std::vector<Unit*> TurnMessage::parse_dead_units(World& world) {
             result.push_back(new Unit(**iter));
     }
 
-    Logger::Get(DEBUG) << "Dead units = " << result.size() << std::endl;
+    Logger::Get(LogLevel_DEBUG) << "Dead units = " << result.size() << std::endl;
 
     return result;
 }
@@ -197,7 +197,7 @@ std::vector<Unit*> TurnMessage::parse_passed_units(World& world) {
             result.push_back(new Unit(**iter));
     }
 
-    Logger::Get(DEBUG) << "Passed units = " << result.size() << std::endl;
+    Logger::Get(LogLevel_DEBUG) << "Passed units = " << result.size() << std::endl;
 
     return result;
 }
@@ -217,7 +217,7 @@ std::vector<Tower*> TurnMessage::parse_destroyed_towers(World& world) {
             result.push_back(new Tower(**iter));
     }
 
-    Logger::Get(DEBUG) << "Destroyed towers = " << result.size() << std::endl;
+    Logger::Get(LogLevel_DEBUG) << "Destroyed towers = " << result.size() << std::endl;
 
     return result;
 }
@@ -229,7 +229,7 @@ std::vector<BeanEvent*> TurnMessage::parse_bean_events() {
     for (Json::Value& bean_json : root["events"]["beans"])
         result.push_back(new BeanEvent(bean_json[0].asInt() == 0 ? Owner::ENEMY : Owner::ME,
                                        Point(bean_json[1])));
-    Logger::Get(DEBUG) << "Bean events = " << result.size() << std::endl;
+    Logger::Get(LogLevel_DEBUG) << "Bean events = " << result.size() << std::endl;
     return result;
 }
 
@@ -240,6 +240,6 @@ std::vector<StormEvent*> TurnMessage::parse_storm_events() {
     for (Json::Value& storm_json : root["events"]["storms"])
         result.push_back(new StormEvent(storm_json[0].asInt() == 0 ? Owner::ME : Owner::ENEMY,
                                        Point(storm_json[1])));
-    Logger::Get(DEBUG) << "Storm events = " << result.size() << std::endl;
+    Logger::Get(LogLevel_DEBUG) << "Storm events = " << result.size() << std::endl;
     return result;
 }

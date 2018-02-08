@@ -66,8 +66,8 @@ void Network::disconnect() {
 }
 
 void Network::send(std::string message) {
-    Logger::Get(TRACE) << "Enter Network::send" << std::endl;
-    Logger::Get(DEBUG) << "Trying to send " << message << std::endl;
+    Logger::Get(LogLevel_TRACE) << "Enter Network::send" << std::endl;
+    Logger::Get(LogLevel_DEBUG) << "Trying to send " << message << std::endl;
 
     message.push_back('\0');
 
@@ -77,11 +77,11 @@ void Network::send(std::string message) {
     if (::send(m_sockfd.get(), message.c_str(), message.size(), 0) < 0)
         throw NetworkError(std::strerror(errno));
 
-    Logger::Get(TRACE) << "Exit Network::send" << std::endl;
+    Logger::Get(LogLevel_TRACE) << "Exit Network::send" << std::endl;
 }
 
 std::string Network::receive() {
-    Logger::Get(TRACE) << "Enter Network::receive" << std::endl;
+    Logger::Get(LogLevel_TRACE) << "Enter Network::receive" << std::endl;
 
     constexpr size_t MAX_MESSAGE_LENGTH = 66000;
     static char buffer[MAX_MESSAGE_LENGTH];
@@ -102,8 +102,8 @@ std::string Network::receive() {
 
     std::string result(buffer, static_cast<size_t>(bytes_received));
 
-    Logger::Get(DEBUG) << "Received " << std::string(result.begin(), result.end() - 1) << std::endl;
-    Logger::Get(TRACE) << "Exit Network::receive" << std::endl;
+    Logger::Get(LogLevel_DEBUG) << "Received " << std::string(result.begin(), result.end() - 1) << std::endl;
+    Logger::Get(LogLevel_TRACE) << "Exit Network::receive" << std::endl;
     return result;
 }
 
