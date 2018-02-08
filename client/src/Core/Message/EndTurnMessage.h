@@ -1,19 +1,14 @@
 #ifndef AIC18_CLIENT_CPP_END_TURN_MESSAGE_H
 #define AIC18_CLIENT_CPP_END_TURN_MESSAGE_H
 
-#include "Message.h"
+#include "EventMessage.h"
 
-class EndTurnMessage : public Message {
+class EndTurnMessage final : public EventMessage {
 public:
 
     inline explicit EndTurnMessage(int turn)
-            : Message()
+            : EventMessage("end", {turn})
     {
-        m_root["name"] = "event";
-        Json::Value& args = m_root["args"][0];
-
-        args["type"] = "end";
-        args["args"].append(turn);
     }
 };
 

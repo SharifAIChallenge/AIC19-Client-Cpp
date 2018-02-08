@@ -53,7 +53,7 @@ void Controller::run() {
     Logger::Get(INFO) << "Connected" << std::endl;
 
     Logger::Get(TRACE) << "Sending authentication message" << std::endl;
-    m_network.send(AuthenticationMessage(m_token, "token").to_string());
+    m_network.send(AuthenticationMessage(m_token).to_string());
 
     // Parse init message
     try {

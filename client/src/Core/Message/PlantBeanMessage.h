@@ -2,20 +2,14 @@
 #define AIC18_CLIENT_CPP_PLANT_BEAN_MESSAGE_H
 
 #include <Model/Point.h>
-#include "Message.h"
+#include "EventMessage.h"
 
-class PlantBeanMessage final : public Message {
+class PlantBeanMessage final : public EventMessage {
 public:
 
     inline explicit PlantBeanMessage(Point location)
-    : Message()
+            : EventMessage("b", {location.x(), location.y()})
     {
-        m_root["name"] = "event";
-        Json::Value& args = m_root["args"][0];
-
-        args["type"] = "b";
-        args["args"].append(location.get_x());
-        args["args"].append(location.get_y());
     }
 };
 

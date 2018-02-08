@@ -2,19 +2,14 @@
 #define AIC18_CLIENT_CPP_UPGRADE_TOWER_MESSAGE_H
 
 #include <Model/World.h>
-#include "Message.h"
+#include "EventMessage.h"
 
-class UpgradeTowerMessage final : public Message {
+class UpgradeTowerMessage final : public EventMessage {
 public:
 
     inline explicit UpgradeTowerMessage(const Tower* tower)
-            : Message()
+            : EventMessage("ut", {tower->get_id()})
     {
-        m_root["name"] = "event";
-        Json::Value& args = m_root["args"][0];
-
-        args["type"] = "ut";
-        args["args"].append(tower->get_id());
     }
 };
 

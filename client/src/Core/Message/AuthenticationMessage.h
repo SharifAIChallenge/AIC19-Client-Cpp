@@ -6,11 +6,9 @@
 class AuthenticationMessage : public Message {
 public:
 
-    inline AuthenticationMessage(const std::string& token, const std::string& name)
-            : Message()
+    inline explicit AuthenticationMessage(const std::string& token)
+            : Message("token", {token})
     {
-        m_root["args"].append(token);
-        m_root["name"] = name;
     }
 };
 

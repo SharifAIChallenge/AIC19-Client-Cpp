@@ -2,20 +2,15 @@
 #define AIC18_CLIENT_CPP_CREATE_UNIT_MESSAGE_H
 
 #include <Model/Unit.h>
-#include "Message.h"
+#include "EventMessage.h"
 
-class CreateUnitMessage final : public Message {
+class CreateUnitMessage final : public EventMessage {
 public:
 
     inline CreateUnitMessage(UnitType type, int path_index)
-            : Message()
+            : EventMessage("cu", {type == UnitType::LIGHT ? "l" : "h",
+                                  path_index})
     {
-        m_root["name"] = "event";
-        Json::Value& args = m_root["args"][0];
-
-        args["type"] = "cu";
-        args["args"].append(type == UnitType::LIGHT ? "l" : "h");
-        args["args"].append(path_index);
     }
 
 };
