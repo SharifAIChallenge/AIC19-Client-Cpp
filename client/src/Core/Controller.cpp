@@ -9,11 +9,12 @@
 
 #include <Network/NetworkError.h>
 
+#include "Message/ParseError.h"
+
 #include "Message/AuthenticationMessage.h"
 #include "Message/InitMessage.h"
 #include "Message/TurnMessage.h"
 #include "Message/EndTurnMessage.h"
-#include "ParseError.h"
 
 Controller::Controller(const std::string& host, uint16_t port, const std::string& token, unsigned retry_delay)
         : m_token(token)

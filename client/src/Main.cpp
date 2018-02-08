@@ -17,7 +17,7 @@
 #include <Core/Controller.h>
 
 #include <Network/NetworkError.h>
-#include <Core/ParseError.h>
+#include <Core/Message/ParseError.h>
 
 bool global_verbose_flag = false;
 
