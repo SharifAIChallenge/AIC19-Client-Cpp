@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <utility>
 
 enum LogLevel {
     LogLevel_TRACE = 0,
@@ -14,6 +15,14 @@ enum LogLevel {
 
 class Logger final {
 public:
+
+    /**
+     * Configuration of a log sink
+     *
+     * @param first Is logging enabled for this sink
+     * @param second Minimum severity level for logs shown in this sink
+     */
+    typedef std::pair<bool, LogLevel> LogSinkConfig;
 
     ~Logger() = default;
 
@@ -39,33 +48,42 @@ public:
 
     template <class Type>
     inline Logger& operator<< (const Type& message) {
-#ifdef AIC_CLIENT_DEBUG
-        if (m_current_level >= m_stderr_min_level)
+        if (m_stderr_config.first && m_current_level >= m_stderr_config.second)
             std::cerr << message;
-        m_output_file << message;
-#endif
+
+        if (m_logfile_config.first && m_current_level >= m_logfile_config.second)
+            m_output_file << message;
+
         return *this;
     }
 
     inline Logger& operator<< (std::ostream&(*f)(std::ostream&)) {
-#ifdef AIC_CLIENT_DEBUG
-        if (m_current_level >= m_stderr_min_level)
+        if (m_stderr_config.first && m_current_level >= m_stderr_config.second)
             f(std::cerr);
-        f(m_output_file);
-#endif
+
+        if (m_logfile_config.first && m_current_level >= m_logfile_config.second)
+            f(m_output_file);
+
         return *this;
     }
 
-    inline void set_stderr_min_level(LogLevel level) {
-        m_stderr_min_level = level;
+    inline void set_stderr_config(const LogSinkConfig& config) {
+        m_stderr_config = config;
+    }
+
+    inline void set_logfile_config(const LogSinkConfig& config) {
+        m_logfile_config = config;
+
+        if (config.first)
+            m_output_file.open("client.log");
     }
 
 private:
 
     inline Logger()
-            : m_output_file("client.log"),
-              m_current_level(LogLevel_DEBUG),
-              m_stderr_min_level(LogLevel_INFO)
+            : m_current_level(LogLevel_DEBUG),
+              m_stderr_config{true, LogLevel_INFO},
+              m_logfile_config{false, LogLevel_TRACE}
     {
     }
 
@@ -78,8 +96,11 @@ private:
     /// Last call to @see Get will set this parameter
     LogLevel m_current_level;
 
-    /// Minimum severity level for logs shown in standard error stream
-    LogLevel m_stderr_min_level;
+    /// Standard output config
+    LogSinkConfig m_stderr_config;
+
+    /// Log to file config
+    LogSinkConfig m_logfile_config;
 
 };
 

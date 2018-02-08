@@ -28,13 +28,15 @@ int main(int argc, char** argv) {
 
         srand(time(nullptr));
 
+        if (global_verbose_flag || (argc > 1 && std::string(argv[1]) == "--verbose")) {
+            Logger::Get().set_stderr_config({true, LogLevel_TRACE});
+            Logger::Get().set_logfile_config({true, LogLevel_TRACE});
+        }
+
         pair<string, string> host = {"AICHostIP", "127.0.0.1"};
         pair<string, string> port = {"AICHostPort", "7099"};
         pair<string, string> token = {"AICToken", "00000000000000000000000000000000"};
         pair<string, string> retry_delay = {"AICRetryDelay", "1000"};
-
-        if (global_verbose_flag || (argc > 1 && std::string(argv[1]) == "--verbose"))
-            Logger::Get().set_stderr_min_level(LogLevel_TRACE);
 
         if (const char* host_env = std::getenv(host.first.c_str()))
             host.second = std::string(host_env);
