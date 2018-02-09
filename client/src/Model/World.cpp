@@ -17,6 +17,11 @@ World::World(EventQueue& event_queue)
 World::~World() {
     clear_attack_paths();
     clear_defence_paths();
+
+    clear_dead_units();
+    clear_passed_units();
+    clear_destroyed_towers();
+
     clear_bean_events();
     clear_storm_events();
 }

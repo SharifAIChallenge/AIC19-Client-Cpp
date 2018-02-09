@@ -103,6 +103,7 @@ GrassCell::~GrassCell() {
 }
 
 void GrassCell::set_tower(Tower* tower) {
+    clear_tower();
     m_tower = tower;
 }
 
@@ -117,6 +118,7 @@ void GrassCell::clear_tower() {
 
 GrassCell::GrassCell(const GrassCell& other)
         : Cell(other)
+        , m_tower(nullptr)
 {
     if (other.m_tower)
         m_tower = new Tower(*other.m_tower);
