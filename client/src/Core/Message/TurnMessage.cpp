@@ -172,7 +172,7 @@ std::vector<Unit*> TurnMessage::parse_dead_units(World& world) {
     for (Json::Value& unit_json : root["events"]["deadunits"]) {
         std::vector<Unit*>& units = (unit_json[0].asInt() == 0 ? enemy_units : my_units);
         auto iter = std::find_if(units.begin(), units.end(),
-                                 [&](auto& x) { return x->get_id() == unit_json[1].asInt(); });
+                                 [&](Unit* x) { return x->get_id() == unit_json[1].asInt(); });
         if (iter != units.end())
             result.push_back(new Unit(**iter));
     }
@@ -192,7 +192,7 @@ std::vector<Unit*> TurnMessage::parse_passed_units(World& world) {
     for (Json::Value& unit_json : root["events"]["endofpath"]) {
         std::vector<Unit*>& units = (unit_json[0].asInt() == 0 ? enemy_units : my_units);
         auto iter = std::find_if(units.begin(), units.end(),
-                                 [&](auto& x) { return x->get_id() == unit_json[1].asInt(); });
+                                 [&](Unit* x) { return x->get_id() == unit_json[1].asInt(); });
         if (iter != units.end())
             result.push_back(new Unit(**iter));
     }
@@ -212,7 +212,7 @@ std::vector<Tower*> TurnMessage::parse_destroyed_towers(World& world) {
     for (Json::Value& tower_json : root["events"]["destroyedtowers"]) {
         std::vector<Tower*>& towers = (tower_json[0].asInt() == 0 ? enemy_towers : my_towers);
         auto iter = std::find_if(towers.begin(), towers.end(),
-                                 [&](auto& x) { return x->get_id() == tower_json[1].asInt(); });
+                                 [&](Tower* x) { return x->get_id() == tower_json[1].asInt(); });
         if (iter != towers.end())
             result.push_back(new Tower(**iter));
     }

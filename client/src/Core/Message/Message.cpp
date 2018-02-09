@@ -60,11 +60,11 @@ std::unique_ptr<Message> Message::CreateFromJsonString(const std::string& string
     stream >> root;
 
     if (root["name"] == "init")
-        return std::make_unique<InitMessage>(std::move(root));
+        return std::unique_ptr<InitMessage>(new InitMessage(std::move(root)));
     else if (root["name"] == "turn")
-        return std::make_unique<TurnMessage>(std::move(root));
+        return std::unique_ptr<TurnMessage>(new TurnMessage(std::move(root)));
     else if (root["name"] == "shutdown")
-        return std::make_unique<ShutdownMessage>(std::move(root));
+        return std::unique_ptr<ShutdownMessage>(new ShutdownMessage(std::move(root)));
 
     throw ParseError("Unknown message type");
 }

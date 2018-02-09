@@ -11,7 +11,7 @@ EventQueue::~EventQueue() {
 
 void EventQueue::push(const Message& message) {
     std::lock_guard<std::mutex> guard(m_mutex);
-    m_queue.push(std::make_unique<Message>(message));
+    m_queue.push(std::unique_ptr<Message>(new Message(message)));
     m_cv.notify_all();
 }
 
