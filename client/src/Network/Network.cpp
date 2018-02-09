@@ -43,7 +43,7 @@ void Network::connect() {
 
     struct hostent* server = gethostbyname(m_host.c_str());
     if (!server)
-        throw NetworkError(hstrerror(h_errno));
+        throw NetworkError("Unknown host");
 
     sockaddr_in s_addr{};
     s_addr.sin_family = AF_INET;
