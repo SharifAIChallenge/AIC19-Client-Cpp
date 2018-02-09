@@ -1,0 +1,12 @@
+language: cpp
+sudo: false
+dist: trusty
+
+compiler: g++
+
+# Skip installation skip
+intall: true
+
+script: ./travis.sh
+
+# vim: ts=2 sw=2
