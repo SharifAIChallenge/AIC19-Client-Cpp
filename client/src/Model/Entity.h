@@ -16,8 +16,8 @@ public:
     Entity(const Entity&) = default;
     Entity& operator= (const Entity&) = default;
 
-    Entity(Entity&&) noexcept = default;
-    Entity& operator=(Entity&&) noexcept = default;
+    Entity(Entity&&) = default;
+    Entity& operator=(Entity&&) = default;
 
     /**
      * Construct an entity from its parameters

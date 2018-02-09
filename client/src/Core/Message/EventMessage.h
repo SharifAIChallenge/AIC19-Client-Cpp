@@ -18,8 +18,8 @@ public:
     EventMessage(const EventMessage&) = default;
     EventMessage& operator=(const EventMessage&) = default;
 
-    EventMessage(EventMessage&&) noexcept = default;
-    EventMessage& operator=(EventMessage&&) noexcept = default;
+    EventMessage(EventMessage&&) = default;
+    EventMessage& operator=(EventMessage&&) = default;
 
     /**
      * Construct an event message with the given type and args

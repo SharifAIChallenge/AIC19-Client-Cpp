@@ -17,8 +17,8 @@ public:
     Point(const Point&) = default;
     Point& operator= (const Point&) = default;
 
-    Point(Point&&) noexcept = default;
-    Point& operator=(Point&&) noexcept = default;
+    Point(Point&&) = default;
+    Point& operator=(Point&&) = default;
 
     /**
      * Construct a point from given coordinates

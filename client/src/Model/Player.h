@@ -23,8 +23,8 @@ public:
     Player(const Player&) = default;
     Player& operator=(const Player&) = default;
 
-    Player(Player&&) noexcept = default;
-    Player& operator=(Player&&) noexcept = default;
+    Player(Player&&) = default;
+    Player& operator=(Player&&) = default;
 
     /**
      * Construct a player from its initial parameters
