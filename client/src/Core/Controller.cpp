@@ -89,12 +89,12 @@ void Controller::run() try {
         Logger::Get(LogLevel_TRACE) << "Waiting for turn/shutdown message" << std::endl;
 
         auto message = Message::CreateFromJsonString(m_network.receive());
-        if (dynamic_unique_ptr_cast<ShutdownMessage>(std::move(message))) {
+        if (dynamic_cast<ShutdownMessage*>(message.get())) {
             Logger::Get(LogLevel_INFO) << "Received shutdown message from server" << std::endl;
             break;
         }
 
-        auto turn_message = dynamic_unique_ptr_cast<TurnMessage>(std::move(message));
+        auto turn_message = std::unique_ptr<TurnMessage>(static_cast<TurnMessage*>(message.release()));
 
         Logger::Get(LogLevel_TRACE) << "Parsing turn message" << std::endl;
 

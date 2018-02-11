@@ -47,10 +47,10 @@ int main(int argc, char** argv) {
         if (const char* retry_delay_env = std::getenv(retry_delay.first.c_str()))
             retry_delay.second = std::stoul(retry_delay_env);
 
-        auto controller = std::unique_ptr<Controller>(new Controller(host.second,
-                                                                     port.second,
-                                                                     token.second,
-                                                                     retry_delay.second));
+        auto controller = make_unique<Controller>(host.second,
+                                                  port.second,
+                                                  token.second,
+                                                  retry_delay.second);
         controller->run();
     }
     catch (NetworkError& e) {

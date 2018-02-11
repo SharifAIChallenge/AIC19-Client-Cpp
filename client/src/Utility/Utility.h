@@ -60,11 +60,9 @@ inline std::string format_string(const std::string& format, ...) {
     return std::string(buffer);
 }
 
-template <class T, class U>
-std::unique_ptr<T> dynamic_unique_ptr_cast(std::unique_ptr<U>&& input) {
-    if (dynamic_cast<T*>(input.get()))
-        return std::unique_ptr<T>(dynamic_cast<T*>(input.release()));
-    return std::unique_ptr<T>();
+template <class T, class... Args>
+std::unique_ptr<T> make_unique(Args&&... args) {
+    return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
 }
 
 #endif // AIC18_CLIENT_CPP_UTILITY_H
