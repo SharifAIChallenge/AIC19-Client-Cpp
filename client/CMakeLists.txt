@@ -13,3 +13,7 @@ target_include_directories (client PRIVATE src/)
 
 find_package(Threads REQUIRED)
 target_link_libraries (client jsoncpp_lib_static Threads::Threads)
+
+if (WIN32)
+    target_link_libraries (client wsock32 ws2_32)
+endif ()

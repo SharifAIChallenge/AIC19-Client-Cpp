@@ -45,12 +45,12 @@ void Network::connect() {
     if (!server)
         throw NetworkError("Unknown host");
 
-    sockaddr_in s_addr{};
-    s_addr.sin_family = AF_INET;
-    s_addr.sin_port = htons(m_port);
-    memcpy(&s_addr.sin_addr, server->h_addr_list[0], static_cast<size_t>(server->h_length));
+    sockaddr_in addr{};
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(m_port);
+    memcpy(&addr.sin_addr, server->h_addr_list[0], static_cast<size_t>(server->h_length));
 
-    if (::connect(fd.get(), reinterpret_cast<sockaddr*>(&s_addr), sizeof(s_addr)))
+    if (::connect(fd.get(), reinterpret_cast<sockaddr*>(&addr), sizeof(addr)))
         throw NetworkError(std::strerror(errno));
 
     using std::swap;
