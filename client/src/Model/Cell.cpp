@@ -121,7 +121,7 @@ GrassCell::GrassCell(const GrassCell& other)
         , m_tower(nullptr)
 {
     if (other.m_tower)
-        m_tower = new Tower(*other.m_tower);
+        m_tower = other.m_tower->clone();
 }
 
 GrassCell& GrassCell::operator=(const GrassCell& other) {
@@ -129,7 +129,7 @@ GrassCell& GrassCell::operator=(const GrassCell& other) {
 
     clear_tower();
     if (other.m_tower)
-        m_tower = new Tower(*other.m_tower);
+        m_tower = other.m_tower->clone();
 
     return *this;
 }

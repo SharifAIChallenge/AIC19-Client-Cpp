@@ -174,7 +174,7 @@ std::vector<Unit*> TurnMessage::parse_dead_units(World& world) {
         auto iter = std::find_if(units.begin(), units.end(),
                                  [&](Unit* x) { return x->get_id() == unit_json[1].asInt(); });
         if (iter != units.end())
-            result.push_back(new Unit(**iter));
+            result.push_back((*iter)->clone());
     }
 
     Logger::Get(LogLevel_DEBUG) << "Dead units = " << result.size() << std::endl;
@@ -194,7 +194,7 @@ std::vector<Unit*> TurnMessage::parse_passed_units(World& world) {
         auto iter = std::find_if(units.begin(), units.end(),
                                  [&](Unit* x) { return x->get_id() == unit_json[1].asInt(); });
         if (iter != units.end())
-            result.push_back(new Unit(**iter));
+            result.push_back((*iter)->clone());
     }
 
     Logger::Get(LogLevel_DEBUG) << "Passed units = " << result.size() << std::endl;
@@ -214,7 +214,7 @@ std::vector<Tower*> TurnMessage::parse_destroyed_towers(World& world) {
         auto iter = std::find_if(towers.begin(), towers.end(),
                                  [&](Tower* x) { return x->get_id() == tower_json[1].asInt(); });
         if (iter != towers.end())
-            result.push_back(new Tower(**iter));
+            result.push_back((*iter)->clone());
     }
 
     Logger::Get(LogLevel_DEBUG) << "Destroyed towers = " << result.size() << std::endl;
