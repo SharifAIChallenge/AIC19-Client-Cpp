@@ -67,10 +67,6 @@ std::vector<Cell*> Map::get_cells_list() const {
     return flatten_list(m_cells_grid);
 }
 
-Cell* Map::get_cell(int x, int y) const {
-    return m_cells_grid.at(x).at(y);
-}
-
 void Map::clear_cells_grid() {
     for (Cell* cell : get_cells_list())
         delete cell;

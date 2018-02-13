@@ -31,7 +31,14 @@ public:
 
     std::vector<Cell*> get_cells_list() const;
 
-    Cell* get_cell(int x, int y) const;
+    /**
+     * @tparam CellType Type of the return value
+     *
+     * @return Pointer to cell at location (@param x, @param y).
+     * Returns nullptr if the cast fails (ie. the cell at the given location is not of type @tparam CellType)
+     */
+    template <class CellType = Cell>
+    CellType* get_cell(int x, int y) const;
 
 private:
 
@@ -41,5 +48,10 @@ private:
     std::vector<std::vector<Cell*>> m_cells_grid;
 
 };
+
+template <class CellType>
+CellType* Map::get_cell(int x, int y) const {
+    return dynamic_cast<CellType*>(m_cells_grid[x][y]);
+}
 
 #endif // AIC18_CLIENT_CPP_MAP_H
