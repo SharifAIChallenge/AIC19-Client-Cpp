@@ -19,6 +19,8 @@
 #include <Network/NetworkError.h>
 #include <Core/Message/ParseError.h>
 
+constexpr const char* AIC_CLIENT_VERSION = "v2.2.0";
+
 bool global_verbose_flag = false;
 
 int main(int argc, char** argv) {
@@ -32,6 +34,8 @@ int main(int argc, char** argv) {
             Logger::Get().set_stderr_config({true, LogLevel_TRACE});
             Logger::Get().set_logfile_config({true, LogLevel_TRACE});
         }
+
+        Logger::Get(LogLevel_INFO) << "AI Challenge 2018 C++ Client " << AIC_CLIENT_VERSION << std::endl;
 
         pair<string, string> host = {"AICHostIP", "127.0.0.1"};
         pair<string, uint16_t> port = {"AICHostPort", 7099};
