@@ -90,19 +90,19 @@ std::string Network::receive() {
         throw NetworkError("Cannot receive message because the connection is not established.");
 
     memset(buffer, -1, MAX_MESSAGE_LENGTH);
+    size_t offset = 0;
 
-    ssize_t bytes_received = 0;
     do {
-        bytes_received += ::recv(m_sockfd.get(), buffer + bytes_received, MAX_MESSAGE_LENGTH, 0);
-        if (bytes_received == 0)
-            throw NetworkEOFError();
-        else if (bytes_received < 0)
+        ssize_t bytes_received = ::recv(m_sockfd.get(), buffer + offset, 1, 0);
+        if (bytes_received < 0)
             throw NetworkError(std::strerror(errno));
-    } while (buffer[bytes_received - 1] != '\0');
+        else if (bytes_received == 0)
+            throw NetworkEOFError();
+    } while (buffer[offset++] != '\0');
 
-    std::string result(buffer, static_cast<size_t>(bytes_received));
+    std::string result(buffer, static_cast<size_t>(offset - 1));
 
-    Logger::Get(LogLevel_DEBUG) << "Received " << std::string(result.begin(), result.end() - 1) << std::endl;
+    Logger::Get(LogLevel_DEBUG) << "Received " << std::string(result.begin(), result.end()) << std::endl;
     Logger::Get(LogLevel_TRACE) << "Exit Network::receive" << std::endl;
     return result;
 }
