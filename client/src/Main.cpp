@@ -19,7 +19,7 @@
 #include <Network/NetworkError.h>
 #include <Core/Message/ParseError.h>
 
-constexpr const char* AIC_CLIENT_VERSION = "v2.2.0";
+constexpr const char* AIC_CLIENT_VERSION = "v3.0.0";
 
 bool global_verbose_flag = false;
 
