@@ -37,11 +37,11 @@ Map InitMessage::parse_map() {
         for (size_t j = 0; j < height; ++j) {
             char ch = map_json[static_cast<int>(i)].asString()[j];
             if (ch == 'g')
-                cells[i][j] = new GrassCell(Point(i, j));
+                cells[i][j] = new GrassCell(Point(j, i));
             else if (ch == 'r')
-                cells[i][j] = new RoadCell(Point(i, j));
+                cells[i][j] = new RoadCell(Point(j, i));
             else
-                cells[i][j] = new BlockCell(Point(i, j));
+                cells[i][j] = new BlockCell(Point(j, i));
         }
     }
 
