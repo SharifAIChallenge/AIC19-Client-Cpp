@@ -131,22 +131,18 @@ void Controller::run() try {
 
         Logger::Get(LogLevel_DEBUG) << "Current turn is " << m_world.get_current_turn() << std::endl;
 
-        std::thread([this]{
-            constexpr size_t COMPLEX_TURN_INTERVAL = 10;
+        constexpr size_t COMPLEX_TURN_INTERVAL = 10;
 
-            int current_turn = m_world.get_current_turn();
+        if (m_world.get_current_turn() % COMPLEX_TURN_INTERVAL == 0) {
+            Logger::Get(LogLevel_DEBUG) << "Running complex turn" << std::endl;
+            m_client.complex_turn(&m_world);
+        } else {
+            Logger::Get(LogLevel_DEBUG) << "Running simple turn" << std::endl;
+            m_client.simple_turn(&m_world);
+        }
 
-            if (m_world.get_current_turn() % COMPLEX_TURN_INTERVAL == 0) {
-                Logger::Get(LogLevel_DEBUG) << "Running complex turn" << std::endl;
-                m_client.complex_turn(&m_world);
-            } else {
-                Logger::Get(LogLevel_DEBUG) << "Running simple turn" << std::endl;
-                m_client.simple_turn(&m_world);
-            }
-
-            Logger::Get(LogLevel_TRACE) << "Sending end message with turn = " << current_turn << std::endl;
-            m_event_queue.push(EndTurnMessage(current_turn));
-        }).detach();
+        Logger::Get(LogLevel_TRACE) << "Sending end message with turn = " << m_world.get_current_turn() << std::endl;
+        m_event_queue.push(EndTurnMessage(m_world.get_current_turn()));
     }
 
     Logger::Get(LogLevel_INFO) << "Closing the connection" << std::endl;
