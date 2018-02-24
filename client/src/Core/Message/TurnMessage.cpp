@@ -37,6 +37,7 @@ void TurnMessage::parse_my_units(Map& attack_map, const std::vector<Path*>& path
         else
             unit = new HeavyUnit();
 
+        unit->set_type(unit_json[1].asString() == "l" ? UnitType::LIGHT : UnitType::HEAVY);
         unit->set_id(unit_json[0].asInt());
         unit->set_level(unit_json[2].asInt());
         unit->set_health(unit_json[3].asInt());
@@ -67,6 +68,7 @@ void TurnMessage::parse_enemy_units(Map& defence_map, const std::vector<Path*>& 
         else
             unit = new HeavyUnit();
 
+        unit->set_type(unit_json[1].asString() == "l" ? UnitType::LIGHT : UnitType::HEAVY);
         unit->set_id(unit_json[0].asInt());
         unit->set_level(unit_json[2].asInt());
         unit->set_location(Point(unit_json[3]));
@@ -96,6 +98,7 @@ void TurnMessage::parse_my_towers(Map& defence_map) {
         else
             tower = new CannonTower();
 
+        tower->set_type(tower_json[1].asString() == "a" ? TowerType::ARCHER : TowerType::CANNON);
         tower->set_id(tower_json[0].asInt());
         tower->set_level(tower_json[2].asInt());
         tower->set_location(Point(tower_json[3]));
@@ -127,6 +130,7 @@ void TurnMessage::parse_enemy_towers(Map& attack_map) {
         else
             tower = new CannonTower();
 
+        tower->set_type(tower_json[1].asString() == "a" ? TowerType::ARCHER : TowerType::CANNON);
         tower->set_id(tower_json[0].asInt());
         tower->set_level(tower_json[2].asInt());
         tower->set_location(Point(tower_json[3]));
