@@ -49,7 +49,7 @@ UnitImpl<type>::UnitImpl(int id, Point location, Owner owner, int health, int le
 
 template <UnitType type>
 int UnitImpl<type>::get_price() const {
-    return INITIAL_PRICE + get_level() * PRICE_INCREASE;
+    return INITIAL_PRICE + (get_level() - 1 ) * PRICE_INCREASE;
 }
 
 template <UnitType type>
@@ -59,7 +59,7 @@ int UnitImpl<type>::get_added_income() const {
 
 template <UnitType type>
 int UnitImpl<type>::get_bounty() const {
-    return INITIAL_BOUNTY + get_level() * BOUNTY_INCREASE;
+    return INITIAL_BOUNTY + ( get_level() -1 )* BOUNTY_INCREASE;
 }
 
 template <UnitType type>
