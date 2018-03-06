@@ -102,6 +102,7 @@ void TurnMessage::parse_my_towers(Map& defence_map) {
         tower->set_id(tower_json[0].asInt());
         tower->set_level(tower_json[2].asInt());
         tower->set_location(Point(tower_json[3]));
+        tower->set_price(tower_json[4].asInt());
 
         GrassCell* grass_cell = dynamic_cast<GrassCell*>(defence_map.get_cell(tower->get_location().get_x(),
                                                                               tower->get_location().get_y()));

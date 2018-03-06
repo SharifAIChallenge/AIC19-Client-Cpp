@@ -20,7 +20,7 @@ public:
     Tower(const Tower&) = default;
     Tower& operator= (const Tower&) = default;
 
-    Tower(int id, Point location, Owner owner, TowerType type, int level);
+    Tower(int id, Point location, Owner owner, TowerType type, int level, int price);
 
     virtual Tower* clone() = 0;
 
@@ -30,7 +30,9 @@ public:
     void set_level(int level);
     int get_level() const;
 
-    virtual int get_price() const = 0;
+    void set_price(int price);
+    int get_price() const;
+
     virtual int get_damage() const = 0;
     virtual int get_attack_speed() const = 0;
     virtual int get_attack_range() const = 0;
@@ -42,6 +44,9 @@ private:
 
     /// Current level
     int m_level;
+
+    /// Price paid to create this tower (excluding upgrades)
+    int m_price;
 };
 
 template <TowerType type>
@@ -54,11 +59,10 @@ public:
     TowerImpl(const TowerImpl&) = default;
     TowerImpl& operator=(const TowerImpl&) = default;
 
-    TowerImpl(int id, Point location, Owner owner, int level);
+    TowerImpl(int id, Point location, Owner owner, int level, int price);
 
     TowerImpl* clone() override;
 
-    int get_price() const override;
     int get_damage() const override;
     int get_attack_speed() const override;
     int get_attack_range() const override;
@@ -66,6 +70,7 @@ public:
     static int INITIAL_PRICE;
     static int INITIAL_LEVEL_UP_PRICE;
     static double PRICE_COEFF;
+    static int INITIAL_PRICE_INCREASE;
 
     static int INITIAL_DAMAGE;
     static double DAMAGE_COEFF;

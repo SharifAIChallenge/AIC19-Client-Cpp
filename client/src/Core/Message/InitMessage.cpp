@@ -219,6 +219,9 @@ void InitMessage::parse_tower_constants() {
     CannonTower::PRICE_COEFF = cannon_tower_constants_json[2].asDouble();
     Logger::Get(LogLevel_DEBUG) << "CannonTower::PRICE_COEFF = " << CannonTower::PRICE_COEFF << std::endl;
 
+    CannonTower::INITIAL_PRICE_INCREASE = cannon_tower_constants_json[8].asInt();
+    Logger::Get(LogLevel_DEBUG) << "CannonTower::PRICE_INCREASE = " << CannonTower::INITIAL_PRICE_INCREASE << std::endl;
+
     CannonTower::INITIAL_DAMAGE = cannon_tower_constants_json[3].asInt();
     Logger::Get(LogLevel_DEBUG) << "CannonTower::INITIAL_DAMAGE = " << CannonTower::INITIAL_DAMAGE << std::endl;
 

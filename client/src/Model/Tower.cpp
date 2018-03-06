@@ -2,10 +2,11 @@
 
 #include <cmath>
 
-Tower::Tower(int id, Point location, Owner owner, TowerType type, int level)
+Tower::Tower(int id, Point location, Owner owner, TowerType type, int level, int price)
         : Entity(id, location, owner)
         , m_type(type)
         , m_level(level)
+        , m_price(price)
 {
 }
 
@@ -25,23 +26,23 @@ int Tower::get_level() const {
     return m_level;
 }
 
+void Tower::set_price(int price) {
+    m_price = price;
+}
+
+int Tower::get_price() const {
+    return m_price;
+}
+
 template <TowerType type>
-TowerImpl<type>::TowerImpl(int id, Point location, Owner owner, int level)
-        : Tower(id, location, owner, type, level)
+TowerImpl<type>::TowerImpl(int id, Point location, Owner owner, int level, int price)
+        : Tower(id, location, owner, type, level, price)
 {
 }
 
 template <TowerType type>
 TowerImpl<type>* TowerImpl<type>::clone() {
     return new TowerImpl<type>(*this);
-}
-
-template <TowerType type>
-int TowerImpl<type>::get_price() const {
-    int result = INITIAL_PRICE;
-    for (int i = 2; i <= get_level(); ++i)
-        result += static_cast<int>(INITIAL_LEVEL_UP_PRICE * std::pow(PRICE_COEFF, i - 2));
-    return result;
 }
 
 template <TowerType type>
@@ -67,6 +68,9 @@ int TowerImpl<type>::INITIAL_LEVEL_UP_PRICE = 0;
 
 template <TowerType type>
 double TowerImpl<type>::PRICE_COEFF = 0.0;
+
+template <TowerType type>
+int TowerImpl<type>::INITIAL_PRICE_INCREASE = 0;
 
 template <TowerType type>
 int TowerImpl<type>::INITIAL_DAMAGE = 0;
