@@ -105,6 +105,7 @@ void TurnMessage::parse_my_towers(Map& defence_map) {
         tower->set_level(tower_json[2].asInt());
         tower->set_location(Point(tower_json[3]));
         tower->set_price(tower_json[4].asInt());
+        tower->set_owner(Owner::ME);
 
         GrassCell* grass_cell = dynamic_cast<GrassCell*>(defence_map.get_cell(tower->get_location().get_x(),
                                                                               tower->get_location().get_y()));
@@ -137,6 +138,7 @@ void TurnMessage::parse_enemy_towers(Map& attack_map) {
         tower->set_id(tower_json[0].asInt());
         tower->set_level(tower_json[2].asInt());
         tower->set_location(Point(tower_json[3]));
+        tower->set_owner(Owner::ENEMY);
 
         GrassCell* grass_cell = dynamic_cast<GrassCell*>(attack_map.get_cell(tower->get_location().get_x(),
                                                                               tower->get_location().get_y()));
@@ -189,11 +191,15 @@ std::vector<Unit*> TurnMessage::parse_dead_units(World& world) {
     return result;
 }
 
+#include <iostream>
+
 std::vector<Unit*> TurnMessage::parse_passed_units(World& world) {
     Json::Value root = Message::get_args()[0];
 
     std::vector<Unit*> my_units = world.get_my_units();
     std::vector<Unit*> enemy_units = world.get_enemy_units();
+
+    std::cerr << root["events"]["endofpath"].toStyledString() << std::endl;
 
     std::vector<Unit*> result;
     //std::cout << root["events"]["endofpath"].size();
@@ -202,6 +208,7 @@ std::vector<Unit*> TurnMessage::parse_passed_units(World& world) {
         auto iter = std::find_if(units.begin(), units.end(),
                                  [&](Unit* x) { return x->get_id() == unit_json[1].asInt(); });
         if (iter != units.end())
+
             result.push_back((*iter)->clone());
     }
 
