@@ -214,9 +214,8 @@ std::vector<Tower*> TurnMessage::parse_destroyed_towers(World& world) {
     std::vector<Tower*> enemy_towers = world.get_visible_enemy_towers();
 
     std::vector<Tower*> result;
-    //std :: cout << root["events"]["destroyedtowers"].size();
     for (Json::Value& tower_json : root["events"]["destroyedtowers"]) {
-        std::vector<Tower*>& towers = (tower_json[0].asInt() == 0 ? enemy_towers : my_towers);
+        std::vector<Tower*>& towers = (tower_json[0].asInt() == 1 ? enemy_towers : my_towers);
         auto iter = std::find_if(towers.begin(), towers.end(),
                                  [&](Tower* x) { return x->get_id() == tower_json[1].asInt(); });
         if (iter != towers.end())
@@ -225,7 +224,6 @@ std::vector<Tower*> TurnMessage::parse_destroyed_towers(World& world) {
 
     Logger::Get(LogLevel_DEBUG) << "Destroyed towers = " << result.size() << std::endl;
 
-    //std::cout << result.size();
     return result;
 }
 
