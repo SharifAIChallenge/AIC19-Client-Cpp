@@ -191,15 +191,11 @@ std::vector<Unit*> TurnMessage::parse_dead_units(World& world) {
     return result;
 }
 
-#include <iostream>
-
 std::vector<Unit*> TurnMessage::parse_passed_units(World& world) {
     Json::Value root = Message::get_args()[0];
 
     std::vector<Unit*> my_units = world.get_my_units();
     std::vector<Unit*> enemy_units = world.get_enemy_units();
-
-    std::cerr << root["events"]["endofpath"].toStyledString() << std::endl;
 
     std::vector<Unit*> result;
     //std::cout << root["events"]["endofpath"].size();
