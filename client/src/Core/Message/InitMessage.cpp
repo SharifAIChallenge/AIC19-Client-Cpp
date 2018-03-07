@@ -207,6 +207,13 @@ void InitMessage::parse_tower_constants() {
     ArcherTower::ATTACK_RANGE = archer_tower_constants_json[6].asInt();
     Logger::Get(LogLevel_DEBUG) << "ArcherTower::ATTACK_RANGE = " << ArcherTower::ATTACK_RANGE << std::endl;
 
+    if (archer_tower_constants_json.size() > 8) {
+        ArcherTower ::INITIAL_PRICE_INCREASE = archer_tower_constants_json[8].asInt();
+    }else{
+        ArcherTower ::INITIAL_PRICE_INCREASE = 5;
+    }
+
+
 
     Json::Value& cannon_tower_constants_json = root["params"][7][1];
 
@@ -219,7 +226,11 @@ void InitMessage::parse_tower_constants() {
     CannonTower::PRICE_COEFF = cannon_tower_constants_json[2].asDouble();
     Logger::Get(LogLevel_DEBUG) << "CannonTower::PRICE_COEFF = " << CannonTower::PRICE_COEFF << std::endl;
 
-    CannonTower::INITIAL_PRICE_INCREASE = cannon_tower_constants_json[8].asInt();
+    if (cannon_tower_constants_json.size() > 8) {
+        CannonTower::INITIAL_PRICE_INCREASE = cannon_tower_constants_json[8].asInt();
+    }else{
+        CannonTower::INITIAL_PRICE_INCREASE = 5;
+    }
     Logger::Get(LogLevel_DEBUG) << "CannonTower::PRICE_INCREASE = " << CannonTower::INITIAL_PRICE_INCREASE << std::endl;
 
     CannonTower::INITIAL_DAMAGE = cannon_tower_constants_json[3].asInt();
