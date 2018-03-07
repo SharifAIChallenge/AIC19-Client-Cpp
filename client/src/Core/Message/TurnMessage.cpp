@@ -43,6 +43,7 @@ void TurnMessage::parse_my_units(Map& attack_map, const std::vector<Path*>& path
         unit->set_health(unit_json[3].asInt());
         unit->set_location(Point(unit_json[4]));
         unit->set_path(paths.at(unit_json[6].asUInt()));
+        unit->set_owner(Owner::ME);
 
         RoadCell* road_cell = dynamic_cast<RoadCell*>(attack_map.get_cell(unit->get_location().get_x(),
                                                                           unit->get_location().get_y()));
@@ -72,6 +73,7 @@ void TurnMessage::parse_enemy_units(Map& defence_map, const std::vector<Path*>& 
         unit->set_id(unit_json[0].asInt());
         unit->set_level(unit_json[2].asInt());
         unit->set_location(Point(unit_json[3]));
+        unit->set_owner(Owner::ENEMY);
         unit->set_path(nullptr);
 
         RoadCell* road_cell = dynamic_cast<RoadCell*>(defence_map.get_cell(unit->get_location().get_x(),
@@ -194,6 +196,7 @@ std::vector<Unit*> TurnMessage::parse_passed_units(World& world) {
     std::vector<Unit*> enemy_units = world.get_enemy_units();
 
     std::vector<Unit*> result;
+    //std::cout << root["events"]["endofpath"].size();
     for (Json::Value& unit_json : root["events"]["endofpath"]) {
         std::vector<Unit*>& units = (unit_json[0].asInt() == 0 ? enemy_units : my_units);
         auto iter = std::find_if(units.begin(), units.end(),
@@ -204,6 +207,11 @@ std::vector<Unit*> TurnMessage::parse_passed_units(World& world) {
 
     Logger::Get(LogLevel_DEBUG) << "Passed units = " << result.size() << std::endl;
 
+    //std::cout <<"!3" << std::endl;
+    //for (Unit* unit : result){
+    //    std::cout << unit->get_id() << unit->get_owner() << std::endl;
+    //}
+    //std::cout << result.size();
     return result;
 }
 
