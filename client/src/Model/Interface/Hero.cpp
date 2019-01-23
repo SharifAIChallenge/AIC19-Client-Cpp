@@ -64,27 +64,27 @@ void Hero::set_abilities(const std::vector<Ability *> &_abilities) {
     Hero::_abilities = _abilities;
 }
 
-const std::vector<DodgeAbility *> &Hero::get_dodgeAbilities() const {
+const std::vector<Ability *> &Hero::get_dodgeAbilities() const {
     return _dodgeAbilities;
 }
 
-void Hero::set_dodgeAbilities(const std::vector<DodgeAbility *> &_dodgeAbilities) {
+void Hero::set_dodgeAbilities(const std::vector<Ability *> &_dodgeAbilities) {
     Hero::_dodgeAbilities = _dodgeAbilities;
 }
 
-const std::vector<PowerAbility *> &Hero::get_healAbilities() const {
+const std::vector<Ability *> &Hero::get_healAbilities() const {
     return _healAbilities;
 }
 
-void Hero::set_healAbilities(const std::vector<PowerAbility *> &_healAbilities) {
+void Hero::set_healAbilities(const std::vector<Ability *> &_healAbilities) {
     Hero::_healAbilities = _healAbilities;
 }
 
-const std::vector<PowerAbility *> &Hero::get_attackAbilities() const {
+const std::vector<Ability *> &Hero::get_attackAbilities() const {
     return _attackAbilities;
 }
 
-void Hero::set_attackAbilities(const std::vector<PowerAbility *> &_attackAbilities) {
+void Hero::set_attackAbilities(const std::vector<Ability *> &_attackAbilities) {
     Hero::_attackAbilities = _attackAbilities;
 }
 //-------------currentCell---------------

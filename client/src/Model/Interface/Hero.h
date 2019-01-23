@@ -10,8 +10,8 @@
 #include "Ability.h"
 
 //TODO these guys need to be implemented:
-class DodgeAbility;
-class PowerAbility;
+//class DodgeAbility;
+//class PowerAbility;
 class Cell;
 
 class Hero {
@@ -47,16 +47,16 @@ public:
     const std::vector<Ability *> &get_abilities() const;
 
 
-    void set_dodgeAbilities(const std::vector<DodgeAbility *> &_dodgeAbilities);
-    const std::vector<DodgeAbility *> &get_dodgeAbilities() const;
+    void set_dodgeAbilities(const std::vector<Ability *> &_dodgeAbilities);
+    const std::vector<Ability *> &get_dodgeAbilities() const;
 
 
-    void set_healAbilities(const std::vector<PowerAbility *> &_healAbilities);
-    const std::vector<PowerAbility *> &get_healAbilities() const;
+    void set_healAbilities(const std::vector<Ability *> &_healAbilities);
+    const std::vector<Ability *> &get_healAbilities() const;
 
 
-    void set_attackAbilities(const std::vector<PowerAbility *> &_attackAbilities);
-    const std::vector<PowerAbility *> &get_attackAbilities() const;
+    void set_attackAbilities(const std::vector<Ability *> &_attackAbilities);
+    const std::vector<Ability *> &get_attackAbilities() const;
 
 
     void set_currentCell(const Cell &_currentCell);
@@ -77,9 +77,9 @@ private:
     HeroConstants _heroConstants;
 
     std::vector<Ability *> _abilities;
-    std::vector<DodgeAbility *> _dodgeAbilities;
-    std::vector<PowerAbility *> _healAbilities;
-    std::vector<PowerAbility *> _attackAbilities;
+    std::vector<Ability *> _dodgeAbilities;
+    std::vector<Ability *> _healAbilities;
+    std::vector<Ability *> _attackAbilities;
 
     Cell _currentCell;
     std::vector<Cell *> _recentPath;
