@@ -8,11 +8,7 @@
 
 #include "HeroConstants.h"
 #include "Ability.h"
-
-//TODO these guys need to be implemented:
-//class DodgeAbility;
-//class PowerAbility;
-class Cell;
+#include "Cell.h"
 
 class Hero {
 public:
