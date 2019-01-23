@@ -5,67 +5,67 @@ GameConstants::~GameConstants() {
 
 }
 //-----------RespawnTime-----------
-int GameConstants::get_RespawnTime() const {
-    return respawnTime;
+int GameConstants::get_respawnTime() const {
+    return _respawnTime;
 }
 
-void GameConstants::set_RespawnTime(int respawnTime) {
-    GameConstants::respawnTime = respawnTime;
+void GameConstants::set_respawnTime(int respawnTime) {
+    GameConstants::_respawnTime = respawnTime;
 }
 
-int& GameConstants::RespawnTime() {
-    return respawnTime;
+int& GameConstants::respawnTime() {
+    return _respawnTime;
 }
 
-int GameConstants::RespawnTime() const {
-    return respawnTime;
+int GameConstants::respawnTime() const {
+    return _respawnTime;
 }
 //------------TimeOut-------------
-void GameConstants::set_TimeOut(int timeOut) {
-    GameConstants::timeOut = timeOut;
+void GameConstants::set_timeOut(int timeOut) {
+    GameConstants::_timeOut = timeOut;
 }
 
-int GameConstants::get_TimeOut() const {
-    return timeOut;
+int GameConstants::get_timeOut() const {
+    return _timeOut;
 }
 
-int& GameConstants::TimeOut() {
-    return timeOut;
+int& GameConstants::timeOut() {
+    return _timeOut;
 }
 
-int GameConstants::TimeOut() const {
-    return timeOut;
+int GameConstants::timeOut() const {
+    return _timeOut;
 }
 //-------------MaxAP--------------
-int GameConstants::get_MaxAP() const {
-    return maxAP;
+int GameConstants::get_maxAP() const {
+    return _maxAP;
 }
 
-void GameConstants::set_MaxAP(int maxAP) {
-    GameConstants::maxAP = maxAP;
+void GameConstants::set_maxAP(int maxAP) {
+    GameConstants::_maxAP = maxAP;
 }
 
-int& GameConstants::MaxAP() {
-    return maxAP;
+int& GameConstants::maxAP() {
+    return _maxAP;
 }
 
-int GameConstants::MaxAP() const {
-    return maxAP;
+int GameConstants::maxAP() const {
+    return _maxAP;
 }
 //-----------MaxTurns-------------
-int GameConstants::get_MaxTurns() const {
-    return maxTurns;
+int GameConstants::get_maxTurns() const {
+    return _maxTurns;
 }
 
-void GameConstants::set_MaxTurns(int maxTurns) {
-    GameConstants::maxTurns = maxTurns;
+void GameConstants::set_maxTurns(int maxTurns) {
+    GameConstants::_maxTurns = maxTurns;
 }
 
-int& GameConstants::MaxTurns() {
-    return maxTurns;
+int& GameConstants::maxTurns() {
+    return _maxTurns;
 }
 
-int GameConstants::MaxTurns() const {
-    return maxTurns;
+int GameConstants::maxTurns() const {
+    return _maxTurns;
 }
 

@@ -21,31 +21,31 @@ public:
     GameConstants(GameConstants&&) = default;
     GameConstants& operator=(GameConstants&&) = default;
 
-    void set_RespawnTime(int respawnTime);
-    int get_RespawnTime() const;
-    int& RespawnTime();
-    int RespawnTime() const;
+    void set_respawnTime(int respawnTime);
+    int get_respawnTime() const;
+    int& respawnTime();
+    int respawnTime() const;
 
-    void set_TimeOut(int timeOut);
-    int get_TimeOut() const;
-    int& TimeOut();
-    int TimeOut() const;
+    void set_timeOut(int timeOut);
+    int get_timeOut() const;
+    int& timeOut();
+    int timeOut() const;
 
-    void set_MaxAP(int maxAP);
-    int get_MaxAP() const;
-    int& MaxAP();
-    int MaxAP() const;
+    void set_maxAP(int maxAP);
+    int get_maxAP() const;
+    int& maxAP();
+    int maxAP() const;
 
-    int get_MaxTurns() const;
-    void set_MaxTurns(int maxTurns);
-    int& MaxTurns();
-    int MaxTurns() const;
+    int get_maxTurns() const;
+    void set_maxTurns(int maxTurns);
+    int& maxTurns();
+    int maxTurns() const;
 
 private:
-    int respawnTime;
-    int timeOut;
-    int maxAP;
-    int maxTurns;
+    int _respawnTime;
+    int _timeOut;
+    int _maxAP;
+    int _maxTurns;
 
 };
 

@@ -1,62 +1,62 @@
 #include "HeroConstants.h"
 
 
-HeroName HeroConstants::get_Name() const {
-    return name;
+HeroName HeroConstants::get_name() const {
+    return _name;
 }
 
 HeroConstants::~HeroConstants() {//TODO clear the AbilityNames vector
 
 }
 
-void HeroConstants::set_Name(HeroName name) {
-    HeroConstants::name = name;
+void HeroConstants::set_name(HeroName name) {
+    HeroConstants::_name = name;
 }
 
-HeroName &HeroConstants::Name() {
-    return name;
+HeroName &HeroConstants::name() {
+    return _name;
 }
 
-HeroName HeroConstants::Name() const {
-    return name;
+HeroName HeroConstants::name() const {
+    return _name;
 }
 
-const std::vector<AbilityName *> &HeroConstants::get_AbilityNames() const {
-    return AbilityNames;
+const std::vector<AbilityName *> &HeroConstants::get_abilityNames() const {
+    return _abilityNames;
 }
 
-void HeroConstants::set_AbilityNames(const std::vector<AbilityName *> &AbilityNames) {
-    HeroConstants::AbilityNames = AbilityNames;
+void HeroConstants::set_abilityNames(const std::vector<AbilityName *> &abilityName) {
+    HeroConstants::_abilityNames = abilityName;
 }
 
-int HeroConstants::get_MaxHP() const {
-    return maxHP;
+int HeroConstants::get_maxHP() const {
+    return _maxHP;
 }
 
-void HeroConstants::set_MaxHP(int maxHP) {
-    HeroConstants::maxHP = maxHP;
+void HeroConstants::set_maxHP(int maxHP) {
+    HeroConstants::_maxHP = maxHP;
 }
 
-int &HeroConstants::MaxHP() {
-    return maxHP;
+int &HeroConstants::maxHP() {
+    return _maxHP;
 }
 
-int HeroConstants::MaxHP() const {
-    return maxHP;
+int HeroConstants::maxHP() const {
+    return _maxHP;
 }
 
-int HeroConstants::get_MoveAPCost() const {
-    return moveAPCost;
+int HeroConstants::get_moveAPCost() const {
+    return _moveAPCost;
 }
 
-void HeroConstants::set_MoveAPCost(int moveAPCost) {
-    HeroConstants::moveAPCost = moveAPCost;
+void HeroConstants::set_moveAPCost(int moveAPCost) {
+    HeroConstants::_moveAPCost = moveAPCost;
 }
 
-int &HeroConstants::MoveAPCost() {
-    return moveAPCost;
+int &HeroConstants::moveAPCost() {
+    return _moveAPCost;
 }
 
-int HeroConstants::MoveAPCost() const {
-    return moveAPCost;
+int HeroConstants::moveAPCost() const {
+    return _moveAPCost;
 }
