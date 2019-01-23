@@ -21,6 +21,8 @@ public:
     int columnNum() const;
 
 
+
+
     Cell getCell(int row, int column);
 
 private:
