@@ -75,3 +75,31 @@ void Game::set_score(int _score) {
 int &Game::score() {
     return _score;
 }
+
+Game::~Game() {
+    for (std::vector<Hero *>::iterator it = _myHeroes.begin() ; it != _myHeroes.end(); ++it){
+        delete *it;
+    }
+    _myHeroes.clear();
+
+    for (std::vector<Hero *>::iterator it = _oppHeroes.begin() ; it != _oppHeroes.end(); ++it){
+        delete *it;
+    }
+    _oppHeroes.clear();
+
+    for (std::vector<Hero *>::iterator it = _myDeadHeroes.begin() ; it != _myDeadHeroes.end(); ++it){
+        delete *it;
+    }
+    _myDeadHeroes.clear();
+
+    for (std::vector<Cell *>::iterator it = _brokenWalls.begin() ; it != _brokenWalls.end(); ++it){
+        delete *it;
+    }
+    _brokenWalls.clear();
+
+    for (std::vector<Cell *>::iterator it = _createdWalls.begin() ; it != _createdWalls.end(); ++it){
+        delete *it;
+    }
+    _createdWalls.clear();
+
+}

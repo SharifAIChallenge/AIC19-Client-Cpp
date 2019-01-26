@@ -5,7 +5,25 @@
 #include "Hero.h"
 
 Hero::~Hero() {//TODO Check the vectors
+    for (std::vector<Ability *>::iterator it = _abilities.begin() ; it != _abilities.end(); ++it){
+        delete *it;
+    }
+    _abilities.clear();
 
+    for (std::vector<Ability *>::iterator it = _dodgeAbilities.begin() ; it != _dodgeAbilities.end(); ++it){
+        delete *it;
+    }
+    _dodgeAbilities.clear();
+
+    for (std::vector<Ability *>::iterator it = _healAbilities.begin() ; it != _healAbilities.end(); ++it){
+        delete *it;
+    }
+    _healAbilities.clear();
+
+    for (std::vector<Ability *>::iterator it = _attackAbilities.begin() ; it != _attackAbilities.end(); ++it){
+        delete *it;
+    }
+    _attackAbilities.clear();
 }
 //----------------id-------------------
 void Hero::set_id(int _id) {

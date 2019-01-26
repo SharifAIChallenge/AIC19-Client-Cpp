@@ -7,7 +7,7 @@
 
 class Map {
 public:
-    Map();
+    Map() = delete;//TODO we have to write something with inputs
     ~Map();
 
     void set_rowNum(int _rowNum);
@@ -20,9 +20,6 @@ public:
     int& columnNum();
     int columnNum() const;
 
-
-
-
     Cell getCell(int row, int column);
 
 private:
@@ -34,8 +31,6 @@ private:
     std::vector<Cell *> _objectiveZone;
     std::vector<Cell *> _myRespawnZone;
     std::vector<Cell *> _oppRespawnZone;
-
-
 
 };
 

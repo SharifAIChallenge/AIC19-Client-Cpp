@@ -5,8 +5,12 @@ HeroName HeroConstants::get_name() const {
     return _name;
 }
 
-HeroConstants::~HeroConstants() {//TODO clear the AbilityNames vector
-
+HeroConstants::~HeroConstants() {// clear the AbilityNames vector
+    for (std::vector<AbilityName *>::iterator it = _abilityNames.begin() ; it != _abilityNames.end(); ++it)
+    {
+        delete (*it);
+    }
+    _abilityNames.clear();
 }
 
 void HeroConstants::set_name(HeroName name) {

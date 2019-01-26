@@ -33,3 +33,37 @@ int Map::columnNum() const {
     return _columnNum;
 }
 
+Map::~Map() {
+    for (std::vector<std::vector<Cell *>>::iterator it = _cells.begin() ; it != _cells.end(); ++it)
+    {
+        for(std::vector<Cell *>::iterator p = it->begin() ; p != it->end(); ++p ) {
+            delete (*p);
+        }
+        it->clear();
+    }
+    _cells.clear();
+
+    for (std::vector<Cell *>::iterator it = _objectiveZone.begin() ; it != _objectiveZone.end(); ++it)
+    {
+        delete (*it);
+    }
+    _objectiveZone.clear();
+
+    for (std::vector<Cell *>::iterator it = _myRespawnZone.begin() ; it != _myRespawnZone.end(); ++it)
+    {
+        delete (*it);
+    }
+    _myRespawnZone.clear();
+
+    for (std::vector<Cell *>::iterator it = _oppRespawnZone.begin() ; it != _oppRespawnZone.end(); ++it)
+    {
+        delete (*it);
+    }
+    _oppRespawnZone.clear();
+
+}
+
+Cell Map::getCell(int row, int column) {//TODO::TEST check if row and column is in the write place
+    return *_cells[row][column];
+}
+
