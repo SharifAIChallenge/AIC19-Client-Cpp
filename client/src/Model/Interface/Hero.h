@@ -80,6 +80,9 @@ private:
     Cell _currentCell;
     std::vector<Cell *> _recentPath;
 
+
+public://single tone
+    static Hero NULL_HERO;
 };
 
 

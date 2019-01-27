@@ -130,6 +130,8 @@ void Hero::set_recentPath(const std::vector<Cell *> &_recentPath) {
     Hero::_recentPath = _recentPath;
 }
 
+//Single tone
+Hero Hero::NULL_HERO;
 
 
 

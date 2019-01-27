@@ -17,6 +17,8 @@ public:
     Cell(Cell&&) = default;
     Cell& operator=(Cell&&) = default;
 
+//    Cell& operator==(const Cell);
+
     void set_Wall(bool _isWall);
     bool is_Wall() const;
     bool& isWall();
@@ -52,6 +54,9 @@ public:
     int& column();
     int column() const;
 
+    bool inThisPosition(int row, int column) const;
+    bool operator==(const Cell _cell) const;
+
 private:
     bool _isWall;
     bool _isInMyRespawnZone;
@@ -61,6 +66,8 @@ private:
 
     int _row;
     int _column;
+public:
+    static Cell NULL_CELL;
 };
 
 

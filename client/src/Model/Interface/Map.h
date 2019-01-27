@@ -22,6 +22,8 @@ public:
 
     Cell getCell(int row, int column);
 
+    bool isInMap(int row,int column);
+
 private:
 
     int _rowNum;

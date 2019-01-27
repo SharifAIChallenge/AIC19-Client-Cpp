@@ -119,3 +119,15 @@ int &Cell::column() {
 int Cell::column() const {
     return _column;
 }
+
+bool Cell::inThisPosition(int row, int column) const{
+    return this->_row == row && this->_column == column;
+}
+
+bool Cell::operator==(const Cell _cell) const{
+    return this->inThisPosition(_cell.row(),_cell.column());
+}
+
+Cell Cell::NULL_CELL;
+
+

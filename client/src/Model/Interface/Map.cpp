@@ -67,3 +67,8 @@ Cell Map::getCell(int row, int column) {//TODO::TEST check if row and column is 
     return *_cells[row][column];
 }
 
+bool Map::isInMap(int row, int column) {
+    return (0 <= row && row < _rowNum) &&
+            (0 <= column && column < _columnNum);
+}
+

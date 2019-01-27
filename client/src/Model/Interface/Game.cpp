@@ -103,3 +103,41 @@ Game::~Game() {
     _createdWalls.clear();
 
 }
+//logical functions:
+Hero Game::getHero(int id) {
+    for(std::vector<Hero *>::iterator it = _myHeroes.begin(); it != _myHeroes.end(); ++it){
+        if((*it)->get_id() == id){
+            return **it;
+        }
+    }
+    for(std::vector<Hero *>::iterator it = _oppHeroes.begin(); it != _oppHeroes.end(); ++it){
+        if((*it)->get_id() == id){
+            return **it;
+        }
+    }
+    return Hero::NULL_HERO;
+}
+
+Hero Game::getMyHero(Cell cell) {
+    for(std::vector<Hero *>::iterator it = _myHeroes.begin(); it != _myHeroes.end(); ++it ){
+        //This only checks the location of the cell
+        if((*it)->get_currentCell() == cell){
+            return **it;
+        }
+    }
+    return Hero::NULL_HERO;
+}
+
+Hero Game::getOppHero(Cell cell) {
+    for(std::vector<Hero *>::iterator it = _oppHeroes.begin(); it!= _oppHeroes.end(); ++it){
+        //This only checks the location of the cell
+        if((*it)->get_currentCell() == cell){
+            return **it;
+        }
+    }
+    return Hero::NULL_HERO;
+}
+
+
+
+
