@@ -8,6 +8,7 @@
 #include "Hero.h"
 #include <cstdlib>
 #include <unordered_map>
+#include <algorithm>
 
 class Game {
 public:
@@ -27,13 +28,13 @@ public:
     const GameConstants &get_gameConstants() const;
     GameConstants& gameConstants();
 
-    void set_abilityConstants(const AbilityConstants &_abilityConstants);
-    const AbilityConstants &get_abilityConstants() const;
-    AbilityConstants& abilityConstants();
-
-    void set_heroConstants(const HeroConstants &_heroConstants);
-    const HeroConstants &get_heroConstants() const;
-    HeroConstants& heroConstants();
+//    void set_abilityConstants(const AbilityConstants &_abilityConstants);
+//    const AbilityConstants &get_abilityConstants() const;
+//    AbilityConstants& abilityConstants();
+//
+//    void set_heroConstants(const HeroConstants &_heroConstants);
+//    const HeroConstants &get_heroConstants() const;
+//    HeroConstants& heroConstants();
 
     void set_AP(int _AP);
     int get_AP() const;
@@ -69,9 +70,17 @@ public:
     // it would also stop too. should we implement this?
 
 
-    const std::vector<Cell *> &getRayCells(Cell startCell, Cell endCell);
+    std::vector<Cell *> getRayCells(Cell startCell, Cell endCell);
+    std::vector<Cell *> getImpactCells(AbilityName abilityName, Cell startCell, Cell targetCell);
+    Cell getImpactCell(AbilityName abilityName, Cell startCell, Cell targetCell);
+    Cell getImpactCell(AbilityName abilityName, int startCellRow, int startCellColumn, int endCellRow,
+                       int endCellColumn);
     Cell getImpactCell(Ability ability, Cell startCell, Cell targetCell);
-    const std::vector<Direction *> &getPathMoveDirections(Cell startCell, Cell endCell);
+    Cell getImpactCell(Ability ability, int startCellRow, int startCellColumn, int endCellRow, int endCellColumn);
+
+
+
+    std::vector<Direction *> getPathMoveDirections(Cell startCell, Cell endCell);
 
     int manhattanDistance(Cell startCell, Cell endCell);
     int manhattanDistance(int startCellRow, int startCellColumn, int endCellRow, int endCellColumn);
@@ -96,8 +105,8 @@ private:
 
     Map _map;
     GameConstants _gameConstants;
-    AbilityConstants _abilityConstants;
-    HeroConstants _heroConstants;
+    std::vector<AbilityConstants *> _abilityConstants;
+    std::vector<HeroConstants *> _heroConstants;
 
     std::vector<Hero *> _myHeroes;
     std::vector<Hero *> _oppHeroes;
@@ -108,6 +117,9 @@ private:
 
     int _AP;
     int _score;
+
+    AbilityConstants getAbilityConstants(AbilityName abilityName);
+
 };
 
 

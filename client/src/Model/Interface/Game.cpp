@@ -27,30 +27,30 @@ void Game::set_gameConstants(const GameConstants &_gameConstants) {
 GameConstants &Game::gameConstants() {
     return _gameConstants;
 }
-//------------abilityConstants---------
-const AbilityConstants &Game::get_abilityConstants() const {
-    return _abilityConstants;
-}
-
-void Game::set_abilityConstants(const AbilityConstants &_abilityConstants) {
-    Game::_abilityConstants = _abilityConstants;
-}
-
-AbilityConstants &Game::abilityConstants() {
-    return _abilityConstants;
-}
-//--------------heroConstants----------
-const HeroConstants &Game::get_heroConstants() const {
-    return _heroConstants;
-}
-
-void Game::set_heroConstants(const HeroConstants &_heroConstants) {
-    Game::_heroConstants = _heroConstants;
-}
-
-HeroConstants &Game::heroConstants() {
-    return _heroConstants;
-}
+////------------abilityConstants---------
+//const AbilityConstants &Game::get_abilityConstants() const {
+//    return _abilityConstants;
+//}
+//
+//void Game::set_abilityConstants(const AbilityConstants &_abilityConstants) {
+//    Game::_abilityConstants = _abilityConstants;
+//}
+//
+//AbilityConstants &Game::abilityConstants() {
+//    return _abilityConstants;
+//}
+////--------------heroConstants----------
+//const HeroConstants &Game::get_heroConstants() const {
+//    return _heroConstants;
+//}
+//
+//void Game::set_heroConstants(const HeroConstants &_heroConstants) {
+//    Game::_heroConstants = _heroConstants;
+//}
+//
+//HeroConstants &Game::heroConstants() {
+//    return _heroConstants;
+//}
 //-----------------AP------------------
 int Game::get_AP() const {
     return _AP;
@@ -181,10 +181,6 @@ int Game::manhattanDistance(int startCellRow, int startCellColumn, int endCellRo
 
 }
 
-const std::vector<Cell *> &Game::getRayCells(Cell startCell, Cell endCell) {
-    std::vector<Cell *> path;
-}
-
 //------------Algorithmic--------------
 
 Cell Game::getNextCell(const Cell &cell, const Direction& direction) {
@@ -307,6 +303,78 @@ void Game::dfs(Cell& currentCell, const Cell& startCell, const Cell& targetCell,
             }
         }
 
+}
+
+/**
+     * Get all the cells that collide with the ray line in at least one non corner point, before reaching a wall.
+     * If it hits a wall cell just in the corner, it would also stop too.
+     *
+     * @param startCell
+     * @param targetCell
+     * @return
+     */
+std::vector<Cell *> Game::getRayCells(Cell startCell, Cell endCell) {
+    std::vector<Cell *> path;
+    std::unordered_map<Cell, bool> _isSeen;
+    dfs(startCell,startCell,endCell,_isSeen,path);
+    return path;
+}
+
+std::vector<Cell *> Game::getImpactCells(AbilityName abilityName, Cell startCell, Cell targetCell) {
+    AbilityConstants abilityConstants = getAbilityConstants(abilityName);
+    if (abilityConstants.isLobbing())
+    {
+        std::vector<Cell *> targetCellVec{&targetCell};
+        return targetCellVec;
+    }
+    if (startCell.isWall() || startCell == targetCell)
+    {
+        std::vector<Cell *> startCellVec{&startCell};
+        return startCellVec;
+    }
+    std::vector<Cell *> impactCells;
+    std::vector<Cell *> rayCells = getRayCells(startCell, targetCell);
+    Cell* lastCell = &Cell::NULL_CELL;
+    for (std::vector<Cell *>::iterator cellIt = rayCells.begin(); cellIt !=rayCells.end(); ++cellIt) {
+
+        if (manhattanDistance(startCell, **cellIt) > abilityConstants.range())
+            break;
+        lastCell = *cellIt;
+        if ((getOppHero(**cellIt) != Hero::NULL_HERO && !(abilityConstants.type() == AbilityType::HEAL))
+            || (getMyHero(**cellIt) != Hero::NULL_HERO && abilityConstants.type() == AbilityType::HEAL))
+        {
+            impactCells.push_back(*cellIt);
+            if (!abilityConstants.isPiercing()) break;
+        }
+    }
+    if (std::find(impactCells.begin(), impactCells.end(), &lastCell) != impactCells.end())//does not contain!
+        impactCells.push_back(lastCell);
+    return impactCells;
+}
+
+
+Cell Game::getImpactCell(AbilityName abilityName, Cell startCell, Cell targetCell) {
+    std::vector<Cell *> impactCells = getImpactCells(abilityName, startCell, targetCell);
+    return *(impactCells.back());
+}
+
+
+Cell Game::getImpactCell(Ability ability, Cell startCell, Cell targetCell) {
+    return Cell();
+}
+
+
+
+//--------------private----------------
+AbilityConstants Game::getAbilityConstants(AbilityName abilityName) {
+    for (AbilityConstants * abilityConstants : this->_abilityConstants)
+    {
+        if (abilityConstants->abilityName() == abilityName)
+        {
+            return *abilityConstants;
+        }
+    }
+    return AbilityConstants::NULL_ABILITY_CONSTANTS;
 }
 
 

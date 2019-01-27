@@ -9,6 +9,8 @@ public:
     AbilityConstants() = default;
     ~AbilityConstants() = default;
 
+    AbilityConstants(bool _isNull);
+
     AbilityConstants(const AbilityConstants&) = default;
     AbilityConstants& operator=(const AbilityConstants&) = default;
 
@@ -75,6 +77,11 @@ private:
     int _power;
     bool _isLobbing;
     bool _isPiercing;
+
+    bool isNull = false;
+
+public://single tone
+    static AbilityConstants NULL_ABILITY_CONSTANTS;
 };
 
 

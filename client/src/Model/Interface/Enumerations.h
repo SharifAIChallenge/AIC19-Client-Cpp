@@ -6,6 +6,11 @@ enum AbilityName//TODO Complete these enums
     HEAL_FOR_THE_GREATER_GOOD
 };
 
+enum AbilityType
+{
+    HEAL,DODGE,ATTACK
+};
+
 enum HeroName
 {
     HEALER

@@ -11,6 +11,8 @@ public:
     Cell() = default;
     ~Cell() = default;
 
+    Cell(bool _isNull);
+
     Cell(const Cell&) = default;
     Cell& operator=(const Cell&) = default;
 
@@ -67,6 +69,9 @@ private:
 
     int _row;
     int _column;
+
+    bool isNull = false;
+
 public:
     static Cell NULL_CELL;
 };

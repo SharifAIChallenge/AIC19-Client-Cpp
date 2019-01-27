@@ -4,6 +4,10 @@
 
 #include "Hero.h"
 
+
+Hero::Hero(bool _isNull):Hero(),isNull(_isNull) {}
+
+
 Hero::~Hero() {//TODO Check the vectors
     for (std::vector<Ability *>::iterator it = _abilities.begin() ; it != _abilities.end(); ++it){
         delete *it;
@@ -130,8 +134,16 @@ void Hero::set_recentPath(const std::vector<Cell *> &_recentPath) {
     Hero::_recentPath = _recentPath;
 }
 
+bool Hero::operator==(Hero _hero) {
+    return (this->_id == _hero.id()) && (this->isNull == _hero.isNull);
+}
+
+bool Hero::operator!=(Hero _hero) {
+    return !(*this == _hero);
+}
+
 //Single tone
-Hero Hero::NULL_HERO;
+Hero Hero::NULL_HERO(true);
 
 
 

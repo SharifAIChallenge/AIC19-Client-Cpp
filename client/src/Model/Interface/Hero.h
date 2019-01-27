@@ -16,6 +16,8 @@ public:
     Hero() = default;
     ~Hero();
 
+    Hero(bool isNull);
+
     Hero(const Hero&) = default;
     Hero& operator=(const Hero&) = default;
 
@@ -64,7 +66,9 @@ public:
     void set_recentPath(const std::vector<Cell *> &_recentPath);
     const std::vector<Cell *> &get_recentPath() const;
 
-
+    //TODO: is it enough to compare the id?
+    bool operator==(Hero _hero);
+    bool operator!=(Hero _hero);
 
 private:
 
@@ -80,6 +84,7 @@ private:
     Cell _currentCell;
     std::vector<Cell *> _recentPath;
 
+    bool isNull = false;
 
 public://single tone
     static Hero NULL_HERO;

@@ -3,6 +3,9 @@
 //
 
 #include "Cell.h"
+
+
+Cell::Cell(bool _isNull):Cell(), isNull(_isNull) {}
 //---------------wall------------------
 bool Cell::is_Wall() const {
     return _isWall;
@@ -125,13 +128,15 @@ bool Cell::inThisPosition(int row, int column) const{
 }
 
 bool Cell::operator==(const Cell _cell) const{
-    return this->inThisPosition(_cell.row(),_cell.column());
+    return this->inThisPosition(_cell.row(),_cell.column()) &&
+            (this->isNull == _cell.isNull);
 }
 
 bool Cell::operator!=(const Cell _cell) const {
-    return !((*this) == _cell;
+    return !(*this == _cell);
 }
 
-Cell Cell::NULL_CELL;
+Cell Cell::NULL_CELL(true);
+
 
 

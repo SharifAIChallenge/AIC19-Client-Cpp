@@ -1,6 +1,11 @@
 #include "AbilityConstants.h"
 
-//-----------AbilityName----------------
+
+//------------constructor---------------
+AbilityConstants::AbilityConstants(bool _isNull):AbilityConstants(),
+                                                 isNull(_isNull) {}
+
+//------------AbilityName---------------
 AbilityName AbilityConstants::get_abilityName() const {
     return _abilityName;
 }
@@ -144,3 +149,7 @@ bool &AbilityConstants::isPiercing() {
 bool AbilityConstants::isPiercing() const {
     return _isPiercing;
 }
+
+
+//single tone:
+AbilityConstants AbilityConstants::NULL_ABILITY_CONSTANTS(true);
