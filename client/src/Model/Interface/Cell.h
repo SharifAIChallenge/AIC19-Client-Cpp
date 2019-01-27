@@ -56,6 +56,7 @@ public:
 
     bool inThisPosition(int row, int column) const;
     bool operator==(const Cell _cell) const;
+    bool operator!=(const Cell _cell) const;
 
 private:
     bool _isWall;

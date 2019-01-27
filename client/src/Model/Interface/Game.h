@@ -6,6 +6,8 @@
 #include "AbilityConstants.h"
 #include "HeroConstants.h"
 #include "Hero.h"
+#include <cstdlib>
+#include <unordered_map>
 
 class Game {
 public:
@@ -50,20 +52,42 @@ public:
 
     Hero getHero(int id);
     Hero getMyHero(Cell cell);
+    Hero getMyHero(int cellRow, int cellColumn);
     Hero getOppHero(Cell cell);
+    Hero getOppHero(int cellRow, int cellColumn);
+
+    //algorithmics:
+    Cell getNextCell(const Cell& cell,const Direction& direction);
+    int crossProduct(int x1, int y1, int x2, int y2, int x3, int y3);
+    int squareCollision(const Cell& startCell,const Cell& targetCell,const Cell& cell);
+    bool isCloser(Cell currentCell, Cell targetCell, Cell nextCell);
+    void dfs(Cell& currentCell, const Cell& startCell, const Cell& targetCell, std::unordered_map<Cell, bool>& isSeen,
+             std::vector<Cell *>& path);
 
     // Get all the cells that collide with the ray line in at least one non corner point,
     // before reaching a wall. If it hits a wall cell just in the corner,
     // it would also stop too. should we implement this?
+
+
     const std::vector<Cell *> &getRayCells(Cell startCell, Cell endCell);
     Cell getImpactCell(Ability ability, Cell startCell, Cell targetCell);
     const std::vector<Direction *> &getPathMoveDirections(Cell startCell, Cell endCell);
 
     int manhattanDistance(Cell startCell, Cell endCell);
+    int manhattanDistance(int startCellRow, int startCellColumn, int endCellRow, int endCellColumn);
     bool isInVision(Cell startCell, Cell endCell);
     bool isAccessible(int row, int column);
 
-    void castAbility(int id, Ability ability, Cell targetCell);
+    void castAbility(int heroId, AbilityName abilityName, int targetCellRow, int targetCellColumn);
+    void castAbility(int heroId, AbilityName abilityName, Cell targetCell);
+    void castAbility(int heroId, Ability ability, int targetCellRow, int targetCellColumn);
+    void castAbility(int heroId, Ability ability, Cell targetCell);
+    void castAbility(Hero hero, AbilityName abilityName, int targetCellRow, int targetCellColumn);
+    void castAbility(Hero hero, AbilityName abilityName, Cell targetCell);
+    void castAbility(Hero hero, Ability ability, int targetCellRow, int targetCellColumn);
+    void castAbility(Hero hero, Ability ability, Cell targetCell);
+
+
     void moveHero(int id, Direction direction);
     void pickHero(HeroName heroName);
 

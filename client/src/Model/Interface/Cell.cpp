@@ -128,6 +128,10 @@ bool Cell::operator==(const Cell _cell) const{
     return this->inThisPosition(_cell.row(),_cell.column());
 }
 
+bool Cell::operator!=(const Cell _cell) const {
+    return !((*this) == _cell;
+}
+
 Cell Cell::NULL_CELL;
 
 
