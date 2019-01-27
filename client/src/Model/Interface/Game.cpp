@@ -267,7 +267,7 @@ void Game::dfs(Cell& currentCell, const Cell& startCell, const Cell& targetCell,
     isSeen[currentCell] = true;
     path.push_back(&currentCell);
     //TODO make sure the Direction enum is not initialized!
-    for (int dir = Direction::UP; dir != Direction::RIGHT; dir++ )//(Direction direction : Direction.values())
+    for (int dir = Direction::UP; dir <= Direction::RIGHT ; dir++ )//(Direction direction : Direction.values())
     {
         Direction direction = static_cast<Direction>(dir);
         Cell nextCell = getNextCell(currentCell, direction);
@@ -360,10 +360,37 @@ Cell Game::getImpactCell(AbilityName abilityName, Cell startCell, Cell targetCel
 
 
 Cell Game::getImpactCell(Ability ability, Cell startCell, Cell targetCell) {
-    return Cell();
+    return getImpactCell(ability.abilityConstants().abilityName(), startCell, targetCell);
 }
 
+Cell Game::getImpactCell(Ability ability, int startCellRow, int startCellColumn, int endCellRow, int endCellColumn) {
+    if (!_map.isInMap(startCellRow, startCellColumn) || !_map.isInMap(endCellRow, endCellColumn))
+        return Cell::NULL_CELL;
+    return getImpactCell(ability.abilityConstants().abilityName(), _map.getCell(startCellRow, startCellColumn),
+                         _map.getCell(endCellRow, endCellColumn));
+}
 
+Cell Game::getImpactCell(AbilityName abilityName, int startCellRow, int startCellColumn, int endCellRow,
+                         int endCellColumn) {
+    if (!_map.isInMap(startCellRow, startCellColumn) || !_map.isInMap(endCellRow, endCellColumn))
+        return Cell::NULL_CELL;
+    return getImpactCell(abilityName, _map.getCell(startCellRow, startCellColumn), _map.getCell(endCellRow,
+                                                                                              endCellColumn));
+}
+
+bool Game::isInVision(Cell startCell, Cell endCell) {
+    if (startCell.isWall() || endCell.isWall())
+        return false;
+    std::vector<Cell *> rayCells = getRayCells(startCell, endCell);
+    Cell lastCell = *(rayCells.back());
+    return lastCell == endCell;
+}
+
+bool Game::isInVision(int startCellRow, int startCellColumn, int endCellRow, int endCellColumn) {
+    if (!_map.isInMap(startCellRow, startCellColumn) || !_map.isInMap(endCellRow, endCellColumn))
+        return false;
+    return isInVision(_map.getCell(startCellRow, startCellColumn), _map.getCell(endCellRow, endCellColumn));
+}
 
 //--------------private----------------
 AbilityConstants Game::getAbilityConstants(AbilityName abilityName) {
@@ -376,6 +403,49 @@ AbilityConstants Game::getAbilityConstants(AbilityName abilityName) {
     }
     return AbilityConstants::NULL_ABILITY_CONSTANTS;
 }
+
+//std::vector<Direction *> Game::getPathMoveDirections(Cell startCell, Cell endCell) {
+//    if (startCell == endCell || startCell.isWall() || endCell.isWall()) {
+//        std::vector<Direction *> emptyPath;
+//        return emptyPath;
+//    }
+//
+//    std::unordered_map<Cell, std::pair<Cell, Direction>> lastMoveInfo; // saves parent cell and direction to go from parent cell to current cell
+//     bfsQueue = new Cell[map.getRowNum() * map.getColumnNum() + 10];
+//    int queueHead = 0, queueTail = 0;
+//
+//    lastMoveInfo[startCell] = new Pair<>(null, null);
+//    bfsQueue[queueTail++] = startCell;
+//
+//    while (queueHead != queueTail)
+//    {
+//        Cell currentCell = bfsQueue[queueHead++];
+//        if (currentCell == endCell)
+//        {
+//            ArrayList<Direction> directions = new ArrayList<>();
+//            while (currentCell != startCell)
+//            {
+//                directions.add(lastMoveInfo.get(currentCell).getSecond());
+//                currentCell = lastMoveInfo.get(currentCell).getFirst();
+//            }
+//            Collections.reverse(directions);
+//            return directions.toArray(new Direction[0]);
+//        }
+//        for (Direction direction : Direction.values())
+//        {
+//            Cell nextCell = getNextCell(currentCell, direction);
+//            if (nextCell != null && !lastMoveInfo.containsKey(nextCell))
+//            {
+//                lastMoveInfo.put(nextCell, new Pair<>(currentCell, direction));
+//                bfsQueue[queueTail++] = nextCell;
+//            }
+//        }
+//    }
+//    std::vector<Direction *> emptyPath;
+//    return emptyPath;
+//}
+
+
 
 
 

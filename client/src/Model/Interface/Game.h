@@ -79,12 +79,13 @@ public:
     Cell getImpactCell(Ability ability, int startCellRow, int startCellColumn, int endCellRow, int endCellColumn);
 
 
-
     std::vector<Direction *> getPathMoveDirections(Cell startCell, Cell endCell);
+    std::vector<Direction *> getPathMoveDirections(int startCellRow, int startCellColumn, int endCellRow, int endCellColumn);
 
     int manhattanDistance(Cell startCell, Cell endCell);
     int manhattanDistance(int startCellRow, int startCellColumn, int endCellRow, int endCellColumn);
     bool isInVision(Cell startCell, Cell endCell);
+    bool isInVision(int startCellRow, int startCellColumn, int endCellRow, int endCellColumn);
     bool isAccessible(int row, int column);
 
     void castAbility(int heroId, AbilityName abilityName, int targetCellRow, int targetCellColumn);
