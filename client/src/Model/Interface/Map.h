@@ -4,25 +4,32 @@
 
 #include <vector>
 #include "Cell.h"
+#include <Utility/Utility.h>
 
 class Map {
 public:
     Map() = delete;//TODO we have to write something with inputs
     ~Map();
 
-    void set_rowNum(int _rowNum);
-    int get_rowNum() const;
+    //This constructor initialises the vectors, not the row and column Nums
+    Map(const std::vector<std::vector<Cell*>>& cells_grid);
+
     int& rowNum();
     int rowNum() const;
 
-    void set_columnNum(int _columnNum);
-    int get_columnNum() const;
     int& columnNum();
     int columnNum() const;
+
 
     Cell getCell(int row, int column);
 
     bool isInMap(int row,int column);
+
+    void clear_cells();
+
+    void set_cells(const std::vector<std::vector<Cell*>>& cells_grid);
+
+    std::vector<Cell*> get_cells_list() const;
 
 private:
 

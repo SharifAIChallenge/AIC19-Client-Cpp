@@ -4,21 +4,21 @@
 GameConstants::~GameConstants() {
 
 }
-//-----------RespawnTime-----------
-int GameConstants::get_respawnTime() const {
-    return _respawnTime;
+//----------killScore-------------
+int &GameConstants::killScore() {
+    return _killScore;
 }
 
-void GameConstants::set_respawnTime(int respawnTime) {
-    GameConstants::_respawnTime = respawnTime;
+int GameConstants::killScore() const {
+    return _killScore;
+}
+//-------objectiveZoneScore-------
+int &GameConstants::objectiveZoneScore() {
+    return _objectiveZoneScore;
 }
 
-int& GameConstants::respawnTime() {
-    return _respawnTime;
-}
-
-int GameConstants::respawnTime() const {
-    return _respawnTime;
+int GameConstants::objectiveZoneScore() const {
+    return _objectiveZoneScore;
 }
 //------------TimeOut-------------
 void GameConstants::set_timeOut(int timeOut) {

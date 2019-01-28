@@ -56,7 +56,7 @@ void Controller::run() try {
     Logger::Get(LogLevel_INFO) << "Connected" << std::endl;
 
     Logger::Get(LogLevel_TRACE) << "Sending authentication message" << std::endl;
-    m_network.send(AuthenticationMessage(m_token).to_string());
+    m_network.send(AuthenticationMessage(m_token).to_string());//TODO about the authentication process
 
     // Parse init message
     Logger::Get(LogLevel_TRACE) << "Waiting for init message" << std::endl;

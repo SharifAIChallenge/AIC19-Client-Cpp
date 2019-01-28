@@ -1,13 +1,11 @@
 #include "Map.h"
+
+
+Map::Map(const std::vector<std::vector<Cell *>> &cells_grid): {
+    this->set_cells(cells_grid);
+}
+
 //--------------rowNum-----------------
-int Map::get_rowNum() const {
-    return _rowNum;
-}
-
-void Map::set_rowNum(int _rowNum) {
-    Map::_rowNum = _rowNum;
-}
-
 int &Map::rowNum() {
     return _rowNum;
 }
@@ -17,14 +15,6 @@ int Map::rowNum() const {
 }
 
 //------------columnNum----------------
-int Map::get_columnNum() const {
-    return _columnNum;
-}
-
-void Map::set_columnNum(int _columnNum) {
-    Map::_columnNum = _columnNum;
-}
-
 int &Map::columnNum() {
     return _columnNum;
 }
@@ -71,4 +61,32 @@ bool Map::isInMap(int row, int column) {
     return (0 <= row && row < _rowNum) &&
             (0 <= column && column < _columnNum);
 }
+
+void Map::clear_cells() {
+    for (Cell* cell : get_cells_list())
+        delete cell;
+    this->_cells.clear();
+
+}
+
+std::vector<Cell *> Map::get_cells_list() const {
+    return flatten_list(this->_cells);
+}
+
+void Map::set_cells(const std::vector<std::vector<Cell *>> &cells_grid) {
+    clear_cells();
+    this->_cells = cells_grid;
+
+    std::vector<Cell *> cell_list = this->get_cells_list();
+    for(std::vector<Cell *>::iterator it = cell_list.begin(); it != cell_list.end(); ++it){
+        if((*it)->isInMyRespawnZone())
+            this->_myRespawnZone.push_back(*it);
+        if((*it)->isInOppRespawnZone())
+            this->_oppRespawnZone.push_back(*it);
+        if((*it)->isInObjectiveZone())
+            this->_objectiveZone.push_back(*it);
+    }
+}
+
+
 

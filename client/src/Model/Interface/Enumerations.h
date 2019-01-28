@@ -11,7 +11,7 @@ enum AbilityType
     HEAL,DODGE,ATTACK
 };
 
-enum HeroName
+enum HeroName//TODO Complete these enums
 {
     HEALER
 };

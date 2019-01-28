@@ -1,10 +1,13 @@
 #ifndef AIC18_CLIENT_CPP_INIT_MESSAGE_H
 #define AIC18_CLIENT_CPP_INIT_MESSAGE_H
 
-#include <Model/Map.h>
-#include <Model/Path.h>
+#include <Model/Interface/GameConstants.h>
+#include <Model/Interface/Map.h>
+#include <Model/Interface/HeroConstants.h>
+#include <Model/Interface/AbilityConstants.h>
 
 #include "Message.h"
+#include <vector>
 
 class InitMessage final : public Message {
 public:
@@ -13,15 +16,19 @@ public:
 
     explicit InitMessage(std::string&& json_form);
 
+    GameConstants parse_gameConstants();
+
     Map parse_map();
 
-    std::vector<Path*> parse_paths(const Map& map);
+    std::vector<HeroConstants *> parse_heroConstants();
 
-    void parse_world_constants();
+    std::vector<AbilityConstants *> parse_abilityConstants();
 
-    void parse_unit_constants();
+private:
+    HeroName give_HeroNameEnum(std::string HeroName);
+    AbilityName give_AbilityName(std::string AbilityName);
 
-    void parse_tower_constants();
+
 };
 
 #endif // AIC18_CLIENT_CPP_INIT_MESSAGE_H

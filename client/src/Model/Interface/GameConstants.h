@@ -21,10 +21,12 @@ public:
     GameConstants(GameConstants&&) = default;
     GameConstants& operator=(GameConstants&&) = default;
 
-    void set_respawnTime(int respawnTime);
-    int get_respawnTime() const;
-    int& respawnTime();
-    int respawnTime() const;
+    int& killScore();
+    int killScore() const;
+
+    int& objectiveZoneScore();
+    int objectiveZoneScore() const;
+
 
     void set_timeOut(int timeOut);
     int get_timeOut() const;
@@ -42,10 +44,12 @@ public:
     int maxTurns() const;
 
 private:
-    int _respawnTime;
+    int _killScore;
+    int _objectiveZoneScore;
     int _timeOut;
     int _maxAP;
     int _maxTurns;
+
 
 };
 
