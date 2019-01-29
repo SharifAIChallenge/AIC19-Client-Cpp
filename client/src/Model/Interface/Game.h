@@ -143,12 +143,16 @@ private:
 
     AbilityConstants getAbilityConstants(AbilityName abilityName);
 
+    //TODO added this sekall!!!
+    HeroConstants getHeroConstants(HeroName heroName);
+
     //This function will also handle the _myDeadHeroes
     void set_myHeroes(std::vector<Hero *> _heroes);
     //This function will also handle the _myDeadHeroes
     void set_oppHeroes(std::vector<Hero *> _heroes);
 
     friend class TurnMessage;
+    friend class PickMessage;
 
 };
 

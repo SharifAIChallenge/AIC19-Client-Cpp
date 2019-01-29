@@ -5,6 +5,10 @@ HeroConstants::~HeroConstants() {
 
 }
 
+HeroConstants::HeroConstants(bool _isNull):HeroConstants(),
+                                           isNull(_isNull) {}
+
+
 HeroName &HeroConstants::name() {
     return _name;
 }
@@ -44,3 +48,5 @@ int &HeroConstants::remainingRespawnTime() {
 int HeroConstants::remainingRespawnTime() const {
     return _remainingRespawnTime;
 }
+
+HeroConstants HeroConstants::NULL_HERO_CONSTANT(true);

@@ -22,7 +22,7 @@ public:
 //
 //    int parse_currentTurn();
 
-    std::vector<std::vector<Cell *>> parse_map_cells();
+//    std::vector<std::vector<Cell *>> parse_map_cells();
 
     void update_game(Game* _game);
 
@@ -35,7 +35,7 @@ public:
 //    std::vector<CastAbility *> parse_oppCastedAbilities();
 
 private:
-    Hero parse_hero_from_JSON(Json::Value hero_DATA);
+//    Hero parse_hero_from_JSON(Json::Value hero_DATA);
 
 };
 

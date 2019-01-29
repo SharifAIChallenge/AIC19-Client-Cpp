@@ -14,51 +14,6 @@ TurnMessage::TurnMessage(std::string&& json_form)
         throw ParseError("Invalid turn message");
 }
 
-std::vector<std::vector<Cell *>> TurnMessage::parse_map_cells() {
-    std::vector<std::vector<Cell *>> output_map_cells;
-
-    Json::Value root = Message::get_args()[0];
-    Json::Value map_cell_DATA = root["map"];
-
-    for(int i = 0; i < map_cell_DATA.size(); ++i){
-        std::vector<Cell *> tmp_cell_row;
-        for(int j = 0; j < map_cell_DATA[i].size(); ++j){
-            Json::Value cell_DATA = map_cell_DATA[i][j];
-
-            Cell* ptr_cell = new Cell();
-
-            ptr_cell->isWall() = cell_DATA["isWall"].asBool();
-            ptr_cell->isInMyRespawnZone() = cell_DATA["isInMyRespawnZone"].asBool();
-            ptr_cell->isInOppRespawnZone() = cell_DATA["isInOppRespawnZone"].asBool();
-            ptr_cell->isInObjectiveZone() = cell_DATA["isInObjectiveZone"].asBool();//TODO "object" was in the sample file
-            ptr_cell->row() = cell_DATA["row"].asInt();
-            ptr_cell->column() = cell_DATA["column"].asInt();
-
-            tmp_cell_row.push_back(ptr_cell);
-        }
-        output_map_cells.push_back(tmp_cell_row);
-    }
-
-    return output_map_cells;
-}
-
-Hero TurnMessage::parse_hero_from_JSON(Json::Value hero_DATA) {
-    Hero output_hero;
-
-    output_hero.id() = hero_DATA["id"].asInt();
-    output_hero.currentHP() = hero_DATA["currentHP"].asInt();
-    output_hero.heroConstants().name() = convert_heroName_from_string(hero_DATA["type"].asString());
-    //Cooldown:
-    Json::Value cooldowns_DATA = hero_DATA["cooldowns"];
-    for (int i = 0; i < cooldowns_DATA.size(); ++i){
-        AbilityName _ability = convert_abilityName_from_string(cooldowns_DATA[i][0].asString());
-
-        output_hero.
-
-    }
-
-}
-
 void TurnMessage::update_game(Game *_game) {
     Json::Value root = Message::get_args()[0];
 
@@ -253,18 +208,6 @@ void TurnMessage::update_game(Game *_game) {
         output_opp_castAbility.push_back(ptr_CastAbility);
     }
     _game->set_oppCastAbilities(output_opp_castAbility);
-
-}
-
-std::vector<Hero *> TurnMessage::parse_myHeros() {
-    std::vector<Hero *> output_heros;
-
-    Json::Value root = Message::get_args()[0];
-    Json::Value myHeros_DATA = root["myHeroes"];
-
-    for(int i = 0; i < myHeros_DATA.size(); ++i){
-
-    }
 
 }
 

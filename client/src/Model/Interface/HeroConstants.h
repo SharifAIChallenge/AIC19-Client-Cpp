@@ -9,6 +9,8 @@ public:
     HeroConstants() = default;
     ~HeroConstants();
 
+    HeroConstants(bool _isNull);
+
     HeroConstants(const HeroConstants&) = default;
     HeroConstants& operator=(const HeroConstants&) = default;
 
@@ -40,6 +42,13 @@ private:
     int _moveAPCost;
 
     int _remainingRespawnTime; // TODO "SEKALL"
+
+    bool isNull = false;
+
+public:
+
+    static HeroConstants NULL_HERO_CONSTANT;
+
 };
 
 

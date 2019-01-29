@@ -379,6 +379,17 @@ AbilityConstants Game::getAbilityConstants(AbilityName abilityName) {
     return AbilityConstants::NULL_ABILITY_CONSTANTS;
 }
 
+
+HeroConstants Game::getHeroConstants(HeroName heroName) {
+    for (HeroConstants * heroConstants : this->_heroConstants)
+    {
+        if(heroConstants->name() == heroName){
+            return *heroConstants;
+        }
+    }
+    return HeroConstants::NULL_HERO_CONSTANT;
+}
+
 std::vector<Direction> Game::getPathMoveDirections(Cell startCell, Cell endCell)
 {
     if (startCell == endCell || startCell.isWall() || endCell.isWall()){
@@ -523,6 +534,7 @@ void Game::set_oppCastAbilities(std::vector<CastAbility *> _oppCAbility) {
 std::vector<CastAbility *> Game::get_oppCastAbilities() const {
     return _oppCastAbilities;
 }
+
 
 
 
