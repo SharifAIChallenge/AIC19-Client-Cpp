@@ -61,6 +61,14 @@ int &Hero::currentHP() {
 int Hero::currentHP() const {
     return _currentHP;
 }
+//------------respawnTime--------------
+int &Hero::respawnTime() {
+    return _respawnTime;
+}
+
+int Hero::respawnTime() const {
+    return _respawnTime;
+}
 //-----------heroConstants-------------
 const HeroConstants &Hero::get_heroConstants() const {
     return _heroConstants;
@@ -144,6 +152,7 @@ bool Hero::operator!=(Hero _hero) {
 
 //Single tone
 Hero Hero::NULL_HERO(true);
+
 
 
 

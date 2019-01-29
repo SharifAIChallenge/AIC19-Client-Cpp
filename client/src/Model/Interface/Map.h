@@ -41,6 +41,9 @@ private:
     std::vector<Cell *> _myRespawnZone;
     std::vector<Cell *> _oppRespawnZone;
 
+    Cell* getCell_ptr(int row, int column);
+    friend class TurnMessage;
+
 };
 
 

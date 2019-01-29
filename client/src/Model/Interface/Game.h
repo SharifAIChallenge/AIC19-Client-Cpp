@@ -15,7 +15,7 @@
 class Game {
 public:
 
-    Game();
+    Game() = default;
     ~Game();//delete the vector items...
 
 
@@ -49,7 +49,17 @@ public:
     int& oppScore();
     int oppScore() const;
 
+    int& currentTurn();
+    int currentTurn() const;
 
+    Phase& currentPhase();
+    Phase currentPhase() const;
+
+    void set_myCastAbilities(std::vector<CastAbility *> _myCAbility);
+    std::vector<CastAbility *> get_myCastAbilities() const;
+
+    void set_oppCastAbilities(std::vector<CastAbility *> _oppCAbility);
+    std::vector<CastAbility *> get_oppCastAbilities() const;
 
     // For all Cell type inputs we will have another method with row-column inputs
     // For all hero id inputs we will have another method with Hero object
@@ -106,6 +116,7 @@ public:
     void pickHero(HeroName heroName);
 
 
+
 private:
 
     Map _map;
@@ -113,22 +124,31 @@ private:
     std::vector<AbilityConstants *> _abilityConstants;
     std::vector<HeroConstants *> _heroConstants;
 
+    //TODO its better to implement a get function
+    // returning an array for these vectors
     std::vector<Hero *> _myHeroes;
     std::vector<Hero *> _oppHeroes;
     std::vector<Hero *> _myDeadHeroes;
     std::vector<Hero *> _oppDeadHeroes;
 
-    std::vector<CastAbility *> _castAbilities;
-
+    std::vector<CastAbility *> _myCastAbilities;
+    std::vector<CastAbility *> _oppCastAbilities;
 
     int _AP;
     int _myScore;
     int _oppScore;
     int _currentTurn;
 
-    Phase currentPhase;
+    Phase _currentPhase;
 
     AbilityConstants getAbilityConstants(AbilityName abilityName);
+
+    //This function will also handle the _myDeadHeroes
+    void set_myHeroes(std::vector<Hero *> _heroes);
+    //This function will also handle the _myDeadHeroes
+    void set_oppHeroes(std::vector<Hero *> _heroes);
+
+    friend class TurnMessage;
 
 };
 

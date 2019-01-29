@@ -88,5 +88,9 @@ void Map::set_cells(const std::vector<std::vector<Cell *>> &cells_grid) {
     }
 }
 
+Cell *Map::getCell_ptr(int row, int column) {//TODO check row and column...
+    return _cells[row][column];
+}
+
 
 

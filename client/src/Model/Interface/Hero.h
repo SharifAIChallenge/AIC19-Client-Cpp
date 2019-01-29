@@ -34,26 +34,29 @@ public:
     int& currentHP();
     int currentHP() const;
 
+    int& respawnTime();
+    int respawnTime() const;
+
 
     void set_heroConstants(const HeroConstants &_heroConstants);
     const HeroConstants &get_heroConstants() const;
     HeroConstants& heroConstants();
     HeroConstants heroConstants() const;
 
-
+    //TODO you have to update the other three vectors as well (dodgeAbilities,...)
     void set_abilities(const std::vector<Ability *> &_abilities);
     const std::vector<Ability *> &get_abilities() const;
 
-
-    void set_dodgeAbilities(const std::vector<Ability *> &_dodgeAbilities);
+    //TODO We sholudn't need this function write (set_abilities() will do it?)
+//    void set_dodgeAbilities(const std::vector<Ability *> &_dodgeAbilities);
     const std::vector<Ability *> &get_dodgeAbilities() const;
 
 
-    void set_healAbilities(const std::vector<Ability *> &_healAbilities);
+//    void set_healAbilities(const std::vector<Ability *> &_healAbilities);
     const std::vector<Ability *> &get_healAbilities() const;
 
 
-    void set_attackAbilities(const std::vector<Ability *> &_attackAbilities);
+//    void set_attackAbilities(const std::vector<Ability *> &_attackAbilities);
     const std::vector<Ability *> &get_attackAbilities() const;
 
 
@@ -74,6 +77,7 @@ private:
 
     int _id;
     int _currentHP;
+    int _respawnTime;
     HeroConstants _heroConstants;
 
     std::vector<Ability *> _abilities;

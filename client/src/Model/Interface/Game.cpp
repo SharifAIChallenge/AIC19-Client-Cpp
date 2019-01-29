@@ -67,6 +67,11 @@ Game::~Game() {
     }
     _myDeadHeroes.clear();
 
+    for (std::vector<Hero *>::iterator it = _oppDeadHeroes.begin() ; it != _oppDeadHeroes.end(); ++it){
+        delete *it;
+    }
+    _oppDeadHeroes.clear();
+
     for (std::vector<CastAbility *>::iterator it = _castAbilities.begin() ; it != _castAbilities.end(); ++it){
         delete *it;
     }
@@ -434,6 +439,91 @@ void Game::moveHero(int id, std::vector<Direction> directions) {
     //Event event = new Event("m", new Object[]{heroId, directionStrings});
     //sender.accept(new Message(Event.EVENT, event));
 }
+
+int &Game::currentTurn() {
+    return _currentTurn;
+}
+
+int Game::currentTurn() const {
+    return _currentTurn;
+}
+
+Phase &Game::currentPhase() {
+    return _currentPhase;
+}
+
+Phase Game::currentPhase() const {
+    return _currentPhase;
+}
+
+void Game::set_myHeroes(std::vector<Hero *> _heroes) {
+    for(std::vector<Hero *>::iterator it = this->_myHeroes.begin();
+            it != this->_myHeroes.end(); ++it){
+        delete *it;
+    }
+    _myHeroes.clear();
+    for(std::vector<Hero *>::iterator it = this->_myDeadHeroes.begin();
+            it != this->_myDeadHeroes.end(); ++it){
+        delete *it;
+    }
+    _myDeadHeroes.clear();
+
+    _myHeroes = _heroes;
+    for(std::vector<Hero *>::iterator it = _heroes.begin();
+        it != _heroes.end(); ++it){
+        if((*it)->currentHP() == 0){
+            this->_myDeadHeroes.push_back(*it);
+        }
+    }
+}
+
+void Game::set_oppHeroes(std::vector<Hero *> _heroes) {
+    for(std::vector<Hero *>::iterator it = this->_oppHeroes.begin();
+            it != this->_oppHeroes.end(); ++it){
+        delete *it;
+    }
+    _oppHeroes.clear();
+    for(std::vector<Hero *>::iterator it = this->_oppDeadHeroes.begin();
+            it != this->_oppDeadHeroes.end(); ++it){
+        delete *it;
+    }
+    _oppDeadHeroes.clear();
+
+    _oppDeadHeroes = _heroes;
+    for(std::vector<Hero *>::iterator it = _heroes.begin();
+        it != _heroes.end(); ++it){
+        if((*it)->currentHP() == 0){
+            _oppDeadHeroes.push_back(*it);
+        }
+    }
+}
+
+void Game::set_myCastAbilities(std::vector<CastAbility *> _myCAbility) {
+    for(std::vector<CastAbility *>::iterator it = this->_myCastAbilities.begin();
+            it != this->_myCastAbilities.end(); ++it){
+        delete *it;
+    }
+
+    this->_myCastAbilities = _myCAbility;
+}
+
+std::vector<CastAbility *> Game::get_myCastAbilities() const {
+    return _myCastAbilities;
+}
+
+void Game::set_oppCastAbilities(std::vector<CastAbility *> _oppCAbility) {
+    for(std::vector<CastAbility *>::iterator it = this->_oppCastAbilities.begin();
+        it != this->_oppCastAbilities.end(); ++it){
+        delete *it;
+    }
+
+    this->_oppCastAbilities = _oppCAbility;
+}
+
+std::vector<CastAbility *> Game::get_oppCastAbilities() const {
+    return _oppCastAbilities;
+}
+
 
 
 

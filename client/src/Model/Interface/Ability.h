@@ -19,6 +19,8 @@ public:
     Ability(Ability&&) = default;
     Ability& operator=(Ability&&) = default;
 
+//    Ability(AbilityConstants _abilityConstants);
+
 
     void set_abilityConstants(const AbilityConstants &_abilityConstants);
     const AbilityConstants &get_abilityConstants() const;
