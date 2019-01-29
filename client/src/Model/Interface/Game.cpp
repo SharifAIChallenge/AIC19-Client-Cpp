@@ -34,13 +34,21 @@ int &Game::AP() {
 int Game::AP() const{
     return _AP;
 }
-//----------------score----------------
-int &Game::score() {
-    return _score;
+//--------------myScore----------------
+int &Game::myScore() {
+    return _myScore;
 }
 
-int Game::score() const {
-    return _score;
+int Game::myScore() const {
+    return _myScore;
+}
+//-------------oppScore----------------
+int &Game::oppScore() {
+    return _oppScore;
+}
+
+int Game::oppScore() const {
+    return _oppScore;
 }
 
 Game::~Game() {
@@ -59,15 +67,10 @@ Game::~Game() {
     }
     _myDeadHeroes.clear();
 
-    for (std::vector<Cell *>::iterator it = _brokenWalls.begin() ; it != _brokenWalls.end(); ++it){
+    for (std::vector<CastAbility *>::iterator it = _castAbilities.begin() ; it != _castAbilities.end(); ++it){
         delete *it;
     }
-    _brokenWalls.clear();
-
-    for (std::vector<Cell *>::iterator it = _createdWalls.begin() ; it != _createdWalls.end(); ++it){
-        delete *it;
-    }
-    _createdWalls.clear();
+    _castAbilities.clear();
 
 }
 //logical functions:

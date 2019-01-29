@@ -6,6 +6,7 @@
 #include "AbilityConstants.h"
 #include "HeroConstants.h"
 #include "Hero.h"
+#include "CastAbility.h"
 #include <cstdlib>
 #include <unordered_map>
 #include <algorithm>
@@ -37,14 +38,16 @@ public:
 //    const HeroConstants &get_heroConstants() const;
 //    HeroConstants& heroConstants();
 
-    void set_AP(int _AP);
-    int get_AP() const;
+
     int& AP();
     int AP() const;
 
 
-    int& score();
-    int score() const;
+    int& myScore();
+    int myScore() const;
+
+    int& oppScore();
+    int oppScore() const;
 
 
 
