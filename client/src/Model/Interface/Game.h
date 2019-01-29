@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <unordered_map>
 #include <algorithm>
+#include <map>
 
 class Game {
 public:
@@ -39,11 +40,11 @@ public:
     void set_AP(int _AP);
     int get_AP() const;
     int& AP();
+    int AP() const;
 
 
-    void set_score(int _score);
-    int get_score() const;
     int& score();
+    int score() const;
 
 
 
@@ -79,8 +80,8 @@ public:
     Cell getImpactCell(Ability ability, int startCellRow, int startCellColumn, int endCellRow, int endCellColumn);
 
 
-    std::vector<Direction *> getPathMoveDirections(Cell startCell, Cell endCell);
-    std::vector<Direction *> getPathMoveDirections(int startCellRow, int startCellColumn, int endCellRow, int endCellColumn);
+    std::vector<Direction> getPathMoveDirections(Cell startCell, Cell endCell);
+    std::vector<Direction> getPathMoveDirections(int startCellRow, int startCellColumn, int endCellRow, int endCellColumn);
 
     int manhattanDistance(Cell startCell, Cell endCell);
     int manhattanDistance(int startCellRow, int startCellColumn, int endCellRow, int endCellColumn);
@@ -98,7 +99,7 @@ public:
     void castAbility(Hero hero, Ability ability, Cell targetCell);
 
 
-    void moveHero(int id, Direction direction);
+    void moveHero(int id, std::vector<Direction> direction);
     void pickHero(HeroName heroName);
 
 
@@ -112,12 +113,17 @@ private:
     std::vector<Hero *> _myHeroes;
     std::vector<Hero *> _oppHeroes;
     std::vector<Hero *> _myDeadHeroes;
+    std::vector<Hero *> _oppDeadHeroes;
 
-    std::vector<Cell *> _brokenWalls;
-    std::vector<Cell *> _createdWalls;
+    std::vector<CastAbility *> _castAbilities;
+
 
     int _AP;
-    int _score;
+    int _myScore;
+    int _oppScore;
+    int _currentTurn;
+
+    Phase currentPhase;
 
     AbilityConstants getAbilityConstants(AbilityName abilityName);
 

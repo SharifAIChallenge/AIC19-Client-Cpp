@@ -27,52 +27,19 @@ void Game::set_gameConstants(const GameConstants &_gameConstants) {
 GameConstants &Game::gameConstants() {
     return _gameConstants;
 }
-////------------abilityConstants---------
-//const AbilityConstants &Game::get_abilityConstants() const {
-//    return _abilityConstants;
-//}
-//
-//void Game::set_abilityConstants(const AbilityConstants &_abilityConstants) {
-//    Game::_abilityConstants = _abilityConstants;
-//}
-//
-//AbilityConstants &Game::abilityConstants() {
-//    return _abilityConstants;
-//}
-////--------------heroConstants----------
-//const HeroConstants &Game::get_heroConstants() const {
-//    return _heroConstants;
-//}
-//
-//void Game::set_heroConstants(const HeroConstants &_heroConstants) {
-//    Game::_heroConstants = _heroConstants;
-//}
-//
-//HeroConstants &Game::heroConstants() {
-//    return _heroConstants;
-//}
-//-----------------AP------------------
-int Game::get_AP() const {
-    return _AP;
-}
-
-void Game::set_AP(int _AP) {
-    Game::_AP = _AP;
-}
-
 int &Game::AP() {
     return _AP;
 }
+
+int Game::AP() const{
+    return _AP;
+}
 //----------------score----------------
-int Game::get_score() const {
+int &Game::score() {
     return _score;
 }
 
-void Game::set_score(int _score) {
-    Game::_score = _score;
-}
-
-int &Game::score() {
+int Game::score() const {
     return _score;
 }
 
@@ -404,47 +371,66 @@ AbilityConstants Game::getAbilityConstants(AbilityName abilityName) {
     return AbilityConstants::NULL_ABILITY_CONSTANTS;
 }
 
-//std::vector<Direction *> Game::getPathMoveDirections(Cell startCell, Cell endCell) {
-//    if (startCell == endCell || startCell.isWall() || endCell.isWall()) {
-//        std::vector<Direction *> emptyPath;
-//        return emptyPath;
-//    }
-//
-//    std::unordered_map<Cell, std::pair<Cell, Direction>> lastMoveInfo; // saves parent cell and direction to go from parent cell to current cell
-//     bfsQueue = new Cell[map.getRowNum() * map.getColumnNum() + 10];
-//    int queueHead = 0, queueTail = 0;
-//
-//    lastMoveInfo[startCell] = new Pair<>(null, null);
-//    bfsQueue[queueTail++] = startCell;
-//
-//    while (queueHead != queueTail)
-//    {
-//        Cell currentCell = bfsQueue[queueHead++];
-//        if (currentCell == endCell)
-//        {
-//            ArrayList<Direction> directions = new ArrayList<>();
-//            while (currentCell != startCell)
-//            {
-//                directions.add(lastMoveInfo.get(currentCell).getSecond());
-//                currentCell = lastMoveInfo.get(currentCell).getFirst();
-//            }
-//            Collections.reverse(directions);
-//            return directions.toArray(new Direction[0]);
-//        }
-//        for (Direction direction : Direction.values())
-//        {
-//            Cell nextCell = getNextCell(currentCell, direction);
-//            if (nextCell != null && !lastMoveInfo.containsKey(nextCell))
-//            {
-//                lastMoveInfo.put(nextCell, new Pair<>(currentCell, direction));
-//                bfsQueue[queueTail++] = nextCell;
-//            }
-//        }
-//    }
-//    std::vector<Direction *> emptyPath;
-//    return emptyPath;
-//}
+std::vector<Direction> Game::getPathMoveDirections(Cell startCell, Cell endCell)
+{
+    if (startCell == endCell || startCell.isWall() || endCell.isWall()){
+        std::vector<Direction> vec = {};
+        return vec;
+    }
 
+    // saves parent cell and direction to go from parent cell to current cell
+    std::map<Cell, std::pair<Cell, Direction>> lastMoveInfo;
+    Cell* bfsQueue = new Cell[_map.rowNum() * _map.columnNum() + 10];
+    int queueHead = 0, queueTail = 0;
+
+    lastMoveInfo.insert(std::pair<Cell,
+            std::pair<Cell, Direction>>(startCell, std::pair<Cell, Direction>(Cell::NULL_CELL , NULL_DIRECTION)));
+    bfsQueue[queueTail++] = startCell;
+
+    while (queueHead != queueTail)
+    {
+        Cell currentCell = bfsQueue[queueHead++];
+        if (currentCell == endCell)
+        {
+            std::vector<Direction> directions;
+            while (currentCell != startCell)
+            {
+                directions.insert(directions.end(), lastMoveInfo[currentCell].second);
+                currentCell = lastMoveInfo[currentCell].first;
+            }
+            reverse(directions.begin(), directions.end());
+            return directions;
+        }
+        for (Direction direction = UP; direction <= RIGHT; direction++)
+        {
+            Cell nextCell = getNextCell(currentCell, direction);
+            if (nextCell != Cell::NULL_CELL && !lastMoveInfo.count(nextCell))
+            {
+                lastMoveInfo.insert(std::pair<Cell,
+                        std::pair<Cell, Direction>>(nextCell, std::pair<Cell, Direction>(currentCell, direction)));
+                bfsQueue[queueTail++] = nextCell;
+            }
+        }
+    }
+    std::vector<Direction> vec = {};
+    return vec;
+}
+
+bool Game::isAccessible(int cellRow, int cellColumn) {
+    if (!_map.isInMap(cellRow, cellColumn))
+        return false;
+    return !_map.getCell(cellRow, cellColumn).isWall();
+}
+
+void Game::moveHero(int id, std::vector<Direction> directions) {
+    std::vector<std::string> directionStrings(directions.size());
+    for(int i = 0; i < directions.size(); i++){
+        directionStrings[i] = std::to_string(directions[i]);
+    }
+    // TODO complete this later!!!
+    //Event event = new Event("m", new Object[]{heroId, directionStrings});
+    //sender.accept(new Message(Event.EVENT, event));
+}
 
 
 

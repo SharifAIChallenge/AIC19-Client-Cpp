@@ -18,7 +18,12 @@ enum HeroName//TODO Complete these enums
 
 enum Direction
 {
-    UP, DOWN, LEFT, RIGHT
+    UP, DOWN, LEFT, RIGHT, NULL_DIRECTION//TODO check if this is okay
+};
+
+enum Phase
+{
+    PICK,MOVE,ACTION;
 };
 
 #endif //AIC18_CLIENT_CPP_ENUMERATIONS_H
