@@ -1,7 +1,3 @@
-//
-// Created by dot_blue on 1/23/19.
-//
-
 #include "Game.h"
 
 Game::Game(EventQueue &event_queue): _event_queue(event_queue){
@@ -251,7 +247,7 @@ void Game::dfs(Cell& currentCell, Cell& startCell, Cell& targetCell, std::unorde
                std::vector<Cell *>& path) {
     isSeen[&currentCell] = true;
     path.push_back(&currentCell);
-    //TODO make sure the "Direction" enum is not initialized!
+    //make sure the "Direction" enum is not initialized!
     for (int dir = Direction::UP; dir <= Direction::RIGHT ; dir++ )//(Direction direction : Direction.values())
     {
         Direction direction = static_cast<Direction>(dir);
@@ -275,7 +271,7 @@ void Game::dfs(Cell& currentCell, Cell& startCell, Cell& targetCell, std::unorde
             int newColumn = currentCell.column() + dColumn;
             Cell nextCell = Cell::NULL_CELL;
             if (_map.isInMap(newRow, newColumn)) nextCell = _map.getCell(newRow, newColumn);
-            //TODO: assumed isSeen.find(nextCell) == isSeen.end() means it's not found...
+            //Assumed isSeen.find(nextCell) == isSeen.end() means it's not found...
             if (nextCell != Cell::NULL_CELL && isSeen.find(&nextCell) == isSeen.end() && isCloser(currentCell, targetCell, nextCell))
             {
                 int collisionState = squareCollision(startCell, targetCell, nextCell);
@@ -454,16 +450,6 @@ bool Game::isAccessible(int cellRow, int cellColumn) {
     return !_map.getCell(cellRow, cellColumn).isWall();
 }
 
-void Game::moveHero(int id, std::vector<Direction> directions) {
-    std::vector<std::string> directionStrings(directions.size());
-    for(int i = 0; i < directions.size(); i++){
-        directionStrings[i] = std::to_string(directions[i]);
-    }
-    // TODO complete this later!!!
-    //Event event = new Event("m", new Object[]{heroId, directionStrings});
-    //sender.accept(new Message(Event.EVENT, event));
-}
-
 int &Game::currentTurn() {
     return _currentTurn;
 }
@@ -547,6 +533,31 @@ void Game::set_oppCastAbilities(std::vector<CastAbility *> _oppCAbility) {
 std::vector<CastAbility *> Game::get_oppCastAbilities() const {
     return _oppCastAbilities;
 }
+
+void Game::moveHero(int id, std::vector<Direction> directions) {
+    Json::Value directionJsonVals;
+    for(int i = 0; i < directions.size(); i++){
+        directionJsonVals.append(std::to_string(directions[i]));
+    }
+    _event_queue.push(CreateMoveMessage(id,directionJsonVals));
+}
+
+void Game::pickHero(HeroName heroName) {
+
+    _event_queue.push(CreatePickMessage(HeroName_to_string(heroName)));
+}
+
+void Game::castAbility(int heroId, AbilityName abilityName, int targetCellRow, int targetCellColumn) {
+
+    _event_queue.push(
+            CreateCastMessage(
+                    heroId,
+                    abilityName_to_string(abilityName),
+                    targetCellRow,
+                    targetCellColumn));
+}
+
+
 
 
 

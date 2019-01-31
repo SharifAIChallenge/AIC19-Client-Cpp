@@ -2,6 +2,7 @@
 #define AIC18_CLIENT_CPP_AI_H
 
 //#include <Model/World.h>
+#include <Model/Interface/Game.h>
 class World;
 
 class AI {

@@ -1,6 +1,6 @@
 #ifndef AIC18_CLIENT_CPP_PICKMESSAGE_H
 #define AIC18_CLIENT_CPP_PICKMESSAGE_H
-
+//TODO fix the 2018 stuff
 
 #include <Model/Interface/Game.h>
 #include "Message.h"

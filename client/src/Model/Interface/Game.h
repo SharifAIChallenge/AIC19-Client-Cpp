@@ -12,6 +12,9 @@
 #include <algorithm>
 #include <map>
 #include <Core/EventQueue.h>
+#include <Core/Message/CreatePickMessage.h>
+#include <Core/Message/CreateCastMessage.h>
+#include <Core/Message/CreateMoveMessage.h>
 
 class Game {
 public:

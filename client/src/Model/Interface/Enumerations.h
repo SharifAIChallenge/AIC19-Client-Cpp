@@ -9,6 +9,7 @@ enum AbilityName//TODO Complete these enums (if you updated this please update t
 };
 
 AbilityName convert_abilityName_from_string(std::string str_abilityName);
+std::string abilityName_to_string(AbilityName _abilityName);
 //-------------------------------------------
 enum AbilityType
 {
@@ -21,6 +22,7 @@ enum HeroName//TODO Complete these enums (if you updated this please update the 
     HEALER
 };
 HeroName convert_heroName_from_string(std::string str_heroname);
+std::string HeroName_to_string(HeroName _heroname);
 //-------------------------------------------
 enum Direction
 {
