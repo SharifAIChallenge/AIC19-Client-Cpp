@@ -2,7 +2,7 @@
 #define AIC18_CLIENT_CPP_PICKMESSAGE_H
 //TODO fix the 2018 stuff
 
-#include <Model/Interface/Game.h>
+#include <Model/Interface/World.h>
 #include "Message.h"
 #include "ParseError.h"
 
@@ -12,7 +12,7 @@ public:
 
     explicit PickMessage(std::string&& json_form);
 
-    void update_game(Game* _game);
+    void update_game(World* _game);
 
 };
 

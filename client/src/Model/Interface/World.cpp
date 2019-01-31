@@ -1,58 +1,58 @@
-#include "Game.h"
+#include "World.h"
 
-Game::Game(EventQueue &event_queue): _event_queue(event_queue){
+World::World(EventQueue &event_queue): _event_queue(event_queue){
 
 }
 
 //----------------map------------------
-const Map &Game::get_map() const {
+const Map &World::get_map() const {
     return _map;
 }
 
-void Game::set_map(const Map &_map) {
-    Game::_map = _map;
+void World::set_map(const Map &_map) {
+    World::_map = _map;
 }
 
-Map &Game::map() {
+Map &World::map() {
     return _map;
 }
 //------------gameConstants------------
-const GameConstants &Game::get_gameConstants() const {
+const GameConstants &World::get_gameConstants() const {
     return _gameConstants;
 }
 
-void Game::set_gameConstants(const GameConstants &_gameConstants) {
-    Game::_gameConstants = _gameConstants;
+void World::set_gameConstants(const GameConstants &_gameConstants) {
+    World::_gameConstants = _gameConstants;
 }
 
-GameConstants &Game::gameConstants() {
+GameConstants &World::gameConstants() {
     return _gameConstants;
 }
-int &Game::AP() {
+int &World::AP() {
     return _AP;
 }
 
-int Game::AP() const{
+int World::AP() const{
     return _AP;
 }
 //--------------myScore----------------
-int &Game::myScore() {
+int &World::myScore() {
     return _myScore;
 }
 
-int Game::myScore() const {
+int World::myScore() const {
     return _myScore;
 }
 //-------------oppScore----------------
-int &Game::oppScore() {
+int &World::oppScore() {
     return _oppScore;
 }
 
-int Game::oppScore() const {
+int World::oppScore() const {
     return _oppScore;
 }
 
-Game::~Game() {
+World::~World() {
     for (std::vector<Hero *>::iterator it = _myHeroes.begin() ; it != _myHeroes.end(); ++it){
         delete *it;
     }
@@ -85,7 +85,7 @@ Game::~Game() {
 
 }
 //logical functions:
-Hero Game::getHero(int id) {
+Hero World::getHero(int id) {
     for(std::vector<Hero *>::iterator it = _myHeroes.begin(); it != _myHeroes.end(); ++it){
         if(static_cast<const Hero *>(*it)->id() == id){
             return **it;
@@ -99,7 +99,7 @@ Hero Game::getHero(int id) {
     return Hero::NULL_HERO;
 }
 
-Hero Game::getMyHero(Cell cell) {
+Hero World::getMyHero(Cell cell) {
     for(std::vector<Hero *>::iterator it = _myHeroes.begin(); it != _myHeroes.end(); ++it ){
         //This only checks the location of the cell
         if((*it)->currentCell() == cell){
@@ -110,7 +110,7 @@ Hero Game::getMyHero(Cell cell) {
 }
 
 
-Hero Game::getMyHero(int cellRow, int cellColumn) {
+Hero World::getMyHero(int cellRow, int cellColumn) {
     if(!_map.isInMap(cellRow,cellColumn))
         return Hero::NULL_HERO;
 
@@ -124,7 +124,7 @@ Hero Game::getMyHero(int cellRow, int cellColumn) {
     return Hero::NULL_HERO;
 }
 
-Hero Game::getOppHero(Cell cell) {
+Hero World::getOppHero(Cell cell) {
     for(std::vector<Hero *>::iterator it = _oppHeroes.begin(); it!= _oppHeroes.end(); ++it){
         //This only checks the location of the cell
         if((*it)->currentCell() == cell){
@@ -134,7 +134,7 @@ Hero Game::getOppHero(Cell cell) {
     return Hero::NULL_HERO;
 }
 
-Hero Game::getOppHero(int cellRow, int cellColumn) {
+Hero World::getOppHero(int cellRow, int cellColumn) {
     if(!_map.isInMap(cellRow,cellColumn))
         return Hero::NULL_HERO;
 
@@ -148,12 +148,12 @@ Hero Game::getOppHero(int cellRow, int cellColumn) {
     return Hero::NULL_HERO;
 }
 
-int Game::manhattanDistance(Cell startCell, Cell endCell) {
+int World::manhattanDistance(Cell startCell, Cell endCell) {
     return abs(startCell.row() - endCell.row()) +
             abs(startCell.column() - endCell.column());
 }
 
-int Game::manhattanDistance(int startCellRow, int startCellColumn, int endCellRow, int endCellColumn) {
+int World::manhattanDistance(int startCellRow, int startCellColumn, int endCellRow, int endCellColumn) {
     if(this->_map.isInMap(startCellRow,startCellColumn) && this->_map.isInMap(endCellRow,endCellColumn)){
         return abs(startCellRow - endCellRow) + abs(startCellColumn - endCellColumn);
     } else {
@@ -164,7 +164,7 @@ int Game::manhattanDistance(int startCellRow, int startCellColumn, int endCellRo
 
 //------------Algorithmic--------------
 
-Cell Game::getNextCell(const Cell &cell, const Direction& direction) {
+Cell World::getNextCell(const Cell &cell, const Direction& direction) {
     switch (direction)
     {
         case Direction::UP:
@@ -205,7 +205,7 @@ Cell Game::getNextCell(const Cell &cell, const Direction& direction) {
      * @param y3
      * @return
      */
-int Game::crossProduct(int x1, int y1, int x2, int y2, int x3, int y3)
+int World::crossProduct(int x1, int y1, int x2, int y2, int x3, int y3)
 {
     return (x2 - x1) * (y3 - y1) - (y2 - y1) * (x3 - x1);
 }
@@ -221,7 +221,7 @@ int Game::crossProduct(int x1, int y1, int x2, int y2, int x3, int y3)
      * @param cell
      * @return
      */
-int Game::squareCollision(const Cell& startCell,const Cell& targetCell,const Cell& cell)
+int World::squareCollision(const Cell& startCell,const Cell& targetCell,const Cell& cell)
 {
     bool hasNegative = false, hasPositive = false, hasZero = false;
     for (int row = 2 * cell.row(); row <= 2 * (cell.row() + 1); row += 2)
@@ -238,12 +238,12 @@ int Game::squareCollision(const Cell& startCell,const Cell& targetCell,const Cel
     return -1;
 }
 
-bool Game::isCloser(Cell currentCell, Cell targetCell, Cell nextCell)
+bool World::isCloser(Cell currentCell, Cell targetCell, Cell nextCell)
 {
     return manhattanDistance(nextCell, targetCell) <= manhattanDistance(currentCell, targetCell);
 }
 
-void Game::dfs(Cell& currentCell, Cell& startCell, Cell& targetCell, std::unordered_map<Cell*, bool>& isSeen,
+void World::dfs(Cell& currentCell, Cell& startCell, Cell& targetCell, std::unordered_map<Cell*, bool>& isSeen,
                std::vector<Cell *>& path) {
     isSeen[&currentCell] = true;
     path.push_back(&currentCell);
@@ -294,14 +294,14 @@ void Game::dfs(Cell& currentCell, Cell& startCell, Cell& targetCell, std::unorde
      * @param targetCell
      * @return
      */
-std::vector<Cell *> Game::getRayCells(Cell startCell, Cell endCell) {
+std::vector<Cell *> World::getRayCells(Cell startCell, Cell endCell) {
     std::vector<Cell *> path;
     std::unordered_map<Cell*, bool> _isSeen;
     dfs(startCell,startCell,endCell,_isSeen,path);
     return path;
 }
 
-std::vector<Cell *> Game::getImpactCells(AbilityName abilityName, Cell startCell, Cell targetCell) {
+std::vector<Cell *> World::getImpactCells(AbilityName abilityName, Cell startCell, Cell targetCell) {
     const AbilityConstants abilityConstants = getAbilityConstants(abilityName);
     if (abilityConstants.isLobbing())
     {
@@ -336,24 +336,24 @@ std::vector<Cell *> Game::getImpactCells(AbilityName abilityName, Cell startCell
 }
 
 
-Cell Game::getImpactCell(AbilityName abilityName, Cell startCell, Cell targetCell) {
+Cell World::getImpactCell(AbilityName abilityName, Cell startCell, Cell targetCell) {
     std::vector<Cell *> impactCells = getImpactCells(abilityName, startCell, targetCell);
     return *(impactCells.back());
 }
 
 
-Cell Game::getImpactCell(Ability ability, Cell startCell, Cell targetCell) {
+Cell World::getImpactCell(Ability ability, Cell startCell, Cell targetCell) {
     return getImpactCell(ability.getAbilityConstants().getAbilityName(), startCell, targetCell);
 }
 
-Cell Game::getImpactCell(Ability ability, int startCellRow, int startCellColumn, int endCellRow, int endCellColumn) {
+Cell World::getImpactCell(Ability ability, int startCellRow, int startCellColumn, int endCellRow, int endCellColumn) {
     if (!_map.isInMap(startCellRow, startCellColumn) || !_map.isInMap(endCellRow, endCellColumn))
         return Cell::NULL_CELL;
     return getImpactCell(ability.getAbilityConstants().getAbilityName(), _map.getCell(startCellRow, startCellColumn),
                          _map.getCell(endCellRow, endCellColumn));
 }
 
-Cell Game::getImpactCell(AbilityName abilityName, int startCellRow, int startCellColumn, int endCellRow,
+Cell World::getImpactCell(AbilityName abilityName, int startCellRow, int startCellColumn, int endCellRow,
                          int endCellColumn) {
     if (!_map.isInMap(startCellRow, startCellColumn) || !_map.isInMap(endCellRow, endCellColumn))
         return Cell::NULL_CELL;
@@ -361,7 +361,7 @@ Cell Game::getImpactCell(AbilityName abilityName, int startCellRow, int startCel
                                                                                               endCellColumn));
 }
 
-bool Game::isInVision(Cell startCell, Cell endCell) {
+bool World::isInVision(Cell startCell, Cell endCell) {
     if (startCell.isWall() || endCell.isWall())
         return false;
     std::vector<Cell *> rayCells = getRayCells(startCell, endCell);
@@ -369,14 +369,14 @@ bool Game::isInVision(Cell startCell, Cell endCell) {
     return lastCell == endCell;
 }
 
-bool Game::isInVision(int startCellRow, int startCellColumn, int endCellRow, int endCellColumn) {
+bool World::isInVision(int startCellRow, int startCellColumn, int endCellRow, int endCellColumn) {
     if (!_map.isInMap(startCellRow, startCellColumn) || !_map.isInMap(endCellRow, endCellColumn))
         return false;
     return isInVision(_map.getCell(startCellRow, startCellColumn), _map.getCell(endCellRow, endCellColumn));
 }
 
 //--------------private----------------
-AbilityConstants Game::getAbilityConstants(AbilityName abilityName) {
+AbilityConstants World::getAbilityConstants(AbilityName abilityName) {
     for (AbilityConstants * abilityConstants : this->_abilityConstants)
     {
         if (abilityConstants->getAbilityName() == abilityName)
@@ -388,7 +388,7 @@ AbilityConstants Game::getAbilityConstants(AbilityName abilityName) {
 }
 
 
-HeroConstants Game::getHeroConstants(HeroName heroName) {
+HeroConstants World::getHeroConstants(HeroName heroName) {
     for (HeroConstants * heroConstants : this->_heroConstants)
     {
         if(heroConstants->name() == heroName){
@@ -398,7 +398,7 @@ HeroConstants Game::getHeroConstants(HeroName heroName) {
     return HeroConstants::NULL_HERO_CONSTANT;
 }
 
-std::vector<Direction> Game::getPathMoveDirections(Cell& startCell, Cell& endCell)
+std::vector<Direction> World::getPathMoveDirections(Cell& startCell, Cell& endCell)
 {
     if (startCell == endCell || startCell.isWall() || endCell.isWall()){
         std::vector<Direction> vec = {};
@@ -444,29 +444,29 @@ std::vector<Direction> Game::getPathMoveDirections(Cell& startCell, Cell& endCel
     return vec;
 }
 
-bool Game::isAccessible(int cellRow, int cellColumn) {
+bool World::isAccessible(int cellRow, int cellColumn) {
     if (!_map.isInMap(cellRow, cellColumn))
         return false;
     return !_map.getCell(cellRow, cellColumn).isWall();
 }
 
-int &Game::currentTurn() {
+int &World::currentTurn() {
     return _currentTurn;
 }
 
-int Game::currentTurn() const {
+int World::currentTurn() const {
     return _currentTurn;
 }
 
-Phase &Game::currentPhase() {
+Phase &World::currentPhase() {
     return _currentPhase;
 }
 
-Phase Game::currentPhase() const {
+Phase World::currentPhase() const {
     return _currentPhase;
 }
 
-void Game::set_myHeroes(std::vector<Hero *> _heroes) {
+void World::set_myHeroes(std::vector<Hero *> _heroes) {
     for(std::vector<Hero *>::iterator it = this->_myHeroes.begin();
             it != this->_myHeroes.end(); ++it){
         delete *it;
@@ -487,7 +487,7 @@ void Game::set_myHeroes(std::vector<Hero *> _heroes) {
     }
 }
 
-void Game::set_oppHeroes(std::vector<Hero *> _heroes) {
+void World::set_oppHeroes(std::vector<Hero *> _heroes) {
     for(std::vector<Hero *>::iterator it = this->_oppHeroes.begin();
             it != this->_oppHeroes.end(); ++it){
         delete *it;
@@ -508,7 +508,7 @@ void Game::set_oppHeroes(std::vector<Hero *> _heroes) {
     }
 }
 
-void Game::set_myCastAbilities(std::vector<CastAbility *> _myCAbility) {
+void World::set_myCastAbilities(std::vector<CastAbility *> _myCAbility) {
     for(std::vector<CastAbility *>::iterator it = this->_myCastAbilities.begin();
             it != this->_myCastAbilities.end(); ++it){
         delete *it;
@@ -517,11 +517,11 @@ void Game::set_myCastAbilities(std::vector<CastAbility *> _myCAbility) {
     this->_myCastAbilities = _myCAbility;
 }
 
-std::vector<CastAbility *> Game::get_myCastAbilities() const {
+std::vector<CastAbility *> World::get_myCastAbilities() const {
     return _myCastAbilities;
 }
 
-void Game::set_oppCastAbilities(std::vector<CastAbility *> _oppCAbility) {
+void World::set_oppCastAbilities(std::vector<CastAbility *> _oppCAbility) {
     for(std::vector<CastAbility *>::iterator it = this->_oppCastAbilities.begin();
         it != this->_oppCastAbilities.end(); ++it){
         delete *it;
@@ -530,11 +530,11 @@ void Game::set_oppCastAbilities(std::vector<CastAbility *> _oppCAbility) {
     this->_oppCastAbilities = _oppCAbility;
 }
 
-std::vector<CastAbility *> Game::get_oppCastAbilities() const {
+std::vector<CastAbility *> World::get_oppCastAbilities() const {
     return _oppCastAbilities;
 }
 
-void Game::moveHero(int id, std::vector<Direction> directions) {
+void World::moveHero(int id, std::vector<Direction> directions) {
     Json::Value directionJsonVals;
     for(int i = 0; i < directions.size(); i++){
         directionJsonVals.append(std::to_string(directions[i]));
@@ -542,12 +542,12 @@ void Game::moveHero(int id, std::vector<Direction> directions) {
     _event_queue.push(CreateMoveMessage(id,directionJsonVals));
 }
 
-void Game::pickHero(HeroName heroName) {
+void World::pickHero(HeroName heroName) {
 
     _event_queue.push(CreatePickMessage(HeroName_to_string(heroName)));
 }
 
-void Game::castAbility(int heroId, AbilityName abilityName, int targetCellRow, int targetCellColumn) {
+void World::castAbility(int heroId, AbilityName abilityName, int targetCellRow, int targetCellColumn) {
 
     _event_queue.push(
             CreateCastMessage(
@@ -555,6 +555,21 @@ void Game::castAbility(int heroId, AbilityName abilityName, int targetCellRow, i
                     abilityName_to_string(abilityName),
                     targetCellRow,
                     targetCellColumn));
+}
+
+void World::importInitData(InitMessage &_initMessage) {
+
+    this->_map = _initMessage.parse_map();
+    this->_gameConstants = _initMessage.parse_gameConstants();
+    this->_heroConstants = _initMessage.parse_heroConstants();
+    this->_abilityConstants = _initMessage.parse_abilityConstants();
+
+    this->_currentTurn = 0;
+    this->_currentPhase = Phase::PICK;
+    this->_myScore = 0;
+    this->_oppScore = 0;
+    this->_AP = this->_gameConstants.get_maxAP();
+
 }
 
 

@@ -14,7 +14,7 @@ TurnMessage::TurnMessage(std::string&& json_form)
         throw ParseError("Invalid turn message");
 }
 
-void TurnMessage::update_game(Game *_game) {
+void TurnMessage::update_game(World *_game) {
     Json::Value root = Message::get_args()[0];
 
     _game->myScore() = root["myScore"].asInt();

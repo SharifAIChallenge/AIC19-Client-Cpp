@@ -5,7 +5,7 @@
 #include <thread>
 
 #include <Network/Network.h>
-#include <Model/Interface/Game.h>
+#include <Model/Interface/World.h>
 #include <AI/AI.h>
 
 #include "EventQueue.h"
@@ -62,7 +62,7 @@ private:
     std::thread m_event_handling_thread;
 
     /// Instance of the game world
-    Game m_game;
+    World m_world;
 
     /// Instance of the client AI
     AI m_client;

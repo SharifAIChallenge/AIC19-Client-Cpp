@@ -14,7 +14,7 @@ PickMessage::PickMessage(std::string&& json_form)
         throw ParseError("Invalid pick message");
 }
 
-void PickMessage::update_game(Game *_game) {
+void PickMessage::update_game(World *_game) {
     Json::Value root = Message::get_args()[0];
 
     //myHeroes:

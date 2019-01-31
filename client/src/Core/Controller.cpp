@@ -21,7 +21,7 @@ Controller::Controller(const std::string& host, uint16_t port, const std::string
         : m_token(token)
         , m_retry_delay(retry_delay)
         , m_network(host, port)
-        , m_game(m_event_queue)
+        , m_world(m_event_queue)
 {
     Logger::Get(LogLevel_DEBUG) << "Server is " << host << ":" << port << std::endl;
     Logger::Get(LogLevel_DEBUG) << "Authentication token is " << token << std::endl;
@@ -64,24 +64,8 @@ void Controller::run() try {
 
     Logger::Get(LogLevel_TRACE) << "Parsing init message" << std::endl;
 
-    /*
-    init_message.parse_world_constants();
-    init_message.parse_unit_constants();
-    init_message.parse_tower_constants();
 
-    m_world.set_my_information(Player(World::INITIAL_HEALTH, World::INITIAL_MONEY, 0, World::INITIAL_BEANS_COUNT,
-                                      World::INITIAL_STORMS_COUNT));
-    m_world.set_enemy_information(Player(World::INITIAL_HEALTH, 0, 0, World::INITIAL_BEANS_COUNT,
-                                         World::INITIAL_STORMS_COUNT));
-
-    const Map& map = init_message.parse_map();
-    m_world.set_defence_map(map);
-    m_world.set_attack_map(map);
-
-    m_world.set_attack_map_paths(init_message.parse_paths(m_world.get_attack_map()));
-    m_world.set_defence_map_paths(init_message.parse_paths(m_world.get_defence_map()));
-
-    m_world.set_current_turn(0);
+    m_world.importInitData(init_message);
 
     // Start the event handling thread
     m_event_handling_thread = std::thread(&Controller::event_handling_loop, this);
@@ -151,7 +135,7 @@ void Controller::run() try {
     m_network.disconnect();
 
     Logger::Get(LogLevel_TRACE) << "Exit Controller::run" << std::endl;
-*/
+
 }
 catch (Json::Exception&) {
     throw ParseError("Malformed json string");

@@ -4,7 +4,7 @@
 #include <Model/Interface/Cell.h>
 #include <Model/Interface/Hero.h>
 #include <Model/Interface/CastAbility.h>
-#include <Model/Interface/Game.h>
+#include <Model/Interface/World.h>
 #include "Message.h"
 #include "ParseError.h"
 
@@ -24,7 +24,7 @@ public:
 
 //    std::vector<std::vector<Cell *>> parse_map_cells();
 
-    void update_game(Game* _game);
+    void update_game(World* _game);
 
 //    std::vector<Hero *> parse_myHeros();
 //

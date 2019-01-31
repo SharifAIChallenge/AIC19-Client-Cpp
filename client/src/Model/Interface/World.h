@@ -15,14 +15,15 @@
 #include <Core/Message/CreatePickMessage.h>
 #include <Core/Message/CreateCastMessage.h>
 #include <Core/Message/CreateMoveMessage.h>
+#include <Core/Message/InitMessage.h>
 
-class Game {
+class World {
 public:
 
-    Game() = default;
-    ~Game();//delete the vector items...
+    World() = default;
+    ~World();//delete the vector items...
 
-    Game(EventQueue& event_queue);
+    World(EventQueue& event_queue);
 
     //Getter & Setters:
 
@@ -120,6 +121,8 @@ public:
     void moveHero(int id, std::vector<Direction> direction);
     void pickHero(HeroName heroName);
 
+//Parsing:
+    void importInitData(InitMessage &_initMessage);
 
 
 private:
