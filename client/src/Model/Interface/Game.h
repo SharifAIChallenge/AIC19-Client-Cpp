@@ -11,6 +11,7 @@
 #include <unordered_map>
 #include <algorithm>
 #include <map>
+#include <Core/EventQueue.h>
 
 class Game {
 public:
@@ -18,6 +19,7 @@ public:
     Game() = default;
     ~Game();//delete the vector items...
 
+    Game(EventQueue& event_queue);
 
     //Getter & Setters:
 
@@ -140,6 +142,8 @@ private:
     int _currentTurn;
 
     Phase _currentPhase;
+
+    EventQueue& _event_queue;
 
     AbilityConstants getAbilityConstants(AbilityName abilityName);
 

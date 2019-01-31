@@ -5,8 +5,7 @@ HeroConstants::~HeroConstants() {
 
 }
 
-HeroConstants::HeroConstants(bool _isNull):HeroConstants(),
-                                           isNull(_isNull) {}
+HeroConstants::HeroConstants(bool _isNull): isNull(_isNull) {}
 
 
 HeroName &HeroConstants::name() {

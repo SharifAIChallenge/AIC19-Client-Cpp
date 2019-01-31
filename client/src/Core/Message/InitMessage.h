@@ -26,8 +26,8 @@ public:
     std::vector<AbilityConstants *> parse_abilityConstants();
 
 private:
-    HeroName give_HeroNameEnum(std::string HeroName);
-    AbilityName give_AbilityName(std::string AbilityName);
+//    HeroName give_HeroNameEnum(std::string HeroName);
+//    AbilityName give_AbilityName(std::string AbilityName);
 
 
 };

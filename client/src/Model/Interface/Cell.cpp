@@ -5,7 +5,7 @@
 #include "Cell.h"
 
 
-Cell::Cell(bool _isNull):Cell(), isNull(_isNull) {}
+Cell::Cell(bool _isNull): isNull(_isNull) {}
 //---------------wall------------------
 bool &Cell::isWall() {
     return _isWall;

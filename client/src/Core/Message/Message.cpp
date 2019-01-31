@@ -11,6 +11,7 @@
 #include "InitMessage.h"
 #include "TurnMessage.h"
 #include "ShutdownMessage.h"
+#include "PickMessage.h"
 
 Message::Message(Json::Value&& root)
         : m_root(std::move(root))
@@ -66,7 +67,7 @@ std::unique_ptr<Message> Message::CreateFromJsonString(const std::string& string
     if (root["name"] == "init")
         return make_unique<InitMessage>(std::move(root));
     else if (root["name"] == "pick")
-        return make_unique<>(std::move(root));
+        return make_unique<PickMessage>(std::move(root));
     else if (root["name"] == "turn")
         return make_unique<TurnMessage>(std::move(root));
 

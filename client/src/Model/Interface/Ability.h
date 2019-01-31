@@ -5,7 +5,7 @@
 #ifndef AIC18_CLIENT_CPP_ABILITY_H
 #define AIC18_CLIENT_CPP_ABILITY_H
 
-#include <Core/Message_OLD/TurnMessage.h>
+
 #include "AbilityConstants.h"
 
 class Ability {

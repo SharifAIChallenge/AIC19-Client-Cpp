@@ -5,7 +5,7 @@
 #include "Hero.h"
 
 
-Hero::Hero(bool _isNull):Hero(),isNull(_isNull) {}
+Hero::Hero(bool _isNull):isNull(_isNull) {}
 
 
 Hero::~Hero() {//TODO Check the vectors

@@ -3,6 +3,11 @@
 //
 
 #include "Game.h"
+
+Game::Game(EventQueue &event_queue): _event_queue(event_queue){
+
+}
+
 //----------------map------------------
 const Map &Game::get_map() const {
     return _map;
@@ -72,21 +77,26 @@ Game::~Game() {
     }
     _oppDeadHeroes.clear();
 
-    for (std::vector<CastAbility *>::iterator it = _castAbilities.begin() ; it != _castAbilities.end(); ++it){
+    for (std::vector<CastAbility *>::iterator it = _myCastAbilities.begin() ; it != _myCastAbilities.end(); ++it){
         delete *it;
     }
-    _castAbilities.clear();
+    _myCastAbilities.clear();
+
+    for (std::vector<CastAbility *>::iterator it = _oppCastAbilities.begin() ; it != _oppCastAbilities.end(); ++it){
+        delete *it;
+    }
+    _oppCastAbilities.clear();
 
 }
 //logical functions:
 Hero Game::getHero(int id) {
     for(std::vector<Hero *>::iterator it = _myHeroes.begin(); it != _myHeroes.end(); ++it){
-        if((*it)->id() == id){
+        if(static_cast<const Hero *>(*it)->id() == id){
             return **it;
         }
     }
     for(std::vector<Hero *>::iterator it = _oppHeroes.begin(); it != _oppHeroes.end(); ++it){
-        if((*it)->id() == id){
+        if(static_cast<const Hero *>(*it)->id() == id){
             return **it;
         }
     }
@@ -221,10 +231,10 @@ int Game::squareCollision(const Cell& startCell,const Cell& targetCell,const Cel
     for (int row = 2 * cell.row(); row <= 2 * (cell.row() + 1); row += 2)
         for (int column = 2 * cell.column(); column <= 2 * (cell.column() + 1); column += 2)
         {
-            int crossProduct = crossProduct(2 * startCell.row() + 1, 2 * startCell.column() + 1,
+            int _crossProduct = crossProduct(2 * startCell.row() + 1, 2 * startCell.column() + 1,
                                             2 * targetCell.row() + 1, 2 * targetCell.column() + 1, row, column);
-            if (crossProduct < 0) hasNegative = true;
-            else if (crossProduct > 0) hasPositive = true;
+            if (_crossProduct < 0) hasNegative = true;
+            else if (_crossProduct > 0) hasPositive = true;
             else hasZero = true;
         }
     if (hasNegative && hasPositive) return 1;
@@ -241,7 +251,7 @@ void Game::dfs(Cell& currentCell, const Cell& startCell, const Cell& targetCell,
                std::vector<Cell *>& path) {
     isSeen[currentCell] = true;
     path.push_back(&currentCell);
-    //TODO make sure the Direction enum is not initialized!
+    //TODO make sure the "Direction" enum is not initialized!
     for (int dir = Direction::UP; dir <= Direction::RIGHT ; dir++ )//(Direction direction : Direction.values())
     {
         Direction direction = static_cast<Direction>(dir);

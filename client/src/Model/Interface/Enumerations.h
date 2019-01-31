@@ -28,7 +28,7 @@ enum Direction
 
 enum Phase
 {
-    PICK,MOVE,ACTION;
+    PICK,MOVE,ACTION
 };
 Phase convert_phase_from_string(std::string str_phase);
 

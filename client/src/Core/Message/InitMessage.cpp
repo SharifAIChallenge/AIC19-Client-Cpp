@@ -65,18 +65,18 @@ Map InitMessage::parse_map() {
     return output_map;
 }
 
-HeroName InitMessage::give_HeroNameEnum(std::string HeroName) {
-    //TODO Update these based on the HeroName enum
-    if(HeroName == "Ruhollah")
-        return HeroName::HEALER;
-}
-
-AbilityName InitMessage::give_AbilityName(std::string AbilityName) {
-    //TODO Update these based on the AbilityName enum
-    if(AbilityName == "suicide")
-        return AbilityName::suicide;
-
-}
+//HeroName InitMessage::give_HeroNameEnum(std::string HeroName) {
+//    //TODO Update these based on the HeroName enum
+//    if(HeroName == "Ruhollah")
+//        return HeroName::HEALER;
+//}
+//
+//AbilityName InitMessage::give_AbilityName(std::string AbilityName) {
+//    //TODO Update these based on the AbilityName enum
+//    if(AbilityName == "suicide")
+//        return AbilityName::suicide;
+//
+//}
 
 std::vector<HeroConstants *> InitMessage::parse_heroConstants() {
     std::vector<HeroConstants *> output_heroConst;
@@ -86,12 +86,12 @@ std::vector<HeroConstants *> InitMessage::parse_heroConstants() {
 
     for(int i = 0; i < HeroConst_DATA.size(); ++i){
         HeroConstants* ptr_heroCons = new HeroConstants;
-        ptr_heroCons->name() = give_HeroNameEnum(HeroConst_DATA[i]["name"].asString());
+        ptr_heroCons->name() = convert_heroName_from_string(HeroConst_DATA[i]["name"].asString());
 
         Json::Value AbilityNames_DATA = HeroConst_DATA[i]["abilityNames"];
         std::vector<AbilityName> tmp_names;
         for(int j=0; j < AbilityNames_DATA.size(); ++j ){
-            tmp_names.push_back(give_AbilityName(AbilityNames_DATA[j].asString()));
+            tmp_names.push_back(convert_abilityName_from_string(AbilityNames_DATA[j].asString()));
         }
         ptr_heroCons->set_abilityNames(tmp_names);
 
@@ -114,7 +114,7 @@ std::vector<AbilityConstants *> InitMessage::parse_abilityConstants() {
     for(int i = 0; i < AbilityConst_DATA.size(); ++i){
         AbilityConstants* ptr_abilityCons = new AbilityConstants();
 
-        ptr_abilityCons->abilityName() = give_AbilityName(AbilityConst_DATA[i]["name"].asString());
+        ptr_abilityCons->abilityName() = convert_abilityName_from_string(AbilityConst_DATA[i]["name"].asString());
         ptr_abilityCons->type() = AbilityConst_DATA[i]["type"].asString();
         ptr_abilityCons->range() = AbilityConst_DATA[i]["range"].asInt();
         ptr_abilityCons->APCost() = AbilityConst_DATA[i]["APCost"].asInt();

@@ -71,7 +71,6 @@ private:
     Cell _currentCell;
     std::vector<Cell *> _recentPath;
 
-    bool isNull = false;
 
     HeroConstants& heroConstants();
     HeroConstants heroConstants() const;
@@ -82,6 +81,8 @@ private:
 
     friend class TurnMessage;
     friend class PickMessage;
+
+    bool isNull = false;
 
 public://single tone
     static Hero NULL_HERO;

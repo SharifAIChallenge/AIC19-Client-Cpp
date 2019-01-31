@@ -2,8 +2,7 @@
 
 
 //------------constructor---------------
-AbilityConstants::AbilityConstants(bool _isNull):AbilityConstants(),
-                                                 isNull(_isNull) {}
+AbilityConstants::AbilityConstants(bool _isNull): isNull(_isNull) {}
 
 //------------AbilityName---------------
 AbilityName& AbilityConstants::abilityName() {

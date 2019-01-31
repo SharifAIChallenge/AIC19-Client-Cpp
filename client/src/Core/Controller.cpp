@@ -21,7 +21,7 @@ Controller::Controller(const std::string& host, uint16_t port, const std::string
         : m_token(token)
         , m_retry_delay(retry_delay)
         , m_network(host, port)
-        , m_world(m_event_queue)
+        , m_game(m_event_queue)
 {
     Logger::Get(LogLevel_DEBUG) << "Server is " << host << ":" << port << std::endl;
     Logger::Get(LogLevel_DEBUG) << "Authentication token is " << token << std::endl;
@@ -64,6 +64,7 @@ void Controller::run() try {
 
     Logger::Get(LogLevel_TRACE) << "Parsing init message" << std::endl;
 
+    /*
     init_message.parse_world_constants();
     init_message.parse_unit_constants();
     init_message.parse_tower_constants();
@@ -150,6 +151,7 @@ void Controller::run() try {
     m_network.disconnect();
 
     Logger::Get(LogLevel_TRACE) << "Exit Controller::run" << std::endl;
+*/
 }
 catch (Json::Exception&) {
     throw ParseError("Malformed json string");

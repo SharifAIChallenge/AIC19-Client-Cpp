@@ -1,7 +1,7 @@
 #include "Map.h"
 
 
-Map::Map(const std::vector<std::vector<Cell *>> &cells_grid): {
+Map::Map(const std::vector<std::vector<Cell *>> &cells_grid) {
     this->set_cells(cells_grid);
 }
 

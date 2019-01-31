@@ -1,9 +1,6 @@
 #include "GameConstants.h"
 
 
-GameConstants::~GameConstants() {
-
-}
 //----------killScore-------------
 int &GameConstants::killScore() {
     return _killScore;
