@@ -247,16 +247,16 @@ bool Game::isCloser(Cell currentCell, Cell targetCell, Cell nextCell)
     return manhattanDistance(nextCell, targetCell) <= manhattanDistance(currentCell, targetCell);
 }
 
-void Game::dfs(Cell& currentCell, const Cell& startCell, const Cell& targetCell, std::unordered_map<Cell, bool>& isSeen,
+void Game::dfs(Cell& currentCell, Cell& startCell, Cell& targetCell, std::unordered_map<Cell*, bool>& isSeen,
                std::vector<Cell *>& path) {
-    isSeen[currentCell] = true;
+    isSeen[&currentCell] = true;
     path.push_back(&currentCell);
     //TODO make sure the "Direction" enum is not initialized!
     for (int dir = Direction::UP; dir <= Direction::RIGHT ; dir++ )//(Direction direction : Direction.values())
     {
         Direction direction = static_cast<Direction>(dir);
         Cell nextCell = getNextCell(currentCell, direction);
-        if (nextCell != Cell::NULL_CELL && isSeen.find(nextCell) == isSeen.end() && isCloser(currentCell, targetCell, nextCell))
+        if (nextCell != Cell::NULL_CELL && isSeen.find(&nextCell) == isSeen.end() && isCloser(currentCell, targetCell, nextCell))
         {
             int collisionState = squareCollision(startCell, targetCell, nextCell);
             if ((collisionState == 0 || collisionState == 1) && nextCell.isWall())
@@ -276,7 +276,7 @@ void Game::dfs(Cell& currentCell, const Cell& startCell, const Cell& targetCell,
             Cell nextCell = Cell::NULL_CELL;
             if (_map.isInMap(newRow, newColumn)) nextCell = _map.getCell(newRow, newColumn);
             //TODO: assumed isSeen.find(nextCell) == isSeen.end() means it's not found...
-            if (nextCell != Cell::NULL_CELL && isSeen.find(nextCell) == isSeen.end() && isCloser(currentCell, targetCell, nextCell))
+            if (nextCell != Cell::NULL_CELL && isSeen.find(&nextCell) == isSeen.end() && isCloser(currentCell, targetCell, nextCell))
             {
                 int collisionState = squareCollision(startCell, targetCell, nextCell);
                 if (collisionState == 0 || collisionState == 1 && nextCell.isWall())
@@ -300,13 +300,13 @@ void Game::dfs(Cell& currentCell, const Cell& startCell, const Cell& targetCell,
      */
 std::vector<Cell *> Game::getRayCells(Cell startCell, Cell endCell) {
     std::vector<Cell *> path;
-    std::unordered_map<Cell, bool> _isSeen;
+    std::unordered_map<Cell*, bool> _isSeen;
     dfs(startCell,startCell,endCell,_isSeen,path);
     return path;
 }
 
 std::vector<Cell *> Game::getImpactCells(AbilityName abilityName, Cell startCell, Cell targetCell) {
-    AbilityConstants abilityConstants = getAbilityConstants(abilityName);
+    const AbilityConstants abilityConstants = getAbilityConstants(abilityName);
     if (abilityConstants.isLobbing())
     {
         std::vector<Cell *> targetCellVec{&targetCell};
@@ -332,7 +332,9 @@ std::vector<Cell *> Game::getImpactCells(AbilityName abilityName, Cell startCell
             if (!abilityConstants.isPiercing()) break;
         }
     }
-    if (std::find(impactCells.begin(), impactCells.end(), &lastCell) != impactCells.end())//does not contain!
+    if (std::find(impactCells.begin(),
+                  impactCells.end(), lastCell)
+        != impactCells.end())//does not contain!
         impactCells.push_back(lastCell);
     return impactCells;
 }
@@ -345,13 +347,13 @@ Cell Game::getImpactCell(AbilityName abilityName, Cell startCell, Cell targetCel
 
 
 Cell Game::getImpactCell(Ability ability, Cell startCell, Cell targetCell) {
-    return getImpactCell(ability.abilityConstants().abilityName(), startCell, targetCell);
+    return getImpactCell(ability.getAbilityConstants().getAbilityName(), startCell, targetCell);
 }
 
 Cell Game::getImpactCell(Ability ability, int startCellRow, int startCellColumn, int endCellRow, int endCellColumn) {
     if (!_map.isInMap(startCellRow, startCellColumn) || !_map.isInMap(endCellRow, endCellColumn))
         return Cell::NULL_CELL;
-    return getImpactCell(ability.abilityConstants().abilityName(), _map.getCell(startCellRow, startCellColumn),
+    return getImpactCell(ability.getAbilityConstants().getAbilityName(), _map.getCell(startCellRow, startCellColumn),
                          _map.getCell(endCellRow, endCellColumn));
 }
 
@@ -381,7 +383,7 @@ bool Game::isInVision(int startCellRow, int startCellColumn, int endCellRow, int
 AbilityConstants Game::getAbilityConstants(AbilityName abilityName) {
     for (AbilityConstants * abilityConstants : this->_abilityConstants)
     {
-        if (abilityConstants->abilityName() == abilityName)
+        if (abilityConstants->getAbilityName() == abilityName)
         {
             return *abilityConstants;
         }
@@ -400,7 +402,7 @@ HeroConstants Game::getHeroConstants(HeroName heroName) {
     return HeroConstants::NULL_HERO_CONSTANT;
 }
 
-std::vector<Direction> Game::getPathMoveDirections(Cell startCell, Cell endCell)
+std::vector<Direction> Game::getPathMoveDirections(Cell& startCell, Cell& endCell)
 {
     if (startCell == endCell || startCell.isWall() || endCell.isWall()){
         std::vector<Direction> vec = {};
@@ -408,12 +410,12 @@ std::vector<Direction> Game::getPathMoveDirections(Cell startCell, Cell endCell)
     }
 
     // saves parent cell and direction to go from parent cell to current cell
-    std::map<Cell, std::pair<Cell, Direction>> lastMoveInfo;
+    std::map<Cell*, std::pair<Cell, Direction>> lastMoveInfo;
     Cell* bfsQueue = new Cell[_map.rowNum() * _map.columnNum() + 10];
     int queueHead = 0, queueTail = 0;
 
-    lastMoveInfo.insert(std::pair<Cell,
-            std::pair<Cell, Direction>>(startCell, std::pair<Cell, Direction>(Cell::NULL_CELL , NULL_DIRECTION)));
+    lastMoveInfo.insert(std::pair<Cell*, std::pair<Cell, Direction>>
+                                (&startCell, std::pair<Cell, Direction>(Cell::NULL_CELL , NULL_DIRECTION)));
     bfsQueue[queueTail++] = startCell;
 
     while (queueHead != queueTail)
@@ -424,19 +426,20 @@ std::vector<Direction> Game::getPathMoveDirections(Cell startCell, Cell endCell)
             std::vector<Direction> directions;
             while (currentCell != startCell)
             {
-                directions.insert(directions.end(), lastMoveInfo[currentCell].second);
-                currentCell = lastMoveInfo[currentCell].first;
+                directions.insert(directions.end(), lastMoveInfo[&currentCell].second);
+                currentCell = lastMoveInfo[&currentCell].first;
             }
             reverse(directions.begin(), directions.end());
             return directions;
         }
-        for (Direction direction = UP; direction <= RIGHT; direction++)
+        for (int direction = UP; direction <= RIGHT; direction++)
         {
-            Cell nextCell = getNextCell(currentCell, direction);
-            if (nextCell != Cell::NULL_CELL && !lastMoveInfo.count(nextCell))
+            Cell nextCell = getNextCell(currentCell, static_cast<Direction>(direction));
+            if (nextCell != Cell::NULL_CELL && !lastMoveInfo.count(&nextCell))
             {
-                lastMoveInfo.insert(std::pair<Cell,
-                        std::pair<Cell, Direction>>(nextCell, std::pair<Cell, Direction>(currentCell, direction)));
+                lastMoveInfo.insert(std::pair<Cell*,
+                        std::pair<Cell, Direction>>(&nextCell,
+                                                    std::pair<Cell, Direction>(currentCell, static_cast<Direction>(direction))));
                 bfsQueue[queueTail++] = nextCell;
             }
         }
@@ -492,7 +495,7 @@ void Game::set_myHeroes(std::vector<Hero *> _heroes) {
     _myHeroes = _heroes;
     for(std::vector<Hero *>::iterator it = _heroes.begin();
         it != _heroes.end(); ++it){
-        if((*it)->currentHP() == 0){
+        if((*it)->getCurrentHP() == 0){
             this->_myDeadHeroes.push_back(*it);
         }
     }
@@ -513,7 +516,7 @@ void Game::set_oppHeroes(std::vector<Hero *> _heroes) {
     _oppDeadHeroes = _heroes;
     for(std::vector<Hero *>::iterator it = _heroes.begin();
         it != _heroes.end(); ++it){
-        if((*it)->currentHP() == 0){
+        if((*it)->getCurrentHP() == 0){
             _oppDeadHeroes.push_back(*it);
         }
     }

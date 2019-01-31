@@ -8,7 +8,7 @@ AbilityConstants &Ability::abilityConstants() {
     return _abilityConstants;
 }
 
-AbilityConstants Ability::abilityConstants() const {
+AbilityConstants Ability::getAbilityConstants() const {
     return _abilityConstants;
 }
 //--------------remCooldown------------
@@ -21,10 +21,10 @@ int Ability::remCooldown() const {
 }
 
 AbilityName Ability::abilityName() const {
-    return _abilityConstants.abilityName();
+    return _abilityConstants.getAbilityName();
 }
 
-std::string Ability::type() const {
+AbilityType Ability::type() const {
     return _abilityConstants.type();
 }
 

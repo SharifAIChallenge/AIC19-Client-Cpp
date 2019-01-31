@@ -78,7 +78,7 @@ public:
     int crossProduct(int x1, int y1, int x2, int y2, int x3, int y3);
     int squareCollision(const Cell& startCell,const Cell& targetCell,const Cell& cell);
     bool isCloser(Cell currentCell, Cell targetCell, Cell nextCell);
-    void dfs(Cell& currentCell, const Cell& startCell, const Cell& targetCell, std::unordered_map<Cell, bool>& isSeen,
+    void dfs(Cell& currentCell, Cell& startCell, Cell& targetCell, std::unordered_map<Cell*, bool>& isSeen,
              std::vector<Cell *>& path);
 
     // Get all the cells that collide with the ray line in at least one non corner point,
@@ -95,7 +95,7 @@ public:
     Cell getImpactCell(Ability ability, int startCellRow, int startCellColumn, int endCellRow, int endCellColumn);
 
 
-    std::vector<Direction> getPathMoveDirections(Cell startCell, Cell endCell);
+    std::vector<Direction> getPathMoveDirections(Cell& startCell, Cell& endCell);
     std::vector<Direction> getPathMoveDirections(int startCellRow, int startCellColumn, int endCellRow, int endCellColumn);
 
     int manhattanDistance(Cell startCell, Cell endCell);

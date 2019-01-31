@@ -19,9 +19,9 @@ public:
 
 
     //Getters:
-    AbilityName abilityName() const;
+    AbilityName getAbilityName() const;
 
-    std::string type() const;
+    AbilityType type() const;
 
     int range() const;
 
@@ -40,7 +40,7 @@ public:
 
 private:
     AbilityName _abilityName;
-    std::string _type;
+    AbilityType _type;
 
     int _range;
     int _APCost;
@@ -53,7 +53,7 @@ private:
 
 
     AbilityName& abilityName();
-    std::string& type();
+    AbilityType& type();
     int& range();
     int& APCost();
     int& cooldown();

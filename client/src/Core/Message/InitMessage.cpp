@@ -115,7 +115,7 @@ std::vector<AbilityConstants *> InitMessage::parse_abilityConstants() {
         AbilityConstants* ptr_abilityCons = new AbilityConstants();
 
         ptr_abilityCons->abilityName() = convert_abilityName_from_string(AbilityConst_DATA[i]["name"].asString());
-        ptr_abilityCons->type() = AbilityConst_DATA[i]["type"].asString();
+        ptr_abilityCons->type() = convert_abilityType_from_string(AbilityConst_DATA[i]["type"].asString());
         ptr_abilityCons->range() = AbilityConst_DATA[i]["range"].asInt();
         ptr_abilityCons->APCost() = AbilityConst_DATA[i]["APCost"].asInt();
         ptr_abilityCons->cooldown() = AbilityConst_DATA[i]["cooldown"].asInt();

@@ -8,13 +8,14 @@ enum AbilityName//TODO Complete these enums (if you updated this please update t
     HEAL_FOR_THE_GREATER_GOOD
 };
 
-AbilityName convert_abilityName_from_string(std::string str_ability);
+AbilityName convert_abilityName_from_string(std::string str_abilityName);
 //-------------------------------------------
 enum AbilityType
 {
     HEAL,DODGE,ATTACK
 };
-
+AbilityType convert_abilityType_from_string(std::string str_abilityType);
+//-------------------------------------------
 enum HeroName//TODO Complete these enums (if you updated this please update the function below)
 {
     HEALER

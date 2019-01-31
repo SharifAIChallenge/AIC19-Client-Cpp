@@ -42,7 +42,7 @@ int &Hero::currentHP() {
     return _currentHP;
 }
 
-int Hero::currentHP() const {
+int Hero::getCurrentHP() const {
     return _currentHP;
 }
 //------------respawnTime--------------
@@ -116,6 +116,27 @@ bool Hero::operator==(Hero _hero) {
 
 bool Hero::operator!=(Hero _hero) {
     return !(*this == _hero);
+}
+
+
+HeroName Hero::name() const {
+    return _heroConstants.name();
+}
+
+const std::vector<AbilityName> &Hero::abilityNames() const {
+    return _heroConstants.get_abilityNames();
+}
+
+int Hero::maxHP() const {
+    return _heroConstants.maxHP();
+}
+
+int Hero::moveAPCost() const {
+    return _heroConstants.moveAPCost();
+}
+
+int Hero::remainingRespawnTime() const {
+    return _heroConstants.remainingRespawnTime();
 }
 
 //Single tone

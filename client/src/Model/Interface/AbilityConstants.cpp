@@ -9,15 +9,15 @@ AbilityName& AbilityConstants::abilityName() {
     return _abilityName;
 }
 
-AbilityName AbilityConstants::abilityName() const {
+AbilityName AbilityConstants::getAbilityName() const {
     return _abilityName;
 }
 //---------------type------------------
-std::string& AbilityConstants::type() {
+AbilityType& AbilityConstants::type() {
     return _type;
 }
 
-std::string AbilityConstants::type() const{
+AbilityType AbilityConstants::type() const{
     return _type;
 }
 //---------------range-----------------

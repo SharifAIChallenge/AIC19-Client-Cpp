@@ -25,7 +25,7 @@ public:
     Hero& operator=(Hero&&) = default;
 
     int id() const;
-    int currentHP() const;
+    int getCurrentHP() const;
     int respawnTime() const;
 
     // TODO put getters for the heroConstants

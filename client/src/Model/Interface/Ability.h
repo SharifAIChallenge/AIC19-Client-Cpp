@@ -22,7 +22,7 @@ public:
 
 //Getters for the AbilityConstants
     AbilityName abilityName() const;
-    std::string type() const;
+    AbilityType type() const;
     int range() const;
     int APCost() const;
     int cooldown() const;
@@ -33,7 +33,7 @@ public:
 
 //Getters:
     int remCooldown() const;
-    AbilityConstants abilityConstants() const;
+    AbilityConstants getAbilityConstants() const;
 
 
 private:
