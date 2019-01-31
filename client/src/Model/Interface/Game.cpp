@@ -81,12 +81,12 @@ Game::~Game() {
 //logical functions:
 Hero Game::getHero(int id) {
     for(std::vector<Hero *>::iterator it = _myHeroes.begin(); it != _myHeroes.end(); ++it){
-        if((*it)->get_id() == id){
+        if((*it)->id() == id){
             return **it;
         }
     }
     for(std::vector<Hero *>::iterator it = _oppHeroes.begin(); it != _oppHeroes.end(); ++it){
-        if((*it)->get_id() == id){
+        if((*it)->id() == id){
             return **it;
         }
     }
@@ -96,7 +96,7 @@ Hero Game::getHero(int id) {
 Hero Game::getMyHero(Cell cell) {
     for(std::vector<Hero *>::iterator it = _myHeroes.begin(); it != _myHeroes.end(); ++it ){
         //This only checks the location of the cell
-        if((*it)->get_currentCell() == cell){
+        if((*it)->currentCell() == cell){
             return **it;
         }
     }
@@ -121,7 +121,7 @@ Hero Game::getMyHero(int cellRow, int cellColumn) {
 Hero Game::getOppHero(Cell cell) {
     for(std::vector<Hero *>::iterator it = _oppHeroes.begin(); it!= _oppHeroes.end(); ++it){
         //This only checks the location of the cell
-        if((*it)->get_currentCell() == cell){
+        if((*it)->currentCell() == cell){
             return **it;
         }
     }

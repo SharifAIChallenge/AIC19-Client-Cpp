@@ -18,32 +18,23 @@ public:
     AbilityConstants& operator=(AbilityConstants&&) = default;
 
 
-    AbilityName& abilityName();
+    //Getters:
     AbilityName abilityName() const;
 
-    std::string& type();
     std::string type() const;
 
-    int& range();
     int range() const;
 
-    int& APCost();
     int APCost() const;
 
-    int& cooldown();
     int cooldown() const;
 
-    int& areaOfEffect();
     int areaOfEffect() const;
 
-    int& power();
     int power() const;
 
-    bool& isLobbing();
     bool isLobbing() const;
 
-
-    bool& isPiercing();
     bool isPiercing() const;
 
 
@@ -60,7 +51,21 @@ private:
     bool _isLobbing;
     bool _isPiercing;
 
+
+    AbilityName& abilityName();
+    std::string& type();
+    int& range();
+    int& APCost();
+    int& cooldown();
+    int& areaOfEffect();
+    int& power();
+    bool& isLobbing();
+    bool& isPiercing();
+
+    friend class InitMessage;
+
     bool isNull = false;
+
 
 public:// TODO single tone
     static AbilityConstants NULL_ABILITY_CONSTANTS;

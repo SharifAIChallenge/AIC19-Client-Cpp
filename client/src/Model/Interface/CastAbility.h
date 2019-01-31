@@ -1,6 +1,7 @@
 #ifndef AIC18_CLIENT_CPP_CASTABILITY_H
 #define AIC18_CLIENT_CPP_CASTABILITY_H
 
+#include <vector>
 #include "Cell.h"
 #include "Enumerations.h"
 
@@ -18,8 +19,8 @@ public:
     int& casterId();
     int casterId() const;
 
-    int& targetHeroId();
-    int targetHeroId() const;
+    std::vector<int>& targetHeroId();
+    std::vector<int> targetHeroId() const;
 
     Cell& startCell();
     Cell startCell() const;
@@ -32,7 +33,7 @@ public:
 
 private:
     int _casterId;
-    int _targetHeroId;
+    std::vector<int> _targetHeroId;
     Cell _startCell;
     Cell _endCell;
     AbilityName _abilityName;

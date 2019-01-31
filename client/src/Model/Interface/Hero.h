@@ -24,44 +24,27 @@ public:
     Hero(Hero&&) = default;
     Hero& operator=(Hero&&) = default;
 
-    void set_id(int _id);
-    int get_id() const;
-    int& id();
     int id() const;
-
-    void set_currentHP(int _currentHP);
-    int get_currentHP() const;
-    int& currentHP();
     int currentHP() const;
-
-    int& respawnTime();
     int respawnTime() const;
 
-
-    void set_heroConstants(const HeroConstants &_heroConstants);
-    const HeroConstants &get_heroConstants() const;
-    HeroConstants& heroConstants();
-    HeroConstants heroConstants() const;
+    // TODO put getters for the heroConstants
+    HeroName name() const;
+    const std::vector<AbilityName> &abilityNames() const;
+    int maxHP() const;
+    int moveAPCost() const;
+    int remainingRespawnTime() const;
 
     //TODO you have to update the other three vectors as well (dodgeAbilities,...)
     void set_abilities(const std::vector<Ability *> &_abilities);
     const std::vector<Ability *> &get_abilities() const;
 
-    //TODO We sholudn't need this function write (set_abilities() will do it?)
-//    void set_dodgeAbilities(const std::vector<Ability *> &_dodgeAbilities);
+    //TODO We shouldn't need these functions (set_abilities() will do it?)
     const std::vector<Ability *> &get_dodgeAbilities() const;
-
-
-//    void set_healAbilities(const std::vector<Ability *> &_healAbilities);
     const std::vector<Ability *> &get_healAbilities() const;
-
-
-//    void set_attackAbilities(const std::vector<Ability *> &_attackAbilities);
     const std::vector<Ability *> &get_attackAbilities() const;
 
 
-    void set_currentCell(const Cell &_currentCell);
-    const Cell &get_currentCell() const;
     Cell& currentCell();
     Cell currentCell() const;
 
@@ -89,6 +72,16 @@ private:
     std::vector<Cell *> _recentPath;
 
     bool isNull = false;
+
+    HeroConstants& heroConstants();
+    HeroConstants heroConstants() const;
+
+    int& id();
+    int& currentHP();
+    int& respawnTime();
+
+    friend class TurnMessage;
+    friend class PickMessage;
 
 public://single tone
     static Hero NULL_HERO;

@@ -7,6 +7,7 @@
 #include <Model/Interface/AbilityConstants.h>
 
 #include "Message.h"
+#include "ParseError.h"
 #include <vector>
 
 class InitMessage final : public Message {

@@ -12,11 +12,11 @@ int CastAbility::casterId() const {
     return _casterId;
 }
 
-int &CastAbility::targetHeroId() {
+std::vector<int> &CastAbility::targetHeroId() {
     return _targetHeroId;
 }
 
-int CastAbility::targetHeroId() const {
+std::vector<int> CastAbility::targetHeroId() const {
     return _targetHeroId;
 }
 

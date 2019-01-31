@@ -43,6 +43,7 @@ private:
 
     int _remainingRespawnTime; // TODO "SEKALL"
 
+
     bool isNull = false;
 
 public:

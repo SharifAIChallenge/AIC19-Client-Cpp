@@ -57,7 +57,7 @@ void PickMessage::update_game(Game *_game) {
             newAbility->abilityConstants() = _game->getAbilityConstants(abilityName);
 
             abilities.push_back(newAbility);
-        }
+        }//TODO maybe you wanta check this...
 
         tmp_opp_hero_list.push_back(ptr_hero);
     }

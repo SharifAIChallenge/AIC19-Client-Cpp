@@ -16,5 +16,25 @@ public:
 
 };
 
+HeroName Hero::name() const {
+    return _heroConstants.name();
+}
+
+const std::vector<AbilityName> &Hero::abilityNames() const {
+    return _heroConstants.get_abilityNames();
+}
+
+int Hero::maxHP() const {
+    return _heroConstants.maxHP();
+}
+
+int Hero::moveAPCost() const {
+    return _heroConstants.moveAPCost();
+}
+
+int Hero::remainingRespawnTime() const {
+    return _heroConstants.remainingRespawnTime();
+}
+
 
 #endif //AIC18_CLIENT_CPP_PICKMESSAGE_H

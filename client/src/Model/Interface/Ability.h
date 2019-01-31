@@ -5,6 +5,7 @@
 #ifndef AIC18_CLIENT_CPP_ABILITY_H
 #define AIC18_CLIENT_CPP_ABILITY_H
 
+#include <Core/Message_OLD/TurnMessage.h>
 #include "AbilityConstants.h"
 
 class Ability {
@@ -19,23 +20,34 @@ public:
     Ability(Ability&&) = default;
     Ability& operator=(Ability&&) = default;
 
-//    Ability(AbilityConstants _abilityConstants);
+//Getters for the AbilityConstants
+    AbilityName abilityName() const;
+    std::string type() const;
+    int range() const;
+    int APCost() const;
+    int cooldown() const;
+    int areaOfEffect() const;
+    int power() const;
+    bool isLobbing() const;
+    bool isPiercing() const;
 
-
-    void set_abilityConstants(const AbilityConstants &_abilityConstants);
-    const AbilityConstants &get_abilityConstants() const;
-    AbilityConstants& abilityConstants();
-    AbilityConstants abilityConstants() const;
-
-    void set_remCooldown(int _remCooldown);
-    int get_remCooldown() const;
-    int& remCooldown();
+//Getters:
     int remCooldown() const;
+    AbilityConstants abilityConstants() const;
 
 
 private:
     AbilityConstants _abilityConstants;
     int _remCooldown;
+
+
+    AbilityConstants& abilityConstants();
+
+    int& remCooldown();
+
+    friend class TurnMessage;
+    friend class PickMessage;
+
 };
 
 

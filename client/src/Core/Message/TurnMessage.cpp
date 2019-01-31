@@ -160,8 +160,10 @@ void TurnMessage::update_game(Game *_game) {
         CastAbility* ptr_CastAbility = new CastAbility();
 
         ptr_CastAbility->casterId() = myCAbility_DATA["casterId"].asInt();
-        //targetHeroIds: TODO ask sekall about this array thing
-        ptr_CastAbility->targetHeroId() = myCAbility_DATA["targetHeroIds"]
+        //targetHeroIds:
+        for(int j = 0; j < myCAbility_DATA["targetHeroIds"].size(); ++j) {
+            ptr_CastAbility->targetHeroId().push_back(myCAbility_DATA["targetHeroIds"][j].asInt());
+        }
         //startCell:
         ptr_CastAbility->startCell() = _game->map().getCell(
                 myCAbility_DATA["startCell"]["row"].asInt(),
@@ -189,8 +191,10 @@ void TurnMessage::update_game(Game *_game) {
         CastAbility* ptr_CastAbility = new CastAbility();
 
         ptr_CastAbility->casterId() = oppCAbility_DATA["casterId"].asInt();
-        //targetHeroIds: TODO ask sekall about this array thing
-        ptr_CastAbility->targetHeroId() = oppCAbility_DATA["targetHeroIds"]
+        //targetHeroIds:
+        for(int j = 0; j < oppCAbility_DATA["targetHeroIds"].size(); ++j) {
+            ptr_CastAbility->targetHeroId().push_back(oppCAbility_DATA["targetHeroIds"][j].asInt());
+        }
         //startCell:
         ptr_CastAbility->startCell() = _game->map().getCell(
                 oppCAbility_DATA["startCell"]["row"].asInt(),
