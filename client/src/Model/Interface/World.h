@@ -25,6 +25,7 @@ public:
 
     World(EventQueue& event_queue);
 
+    World(World& _world);
     //Getter & Setters:
 
     void set_map(const Map &_map);
@@ -118,11 +119,13 @@ public:
     void castAbility(Hero hero, Ability ability, Cell targetCell);
 
 
-    void moveHero(int id, std::vector<Direction> direction);
+    void moveHero(int id, std::vector<Direction> direction);//TODO sekall asked me to put this "TODO"
     void pickHero(HeroName heroName);
 
 //Parsing:
     void importInitData(InitMessage &_initMessage);
+//    void importPickData(PickMessage &_pickMessage);
+//    void importTurnData(TurnMessage &_turnMessage);
 
 
 private:

@@ -4,6 +4,15 @@ World::World(EventQueue &event_queue): _event_queue(event_queue){
 
 }
 
+
+World::World(World &_world): _event_queue(_world._event_queue) {
+    this->_gameConstants = _world._gameConstants;
+    this->_abilityConstants = _world._abilityConstants;
+    this->_map = _world._map;
+    this->_heroConstants = _world._heroConstants;
+}
+
+
 //----------------map------------------
 const Map &World::get_map() const {
     return _map;
@@ -571,6 +580,15 @@ void World::importInitData(InitMessage &_initMessage) {
     this->_AP = this->_gameConstants.get_maxAP();
 
 }
+//
+//void World::importPickData(PickMessage &_pickMessage) {
+//    _pickMessage.update_game(this);
+//}
+//
+//void World::importTurnData(TurnMessage &_turnMessage) {
+//    _turnMessage.update_game(this);
+//
+//}
 
 
 

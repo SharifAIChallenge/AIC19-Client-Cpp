@@ -8,6 +8,7 @@
 #include <Utility/Logger.h>
 
 #include <Network/NetworkError.h>
+#include <Core/Message/PickMessage.h>
 
 #include "Message/ParseError.h"
 
@@ -58,78 +59,68 @@ void Controller::run() try {
     Logger::Get(LogLevel_TRACE) << "Sending authentication message" << std::endl;
     m_network.send(AuthenticationMessage(m_token).to_string());//TODO about the authentication process
 
-    // Parse init message
+    // Now wait for init message
     Logger::Get(LogLevel_TRACE) << "Waiting for init message" << std::endl;
-    InitMessage init_message(m_network.receive());
 
-    Logger::Get(LogLevel_TRACE) << "Parsing init message" << std::endl;
+//    InitMessage init_message(m_network.receive());
 
 
-    m_world.importInitData(init_message);
 
     // Start the event handling thread
+    //TODO maybe this should be called after the InitMessage
     m_event_handling_thread = std::thread(&Controller::event_handling_loop, this);
 
     while (m_network.is_connected()) {
         Logger::Get(LogLevel_TRACE) << "Waiting for turn/shutdown message" << std::endl;
 
         auto message = Message::CreateFromJsonString(m_network.receive());
-        if (dynamic_cast<ShutdownMessage*>(message.get())) {
+
+        if (InitMessage* init_message = dynamic_cast<InitMessage*>(message.get())) {
+            Logger::Get(LogLevel_TRACE) << "Parsing init message" << std::endl;
+            m_world.importInitData(*init_message);
+        }
+        else if (PickMessage* pick_message = dynamic_cast<PickMessage*>(message.get())) {
+            Logger::Get(LogLevel_INFO) << "Received Pick message from server" << std::endl;
+            World* _world = new World(m_world);//copying a from the initial world
+            pick_message->update_game(_world);
+
+            std::unique_ptr<std::thread> pickThread =
+                    std::unique_ptr<std::thread>(
+                            new std::thread(Controller::pick_event,&m_client,_world));
+            m_thread_list.push_back(std::move(pickThread));
+        }
+        else if (TurnMessage* turn_message = dynamic_cast<TurnMessage*>(message.get())) {
+            World* _world = new World(m_world);//copying a from the initial world
+            turn_message->update_game(_world);//updating the new world
+            if(_world->currentPhase() == Phase::MOVE){
+                Logger::Get(LogLevel_INFO) << "Received Move message from server" << std::endl;
+
+                std::unique_ptr<std::thread> moveThread =
+                        std::unique_ptr<std::thread>(
+                                new std::thread(Controller::move_event,&m_client,_world));
+                m_thread_list.push_back(std::move(moveThread));
+            } else if (_world->currentPhase() == Phase::ACTION){
+                Logger::Get(LogLevel_INFO) << "Received Action message from server" << std::endl;
+
+                std::unique_ptr<std::thread> actionThread =
+                        std::unique_ptr<std::thread>(
+                                new std::thread(Controller::action_event,&m_client,_world));
+                m_thread_list.push_back(std::move(actionThread));
+            } else
+                throw std::string("Can't determine phase of turn message");
+
+            Logger::Get(LogLevel_DEBUG) << "Current turn is " << m_world.currentTurn();
+        }
+        else if (dynamic_cast<ShutdownMessage*>(message.get())) {
             Logger::Get(LogLevel_INFO) << "Received shutdown message from server" << std::endl;
             break;
         }
 
-        auto turn_message = std::unique_ptr<TurnMessage>(static_cast<TurnMessage*>(message.release()));
 
-        Logger::Get(LogLevel_TRACE) << "Parsing turn message" << std::endl;
-
-        m_world.set_dead_units_in_this_turn(turn_message->parse_dead_units(m_world));
-        m_world.set_passed_units_in_this_turn(turn_message->parse_passed_units(m_world));
-        m_world.set_destroyed_towers_in_this_turn(turn_message->parse_destroyed_towers(m_world));
-
-        m_world.set_beans_in_this_turn(turn_message->parse_bean_events());
-        m_world.set_storms_in_this_turn(turn_message->parse_storm_events());
-
-        // Apply beans
-        for (BeanEvent* bean : m_world.get_beans_in_this_turn()) {
-            Map& map = (bean->get_owner() == Owner::ME ? m_world.get_attack_map() : m_world.get_defence_map());
-
-            int x = bean->get_location().x();
-            int y = bean->get_location().y();
-
-            delete map.get_cells_grid()[x][y];
-            map.get_cells_grid()[x][y] = new BlockCell(Point(x, y));
-        }
-
-        turn_message->parse_my_units(m_world.get_attack_map(), m_world.get_attack_map_paths());
-        turn_message->parse_enemy_units(m_world.get_defence_map(), m_world.get_defence_map_paths());
-
-        turn_message->parse_my_towers(m_world.get_defence_map());
-        turn_message->parse_enemy_towers(m_world.get_attack_map());
-
-        m_world.set_my_information(turn_message->parse_my_information());
-        m_world.set_enemy_information(turn_message->parse_enemy_information());
-
-        m_world.set_current_turn(m_world.get_current_turn() + 1);
-
-        // Run the client AI
-
-        Logger::Get(LogLevel_DEBUG) << "Current turn is " << m_world.get_current_turn() << std::endl;
-
-        constexpr size_t COMPLEX_TURN_INTERVAL = 10;
-
-        if (m_world.get_current_turn() % COMPLEX_TURN_INTERVAL == 0) {
-            Logger::Get(LogLevel_DEBUG) << "Running complex turn" << std::endl;
-            m_client.complex_turn(&m_world);
-        } else {
-            Logger::Get(LogLevel_DEBUG) << "Running simple turn" << std::endl;
-            m_client.simple_turn(&m_world);
-        }
-
-        Logger::Get(LogLevel_TRACE) << "Sending end message with turn = " << m_world.get_current_turn() << std::endl;
-        m_event_queue.push(EndTurnMessage(m_world.get_current_turn()));
+        Logger::Get(LogLevel_TRACE) << "Sending end message with turn = " << m_world.currentTurn() << std::endl;
+        m_event_queue.push(EndTurnMessage(m_world.currentTurn()));//TODO should we have this?
     }
-
+    //TODO join the threads here
     Logger::Get(LogLevel_INFO) << "Closing the connection" << std::endl;
     m_event_queue.terminate();
     m_network.disconnect();
@@ -149,3 +140,19 @@ void Controller::event_handling_loop() noexcept {
         m_network.send(message->to_string());
     }
 }
+
+void Controller::pick_event(AI* client,World* tmp_world) {
+    client->pick(tmp_world);
+    delete tmp_world;
+}
+
+void Controller::move_event(AI* client,World* tmp_world) {
+    client->move(tmp_world);
+    delete tmp_world;
+}
+
+void Controller::action_event(AI* client,World* tmp_world) {
+    client->action(tmp_world);
+    delete tmp_world;
+}
+

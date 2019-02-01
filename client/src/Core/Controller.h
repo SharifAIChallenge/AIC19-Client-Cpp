@@ -7,6 +7,7 @@
 #include <Network/Network.h>
 #include <Model/Interface/World.h>
 #include <AI/AI.h>
+#include <memory>
 
 #include "EventQueue.h"
 
@@ -61,11 +62,20 @@ private:
     /// Thread object that will run @see event_handling_loop
     std::thread m_event_handling_thread;
 
+    /// Vector of threads that are made by receiving every pick or turn message
+    std::vector<std::unique_ptr<std::thread>> m_thread_list;
+
     /// Instance of the game world
     World m_world;
 
     /// Instance of the client AI
     AI m_client;
+
+    /// Functions which one of them will be called in a new thread
+    static void pick_event(AI* client,World* tmp_world);
+    static void move_event(AI* client,World* tmp_world);
+    static void action_event(AI* client,World* tmp_world);
+
 };
 
 #endif // AIC18_CLIENT_CPP_CONTROLLER_H

@@ -3,14 +3,16 @@
 
 //#include <Model/World.h>
 #include <Model/Interface/World.h>
-class World;
 
 class AI {
 public:
+    void preProcess(World* world);//TODO where to put this?
 
-    void simple_turn(World* world);
+    void pick(World* world);
 
-    void complex_turn(World* world);
+    void move(World* world);
+
+    void action(World* world);
 
 };
 

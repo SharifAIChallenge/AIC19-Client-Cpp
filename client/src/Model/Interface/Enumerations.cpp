@@ -35,7 +35,7 @@ Phase convert_phase_from_string(std::string str_phase) {
         return Phase::PICK;
     if(str_phase == "MOVE")
         return Phase::MOVE;
-    if(str_phase == "MOVE")
+    if(str_phase == "ACTION")
         return Phase::ACTION;
     throw std::string("convert_phase_from_string:Wrong string input");
 }
