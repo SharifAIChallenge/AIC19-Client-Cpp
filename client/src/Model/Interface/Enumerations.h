@@ -1,5 +1,5 @@
-#ifndef AIC18_CLIENT_CPP_ENUMERATIONS_H
-#define AIC18_CLIENT_CPP_ENUMERATIONS_H
+#ifndef AIC19_CLIENT_CPP_ENUMERATIONS_H
+#define AIC19_CLIENT_CPP_ENUMERATIONS_H
 
 #include "string"
 
@@ -35,4 +35,4 @@ enum Phase
 };
 Phase convert_phase_from_string(std::string str_phase);
 
-#endif //AIC18_CLIENT_CPP_ENUMERATIONS_H
+#endif //AIC19_CLIENT_CPP_ENUMERATIONS_H

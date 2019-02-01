@@ -1,5 +1,5 @@
-#ifndef AIC18_CLIENT_CPP_NETWORK_H
-#define AIC18_CLIENT_CPP_NETWORK_H
+#ifndef AIC19_CLIENT_CPP_NETWORK_H
+#define AIC19_CLIENT_CPP_NETWORK_H
 
 #include <string>
 
@@ -69,4 +69,4 @@ private:
     FileDescriptor m_sockfd;
 };
 
-#endif // AIC18_CLIENT_CPP_NETWORK_H
+#endif // AIC19_CLIENT_CPP_NETWORK_H

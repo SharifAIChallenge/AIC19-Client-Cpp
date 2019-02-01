@@ -1,5 +1,5 @@
-#ifndef AIC18_CLIENT_CPP_GAME_H
-#define AIC18_CLIENT_CPP_GAME_H
+#ifndef AIC19_CLIENT_CPP_GAME_H
+#define AIC19_CLIENT_CPP_GAME_H
 
 #include "Map.h"
 #include "GameConstants.h"
@@ -169,4 +169,4 @@ private:
 };
 
 
-#endif //AIC18_CLIENT_CPP_GAME_H
+#endif //AIC19_CLIENT_CPP_GAME_H

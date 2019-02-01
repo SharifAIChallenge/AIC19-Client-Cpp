@@ -1,5 +1,5 @@
-#ifndef AIC18_CLIENT_CPP_MAP_H
-#define AIC18_CLIENT_CPP_MAP_H
+#ifndef AIC19_CLIENT_CPP_MAP_H
+#define AIC19_CLIENT_CPP_MAP_H
 
 
 #include <vector>
@@ -47,4 +47,4 @@ private:
 };
 
 
-#endif //AIC18_CLIENT_CPP_MAP_H
+#endif //AIC19_CLIENT_CPP_MAP_H

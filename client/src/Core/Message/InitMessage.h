@@ -1,5 +1,5 @@
-#ifndef AIC18_CLIENT_CPP_INIT_MESSAGE_H
-#define AIC18_CLIENT_CPP_INIT_MESSAGE_H
+#ifndef AIC19_CLIENT_CPP_INIT_MESSAGE_H
+#define AIC19_CLIENT_CPP_INIT_MESSAGE_H
 
 #include <Model/Interface/GameConstants.h>
 #include <Model/Interface/Map.h>
@@ -32,4 +32,4 @@ private:
 
 };
 
-#endif // AIC18_CLIENT_CPP_INIT_MESSAGE_H
+#endif // AIC19_CLIENT_CPP_INIT_MESSAGE_H

@@ -1,5 +1,5 @@
-#ifndef AIC18_CLIENT_CPP_MESSAGE_H
-#define AIC18_CLIENT_CPP_MESSAGE_H
+#ifndef AIC19_CLIENT_CPP_MESSAGE_H
+#define AIC19_CLIENT_CPP_MESSAGE_H
 
 #include <string>
 #include <vector>
@@ -66,4 +66,4 @@ private:
 
 };
 
-#endif // AIC18_CLIENT_CPP_MESSAGE_H
+#endif // AIC19_CLIENT_CPP_MESSAGE_H

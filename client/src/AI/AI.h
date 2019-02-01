@@ -1,5 +1,5 @@
-#ifndef AIC18_CLIENT_CPP_AI_H
-#define AIC18_CLIENT_CPP_AI_H
+#ifndef AIC19_CLIENT_CPP_AI_H
+#define AIC19_CLIENT_CPP_AI_H
 
 //#include <Model/World.h>
 #include <Model/Interface/World.h>
@@ -16,4 +16,4 @@ public:
 
 };
 
-#endif // AIC18_CLIENT_CPP_AI_H
+#endif // AIC19_CLIENT_CPP_AI_H

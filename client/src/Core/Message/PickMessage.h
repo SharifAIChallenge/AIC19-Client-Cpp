@@ -1,5 +1,5 @@
-#ifndef AIC18_CLIENT_CPP_PICKMESSAGE_H
-#define AIC18_CLIENT_CPP_PICKMESSAGE_H
+#ifndef AIC19_CLIENT_CPP_PICKMESSAGE_H
+#define AIC19_CLIENT_CPP_PICKMESSAGE_H
 //TODO fix the 2018 stuff
 
 #include <Model/Interface/World.h>
@@ -18,4 +18,4 @@ public:
 
 
 
-#endif //AIC18_CLIENT_CPP_PICKMESSAGE_H
+#endif //AIC19_CLIENT_CPP_PICKMESSAGE_H

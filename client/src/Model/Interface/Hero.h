@@ -2,8 +2,8 @@
 // Created by dot_blue on 1/23/19.
 //
 
-#ifndef AIC18_CLIENT_CPP_HERO_H
-#define AIC18_CLIENT_CPP_HERO_H
+#ifndef AIC19_CLIENT_CPP_HERO_H
+#define AIC19_CLIENT_CPP_HERO_H
 
 
 #include "HeroConstants.h"
@@ -88,4 +88,4 @@ public://single tone
 };
 
 
-#endif //AIC18_CLIENT_CPP_HERO_H
+#endif //AIC19_CLIENT_CPP_HERO_H

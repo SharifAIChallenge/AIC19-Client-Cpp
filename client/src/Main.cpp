@@ -35,7 +35,7 @@ int main(int argc, char** argv) {
             Logger::Get().set_logfile_config({true, LogLevel_TRACE});
         }
 
-        Logger::Get(LogLevel_INFO) << "AI Challenge 2018 C++ Client " << AIC_CLIENT_VERSION << std::endl;
+        Logger::Get(LogLevel_INFO) << "AI Challenge 2019 C++ Client " << AIC_CLIENT_VERSION << std::endl;
 
         pair<string, string> host = {"AICHostIP", "127.0.0.1"};
         pair<string, uint16_t> port = {"AICHostPort", 7099};

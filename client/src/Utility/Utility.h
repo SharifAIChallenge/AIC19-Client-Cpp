@@ -1,5 +1,5 @@
-#ifndef AIC18_CLIENT_CPP_UTILITY_H
-#define AIC18_CLIENT_CPP_UTILITY_H
+#ifndef AIC19_CLIENT_CPP_UTILITY_H
+#define AIC19_CLIENT_CPP_UTILITY_H
 
 #include <cstdio>
 #include <cstring>
@@ -65,4 +65,4 @@ std::unique_ptr<T> make_unique(Args&&... args) {
     return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
 }
 
-#endif // AIC18_CLIENT_CPP_UTILITY_H
+#endif // AIC19_CLIENT_CPP_UTILITY_H

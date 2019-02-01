@@ -1,9 +1,5 @@
-//
-// Created by dot_blue on 1/23/19.
-//
-
-#ifndef AIC18_CLIENT_CPP_ABILITY_H
-#define AIC18_CLIENT_CPP_ABILITY_H
+#ifndef AIC19_CLIENT_CPP_ABILITY_H
+#define AIC19_CLIENT_CPP_ABILITY_H
 
 
 #include "AbilityConstants.h"
@@ -51,4 +47,4 @@ private:
 };
 
 
-#endif //AIC18_CLIENT_CPP_ABILITY_H
+#endif //AIC19_CLIENT_CPP_ABILITY_H
