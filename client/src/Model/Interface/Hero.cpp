@@ -8,26 +8,26 @@
 Hero::Hero(bool _isNull):isNull(_isNull) {}
 
 
-Hero::~Hero() {//TODO Check the vectors
+Hero::~Hero() {// Check the vectors
     for (std::vector<Ability *>::iterator it = _abilities.begin() ; it != _abilities.end(); ++it){
         delete *it;
     }
     _abilities.clear();
 
-    for (std::vector<Ability *>::iterator it = _dodgeAbilities.begin() ; it != _dodgeAbilities.end(); ++it){
-        delete *it;
-    }
-    _dodgeAbilities.clear();
-
-    for (std::vector<Ability *>::iterator it = _healAbilities.begin() ; it != _healAbilities.end(); ++it){
-        delete *it;
-    }
-    _healAbilities.clear();
-
-    for (std::vector<Ability *>::iterator it = _attackAbilities.begin() ; it != _attackAbilities.end(); ++it){
-        delete *it;
-    }
-    _attackAbilities.clear();
+//    for (std::vector<Ability *>::iterator it = _dodgeAbilities.begin() ; it != _dodgeAbilities.end(); ++it){
+//        delete *it;
+//    }
+//    _dodgeAbilities.clear();
+//
+//    for (std::vector<Ability *>::iterator it = _healAbilities.begin() ; it != _healAbilities.end(); ++it){
+//        delete *it;
+//    }
+//    _healAbilities.clear();
+//
+//    for (std::vector<Ability *>::iterator it = _attackAbilities.begin() ; it != _attackAbilities.end(); ++it){
+//        delete *it;
+//    }
+//    _attackAbilities.clear();
 }
 //----------------id-------------------
 int &Hero::id() {
@@ -66,8 +66,19 @@ const std::vector<Ability *> &Hero::get_abilities() const {
     return _abilities;
 }
 
-void Hero::set_abilities(const std::vector<Ability *> &_abilities) {
+void Hero::set_abilities(std::vector<Ability *> &_abilities) {
     Hero::_abilities = _abilities;
+
+    for(std::vector<Ability *>::iterator it = _abilities.begin();
+            it < _abilities.end(); ++it){
+        if((*it)->type() == AbilityType::ATTACK){
+            _attackAbilities.push_back(*it);
+        } else if ((*it)->type() == AbilityType::DODGE){
+            _dodgeAbilities.push_back(*it);
+        } else if ((*it)->type() == AbilityType::HEAL){
+            _healAbilities.push_back(*it);
+        }
+    }
 }
 
 const std::vector<Ability *> &Hero::get_dodgeAbilities() const {

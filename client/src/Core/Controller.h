@@ -72,6 +72,7 @@ private:
     AI m_client;
 
     /// Functions which one of them will be called in a new thread
+    static void preProcess_event(AI* client,World* tmp_world);
     static void pick_event(AI* client,World* tmp_world);
     static void move_event(AI* client,World* tmp_world);
     static void action_event(AI* client,World* tmp_world);

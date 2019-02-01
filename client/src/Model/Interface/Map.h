@@ -8,7 +8,7 @@
 
 class Map {
 public:
-    Map() = default;//TODO we have to write something with inputs
+    Map() = default;
     ~Map();
 
     //This constructor initialises the vectors, not the row and column Nums

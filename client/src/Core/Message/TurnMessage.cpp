@@ -36,7 +36,7 @@ void TurnMessage::update_game(World *_game) {
             ptr_cell->isWall() = cell_DATA["isWall"].asBool();
             ptr_cell->isInMyRespawnZone() = cell_DATA["isInMyRespawnZone"].asBool();
             ptr_cell->isInOppRespawnZone() = cell_DATA["isInOppRespawnZone"].asBool();
-            ptr_cell->isInObjectiveZone() = cell_DATA["isInObjectiveZone"].asBool();//TODO "object" was in the sample file
+            ptr_cell->isInObjectiveZone() = cell_DATA["isInObjectiveZone"].asBool();
             ptr_cell->row() = cell_DATA["row"].asInt();
             ptr_cell->column() = cell_DATA["column"].asInt();
 

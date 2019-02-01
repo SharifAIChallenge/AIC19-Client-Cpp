@@ -57,7 +57,7 @@ void Controller::run() try {
     Logger::Get(LogLevel_INFO) << "Connected" << std::endl;
 
     Logger::Get(LogLevel_TRACE) << "Sending authentication message" << std::endl;
-    m_network.send(AuthenticationMessage(m_token).to_string());//TODO about the authentication process
+    m_network.send(AuthenticationMessage(m_token).to_string());// about the authentication process
 
     // Now wait for init message
     Logger::Get(LogLevel_TRACE) << "Waiting for init message" << std::endl;
@@ -77,7 +77,12 @@ void Controller::run() try {
 
         if (InitMessage* init_message = dynamic_cast<InitMessage*>(message.get())) {
             Logger::Get(LogLevel_TRACE) << "Parsing init message" << std::endl;
-            m_world.importInitData(*init_message);
+            m_world.importInitData(*init_message);// Saving this data
+            World* _world = new World(m_world);
+
+            std::unique_ptr<std::thread> preProcThread =
+                    std::unique_ptr<std::thread>(
+                            new std::thread(Controller::preProcess_event,&m_client,_world));
         }
         else if (PickMessage* pick_message = dynamic_cast<PickMessage*>(message.get())) {
             Logger::Get(LogLevel_INFO) << "Received Pick message from server" << std::endl;
@@ -120,7 +125,6 @@ void Controller::run() try {
         Logger::Get(LogLevel_TRACE) << "Sending end message with turn = " << m_world.currentTurn() << std::endl;
         m_event_queue.push(EndTurnMessage(m_world.currentTurn()));//TODO should we have this?
     }
-    //TODO join the threads here
     Logger::Get(LogLevel_INFO) << "Closing the connection" << std::endl;
     m_event_queue.terminate();
     m_network.disconnect();
@@ -139,6 +143,11 @@ void Controller::event_handling_loop() noexcept {
             break;
         m_network.send(message->to_string());
     }
+}
+
+void Controller::preProcess_event(AI *client, World *tmp_world) {
+    client->preProcess(tmp_world);
+    delete tmp_world;
 }
 
 void Controller::pick_event(AI* client,World* tmp_world) {

@@ -100,7 +100,7 @@ public:
     Cell getImpactCell(Ability ability, int startCellRow, int startCellColumn, int endCellRow, int endCellColumn);
 
 
-    std::vector<Direction> getPathMoveDirections(Cell& startCell, Cell& endCell);
+    std::vector<Direction> getPathMoveDirections(Cell startCell, Cell endCell);
     std::vector<Direction> getPathMoveDirections(int startCellRow, int startCellColumn, int endCellRow, int endCellColumn);
 
     int manhattanDistance(Cell startCell, Cell endCell);
@@ -113,7 +113,7 @@ public:
     void castAbility(int heroId, AbilityName abilityName, Cell targetCell);
     void castAbility(int heroId, Ability ability, int targetCellRow, int targetCellColumn);
     void castAbility(int heroId, Ability ability, Cell targetCell);
-    void castAbility(Hero hero, AbilityName abilityName, int targetCellRow, int targetCellColumn);
+    void castAbility(const Hero hero, AbilityName abilityName, int targetCellRow, int targetCellColumn);
     void castAbility(Hero hero, AbilityName abilityName, Cell targetCell);
     void castAbility(Hero hero, Ability ability, int targetCellRow, int targetCellColumn);
     void castAbility(Hero hero, Ability ability, Cell targetCell);
@@ -156,7 +156,6 @@ private:
 
     AbilityConstants getAbilityConstants(AbilityName abilityName);
 
-    //TODO added this sekall!!!
     HeroConstants getHeroConstants(HeroName heroName);
 
     //This function will also handle the _myDeadHeroes

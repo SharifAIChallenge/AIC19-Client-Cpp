@@ -53,7 +53,7 @@ Map::~Map() {
 
 }
 
-Cell Map::getCell(int row, int column) {//TODO::TEST check if row and column is in the write place
+Cell Map::getCell(int row, int column) {
     return *_cells[row][column];
 }
 
@@ -88,7 +88,7 @@ void Map::set_cells(const std::vector<std::vector<Cell *>> &cells_grid) {
     }
 }
 
-Cell *Map::getCell_ptr(int row, int column) {//TODO check row and column...
+Cell *Map::getCell_ptr(int row, int column) {
     return _cells[row][column];
 }
 

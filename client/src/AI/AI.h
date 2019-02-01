@@ -6,7 +6,7 @@
 
 class AI {
 public:
-    void preProcess(World* world);//TODO where to put this?
+    void preProcess(World* world);
 
     void pick(World* world);
 

@@ -65,18 +65,6 @@ Map InitMessage::parse_map() {
     return output_map;
 }
 
-//HeroName InitMessage::give_HeroNameEnum(std::string HeroName) {
-//    //TODO Update these based on the HeroName enum
-//    if(HeroName == "Ruhollah")
-//        return HeroName::HEALER;
-//}
-//
-//AbilityName InitMessage::give_AbilityName(std::string AbilityName) {
-//    //TODO Update these based on the AbilityName enum
-//    if(AbilityName == "suicide")
-//        return AbilityName::suicide;
-//
-//}
 
 std::vector<HeroConstants *> InitMessage::parse_heroConstants() {
     std::vector<HeroConstants *> output_heroConst;
@@ -109,7 +97,7 @@ std::vector<AbilityConstants *> InitMessage::parse_abilityConstants() {
     std::vector<AbilityConstants *> output_abilityConst;
 
     Json::Value root = Message::get_args()[0];
-    Json::Value AbilityConst_DATA = root["abilityConstants"];//TODO check if it is NOT abilitiyConstants
+    Json::Value AbilityConst_DATA = root["abilityConstants"];
 
     for(int i = 0; i < AbilityConst_DATA.size(); ++i){
         AbilityConstants* ptr_abilityCons = new AbilityConstants();

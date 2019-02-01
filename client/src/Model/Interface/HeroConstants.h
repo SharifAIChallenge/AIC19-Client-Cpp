@@ -41,7 +41,7 @@ private:
 
     int _moveAPCost;
 
-    int _remainingRespawnTime; // TODO "SEKALL"
+    int _remainingRespawnTime;
 
 
     bool isNull = false;

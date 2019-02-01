@@ -67,7 +67,7 @@ private:
     bool isNull = false;
 
 
-public:// TODO single tone
+public:// single tone
     static AbilityConstants NULL_ABILITY_CONSTANTS;
 };
 

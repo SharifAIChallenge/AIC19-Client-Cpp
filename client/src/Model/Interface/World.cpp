@@ -407,7 +407,7 @@ HeroConstants World::getHeroConstants(HeroName heroName) {
     return HeroConstants::NULL_HERO_CONSTANT;
 }
 
-std::vector<Direction> World::getPathMoveDirections(Cell& startCell, Cell& endCell)
+std::vector<Direction> World::getPathMoveDirections(Cell startCell, Cell endCell)
 {
     if (startCell == endCell || startCell.isWall() || endCell.isWall()){
         std::vector<Direction> vec = {};
@@ -452,6 +452,17 @@ std::vector<Direction> World::getPathMoveDirections(Cell& startCell, Cell& endCe
     std::vector<Direction> vec = {};
     return vec;
 }
+
+
+std::vector<Direction>
+World::getPathMoveDirections(int startCellRow, int startCellColumn, int endCellRow, int endCellColumn) {
+    if(_map.isInMap(startCellRow,startCellColumn) && _map.isInMap(startCellRow,startCellColumn)){
+        return getPathMoveDirections(
+                this->_map.getCell(startCellRow,startCellColumn),
+                this->_map.getCell(endCellRow,endCellColumn));
+    }
+}
+
 
 bool World::isAccessible(int cellRow, int cellColumn) {
     if (!_map.isInMap(cellRow, cellColumn))
@@ -566,6 +577,35 @@ void World::castAbility(int heroId, AbilityName abilityName, int targetCellRow, 
                     targetCellColumn));
 }
 
+void World::castAbility(int heroId, AbilityName abilityName, Cell targetCell) {
+    castAbility(heroId,abilityName,targetCell.row(),targetCell.column());
+}
+
+void World::castAbility(int heroId, Ability ability, int targetCellRow, int targetCellColumn) {
+    castAbility(heroId,ability.abilityName(),targetCellRow,targetCellColumn);
+}
+
+void World::castAbility(int heroId, Ability ability, Cell targetCell) {
+    castAbility(heroId,ability.abilityName(),targetCell.row(),targetCell.column());
+}
+
+void World::castAbility(const Hero hero, Ability ability, Cell targetCell) {
+    castAbility(hero.id(),ability.abilityName(),targetCell.row(),targetCell.column());
+}
+
+void World::castAbility(const Hero hero, AbilityName abilityName, int targetCellRow, int targetCellColumn) {
+    castAbility(hero.id(),abilityName,targetCellRow,targetCellColumn);
+}
+
+void World::castAbility(const Hero hero, AbilityName abilityName, Cell targetCell) {
+    castAbility(hero.id(),abilityName,targetCell.row(),targetCell.column());
+}
+
+void World::castAbility(const Hero hero, Ability ability, int targetCellRow, int targetCellColumn) {
+    castAbility(hero.id(),ability.abilityName(),targetCellRow,targetCellColumn);
+}
+
+
 void World::importInitData(InitMessage &_initMessage) {
 
     this->_map = _initMessage.parse_map();
@@ -580,17 +620,6 @@ void World::importInitData(InitMessage &_initMessage) {
     this->_AP = this->_gameConstants.get_maxAP();
 
 }
-//
-//void World::importPickData(PickMessage &_pickMessage) {
-//    _pickMessage.update_game(this);
-//}
-//
-//void World::importTurnData(TurnMessage &_turnMessage) {
-//    _turnMessage.update_game(this);
-//
-//}
-
-
 
 
 
