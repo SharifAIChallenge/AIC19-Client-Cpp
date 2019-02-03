@@ -6,6 +6,19 @@
 
 
 Cell::Cell(bool _isNull): isNull(_isNull) {}
+
+
+Cell::Cell(const Cell & _cell) {
+    this->_column = _cell._column;
+    this->_row = _cell._row;
+
+    this->_isInVision = _cell._isInVision;
+    this->_isWall = _cell._isWall;
+    this->_isInMyRespawnZone = _cell._isInMyRespawnZone;
+    this->_isInOppRespawnZone = _cell._isInOppRespawnZone;
+    this->_isInObjectiveZone = _cell._isInObjectiveZone;
+
+}
 //---------------wall------------------
 bool &Cell::isWall() {
     return _isWall;

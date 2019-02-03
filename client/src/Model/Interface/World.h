@@ -15,7 +15,6 @@
 #include <Core/Message/CreatePickMessage.h>
 #include <Core/Message/CreateCastMessage.h>
 #include <Core/Message/CreateMoveMessage.h>
-#include <Core/Message/InitMessage.h>
 
 class World {
 public:
@@ -25,11 +24,11 @@ public:
 
     World(EventQueue& event_queue);
 
-    World(World& _world);
+    World(const World& _world);
     //Getter & Setters:
 
     void set_map(const Map &_map);
-    const Map &get_map() const;
+    Map get_map() const;
     Map& map();
 
 
@@ -122,8 +121,9 @@ public:
     void moveHero(int id, std::vector<Direction> direction);//TODO sekall asked me to put this "TODO"
     void pickHero(HeroName heroName);
 
+    void initData();
 //Parsing:
-    void importInitData(InitMessage &_initMessage);
+//    void importInitData(InitMessage &_initMessage);
 //    void importPickData(PickMessage &_pickMessage);
 //    void importTurnData(TurnMessage &_turnMessage);
 
@@ -163,6 +163,7 @@ private:
     //This function will also handle the _myDeadHeroes
     void set_oppHeroes(std::vector<Hero *> _heroes);
 
+    friend class InitMessage;
     friend class TurnMessage;
     friend class PickMessage;
 

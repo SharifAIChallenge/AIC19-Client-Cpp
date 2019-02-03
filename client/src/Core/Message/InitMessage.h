@@ -9,6 +9,7 @@
 #include "Message.h"
 #include "ParseError.h"
 #include <vector>
+#include <Model/Interface/World.h>
 
 class InitMessage final : public Message {
 public:
@@ -17,13 +18,15 @@ public:
 
     explicit InitMessage(std::string&& json_form);
 
-    GameConstants parse_gameConstants();
+//    GameConstants parse_gameConstants();
+//
+//    Map parse_map();
+//
+//    std::vector<HeroConstants *> parse_heroConstants();
+//
+//    std::vector<AbilityConstants *> parse_abilityConstants();
 
-    Map parse_map();
-
-    std::vector<HeroConstants *> parse_heroConstants();
-
-    std::vector<AbilityConstants *> parse_abilityConstants();
+    void update_world(World* _world);
 
 private:
 //    HeroName give_HeroNameEnum(std::string HeroName);

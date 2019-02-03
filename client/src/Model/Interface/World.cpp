@@ -1,3 +1,4 @@
+#include <Utility/Logger.h>
 #include "World.h"
 
 World::World(EventQueue &event_queue): _event_queue(event_queue){
@@ -5,7 +6,7 @@ World::World(EventQueue &event_queue): _event_queue(event_queue){
 }
 
 
-World::World(World &_world): _event_queue(_world._event_queue) {
+World::World(const World& _world): _event_queue(_world._event_queue) {
     this->_gameConstants = _world._gameConstants;
     this->_abilityConstants = _world._abilityConstants;
     this->_map = _world._map;
@@ -14,7 +15,7 @@ World::World(World &_world): _event_queue(_world._event_queue) {
 
 
 //----------------map------------------
-const Map &World::get_map() const {
+Map World::get_map() const {
     return _map;
 }
 
@@ -62,33 +63,41 @@ int World::oppScore() const {
 }
 
 World::~World() {
+    _map.clear_cells();
     for (std::vector<Hero *>::iterator it = _myHeroes.begin() ; it != _myHeroes.end(); ++it){
         delete *it;
+        Logger::Get(LogLevel_INFO) << "deleting STEP_1" << std::endl;
     }
     _myHeroes.clear();
 
     for (std::vector<Hero *>::iterator it = _oppHeroes.begin() ; it != _oppHeroes.end(); ++it){
         delete *it;
+        Logger::Get(LogLevel_INFO) << "deleting STEP_2" << std::endl;
     }
     _oppHeroes.clear();
 
-    for (std::vector<Hero *>::iterator it = _myDeadHeroes.begin() ; it != _myDeadHeroes.end(); ++it){
-        delete *it;
-    }
-    _myDeadHeroes.clear();
+    //Funny bug we don't have to delete these guys :)))))))) (we already did them in the upper for loop)
+//    for (std::vector<Hero *>::iterator it = _myDeadHeroes.begin() ; it != _myDeadHeroes.end(); ++it){
+//        delete *it;
+//        Logger::Get(LogLevel_INFO) << "deleting STEP_3" << std::endl;
+//    }
+//    _myDeadHeroes.clear();
 
-    for (std::vector<Hero *>::iterator it = _oppDeadHeroes.begin() ; it != _oppDeadHeroes.end(); ++it){
-        delete *it;
-    }
-    _oppDeadHeroes.clear();
+//    for (std::vector<Hero *>::iterator it = _oppDeadHeroes.begin() ; it != _oppDeadHeroes.end(); ++it){
+//        delete *it;
+//        Logger::Get(LogLevel_INFO) << "deleting STEP_4" << std::endl;
+//    }
+//    _oppDeadHeroes.clear();
 
     for (std::vector<CastAbility *>::iterator it = _myCastAbilities.begin() ; it != _myCastAbilities.end(); ++it){
         delete *it;
+        Logger::Get(LogLevel_INFO) << "deleting STEP_5" << std::endl;
     }
     _myCastAbilities.clear();
 
     for (std::vector<CastAbility *>::iterator it = _oppCastAbilities.begin() ; it != _oppCastAbilities.end(); ++it){
         delete *it;
+        Logger::Get(LogLevel_INFO) << "deleting STEP_6" << std::endl;
     }
     _oppCastAbilities.clear();
 
@@ -606,19 +615,28 @@ void World::castAbility(const Hero hero, Ability ability, int targetCellRow, int
 }
 
 
-void World::importInitData(InitMessage &_initMessage) {
+//void World::importInitData(InitMessage &_initMessage) {
+//
+////    Logger::Get(LogLevel_INFO) << "Starting init Message parse..." << std::endl;
+////    this->_gameConstants = _initMessage.parse_gameConstants();
+////    Logger::Get(LogLevel_INFO) << "Game Constants parsed successfully" << std::endl;
+////    this->_map = _initMessage.parse_map();
+////    Logger::Get(LogLevel_INFO) << "Map parsed successfully" << std::endl;
+////    this->_heroConstants = _initMessage.parse_heroConstants();
+////    Logger::Get(LogLevel_INFO) << "Hero Consts parsed successfully" << std::endl;
+////    this->_abilityConstants = _initMessage.parse_abilityConstants();
+////    Logger::Get(LogLevel_INFO) << "Ability Consts parsed successfully" << std::endl;
+//
+//
+//
+//}
 
-    this->_map = _initMessage.parse_map();
-    this->_gameConstants = _initMessage.parse_gameConstants();
-    this->_heroConstants = _initMessage.parse_heroConstants();
-    this->_abilityConstants = _initMessage.parse_abilityConstants();
-
+void World::initData() {
     this->_currentTurn = 0;
     this->_currentPhase = Phase::PICK;
     this->_myScore = 0;
     this->_oppScore = 0;
     this->_AP = this->_gameConstants.get_maxAP();
-
 }
 
 

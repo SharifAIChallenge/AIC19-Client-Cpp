@@ -9,11 +9,11 @@ public:
 
     Cell(bool _isNull);
 
-    Cell(const Cell&) = default;
-    Cell& operator=(const Cell&) = default;
+    Cell(const Cell&);
+//    Cell& operator=(const Cell&) = default;
 
-    Cell(Cell&&) = default;
-    Cell& operator=(Cell&&) = default;
+//    Cell(Cell&&) = default;
+//    Cell& operator=(Cell&&) = default;
 
 //    Cell& operator==(const Cell);
 

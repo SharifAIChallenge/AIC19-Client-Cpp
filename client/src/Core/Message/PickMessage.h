@@ -12,7 +12,7 @@ public:
 
     explicit PickMessage(std::string&& json_form);
 
-    void update_game(World* _game);
+    void update_game(World* p_world);
 
 };
 

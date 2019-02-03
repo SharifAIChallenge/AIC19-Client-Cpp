@@ -17,7 +17,7 @@ public:
     HeroName& name();
     HeroName name() const;
 
-    void set_abilityNames(const std::vector<AbilityName> &abilityName);
+    void set_abilityNames(std::vector<AbilityName> abilityName);
     const std::vector<AbilityName> &get_abilityNames() const;
 
 

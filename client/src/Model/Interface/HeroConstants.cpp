@@ -20,7 +20,7 @@ const std::vector<AbilityName> &HeroConstants::get_abilityNames() const {
     return _abilityNames;
 }
 
-void HeroConstants::set_abilityNames(const std::vector<AbilityName> &abilityName) {
+void HeroConstants::set_abilityNames(std::vector<AbilityName> abilityName) {
     HeroConstants::_abilityNames = abilityName;
 }
 

@@ -5,7 +5,7 @@
 
 enum AbilityName//TODO Complete these enums (if you updated this please update the function below)
 {
-    HEAL_FOR_THE_GREATER_GOOD
+    HEAL_FOR_THE_GREATER_GOOD,kill,heal,suicide,attack,dodge
 };
 
 AbilityName convert_abilityName_from_string(std::string str_abilityName);
@@ -19,7 +19,7 @@ AbilityType convert_abilityType_from_string(std::string str_abilityType);
 //-------------------------------------------
 enum HeroName//TODO Complete these enums (if you updated this please update the function below)
 {
-    HEALER
+    HEALER,Ruhollah,Ali,Omid
 };
 HeroName convert_heroName_from_string(std::string str_heroname);
 std::string HeroName_to_string(HeroName _heroname);

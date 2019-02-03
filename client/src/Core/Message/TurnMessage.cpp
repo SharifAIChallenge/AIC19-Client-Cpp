@@ -1,3 +1,4 @@
+#include <Utility/Logger.h>
 #include "TurnMessage.h"
 
 TurnMessage::TurnMessage(Json::Value&& root)
@@ -17,6 +18,7 @@ TurnMessage::TurnMessage(std::string&& json_form)
 void TurnMessage::update_game(World *_game) {
     Json::Value root = Message::get_args()[0];
 
+    Logger::Get(LogLevel_INFO) << "root.toStyledString(): " << root.toStyledString() << std::endl;
     _game->myScore() = root["myScore"].asInt();
     _game->oppScore() = root["oppScore"].asInt();
     _game->currentPhase() = convert_phase_from_string(root["currentPhase"].asString());
@@ -24,12 +26,12 @@ void TurnMessage::update_game(World *_game) {
 
     //map cells:
     std::vector<std::vector<Cell *>> output_map_cells;
-    Json::Value map_cell_DATA = root["map"];
+    Json::Value& map_cell_DATA = root["map"];
 
-    for(int i = 0; i < map_cell_DATA.size(); ++i){
+    for(Json::Value& _row : map_cell_DATA){
         std::vector<Cell *> tmp_cell_row;
-        for(int j = 0; j < map_cell_DATA[i].size(); ++j){
-            Json::Value cell_DATA = map_cell_DATA[i][j];
+        for(Json::Value& cell_DATA : _row){
+//            Json::Value cell_DATA = map_cell_DATA[i][j];
 
             Cell* ptr_cell = new Cell();
 
@@ -50,10 +52,10 @@ void TurnMessage::update_game(World *_game) {
     //myHeros:
     std::vector<Hero *> output_heros;
 
-    Json::Value myHeros_DATA = root["myHeroes"];
+    Json::Value& myHeros_DATA = root["myHeroes"];
 
     for(int i = 0; i < myHeros_DATA.size(); ++i){
-        Json::Value hero_DATA = myHeros_DATA[i];
+        Json::Value& hero_DATA = myHeros_DATA[i];
         Hero* output_hero = new Hero();
 
         output_hero->id() = hero_DATA["id"].asInt();
@@ -62,7 +64,7 @@ void TurnMessage::update_game(World *_game) {
 
         //Cooldowns:
         std::vector<Ability *> _abilities_list;
-        Json::Value cooldowns_DATA = hero_DATA["cooldowns"];
+        Json::Value& cooldowns_DATA = hero_DATA["cooldowns"];
         for (int j = 0; j < cooldowns_DATA.size(); ++j){
             AbilityName _ability = convert_abilityName_from_string(cooldowns_DATA[j]["name"].asString());
 
@@ -81,7 +83,7 @@ void TurnMessage::update_game(World *_game) {
 
         //recentPath:
         std::vector<Cell *> tmp_path;
-        Json::Value recent_path_DATA = hero_DATA["recentPath"];
+        Json::Value& recent_path_DATA = hero_DATA["recentPath"];
         for(int j = 0; j < recent_path_DATA.size(); ++j){
             tmp_path.push_back(
                     _game->map().getCell_ptr(
@@ -102,10 +104,10 @@ void TurnMessage::update_game(World *_game) {
     //oppHeroes:
     std::vector<Hero *> output_oppHeros;
 
-    Json::Value oppHeros_DATA = root["oppHeroes"];
+    Json::Value& oppHeros_DATA = root["oppHeroes"];
 
     for(int i = 0; i < oppHeros_DATA.size(); ++i){
-        Json::Value hero_DATA = oppHeros_DATA[i];
+        Json::Value& hero_DATA = oppHeros_DATA[i];
         Hero* output_hero = new Hero();
 
         output_hero->id() = hero_DATA["id"].asInt();
@@ -114,7 +116,7 @@ void TurnMessage::update_game(World *_game) {
 
         //Cooldowns:
         std::vector<Ability *> _abilities_list;
-        Json::Value cooldowns_DATA = hero_DATA["cooldowns"];
+        Json::Value& cooldowns_DATA = hero_DATA["cooldowns"];
         for (int j = 0; j < cooldowns_DATA.size(); ++j){
             AbilityName _ability = convert_abilityName_from_string(cooldowns_DATA[j]["name"].asString());
 
@@ -133,7 +135,7 @@ void TurnMessage::update_game(World *_game) {
 
         //recentPath:
         std::vector<Cell *> tmp_path;
-        Json::Value recent_path_DATA = hero_DATA["recentPath"];
+        Json::Value& recent_path_DATA = hero_DATA["recentPath"];
         for(int j = 0; j < recent_path_DATA.size(); ++j){
             tmp_path.push_back(
                     _game->map().getCell_ptr(
@@ -154,9 +156,9 @@ void TurnMessage::update_game(World *_game) {
     //myCastedAbilities:
     std::vector<CastAbility *> output_my_castAbility;
 
-    Json::Value myCAbility_LIST_DATA = root["myCastedAbilities"];
+    Json::Value& myCAbility_LIST_DATA = root["myCastedAbilities"];
     for(int i = 0; i < myCAbility_LIST_DATA.size(); ++i){
-        Json::Value myCAbility_DATA = myCAbility_LIST_DATA[i];
+        Json::Value& myCAbility_DATA = myCAbility_LIST_DATA[i];
         CastAbility* ptr_CastAbility = new CastAbility();
 
         ptr_CastAbility->casterId() = myCAbility_DATA["casterId"].asInt();
@@ -185,9 +187,9 @@ void TurnMessage::update_game(World *_game) {
     //oppCastedAbilities:
     std::vector<CastAbility *> output_opp_castAbility;
 
-    Json::Value oppCAbility_LIST_DATA = root["oppCastedAbilities"];
+    Json::Value& oppCAbility_LIST_DATA = root["oppCastedAbilities"];
     for(int i = 0; i < oppCAbility_LIST_DATA.size(); ++i){
-        Json::Value oppCAbility_DATA = oppCAbility_LIST_DATA[i];
+        Json::Value& oppCAbility_DATA = oppCAbility_LIST_DATA[i];
         CastAbility* ptr_CastAbility = new CastAbility();
 
         ptr_CastAbility->casterId() = oppCAbility_DATA["casterId"].asInt();
