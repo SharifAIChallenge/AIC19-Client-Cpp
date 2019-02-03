@@ -62,10 +62,6 @@ void Controller::run() try {
     // Now wait for init message
     Logger::Get(LogLevel_TRACE) << "Waiting for init message" << std::endl;
 
-//    InitMessage init_message(m_network.receive());
-
-
-
     // Start the event handling thread
     //TODO maybe this should be called after the InitMessage
     m_event_handling_thread = std::thread(&Controller::event_handling_loop, this);
@@ -77,36 +73,28 @@ void Controller::run() try {
 
         if (InitMessage* init_message = dynamic_cast<InitMessage*>(message.get())) {
             Logger::Get(LogLevel_TRACE) << "Parsing init message" << std::endl;
-//            m_world.importInitData(*init_message);// Saving this data
+
             m_world.initData();
             init_message->update_world(&m_world);
-//            for(std::vector<Cell *> _row : m_world.get_map().get_cell_2D_vector()){
-//                for(Cell * _cell : _row){
-//                    Logger::Get(LogLevel_TRACE) << "OUT:: _cell->_row: " << _cell->row()  << std::endl;
-//                }
-//            }
+
             World* _world = new World(m_world);
-//            Controller::preProcess_event(&m_client,_world);
 
             std::unique_ptr<std::thread> preProcThread =
                     std::unique_ptr<std::thread>(
                             new std::thread(Controller::preProcess_event,&m_client,_world));
             m_thread_list.push_back(std::move(preProcThread));
-//            break;
         }
         else if (PickMessage* pick_message = dynamic_cast<PickMessage*>(message.get())) {
             Logger::Get(LogLevel_INFO) << "Received Pick message from server" << std::endl;
             World* _world = new World(m_world);//copying a from the initial world
             Logger::Get(LogLevel_INFO) << "Received update_game server" << std::endl;
+
             pick_message->update_game(_world);
 
-//            Controller::pick_event(&m_client,_world);
-//            new std::thread(Controller::pick_event,&m_client,_world);
             std::unique_ptr<std::thread> pickThread =
                     std::unique_ptr<std::thread>(
                             new std::thread(Controller::pick_event,&m_client,_world));
             m_thread_list.push_back(std::move(pickThread));
-//            break;
         }
         else if (TurnMessage* turn_message = dynamic_cast<TurnMessage*>(message.get())) {
             Logger::Get(LogLevel_INFO) << "Received Turn message from server" << std::endl;
@@ -138,7 +126,7 @@ void Controller::run() try {
 
 
         Logger::Get(LogLevel_TRACE) << "Sending end message with turn = " << m_world.currentTurn() << std::endl;
-//        m_event_queue.push(EndTurnMessage(m_world.currentTurn()));//TODO Uncomment please
+        m_event_queue.push(EndTurnMessage(m_world.currentTurn()));//TODO Uncomment please
     }
     Logger::Get(LogLevel_INFO) << "Closing the connection" << std::endl;
     m_event_queue.terminate();

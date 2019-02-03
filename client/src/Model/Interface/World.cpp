@@ -7,18 +7,15 @@ World::World(EventQueue &event_queue): _event_queue(event_queue){
 
 
 World::World(const World& _world): _event_queue(_world._event_queue) {
-    this->_gameConstants = _world._gameConstants;
-    this->_abilityConstants = _world._abilityConstants;
+
     this->_map = _world._map;
-    this->_heroConstants = _world._heroConstants;
+    this->_gameConstants = _world._gameConstants;
+    this->set_abilityConstants(_world._abilityConstants);
+    this->set_heroConstants(_world._heroConstants);
 }
 
 
 //----------------map------------------
-Map World::get_map() const {
-    return _map;
-}
-
 void World::set_map(const Map &_map) {
     World::_map = _map;
 }
@@ -66,17 +63,35 @@ World::~World() {
     _map.clear_cells();
     for (std::vector<Hero *>::iterator it = _myHeroes.begin() ; it != _myHeroes.end(); ++it){
         delete *it;
-        Logger::Get(LogLevel_INFO) << "deleting STEP_1" << std::endl;
     }
     _myHeroes.clear();
 
     for (std::vector<Hero *>::iterator it = _oppHeroes.begin() ; it != _oppHeroes.end(); ++it){
         delete *it;
-        Logger::Get(LogLevel_INFO) << "deleting STEP_2" << std::endl;
     }
     _oppHeroes.clear();
 
-    //Funny bug we don't have to delete these guys :)))))))) (we already did them in the upper for loop)
+    for (std::vector<CastAbility *>::iterator it = _myCastAbilities.begin() ; it != _myCastAbilities.end(); ++it){
+        delete *it;
+    }
+    _myCastAbilities.clear();
+
+    for (std::vector<CastAbility *>::iterator it = _oppCastAbilities.begin() ; it != _oppCastAbilities.end(); ++it){
+        delete *it;
+    }
+    _oppCastAbilities.clear();
+
+    for (AbilityConstants * _abilityConst : _abilityConstants){
+        delete _abilityConst;
+    }
+    _abilityConstants.clear();
+
+    for (HeroConstants * _heroConst : _heroConstants){
+        delete _heroConst;
+    }
+    _heroConstants.clear();
+
+    //Funny bug, we don't have to delete these guys :)))))))) (we already did them in the upper for loop)
 //    for (std::vector<Hero *>::iterator it = _myDeadHeroes.begin() ; it != _myDeadHeroes.end(); ++it){
 //        delete *it;
 //        Logger::Get(LogLevel_INFO) << "deleting STEP_3" << std::endl;
@@ -89,19 +104,9 @@ World::~World() {
 //    }
 //    _oppDeadHeroes.clear();
 
-    for (std::vector<CastAbility *>::iterator it = _myCastAbilities.begin() ; it != _myCastAbilities.end(); ++it){
-        delete *it;
-        Logger::Get(LogLevel_INFO) << "deleting STEP_5" << std::endl;
-    }
-    _myCastAbilities.clear();
-
-    for (std::vector<CastAbility *>::iterator it = _oppCastAbilities.begin() ; it != _oppCastAbilities.end(); ++it){
-        delete *it;
-        Logger::Get(LogLevel_INFO) << "deleting STEP_6" << std::endl;
-    }
-    _oppCastAbilities.clear();
 
 }
+
 //logical functions:
 Hero World::getHero(int id) {
     for(std::vector<Hero *>::iterator it = _myHeroes.begin(); it != _myHeroes.end(); ++it){
@@ -614,29 +619,38 @@ void World::castAbility(const Hero hero, Ability ability, int targetCellRow, int
     castAbility(hero.id(),ability.abilityName(),targetCellRow,targetCellColumn);
 }
 
-
-//void World::importInitData(InitMessage &_initMessage) {
-//
-////    Logger::Get(LogLevel_INFO) << "Starting init Message parse..." << std::endl;
-////    this->_gameConstants = _initMessage.parse_gameConstants();
-////    Logger::Get(LogLevel_INFO) << "Game Constants parsed successfully" << std::endl;
-////    this->_map = _initMessage.parse_map();
-////    Logger::Get(LogLevel_INFO) << "Map parsed successfully" << std::endl;
-////    this->_heroConstants = _initMessage.parse_heroConstants();
-////    Logger::Get(LogLevel_INFO) << "Hero Consts parsed successfully" << std::endl;
-////    this->_abilityConstants = _initMessage.parse_abilityConstants();
-////    Logger::Get(LogLevel_INFO) << "Ability Consts parsed successfully" << std::endl;
-//
-//
-//
-//}
-
 void World::initData() {
     this->_currentTurn = 0;
     this->_currentPhase = Phase::PICK;
     this->_myScore = 0;
     this->_oppScore = 0;
     this->_AP = this->_gameConstants.get_maxAP();
+}
+
+void World::set_abilityConstants(const std::vector<AbilityConstants *> &_abilityConstants) {
+    //Clear the past values:
+    for (AbilityConstants * _abilityConst : this->_abilityConstants){
+        delete _abilityConst;
+    }
+    this->_abilityConstants.clear();
+    //Write the data
+    for(AbilityConstants * _abilityConst : _abilityConstants){
+        AbilityConstants * tmp_abilityConst = new AbilityConstants(*_abilityConst);
+        this->_abilityConstants.push_back(tmp_abilityConst);
+    }
+}
+
+void World::set_heroConstants(const std::vector<HeroConstants *> &_heroConstants) {
+    //Clear the past values:
+    for (HeroConstants * _heroConst : this->_heroConstants){
+        delete _heroConst;
+    }
+    this->_heroConstants.clear();
+    //Write the data
+    for(HeroConstants * _heroConst : _heroConstants){
+        HeroConstants * tmp_heroConst = new HeroConstants(*_heroConst);
+        this->_heroConstants.push_back(tmp_heroConst);
+    }
 }
 
 

@@ -18,7 +18,6 @@ TurnMessage::TurnMessage(std::string&& json_form)
 void TurnMessage::update_game(World *_game) {
     Json::Value root = Message::get_args()[0];
 
-    Logger::Get(LogLevel_INFO) << "root.toStyledString(): " << root.toStyledString() << std::endl;
     _game->myScore() = root["myScore"].asInt();
     _game->oppScore() = root["oppScore"].asInt();
     _game->currentPhase() = convert_phase_from_string(root["currentPhase"].asString());
@@ -31,8 +30,6 @@ void TurnMessage::update_game(World *_game) {
     for(Json::Value& _row : map_cell_DATA){
         std::vector<Cell *> tmp_cell_row;
         for(Json::Value& cell_DATA : _row){
-//            Json::Value cell_DATA = map_cell_DATA[i][j];
-
             Cell* ptr_cell = new Cell();
 
             ptr_cell->isWall() = cell_DATA["isWall"].asBool();
@@ -49,6 +46,13 @@ void TurnMessage::update_game(World *_game) {
 
     _game->map().set_cells(output_map_cells);
 
+//    for(std::vector<Cell *> _row : _game->map().get_cell_2D_vector()){
+//        for(Cell * _cell : _row){
+//            Logger::Get(LogLevel_DEBUG) << "GOT CELL IN: " << _cell->row() << ", "
+//                                                           << _cell->column()
+//                                                           << std::endl;
+//        }
+//    }
     //myHeros:
     std::vector<Hero *> output_heros;
 

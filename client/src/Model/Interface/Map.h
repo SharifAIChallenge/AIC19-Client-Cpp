@@ -10,13 +10,13 @@ class Map {
 public:
     Map() = default;
     ~Map();
-    void delete_Cells();//Calling the destructors of the Cells
 
+    Map(const Map& _map);
+    Map operator=(const Map& _map);
 
     //This constructor initialises the vectors, not the row and column Nums
     Map(const std::vector<std::vector<Cell*>>& cells_grid);
 
-    Map operator=(const Map& _map);
 
     int& rowNum();
     int rowNum() const;
@@ -35,7 +35,7 @@ public:
 
     std::vector<Cell*> get_cells_list() const;
 
-    std::vector<std::vector<Cell*>> get_cell_2D_vector();
+    std::vector<std::vector<Cell*>>& get_cell_2D_vector();
 
 private:
 

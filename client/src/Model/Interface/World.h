@@ -24,11 +24,10 @@ public:
 
     World(EventQueue& event_queue);
 
-    World(const World& _world);
+    World(const World& _world);//Copy constructor
     //Getter & Setters:
 
     void set_map(const Map &_map);
-    Map get_map() const;
     Map& map();
 
 
@@ -43,6 +42,9 @@ public:
 //    void set_heroConstants(const HeroConstants &_heroConstants);
 //    const HeroConstants &get_heroConstants() const;
 //    HeroConstants& heroConstants();
+
+    void set_abilityConstants(const std::vector<AbilityConstants *> &_abilityConstants);
+    void set_heroConstants(const std::vector<HeroConstants *> &_heroConstants);
 
 
     int& AP();
@@ -122,11 +124,6 @@ public:
     void pickHero(HeroName heroName);
 
     void initData();
-//Parsing:
-//    void importInitData(InitMessage &_initMessage);
-//    void importPickData(PickMessage &_pickMessage);
-//    void importTurnData(TurnMessage &_turnMessage);
-
 
 private:
 
