@@ -492,6 +492,14 @@ int World::currentTurn() const {
     return _currentTurn;
 }
 
+int &World::movePhaseNum() {
+    return _movePhaseNum;
+}
+
+int World::movePhaaseNum() const {
+    return _movePhaseNum;
+}
+
 Phase &World::currentPhase() {
     return _currentPhase;
 }
@@ -619,11 +627,12 @@ void World::castAbility(const Hero hero, Ability ability, int targetCellRow, int
 }
 
 void World::initData() {
-    this->_currentTurn = 0;
-    this->_currentPhase = Phase::PICK;
+    this->_AP = this->_gameConstants.get_maxAP();
     this->_myScore = 0;
     this->_oppScore = 0;
-    this->_AP = this->_gameConstants.get_maxAP();
+    this->_currentTurn = 0;
+    this->_movePhaseNum = 0;
+    this->_currentPhase = Phase::PICK;
 }
 
 void World::set_abilityConstants(const std::vector<AbilityConstants *> &_abilityConstants) {

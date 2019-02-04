@@ -22,6 +22,7 @@ void TurnMessage::update_game(World *_game) {
     _game->oppScore() = root["oppScore"].asInt();
     _game->currentPhase() = convert_phase_from_string(root["currentPhase"].asString());
     _game->currentTurn() = root["currentTurn"].asInt();
+    //TODO movePhaseNum should be added here
 
     //map cells:
     std::vector<std::vector<Cell *>> output_map_cells;

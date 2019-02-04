@@ -25,8 +25,8 @@ public:
     World(EventQueue& event_queue);
 
     World(const World& _world);//Copy constructor
-    //Getter & Setters:
 
+    //Getter & Setters:
     void set_map(const Map &_map);
     Map& map();
 
@@ -35,21 +35,12 @@ public:
     const GameConstants &get_gameConstants() const;
     GameConstants& gameConstants();
 
-//    void set_abilityConstants(const AbilityConstants &_abilityConstants);
-//    const AbilityConstants &get_abilityConstants() const;
-//    AbilityConstants& abilityConstants();
-//
-//    void set_heroConstants(const HeroConstants &_heroConstants);
-//    const HeroConstants &get_heroConstants() const;
-//    HeroConstants& heroConstants();
-
     void set_abilityConstants(const std::vector<AbilityConstants *> &_abilityConstants);
     void set_heroConstants(const std::vector<HeroConstants *> &_heroConstants);
 
 
     int& AP();
     int AP() const;
-
 
     int& myScore();
     int myScore() const;
@@ -60,9 +51,14 @@ public:
     int& currentTurn();
     int currentTurn() const;
 
+    int& movePhaseNum();
+    int movePhaaseNum() const;
+
     Phase& currentPhase();
     Phase currentPhase() const;
 
+    // The user of the below functions shouldn't
+    // delete the elements in the list
     void set_myCastAbilities(std::vector<CastAbility *> _myCAbility);
     std::vector<CastAbility *> get_myCastAbilities() const;
 
@@ -72,7 +68,6 @@ public:
     // For all Cell type inputs we will have another method with row-column inputs
     // For all hero id inputs we will have another method with Hero object
     // For all Ability Object inputs we will have another method with AbilityName enum
-
     Hero getHero(int id);
     Hero getMyHero(Cell cell);
     Hero getMyHero(int cellRow, int cellColumn);
@@ -86,11 +81,6 @@ public:
     bool isCloser(Cell currentCell, Cell targetCell, Cell nextCell);
     void dfs(Cell& currentCell, Cell& startCell, Cell& targetCell, std::unordered_map<Cell*, bool>& isSeen,
              std::vector<Cell *>& path);
-
-    // Get all the cells that collide with the ray line in at least one non corner point,
-    // before reaching a wall. If it hits a wall cell just in the corner,
-    // it would also stop too. should we implement this?
-
 
     std::vector<Cell *> getRayCells(Cell startCell, Cell endCell);
     std::vector<Cell *> getImpactCells(AbilityName abilityName, Cell startCell, Cell targetCell);
@@ -132,8 +122,6 @@ private:
     std::vector<AbilityConstants *> _abilityConstants;
     std::vector<HeroConstants *> _heroConstants;
 
-    //TODO its better to implement a get function
-    // returning an array for these vectors
     std::vector<Hero *> _myHeroes;
     std::vector<Hero *> _oppHeroes;
     std::vector<Hero *> _myDeadHeroes;
@@ -146,7 +134,7 @@ private:
     int _myScore;
     int _oppScore;
     int _currentTurn;
-
+    int _movePhaseNum;
     Phase _currentPhase;
 
     EventQueue& _event_queue;
