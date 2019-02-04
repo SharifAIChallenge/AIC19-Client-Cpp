@@ -120,7 +120,7 @@ public:
     void castAbility(Hero hero, Ability ability, Cell targetCell);
 
 
-    void moveHero(int id, std::vector<Direction> direction);//TODO sekall asked me to put this "TODO"
+    void moveHero(int id, Direction direction);
     void pickHero(HeroName heroName);
 
     void initData();

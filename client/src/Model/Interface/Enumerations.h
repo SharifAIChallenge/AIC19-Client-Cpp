@@ -29,6 +29,8 @@ enum Direction
     UP, DOWN, LEFT, RIGHT, NULL_DIRECTION//TODO check if this is okay
 };
 
+std::string Direction_to_string(Direction _direction);
+
 enum Phase
 {
     PICK,MOVE,ACTION

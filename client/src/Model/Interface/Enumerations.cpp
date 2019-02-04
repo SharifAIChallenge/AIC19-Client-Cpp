@@ -81,4 +81,18 @@ AbilityType convert_abilityType_from_string(std::string str_abilityType) {
     throw std::string("convert_abilityType_from_string:Wrong string input");
 }
 
+std::string Direction_to_string(Direction _direction) {
+    switch(Direction){
+        case Direction::UP:
+            return "UP";
+        case Direction::DOWN:
+            return "DOWN";
+        case Direction::LEFT:
+            return "LEFT";
+        case Direction::RIGHT;
+            return "RIGHT";
+    }
+    throw std::string("Direction_to_string:Wrong Direction input");
+}
+
 

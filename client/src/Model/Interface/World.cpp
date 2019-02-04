@@ -568,12 +568,11 @@ std::vector<CastAbility *> World::get_oppCastAbilities() const {
     return _oppCastAbilities;
 }
 
-void World::moveHero(int id, std::vector<Direction> directions) {
-    Json::Value directionJsonVals;
-    for(int i = 0; i < directions.size(); i++){
-        directionJsonVals.append(std::to_string(directions[i]));
-    }
-    _event_queue.push(CreateMoveMessage(id,directionJsonVals));
+void World::moveHero(int id, Direction directions) {
+
+    _event_queue.push(
+            CreateMoveMessage(id, Direction_to_string(directions))
+    );
 }
 
 void World::pickHero(HeroName heroName) {
