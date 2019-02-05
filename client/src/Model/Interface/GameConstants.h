@@ -29,6 +29,7 @@ public:
     int getPreprocessTimeout() const;
     int getFirstMoveTimeout() const;
     int getNormalTimeout() const;
+    int getMaxScore() const;
 
 private:
     int _killScore;
@@ -38,6 +39,7 @@ private:
     int _preprocessTimeout;
     int _firstMoveTimeout;
     int _normalTimeout;
+    int _maxScore;
     
     friend class InitMessage;
     

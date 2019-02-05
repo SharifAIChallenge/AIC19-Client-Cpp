@@ -30,5 +30,9 @@ int GameConstants::getNormalTimeout() const {
     return _normalTimeout;
 }
 
+int GameConstants::getMaxScore() const {
+    return _maxScore;
+}
+
 
 

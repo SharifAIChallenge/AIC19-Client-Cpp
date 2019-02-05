@@ -133,7 +133,7 @@ public:
 
 
 
-private://TODO MaxScore, ‫‪getAbilityTargets‬‬
+private://TODO ‫‪getAbilityTargets‬‬
 //TODO CastAbility?
     Map _map;
     GameConstants _gameConstants;

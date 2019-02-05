@@ -681,7 +681,7 @@ Phase World::getCurrentPhase() {
 }
 
 int World::getMaxScore() {
-    return 0;//TODO!
+    return _gameConstants.getMaxScore();
 }
 
 int World::getMaxAP() {
