@@ -26,7 +26,7 @@ void PickMessage::update_game(World* _game) {
     for(int i = 0; i < myHero_DATA.size(); ++i){
         Hero* ptr_hero = new Hero();
 //        Logger::Get(LogLevel_INFO) << "STEP1" << std::endl;
-        ptr_hero->id() = myHero_DATA[i]["id"].asInt();
+        ptr_hero->_id = myHero_DATA[i]["id"].asInt();
 //        Logger::Get(LogLevel_INFO) << "Got myHero_DATA[\"id\"].asInt() " << ptr_hero->id() << std::endl;
 //        Logger::Get(LogLevel_INFO) << "myHero_DATA[\"type\"].asString() " << myHero_DATA[i]["type"].asString() << std::endl;
         HeroName _hero = convert_heroName_from_string(myHero_DATA[i]["type"].asString());
@@ -34,7 +34,7 @@ void PickMessage::update_game(World* _game) {
         HeroConstants heroConstants = _game->getHeroConstants(_hero);
 //        Logger::Get(LogLevel_INFO) << "STEP2" << std::endl;
         std::vector<Ability *> abilities;
-        for(AbilityName abilityName:heroConstants.get_abilityNames())
+        for(AbilityName abilityName:heroConstants.getAbilityNames())
         {
             Ability* newAbility = new Ability;
 //            Logger::Get(LogLevel_INFO) << "STEP3" << std::endl;
@@ -55,11 +55,11 @@ void PickMessage::update_game(World* _game) {
     for(int i = 0; i < oppHero_DATA.size(); ++i){
         Hero* ptr_hero = new Hero();
 
-        ptr_hero->id() = oppHero_DATA[i]["id"].asInt();
+        ptr_hero->_id = oppHero_DATA[i]["id"].asInt();
         HeroName _hero = convert_heroName_from_string(oppHero_DATA[i]["type"].asString());
         HeroConstants heroConstants = _game->getHeroConstants(_hero);
         std::vector<Ability *> abilities;
-        for(AbilityName abilityName:heroConstants.get_abilityNames())
+        for(AbilityName abilityName:heroConstants.getAbilityNames())
         {
             Ability* newAbility = new Ability;
 

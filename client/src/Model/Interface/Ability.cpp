@@ -3,6 +3,9 @@
 //
 
 #include "Ability.h"
+
+Ability::Ability(bool isNull) : isNull(isNull) {}
+
 //--------------remCooldown------------
 int Ability::getRemCooldown() const {
     return _remCooldown;
@@ -47,3 +50,15 @@ bool Ability::isReady() const {
 AbilityConstants Ability::getAbilityConstants() const {
     return _abilityConstants;
 }
+
+
+
+Ability Ability::NULL_ABILITY(true);
+
+bool Ability::operator==(const Ability &_ability) {
+    return ((this->_abilityConstants == _ability._abilityConstants) &&
+            (this->_remCooldown == _ability._remCooldown) &&
+            !this->isNull && !_ability.isNull)
+           || (this->isNull && _ability.isNull);
+}
+

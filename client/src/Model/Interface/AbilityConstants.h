@@ -17,6 +17,7 @@ public:
     AbilityConstants(AbilityConstants&&) = default;
     AbilityConstants& operator=(AbilityConstants&&) = default;
 
+    bool operator==(const AbilityConstants&);
 
     //API:
     AbilityName getName() const;

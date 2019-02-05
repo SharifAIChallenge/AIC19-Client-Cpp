@@ -2,41 +2,23 @@
 #define AIC19_CLIENT_CPP_CELL_H
 
 
+
 class Cell {
 public:
     Cell() = default;
     ~Cell() = default;
 
     Cell(bool _isNull);
-
     Cell(const Cell&);
-//    Cell& operator=(const Cell&) = default;
 
-//    Cell(Cell&&) = default;
-//    Cell& operator=(Cell&&) = default;
-
-//    Cell& operator==(const Cell);
-
-    bool& isWall();
+//API:
+    int getRow() const;
+    int getColumn() const;
     bool isWall() const;
-
-    bool& isInMyRespawnZone();
     bool isInMyRespawnZone() const;
-
-    bool& isInOppRespawnZone();
     bool isInOppRespawnZone() const;
-
-    bool& isInObjectiveZone();
     bool isInObjectiveZone() const;
-
-    bool& isInVision();
-    bool isInvision() const;
-
-    int& row();
-    int row() const;
-
-    int& column();
-    int column() const;
+    bool isInVision() const;
 
     bool inThisPosition(int row, int column) const;
     bool operator==(const Cell _cell) const;
@@ -48,9 +30,11 @@ private:
     bool _isInOppRespawnZone;
     bool _isInObjectiveZone;
     bool _isInVision;
-
     int _row;
     int _column;
+
+    friend class InitMessage;
+    friend class TurnMessage;
 
     bool isNull = false;
 

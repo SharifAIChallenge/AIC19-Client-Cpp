@@ -142,12 +142,12 @@ void InitMessage::update_world(World *_world) {
         for(Json::Value& cellsList_DATA : _row){
             tmpCellRow.push_back(new Cell());
             Cell* cell_ptr = tmpCellRow.back();//TODO cont from here
-            cell_ptr->isWall() = cellsList_DATA["isWall"].asBool();
-            cell_ptr->isInMyRespawnZone() = cellsList_DATA["isInMyRespawnZone"].asBool();
-            cell_ptr->isInOppRespawnZone() = cellsList_DATA["isInOppRespawnZone"].asBool();
-            cell_ptr->isInObjectiveZone() = cellsList_DATA["isInObjectiveZone"].asBool();
-            cell_ptr->row() = cellsList_DATA["row"].asInt();
-            cell_ptr->column() = cellsList_DATA["column"].asInt();
+            cell_ptr->_isWall = cellsList_DATA["isWall"].asBool();
+            cell_ptr->_isInMyRespawnZone = cellsList_DATA["isInMyRespawnZone"].asBool();
+            cell_ptr->_isInOppRespawnZone = cellsList_DATA["isInOppRespawnZone"].asBool();
+            cell_ptr->_isInObjectiveZone = cellsList_DATA["isInObjectiveZone"].asBool();
+            cell_ptr->_row = cellsList_DATA["row"].asInt();
+            cell_ptr->_column = cellsList_DATA["column"].asInt();
 
         }
         tmpCellLists.push_back(tmpCellRow);
@@ -186,17 +186,17 @@ void InitMessage::update_world(World *_world) {
         _world->_heroConstants.push_back(new HeroConstants);
         HeroConstants* ptr_heroCons = _world->_heroConstants.back();
 
-        ptr_heroCons->name() = convert_heroName_from_string(HeroConst["name"].asString());
+        ptr_heroCons->_name = convert_heroName_from_string(HeroConst["name"].asString());
 
         std::vector<AbilityName> tmp_names;
         for(Json::Value& AbilityName : AbilityNames_DATA){
             tmp_names.push_back(convert_abilityName_from_string(AbilityName.asString()));
         }
-        ptr_heroCons->set_abilityNames(tmp_names);
+        ptr_heroCons->_abilityNames = tmp_names;
 
-        ptr_heroCons->maxHP() = HeroConst["maxAP"].asInt();
-        ptr_heroCons->moveAPCost() = HeroConst["moveAPCost"].asInt();
-        ptr_heroCons->remainingRespawnTime() = HeroConst["respawnTime"].asInt();
+        ptr_heroCons->_maxHP = HeroConst["maxAP"].asInt();
+        ptr_heroCons->_moveAPCost = HeroConst["moveAPCost"].asInt();
+        ptr_heroCons->_remainingRespawnTime = HeroConst["respawnTime"].asInt();
 
     }
 

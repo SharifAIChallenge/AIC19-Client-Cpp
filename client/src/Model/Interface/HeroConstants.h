@@ -14,35 +14,23 @@ public:
     HeroConstants(const HeroConstants&) = default;
     HeroConstants& operator=(const HeroConstants&) = default;
 
-    HeroName& name();
-    HeroName name() const;
 
-    void set_abilityNames(std::vector<AbilityName> abilityName);
-    const std::vector<AbilityName> &get_abilityNames() const;
-
-
-    int& maxHP();
-    int maxHP() const;
-
-
-    int& moveAPCost();
-    int moveAPCost() const;
-
-    int& remainingRespawnTime();
-    int remainingRespawnTime() const;
+    HeroName getName() const;
+    const std::vector<AbilityName> &getAbilityNames() const;
+    int getMaxHP() const;
+    int getMoveAPCost() const;
+    int getRespawnTime() const;
 
 private:
 
     HeroName _name;
-
     std::vector<AbilityName> _abilityNames;
-
     int _maxHP;
-
     int _moveAPCost;
-
     int _remainingRespawnTime;
 
+    friend class InitMessage;
+    friend class TurnMessage;
 
     bool isNull = false;
 

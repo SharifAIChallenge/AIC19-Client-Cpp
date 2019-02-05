@@ -39,3 +39,17 @@ bool AbilityConstants::isLobbing() const {
 
 //single tone:
 AbilityConstants AbilityConstants::NULL_ABILITY_CONSTANTS(true);
+
+bool AbilityConstants::operator==(const AbilityConstants & _abilityConst) {
+    return ((this->_abilityName == _abilityConst._abilityName) &&
+            (this->_type == _abilityConst._type) &&
+            (this->_range == _abilityConst._range) &&
+            (this->_APCost == _abilityConst._APCost) &&
+            (this->_cooldown == _abilityConst._cooldown) &&
+            (this->_areaOfEffect == _abilityConst._areaOfEffect) &&
+            (this->_power == _abilityConst._power) &&
+            (this->_isLobbing == _abilityConst._isLobbing) &&
+            !this->isNull &&
+            !_abilityConst.isNull)
+            ||(_abilityConst.isNull && this->isNull);
+}

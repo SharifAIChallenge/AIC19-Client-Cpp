@@ -1,7 +1,3 @@
-//
-// Created by dot_blue on 1/23/19.
-//
-
 #ifndef AIC19_CLIENT_CPP_HERO_H
 #define AIC19_CLIENT_CPP_HERO_H
 
@@ -24,32 +20,29 @@ public:
     Hero(Hero&&) = default;
     Hero& operator=(Hero&&) = default;
 
-    int id() const;
-    int getCurrentHP() const;
-    int respawnTime() const;
 
-    // Getters for the heroConstants
-    HeroName name() const;
-    const std::vector<AbilityName> &abilityNames() const;
-    int maxHP() const;
-    int moveAPCost() const;
-    int remainingRespawnTime() const;
+    Ability getAbility(AbilityName _abilityName);
+    int getId() const;
 
     // Updates the other three vectors as well (dodgeAbilities,...)
-    void set_abilities(std::vector<Ability *> &_abilities);
-    const std::vector<Ability *> &get_abilities() const;
+    const std::vector<Ability *> &getAbilities() const;
+    const std::vector<Ability *> &getDodgeAbilities() const;
+    const std::vector<Ability *> &getDefensiveAbilities() const;
+    const std::vector<Ability *> &getOffensiveAbilities() const;
 
-    const std::vector<Ability *> &get_dodgeAbilities() const;
-    const std::vector<Ability *> &get_healAbilities() const;
-    const std::vector<Ability *> &get_attackAbilities() const;
+    int getCurrentHP() const;
+    Cell getCurrentCell() const;
+    const std::vector<Cell *> getRecentPath() const;
+    int getRemRespawnTime() const;
 
+    // Getters for the heroConstants
+    HeroName getName() const;
+    const std::vector<AbilityName> &getAbilityNames() const;
+    int getMaxHP() const;
+    int getMoveAPCost() const;
+    int remainingRespawnTime() const;
+    
 
-    Cell& currentCell();
-    Cell currentCell() const;
-
-
-    void set_recentPath(const std::vector<Cell *> &_recentPath);
-    const std::vector<Cell *> &get_recentPath() const;
 
     // Is it enough to compare the id? answer: Yes (including the isNull's)
     bool operator==(Hero _hero);
@@ -59,7 +52,7 @@ private:
 
     int _id;
     int _currentHP;
-    int _respawnTime;
+    int _remRespawnTime;
     HeroConstants _heroConstants;
 
     std::vector<Ability *> _abilities;
@@ -68,15 +61,11 @@ private:
     std::vector<Ability *> _offensiveAbilities;
 
     Cell _currentCell;
-    std::vector<Cell *> _recentPath;//Shouldn't delete these guys in the constructor!
+    std::vector<Cell *> _recentPath;//Shouldn't delete these guys in the destructor!
 
 
-    HeroConstants& heroConstants();
     HeroConstants heroConstants() const;
-
-    int& id();
-    int& currentHP();
-    int& respawnTime();
+    void set_abilities(std::vector<Ability *> &_abilities);
 
     friend class TurnMessage;
     friend class PickMessage;

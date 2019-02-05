@@ -33,12 +33,12 @@ void TurnMessage::update_game(World *_game) {
         for(Json::Value& cell_DATA : _row){
             Cell* ptr_cell = new Cell();
 
-            ptr_cell->isWall() = cell_DATA["isWall"].asBool();
-            ptr_cell->isInMyRespawnZone() = cell_DATA["isInMyRespawnZone"].asBool();
-            ptr_cell->isInOppRespawnZone() = cell_DATA["isInOppRespawnZone"].asBool();
-            ptr_cell->isInObjectiveZone() = cell_DATA["isInObjectiveZone"].asBool();
-            ptr_cell->row() = cell_DATA["row"].asInt();
-            ptr_cell->column() = cell_DATA["column"].asInt();
+            ptr_cell->_isWall = cell_DATA["isWall"].asBool();
+            ptr_cell->_isInMyRespawnZone = cell_DATA["isInMyRespawnZone"].asBool();
+            ptr_cell->_isInOppRespawnZone = cell_DATA["isInOppRespawnZone"].asBool();
+            ptr_cell->_isInObjectiveZone = cell_DATA["isInObjectiveZone"].asBool();
+            ptr_cell->_row = cell_DATA["row"].asInt();
+            ptr_cell->_column = cell_DATA["column"].asInt();
 
             tmp_cell_row.push_back(ptr_cell);
         }
@@ -63,9 +63,9 @@ void TurnMessage::update_game(World *_game) {
         Json::Value& hero_DATA = myHeros_DATA[i];
         Hero* output_hero = new Hero();
 
-        output_hero->id() = hero_DATA["id"].asInt();
-        output_hero->currentHP() = hero_DATA["currentHP"].asInt();
-        output_hero->heroConstants().name() = convert_heroName_from_string(hero_DATA["type"].asString());
+        output_hero->_id = hero_DATA["id"].asInt();
+        output_hero->_currentHP = hero_DATA["currentHP"].asInt();
+        output_hero->_heroConstants._name = convert_heroName_from_string(hero_DATA["type"].asString());
 
         //Cooldowns:
         std::vector<Ability *> _abilities_list;
@@ -83,8 +83,8 @@ void TurnMessage::update_game(World *_game) {
         output_hero->set_abilities(_abilities_list);
 
         //currentCell:
-        output_hero->currentCell().row() = hero_DATA["currentCell"]["row"].asInt();
-        output_hero->currentCell().column() = hero_DATA["currentCell"]["column"].asInt();
+        output_hero->_currentCell._row = hero_DATA["currentCell"]["row"].asInt();
+        output_hero->_currentCell._column = hero_DATA["currentCell"]["column"].asInt();
 
         //recentPath:
         std::vector<Cell *> tmp_path;
@@ -97,10 +97,10 @@ void TurnMessage::update_game(World *_game) {
                     )
             );
         }
-        output_hero->set_recentPath(tmp_path);
+        output_hero->_recentPath = tmp_path;
 
         //respawnTime:
-        output_hero->respawnTime() = hero_DATA["respawnTime"].asInt();
+        output_hero->_remRespawnTime = hero_DATA["respawnTime"].asInt();
 
         output_heros.push_back(output_hero);
     }
@@ -115,9 +115,9 @@ void TurnMessage::update_game(World *_game) {
         Json::Value& hero_DATA = oppHeros_DATA[i];
         Hero* output_hero = new Hero();
 
-        output_hero->id() = hero_DATA["id"].asInt();
-        output_hero->currentHP() = hero_DATA["currentHP"].asInt();
-        output_hero->heroConstants().name() = convert_heroName_from_string(hero_DATA["type"].asString());
+        output_hero->_id = hero_DATA["id"].asInt();
+        output_hero->_currentHP = hero_DATA["currentHP"].asInt();
+        output_hero->_heroConstants._name = convert_heroName_from_string(hero_DATA["type"].asString());
 
         //Cooldowns:
         std::vector<Ability *> _abilities_list;
@@ -135,8 +135,8 @@ void TurnMessage::update_game(World *_game) {
         output_hero->set_abilities(_abilities_list);
 
         //currentCell:
-        output_hero->currentCell().row() = hero_DATA["currentCell"]["row"].asInt();
-        output_hero->currentCell().column() = hero_DATA["currentCell"]["column"].asInt();
+        output_hero->_currentCell._row = hero_DATA["currentCell"]["row"].asInt();
+        output_hero->_currentCell._column = hero_DATA["currentCell"]["column"].asInt();
 
         //recentPath:
         std::vector<Cell *> tmp_path;
@@ -149,10 +149,10 @@ void TurnMessage::update_game(World *_game) {
                     )
             );
         }
-        output_hero->set_recentPath(tmp_path);
+        output_hero->_recentPath = tmp_path;
 
         //respawnTime:
-        output_hero->respawnTime() = hero_DATA["respawnTime"].asInt();
+        output_hero->_remRespawnTime = hero_DATA["respawnTime"].asInt();
 
         output_oppHeros.push_back(output_hero);
     }

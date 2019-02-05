@@ -10,6 +10,8 @@ public:
     Ability() = default;
     ~Ability() = default;
 
+    Ability(bool isNull);
+
     Ability(const Ability&) = default;
     Ability& operator=(const Ability&) = default;
 
@@ -33,6 +35,8 @@ public:
 
     AbilityConstants getAbilityConstants() const;
 
+    bool operator==(const Ability& _ability);
+
 private:
     AbilityConstants _abilityConstants;
     int _remCooldown;
@@ -41,6 +45,10 @@ private:
     friend class TurnMessage;
     friend class PickMessage;
 
+    bool isNull = false;
+
+public://single tone
+    static Ability NULL_ABILITY;
 };
 
 

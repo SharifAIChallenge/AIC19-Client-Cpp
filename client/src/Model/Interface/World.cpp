@@ -110,12 +110,12 @@ World::~World() {
 //logical functions:
 Hero World::getHero(int id) {
     for(std::vector<Hero *>::iterator it = _myHeroes.begin(); it != _myHeroes.end(); ++it){
-        if(static_cast<const Hero *>(*it)->id() == id){
+        if(static_cast<const Hero *>(*it)->getId() == id){
             return **it;
         }
     }
     for(std::vector<Hero *>::iterator it = _oppHeroes.begin(); it != _oppHeroes.end(); ++it){
-        if(static_cast<const Hero *>(*it)->id() == id){
+        if(static_cast<const Hero *>(*it)->getId() == id){
             return **it;
         }
     }
@@ -125,7 +125,7 @@ Hero World::getHero(int id) {
 Hero World::getMyHero(Cell cell) {
     for(std::vector<Hero *>::iterator it = _myHeroes.begin(); it != _myHeroes.end(); ++it ){
         //This only checks the location of the cell
-        if((*it)->currentCell() == cell){
+        if((*it)->getCurrentCell() == cell){
             return **it;
         }
     }
@@ -139,8 +139,8 @@ Hero World::getMyHero(int cellRow, int cellColumn) {
 
     for(std::vector<Hero *>::iterator it = _myHeroes.begin(); it != _myHeroes.end(); ++it ){
         //This only checks the location of the cell
-        if((*it)->currentCell().row() == cellRow &&
-           (*it)->currentCell().row() == cellColumn){
+        if((*it)->getCurrentCell().getRow() == cellRow &&
+                (*it)->getCurrentCell().getRow() == cellColumn){
             return **it;
         }
     }
@@ -150,7 +150,7 @@ Hero World::getMyHero(int cellRow, int cellColumn) {
 Hero World::getOppHero(Cell cell) {
     for(std::vector<Hero *>::iterator it = _oppHeroes.begin(); it!= _oppHeroes.end(); ++it){
         //This only checks the location of the cell
-        if((*it)->currentCell() == cell){
+        if((*it)->getCurrentCell() == cell){
             return **it;
         }
     }
@@ -163,8 +163,8 @@ Hero World::getOppHero(int cellRow, int cellColumn) {
 
     for(std::vector<Hero *>::iterator it = _oppHeroes.begin(); it!= _oppHeroes.end(); ++it){
         //This only checks the location of the cell
-        if((*it)->currentCell().row() == cellRow &&
-           (*it)->currentCell().row() == cellColumn){
+        if((*it)->getCurrentCell().getRow() == cellRow &&
+                (*it)->getCurrentCell().getRow() == cellColumn){
             return **it;
         }
     }
@@ -172,8 +172,8 @@ Hero World::getOppHero(int cellRow, int cellColumn) {
 }
 
 int World::manhattanDistance(Cell startCell, Cell endCell) {
-    return abs(startCell.row() - endCell.row()) +
-            abs(startCell.column() - endCell.column());
+    return abs(startCell.getRow() - endCell.getRow()) +
+            abs(startCell.getColumn() - endCell.getColumn());
 }
 
 int World::manhattanDistance(int startCellRow, int startCellColumn, int endCellRow, int endCellColumn) {
@@ -191,23 +191,23 @@ Cell World::getNextCell(const Cell &cell, const Direction& direction) {
     switch (direction)
     {
         case Direction::UP:
-            if (_map.isInMap(cell.row() - 1, cell.column()))
-                return _map.getCell(cell.row() - 1, cell.column());
+            if (_map.isInMap(cell.getRow() - 1, cell.getColumn()))
+                return _map.getCell(cell.getRow() - 1, cell.getColumn());
             else
                 return Cell::NULL_CELL;
         case Direction::DOWN:
-            if (_map.isInMap(cell.row() + 1, cell.column()))
-                return _map.getCell(cell.row() + 1, cell.column());
+            if (_map.isInMap(cell.getRow() + 1, cell.getColumn()))
+                return _map.getCell(cell.getRow() + 1, cell.getColumn());
             else
                 return Cell::NULL_CELL;
         case Direction::LEFT:
-            if (_map.isInMap(cell.row(), cell.column() - 1))
-                return _map.getCell(cell.row(), cell.column() - 1);
+            if (_map.isInMap(cell.getRow(), cell.getColumn() - 1))
+                return _map.getCell(cell.getRow(), cell.getColumn() - 1);
             else
                 return Cell::NULL_CELL;
         case Direction::RIGHT:
-            if (_map.isInMap(cell.row(), cell.column() + 1))
-                return _map.getCell(cell.row(), cell.column() + 1);
+            if (_map.isInMap(cell.getRow(), cell.getColumn() + 1))
+                return _map.getCell(cell.getRow(), cell.getColumn() + 1);
             else
                 return Cell::NULL_CELL;
     }
@@ -247,11 +247,11 @@ int World::crossProduct(int x1, int y1, int x2, int y2, int x3, int y3)
 int World::squareCollision(const Cell& startCell,const Cell& targetCell,const Cell& cell)
 {
     bool hasNegative = false, hasPositive = false, hasZero = false;
-    for (int row = 2 * cell.row(); row <= 2 * (cell.row() + 1); row += 2)
-        for (int column = 2 * cell.column(); column <= 2 * (cell.column() + 1); column += 2)
+    for (int row = 2 * cell.getRow(); row <= 2 * (cell.getRow() + 1); row += 2)
+        for (int column = 2 * cell.getColumn(); column <= 2 * (cell.getColumn() + 1); column += 2)
         {
-            int _crossProduct = crossProduct(2 * startCell.row() + 1, 2 * startCell.column() + 1,
-                                            2 * targetCell.row() + 1, 2 * targetCell.column() + 1, row, column);
+            int _crossProduct = crossProduct(2 * startCell.getRow() + 1, 2 * startCell.getColumn() + 1,
+                                            2 * targetCell.getRow() + 1, 2 * targetCell.getColumn() + 1, row, column);
             if (_crossProduct < 0) hasNegative = true;
             else if (_crossProduct > 0) hasPositive = true;
             else hasZero = true;
@@ -290,8 +290,8 @@ void World::dfs(Cell& currentCell, Cell& startCell, Cell& targetCell, std::unord
     for (int dRow = -1; dRow <= 1; dRow += 2)
         for (int dColumn = -1; dColumn <= 1; dColumn += 2)
         {
-            int newRow = currentCell.row() + dRow;
-            int newColumn = currentCell.column() + dColumn;
+            int newRow = currentCell.getRow() + dRow;
+            int newColumn = currentCell.getColumn() + dColumn;
             Cell nextCell = Cell::NULL_CELL;
             if (_map.isInMap(newRow, newColumn)) nextCell = _map.getCell(newRow, newColumn);
             //Assumed isSeen.find(nextCell) == isSeen.end() means it's not found...
@@ -413,7 +413,7 @@ AbilityConstants World::getAbilityConstants(AbilityName abilityName) {
 HeroConstants World::getHeroConstants(HeroName heroName) {
     for (HeroConstants * heroConstants : this->_heroConstants)
     {
-        if(heroConstants->name() == heroName){
+        if(heroConstants->getName() == heroName){
             return *heroConstants;
         }
     }
@@ -598,7 +598,7 @@ void World::castAbility(int heroId, AbilityName abilityName, int targetCellRow, 
 }
 
 void World::castAbility(int heroId, AbilityName abilityName, Cell targetCell) {
-    castAbility(heroId,abilityName,targetCell.row(),targetCell.column());
+    castAbility(heroId,abilityName, targetCell.getRow(), targetCell.getColumn());
 }
 
 void World::castAbility(int heroId, Ability ability, int targetCellRow, int targetCellColumn) {
@@ -606,23 +606,23 @@ void World::castAbility(int heroId, Ability ability, int targetCellRow, int targ
 }
 
 void World::castAbility(int heroId, Ability ability, Cell targetCell) {
-    castAbility(heroId, ability.getName(),targetCell.row(),targetCell.column());
+    castAbility(heroId, ability.getName(), targetCell.getRow(), targetCell.getColumn());
 }
 
 void World::castAbility(const Hero hero, Ability ability, Cell targetCell) {
-    castAbility(hero.id(), ability.getName(),targetCell.row(),targetCell.column());
+    castAbility(hero.getId(), ability.getName(), targetCell.getRow(), targetCell.getColumn());
 }
 
 void World::castAbility(const Hero hero, AbilityName abilityName, int targetCellRow, int targetCellColumn) {
-    castAbility(hero.id(),abilityName,targetCellRow,targetCellColumn);
+    castAbility(hero.getId(),abilityName,targetCellRow,targetCellColumn);
 }
 
 void World::castAbility(const Hero hero, AbilityName abilityName, Cell targetCell) {
-    castAbility(hero.id(),abilityName,targetCell.row(),targetCell.column());
+    castAbility(hero.getId(),abilityName, targetCell.getRow(), targetCell.getColumn());
 }
 
 void World::castAbility(const Hero hero, Ability ability, int targetCellRow, int targetCellColumn) {
-    castAbility(hero.id(), ability.getName(),targetCellRow,targetCellColumn);
+    castAbility(hero.getId(), ability.getName(),targetCellRow,targetCellColumn);
 }
 
 void World::initData() {

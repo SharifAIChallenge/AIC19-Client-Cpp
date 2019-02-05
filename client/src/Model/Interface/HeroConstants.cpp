@@ -8,43 +8,23 @@ HeroConstants::~HeroConstants() {
 HeroConstants::HeroConstants(bool _isNull): isNull(_isNull) {}
 
 
-HeroName &HeroConstants::name() {
+HeroName HeroConstants::getName() const {
     return _name;
 }
 
-HeroName HeroConstants::name() const {
-    return _name;
-}
-
-const std::vector<AbilityName> &HeroConstants::get_abilityNames() const {
+const std::vector<AbilityName> &HeroConstants::getAbilityNames() const {
     return _abilityNames;
 }
 
-void HeroConstants::set_abilityNames(std::vector<AbilityName> abilityName) {
-    HeroConstants::_abilityNames = abilityName;
-}
-
-int &HeroConstants::maxHP() {
+int HeroConstants::getMaxHP() const {
     return _maxHP;
 }
 
-int HeroConstants::maxHP() const {
-    return _maxHP;
-}
-
-int &HeroConstants::moveAPCost() {
+int HeroConstants::getMoveAPCost() const {
     return _moveAPCost;
 }
 
-int HeroConstants::moveAPCost() const {
-    return _moveAPCost;
-}
-
-int &HeroConstants::remainingRespawnTime() {
-    return _remainingRespawnTime;
-}
-
-int HeroConstants::remainingRespawnTime() const {
+int HeroConstants::getRespawnTime() const {
     return _remainingRespawnTime;
 }
 

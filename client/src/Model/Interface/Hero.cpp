@@ -13,56 +13,25 @@ Hero::~Hero() {// Check the vectors
         delete *it;
     }
     _abilities.clear();
-
-//    for (std::vector<Ability *>::iterator it = _dodgeAbilities.begin() ; it != _dodgeAbilities.end(); ++it){
-//        delete *it;
-//    }
-//    _dodgeAbilities.clear();
-//
-//    for (std::vector<Ability *>::iterator it = _healAbilities.begin() ; it != _healAbilities.end(); ++it){
-//        delete *it;
-//    }
-//    _healAbilities.clear();
-//
-//    for (std::vector<Ability *>::iterator it = _attackAbilities.begin() ; it != _attackAbilities.end(); ++it){
-//        delete *it;
-//    }
-//    _attackAbilities.clear();
 }
 //----------------id-------------------
-int &Hero::id() {
-    return _id;
-}
-
-int Hero::id() const {
+int Hero::getId() const {
     return _id;
 }
 //------------currentHP----------------
-int &Hero::currentHP() {
-    return _currentHP;
-}
-
 int Hero::getCurrentHP() const {
     return _currentHP;
 }
 //------------respawnTime--------------
-int &Hero::respawnTime() {
-    return _respawnTime;
-}
-
-int Hero::respawnTime() const {
-    return _respawnTime;
+int Hero::getRemRespawnTime() const {
+    return _remRespawnTime;
 }
 //-----------heroConstants-------------
-HeroConstants &Hero::heroConstants() {
-    return _heroConstants;
-}
-
 HeroConstants Hero::heroConstants() const {
     return _heroConstants;
 }
 //-------------abilities---------------
-const std::vector<Ability *> &Hero::get_abilities() const {
+const std::vector<Ability *> &Hero::getAbilities() const {
     return _abilities;
 }
 
@@ -81,48 +50,28 @@ void Hero::set_abilities(std::vector<Ability *> &_abilities) {
     }
 }
 
-const std::vector<Ability *> &Hero::get_dodgeAbilities() const {
+const std::vector<Ability *> &Hero::getDodgeAbilities() const {
     return _dodgeAbilities;
 }
-//
-//void Hero::set_dodgeAbilities(const std::vector<Ability *> &_dodgeAbilities) {
-//    Hero::_dodgeAbilities = _dodgeAbilities;
-//}
 
-const std::vector<Ability *> &Hero::get_healAbilities() const {
+const std::vector<Ability *> &Hero::getDefensiveAbilities() const {
     return _defensiveAbilities;
 }
-//
-//void Hero::set_healAbilities(const std::vector<Ability *> &_healAbilities) {
-//    Hero::_healAbilities = _healAbilities;
-//}
 
-const std::vector<Ability *> &Hero::get_attackAbilities() const {
+const std::vector<Ability *> &Hero::getOffensiveAbilities() const {
     return _offensiveAbilities;
 }
-//
-//void Hero::set_attackAbilities(const std::vector<Ability *> &_attackAbilities) {
-//    Hero::_attackAbilities = _attackAbilities;
-//}
 //-------------currentCell---------------
-Cell &Hero::currentCell() {
-    return _currentCell;
-}
-
-Cell Hero::currentCell() const {
+Cell Hero::getCurrentCell() const {
     return _currentCell;
 }
 //-------------recentPath----------------
-const std::vector<Cell *> &Hero::get_recentPath() const {
+const std::vector<Cell *> Hero::getRecentPath() const {
     return _recentPath;
 }
 
-void Hero::set_recentPath(const std::vector<Cell *> &_recentPath) {
-    Hero::_recentPath = _recentPath;
-}
-
 bool Hero::operator==(Hero _hero) {
-    return (this->_id == _hero.id()) && (this->isNull == _hero.isNull);
+    return (this->_id == _hero.getId()) && (this->isNull == _hero.isNull);
 }
 
 bool Hero::operator!=(Hero _hero) {
@@ -130,25 +79,36 @@ bool Hero::operator!=(Hero _hero) {
 }
 
 
-HeroName Hero::name() const {
-    return _heroConstants.name();
+HeroName Hero::getName() const {
+    return _heroConstants.getName();
 }
 
-const std::vector<AbilityName> &Hero::abilityNames() const {
-    return _heroConstants.get_abilityNames();
+const std::vector<AbilityName> &Hero::getAbilityNames() const {
+    return _heroConstants.getAbilityNames();
 }
 
-int Hero::maxHP() const {
-    return _heroConstants.maxHP();
+int Hero::getMaxHP() const {
+    return _heroConstants.getMaxHP();
 }
 
-int Hero::moveAPCost() const {
-    return _heroConstants.moveAPCost();
+int Hero::getMoveAPCost() const {
+    return _heroConstants.getMoveAPCost();
 }
 
 int Hero::remainingRespawnTime() const {
-    return _heroConstants.remainingRespawnTime();
+    return _heroConstants.getRespawnTime();
 }
+
+Ability Hero::getAbility(AbilityName _abilityName) {
+    for(Ability * tmp_ability : this->_abilities){
+        if(tmp_ability->getName() == _abilityName)
+            return *tmp_ability;
+    }
+
+    return Ability::NULL_ABILITY;
+}
+
+
 
 //Single tone
 Hero Hero::NULL_HERO(true);
