@@ -18,25 +18,15 @@ public:
     AbilityConstants& operator=(AbilityConstants&&) = default;
 
 
-    //Getters:
+    //API:
     AbilityName getAbilityName() const;
-
-    AbilityType type() const;
-
-    int range() const;
-
-    int APCost() const;
-
-    int cooldown() const;
-
-    int areaOfEffect() const;
-
-    int power() const;
-
+    AbilityType getType() const;
+    int getRange() const;
+    int getAPCost() const;
+    int getCooldown() const;
+    int getAreaOfEffect() const;
+    int getPower() const;
     bool isLobbing() const;
-
-    bool isPiercing() const;
-
 
 private:
     AbilityName _abilityName;
@@ -45,22 +35,10 @@ private:
     int _range;
     int _APCost;
     int _cooldown;
-
     int _areaOfEffect;
     int _power;
     bool _isLobbing;
-    bool _isPiercing;
 
-
-    AbilityName& abilityName();
-    AbilityType& type();
-    int& range();
-    int& APCost();
-    int& cooldown();
-    int& areaOfEffect();
-    int& power();
-    bool& isLobbing();
-    bool& isPiercing();
 
     friend class InitMessage;
 

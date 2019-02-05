@@ -341,14 +341,13 @@ std::vector<Cell *> World::getImpactCells(AbilityName abilityName, Cell startCel
     Cell* lastCell = &Cell::NULL_CELL;
     for (std::vector<Cell *>::iterator cellIt = rayCells.begin(); cellIt !=rayCells.end(); ++cellIt) {
 
-        if (manhattanDistance(startCell, **cellIt) > abilityConstants.range())
+        if (manhattanDistance(startCell, **cellIt) > abilityConstants.getRange())
             break;
         lastCell = *cellIt;
-        if ((getOppHero(**cellIt) != Hero::NULL_HERO && !(abilityConstants.type() == AbilityType::HEAL))
-            || (getMyHero(**cellIt) != Hero::NULL_HERO && abilityConstants.type() == AbilityType::HEAL))
+        if ((getOppHero(**cellIt) != Hero::NULL_HERO && !(abilityConstants.getType() == AbilityType::HEAL))
+            || (getMyHero(**cellIt) != Hero::NULL_HERO && abilityConstants.getType() == AbilityType::HEAL))
         {
             impactCells.push_back(*cellIt);
-            if (!abilityConstants.isPiercing()) break;
         }
     }
     if (std::find(impactCells.begin(),
@@ -627,7 +626,7 @@ void World::castAbility(const Hero hero, Ability ability, int targetCellRow, int
 }
 
 void World::initData() {
-    this->_AP = this->_gameConstants.get_maxAP();
+    this->_AP = this->_gameConstants.getMaxAP();
     this->_myScore = 0;
     this->_oppScore = 0;
     this->_currentTurn = 0;

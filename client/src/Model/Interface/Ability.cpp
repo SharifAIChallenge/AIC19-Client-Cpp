@@ -16,7 +16,7 @@ int &Ability::remCooldown() {
     return _remCooldown;
 }
 
-int Ability::remCooldown() const {
+int Ability::getRemCooldown() const {
     return _remCooldown;
 }
 
@@ -25,33 +25,29 @@ AbilityName Ability::abilityName() const {
 }
 
 AbilityType Ability::type() const {
-    return _abilityConstants.type();
+    return _abilityConstants.getType();
 }
 
 int Ability::range() const {
-    return _abilityConstants.range();
+    return _abilityConstants.getRange();
 }
 
 int Ability::APCost() const {
-    return _abilityConstants.APCost();
+    return _abilityConstants.getAPCost();
 }
 
 int Ability::cooldown() const {
-    return _abilityConstants.cooldown();
+    return _abilityConstants.getCooldown();
 }
 
 int Ability::areaOfEffect() const {
-    return _abilityConstants.areaOfEffect();
+    return _abilityConstants.getAreaOfEffect();
 }
 
 int Ability::power() const {
-    return _abilityConstants.power();
+    return _abilityConstants.getPower();
 }
 
 bool Ability::isLobbing() const {
     return _abilityConstants.isLobbing();
-}
-
-bool Ability::isPiercing() const {
-    return _abilityConstants.isPiercing();
 }

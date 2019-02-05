@@ -168,11 +168,13 @@ void InitMessage::update_world(World *_world) {
 
     Json::Value& gameConsts_DATA = root["gameConstants"];
 
-    output_gameConst.killScore() = gameConsts_DATA["killScore"].asInt();
-    output_gameConst.objectiveZoneScore() = gameConsts_DATA["objectiveZoneScore"].asInt();
-    output_gameConst.timeOut() = gameConsts_DATA["timeout"].asInt();
-    output_gameConst.maxAP() = gameConsts_DATA["maxAP"].asInt();
-    output_gameConst.maxTurns() = gameConsts_DATA["maxTurns"].asInt();
+    output_gameConst._killScore = gameConsts_DATA["killScore"].asInt();
+    output_gameConst._objectiveZoneScore = gameConsts_DATA["objectiveZoneScore"].asInt();
+    output_gameConst._maxAP = gameConsts_DATA["maxAP"].asInt();
+    output_gameConst._maxTurns = gameConsts_DATA["maxTurns"].asInt();
+    output_gameConst._preprocessTimeout = gameConsts_DATA["preprocessTimeout"].asInt();
+    output_gameConst._firstMoveTimeout = gameConsts_DATA["firstMoveTimeout"].asInt();
+    output_gameConst._normalTimeout = gameConsts_DATA["normalTimeout"].asInt();
 
     _world->_gameConstants = output_gameConst;
 
@@ -213,15 +215,14 @@ void InitMessage::update_world(World *_world) {
 //                                            << ", " << _cell->column()  << std::endl;
 //            }
 //        }
-        ptr_abilityCons->abilityName() = convert_abilityName_from_string(_abilityConstant["name"].asString());
-        ptr_abilityCons->type() = convert_abilityType_from_string(_abilityConstant["type"].asString());
-        ptr_abilityCons->range() = _abilityConstant["range"].asInt();
-        ptr_abilityCons->APCost() = _abilityConstant["APCost"].asInt();
-        ptr_abilityCons->cooldown() = _abilityConstant["cooldown"].asInt();
-        ptr_abilityCons->areaOfEffect() = _abilityConstant["areaOfEffect"].asInt();
-        ptr_abilityCons->power() = _abilityConstant["power"].asInt();
-        ptr_abilityCons->isLobbing() = _abilityConstant["isLobbing"].asBool();
-        ptr_abilityCons->isPiercing() = _abilityConstant["isPiercing"].asBool();
+        ptr_abilityCons->_abilityName = convert_abilityName_from_string(_abilityConstant["name"].asString());
+        ptr_abilityCons->_type = convert_abilityType_from_string(_abilityConstant["type"].asString());
+        ptr_abilityCons->_range = _abilityConstant["range"].asInt();
+        ptr_abilityCons->_APCost = _abilityConstant["APCost"].asInt();
+        ptr_abilityCons->_cooldown = _abilityConstant["cooldown"].asInt();
+        ptr_abilityCons->_areaOfEffect = _abilityConstant["areaOfEffect"].asInt();
+        ptr_abilityCons->_power = _abilityConstant["power"].asInt();
+        ptr_abilityCons->_isLobbing = _abilityConstant["isLobbing"].asBool();
     }
 
 }

@@ -21,36 +21,26 @@ public:
     GameConstants(GameConstants&&) = default;
     GameConstants& operator=(GameConstants&&) = default;
 
-    int& killScore();
-    int killScore() const;
-
-    int& objectiveZoneScore();
-    int objectiveZoneScore() const;
-
-
-    void set_timeOut(int timeOut);
-    int get_timeOut() const;
-    int& timeOut();
-    int timeOut() const;
-
-    void set_maxAP(int maxAP);
-    int get_maxAP() const;
-    int& maxAP();
-    int maxAP() const;
-
-    int get_maxTurns() const;
-    void set_maxTurns(int maxTurns);
-    int& maxTurns();
-    int maxTurns() const;
+//API:
+    int getKillScore() const;
+    int getObjectiveZoneScore() const;
+    int getMaxAP() const;
+    int getMaxTurns() const;
+    int getPreprocessTimeout() const;
+    int getFirstMoveTimeout() const;
+    int getNormalTimeout() const;
 
 private:
     int _killScore;
     int _objectiveZoneScore;
-    int _timeOut;
     int _maxAP;
     int _maxTurns;
-
-
+    int _preprocessTimeout;
+    int _firstMoveTimeout;
+    int _normalTimeout;
+    
+    friend class InitMessage;
+    
 };
 
 

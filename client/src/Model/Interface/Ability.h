@@ -28,7 +28,7 @@ public:
     bool isPiercing() const;
 
 //Getters:
-    int remCooldown() const;
+    int getRemCooldown() const;
     AbilityConstants getAbilityConstants() const;
 
 
