@@ -365,13 +365,13 @@ Cell World::getImpactCell(AbilityName abilityName, Cell startCell, Cell targetCe
 
 
 Cell World::getImpactCell(Ability ability, Cell startCell, Cell targetCell) {
-    return getImpactCell(ability.getAbilityConstants().getAbilityName(), startCell, targetCell);
+    return getImpactCell(ability.getAbilityConstants().getName(), startCell, targetCell);
 }
 
 Cell World::getImpactCell(Ability ability, int startCellRow, int startCellColumn, int endCellRow, int endCellColumn) {
     if (!_map.isInMap(startCellRow, startCellColumn) || !_map.isInMap(endCellRow, endCellColumn))
         return Cell::NULL_CELL;
-    return getImpactCell(ability.getAbilityConstants().getAbilityName(), _map.getCell(startCellRow, startCellColumn),
+    return getImpactCell(ability.getAbilityConstants().getName(), _map.getCell(startCellRow, startCellColumn),
                          _map.getCell(endCellRow, endCellColumn));
 }
 
@@ -401,7 +401,7 @@ bool World::isInVision(int startCellRow, int startCellColumn, int endCellRow, in
 AbilityConstants World::getAbilityConstants(AbilityName abilityName) {
     for (AbilityConstants * abilityConstants : this->_abilityConstants)
     {
-        if (abilityConstants->getAbilityName() == abilityName)
+        if (abilityConstants->getName() == abilityName)
         {
             return *abilityConstants;
         }
@@ -602,15 +602,15 @@ void World::castAbility(int heroId, AbilityName abilityName, Cell targetCell) {
 }
 
 void World::castAbility(int heroId, Ability ability, int targetCellRow, int targetCellColumn) {
-    castAbility(heroId,ability.abilityName(),targetCellRow,targetCellColumn);
+    castAbility(heroId, ability.getName(),targetCellRow,targetCellColumn);
 }
 
 void World::castAbility(int heroId, Ability ability, Cell targetCell) {
-    castAbility(heroId,ability.abilityName(),targetCell.row(),targetCell.column());
+    castAbility(heroId, ability.getName(),targetCell.row(),targetCell.column());
 }
 
 void World::castAbility(const Hero hero, Ability ability, Cell targetCell) {
-    castAbility(hero.id(),ability.abilityName(),targetCell.row(),targetCell.column());
+    castAbility(hero.id(), ability.getName(),targetCell.row(),targetCell.column());
 }
 
 void World::castAbility(const Hero hero, AbilityName abilityName, int targetCellRow, int targetCellColumn) {
@@ -622,7 +622,7 @@ void World::castAbility(const Hero hero, AbilityName abilityName, Cell targetCel
 }
 
 void World::castAbility(const Hero hero, Ability ability, int targetCellRow, int targetCellColumn) {
-    castAbility(hero.id(),ability.abilityName(),targetCellRow,targetCellColumn);
+    castAbility(hero.id(), ability.getName(),targetCellRow,targetCellColumn);
 }
 
 void World::initData() {

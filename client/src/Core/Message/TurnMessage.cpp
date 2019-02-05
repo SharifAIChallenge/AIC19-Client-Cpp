@@ -75,8 +75,8 @@ void TurnMessage::update_game(World *_game) {
 
             Ability* newAbility = new Ability;
 
-            newAbility->abilityConstants() = _game->getAbilityConstants(_ability);
-            newAbility->remCooldown() = cooldowns_DATA[j]["remCooldown"].asInt();
+            newAbility->_abilityConstants = _game->getAbilityConstants(_ability);
+            newAbility->_remCooldown = cooldowns_DATA[j]["remCooldown"].asInt();
 
             _abilities_list.push_back(newAbility);
         }
@@ -127,8 +127,8 @@ void TurnMessage::update_game(World *_game) {
 
             Ability* newAbility = new Ability;
 
-            newAbility->abilityConstants() = _game->getAbilityConstants(_ability);
-            newAbility->remCooldown() = cooldowns_DATA[j]["remCooldown"].asInt();
+            newAbility->_abilityConstants = _game->getAbilityConstants(_ability);
+            newAbility->_remCooldown = cooldowns_DATA[j]["remCooldown"].asInt();
 
             _abilities_list.push_back(newAbility);
         }

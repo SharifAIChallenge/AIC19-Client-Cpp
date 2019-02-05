@@ -39,7 +39,7 @@ void PickMessage::update_game(World* _game) {
             Ability* newAbility = new Ability;
 //            Logger::Get(LogLevel_INFO) << "STEP3" << std::endl;
 
-            newAbility->abilityConstants() = _game->getAbilityConstants(abilityName);
+            newAbility->_abilityConstants = _game->getAbilityConstants(abilityName);
 
             abilities.push_back(newAbility);
         }
@@ -63,7 +63,7 @@ void PickMessage::update_game(World* _game) {
         {
             Ability* newAbility = new Ability;
 
-            newAbility->abilityConstants() = _game->getAbilityConstants(abilityName);
+            newAbility->_abilityConstants = _game->getAbilityConstants(abilityName);
 
             abilities.push_back(newAbility);
         }//TODO maybe you wanta check this...

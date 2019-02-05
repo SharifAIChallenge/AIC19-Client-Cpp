@@ -71,11 +71,11 @@ void Hero::set_abilities(std::vector<Ability *> &_abilities) {
 
     for(std::vector<Ability *>::iterator it = _abilities.begin();
             it < _abilities.end(); ++it){
-        if((*it)->type() == AbilityType::ATTACK){
+        if((*it)->getType() == AbilityType::ATTACK){
             _attackAbilities.push_back(*it);
-        } else if ((*it)->type() == AbilityType::DODGE){
+        } else if ((*it)->getType() == AbilityType::DODGE){
             _dodgeAbilities.push_back(*it);
-        } else if ((*it)->type() == AbilityType::HEAL){
+        } else if ((*it)->getType() == AbilityType::HEAL){
             _healAbilities.push_back(*it);
         }
     }

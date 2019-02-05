@@ -15,31 +15,28 @@ public:
 
     Ability(Ability&&) = default;
     Ability& operator=(Ability&&) = default;
-
-//Getters for the AbilityConstants
-    AbilityName abilityName() const;
-    AbilityType type() const;
-    int range() const;
-    int APCost() const;
-    int cooldown() const;
-    int areaOfEffect() const;
-    int power() const;
-    bool isLobbing() const;
-    bool isPiercing() const;
-
+    
+//API
 //Getters:
     int getRemCooldown() const;
-    AbilityConstants getAbilityConstants() const;
+    bool isReady() const;
+    
+//Getters for the AbilityConstants
+    AbilityName getName() const;
+    AbilityType getType() const;
+    int getRange() const;
+    int getAPCost() const;
+    int getCooldown() const;
+    int getAreaOfEffect() const;
+    int getPower() const;
+    bool isLobbing() const;
 
+    AbilityConstants getAbilityConstants() const;
 
 private:
     AbilityConstants _abilityConstants;
     int _remCooldown;
 
-
-    AbilityConstants& abilityConstants();
-
-    int& remCooldown();
 
     friend class TurnMessage;
     friend class PickMessage;

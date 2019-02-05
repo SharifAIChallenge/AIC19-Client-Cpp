@@ -19,7 +19,7 @@ public:
 
 
     //API:
-    AbilityName getAbilityName() const;
+    AbilityName getName() const;
     AbilityType getType() const;
     int getRange() const;
     int getAPCost() const;

@@ -3,51 +3,47 @@
 //
 
 #include "Ability.h"
-//----------abilityConstants-----------
-AbilityConstants &Ability::abilityConstants() {
-    return _abilityConstants;
-}
-
-AbilityConstants Ability::getAbilityConstants() const {
-    return _abilityConstants;
-}
 //--------------remCooldown------------
-int &Ability::remCooldown() {
-    return _remCooldown;
-}
-
 int Ability::getRemCooldown() const {
     return _remCooldown;
 }
 
-AbilityName Ability::abilityName() const {
-    return _abilityConstants.getAbilityName();
+AbilityName Ability::getName() const {
+    return _abilityConstants.getName();
 }
 
-AbilityType Ability::type() const {
+AbilityType Ability::getType() const {
     return _abilityConstants.getType();
 }
 
-int Ability::range() const {
+int Ability::getRange() const {
     return _abilityConstants.getRange();
 }
 
-int Ability::APCost() const {
+int Ability::getAPCost() const {
     return _abilityConstants.getAPCost();
 }
 
-int Ability::cooldown() const {
+int Ability::getCooldown() const {
     return _abilityConstants.getCooldown();
 }
 
-int Ability::areaOfEffect() const {
+int Ability::getAreaOfEffect() const {
     return _abilityConstants.getAreaOfEffect();
 }
 
-int Ability::power() const {
+int Ability::getPower() const {
     return _abilityConstants.getPower();
 }
 
 bool Ability::isLobbing() const {
     return _abilityConstants.isLobbing();
+}
+
+bool Ability::isReady() const {
+    return _remCooldown == 0;
+}
+
+AbilityConstants Ability::getAbilityConstants() const {
+    return _abilityConstants;
 }

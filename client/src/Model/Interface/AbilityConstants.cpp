@@ -5,7 +5,7 @@
 AbilityConstants::AbilityConstants(bool _isNull): isNull(_isNull) {}
 
 //------------AbilityName---------------
-AbilityName AbilityConstants::getAbilityName() const {
+AbilityName AbilityConstants::getName() const {
     return _abilityName;
 }
 //---------------type------------------
