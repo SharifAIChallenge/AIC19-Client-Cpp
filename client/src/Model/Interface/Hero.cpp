@@ -31,7 +31,7 @@ HeroConstants Hero::heroConstants() const {
     return _heroConstants;
 }
 //-------------abilities---------------
-const std::vector<Ability *> &Hero::getAbilities() const {
+std::vector<Ability *> Hero::getAbilities() const {
     return _abilities;
 }
 
@@ -50,15 +50,15 @@ void Hero::set_abilities(std::vector<Ability *> &_abilities) {
     }
 }
 
-const std::vector<Ability *> &Hero::getDodgeAbilities() const {
+std::vector<Ability *> Hero::getDodgeAbilities() const {
     return _dodgeAbilities;
 }
 
-const std::vector<Ability *> &Hero::getDefensiveAbilities() const {
+std::vector<Ability *> Hero::getDefensiveAbilities() const {
     return _defensiveAbilities;
 }
 
-const std::vector<Ability *> &Hero::getOffensiveAbilities() const {
+std::vector<Ability *> Hero::getOffensiveAbilities() const {
     return _offensiveAbilities;
 }
 //-------------currentCell---------------
@@ -66,7 +66,7 @@ Cell Hero::getCurrentCell() const {
     return _currentCell;
 }
 //-------------recentPath----------------
-const std::vector<Cell *> Hero::getRecentPath() const {
+std::vector<Cell *> Hero::getRecentPath() const {
     return _recentPath;
 }
 
@@ -83,7 +83,7 @@ HeroName Hero::getName() const {
     return _heroConstants.getName();
 }
 
-const std::vector<AbilityName> &Hero::getAbilityNames() const {
+std::vector<AbilityName> Hero::getAbilityNames() const {
     return _heroConstants.getAbilityNames();
 }
 

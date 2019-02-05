@@ -35,32 +35,20 @@ void World::set_gameConstants(const GameConstants &_gameConstants) {
 GameConstants &World::gameConstants() {
     return _gameConstants;
 }
-int &World::AP() {
-    return _AP;
-}
-
 int World::AP() const{
     return _AP;
 }
 //--------------myScore----------------
-int &World::myScore() {
-    return _myScore;
-}
-
 int World::myScore() const {
     return _myScore;
 }
 //-------------oppScore----------------
-int &World::oppScore() {
-    return _oppScore;
-}
-
 int World::oppScore() const {
     return _oppScore;
 }
 
 World::~World() {
-    _map.clear_cells();
+    _map._clear_cells();
     for (std::vector<Hero *>::iterator it = _myHeroes.begin() ; it != _myHeroes.end(); ++it){
         delete *it;
     }
@@ -325,7 +313,7 @@ std::vector<Cell *> World::getRayCells(Cell startCell, Cell endCell) {
 }
 
 std::vector<Cell *> World::getImpactCells(AbilityName abilityName, Cell startCell, Cell targetCell) {
-    const AbilityConstants abilityConstants = getAbilityConstants(abilityName);
+    const AbilityConstants abilityConstants = _getAbilityConstants(abilityName);
     if (abilityConstants.isLobbing())
     {
         std::vector<Cell *> targetCellVec{&targetCell};
@@ -398,7 +386,7 @@ bool World::isInVision(int startCellRow, int startCellColumn, int endCellRow, in
 }
 
 //--------------private----------------
-AbilityConstants World::getAbilityConstants(AbilityName abilityName) {
+AbilityConstants World::_getAbilityConstants(AbilityName abilityName) {
     for (AbilityConstants * abilityConstants : this->_abilityConstants)
     {
         if (abilityConstants->getName() == abilityName)
@@ -410,7 +398,7 @@ AbilityConstants World::getAbilityConstants(AbilityName abilityName) {
 }
 
 
-HeroConstants World::getHeroConstants(HeroName heroName) {
+HeroConstants World::_getHeroConstants(HeroName heroName) {
     for (HeroConstants * heroConstants : this->_heroConstants)
     {
         if(heroConstants->getName() == heroName){
@@ -429,7 +417,7 @@ std::vector<Direction> World::getPathMoveDirections(Cell startCell, Cell endCell
 
     // saves parent cell and direction to go from parent cell to current cell
     std::map<Cell*, std::pair<Cell, Direction>> lastMoveInfo;
-    Cell* bfsQueue = new Cell[_map.rowNum() * _map.columnNum() + 10];
+    Cell* bfsQueue = new Cell[_map.getRowNum() * _map.getColumnNum() + 10];
     int queueHead = 0, queueTail = 0;
 
     lastMoveInfo.insert(std::pair<Cell*, std::pair<Cell, Direction>>
@@ -491,16 +479,8 @@ int World::currentTurn() const {
     return _currentTurn;
 }
 
-int &World::movePhaseNum() {
-    return _movePhaseNum;
-}
-
 int World::movePhaaseNum() const {
     return _movePhaseNum;
-}
-
-Phase &World::currentPhase() {
-    return _currentPhase;
 }
 
 Phase World::currentPhase() const {
@@ -558,7 +538,7 @@ void World::set_myCastAbilities(std::vector<CastAbility *> _myCAbility) {
     this->_myCastAbilities = _myCAbility;
 }
 
-std::vector<CastAbility *> World::get_myCastAbilities() const {
+std::vector<CastAbility *> World::getMyCastAbilities() const {
     return _myCastAbilities;
 }
 
@@ -571,14 +551,22 @@ void World::set_oppCastAbilities(std::vector<CastAbility *> _oppCAbility) {
     this->_oppCastAbilities = _oppCAbility;
 }
 
-std::vector<CastAbility *> World::get_oppCastAbilities() const {
+std::vector<CastAbility *> World::getOppCastAbilities() const {
     return _oppCastAbilities;
 }
 
-void World::moveHero(int id, Direction directions) {
+void World::moveHero(int id, Direction direction) {
 
     _event_queue.push(
-            CreateMoveMessage(id, Direction_to_string(directions))
+            CreateMoveMessage(id, Direction_to_string(direction))
+    );
+}
+
+
+void World::moveHero(Hero hero, Direction direction) {
+
+    _event_queue.push(
+            CreateMoveMessage(hero.getId(), Direction_to_string(direction))
     );
 }
 
@@ -660,6 +648,78 @@ void World::set_heroConstants(const std::vector<HeroConstants *> &_heroConstants
     }
 }
 
+Map &World::getMap() {
+    return this->_map;
+}
+
+std::vector<AbilityConstants *> World::get_abilityConstants() const {
+    return _abilityConstants;
+}
+
+std::vector<HeroConstants *> World::get_heroConstants() const {
+    return _heroConstants;
+}
+
+int World::getAP() {
+    return _AP;
+}
+
+int World::getMyScore() {
+    return _myScore;
+}
+
+int World::getOppScore() {
+    return _oppScore;
+}
+
+int World::getCurrentTurn() {
+    return _currentTurn;
+}
+
+Phase World::getCurrentPhase() {
+    return _currentPhase;
+}
+
+int World::getMaxScore() {
+    return 0;//TODO!
+}
+
+int World::getMaxAP() {
+    return _gameConstants.getMaxAP();
+}
+
+int World::getMaxTurns() {
+    return _gameConstants.getMaxTurns();
+}
+
+int World::getKillScore() {
+    return _gameConstants.getKillScore();
+}
+
+int World::getObjectiveZoneScore() {
+    return _gameConstants.getObjectiveZoneScore();
+}
+
+int World::getMovePhaseNum() {
+    return _movePhaseNum;
+}
+
+
+std::vector<Hero *> World::getMyHeroes() const {
+    return _myHeroes;
+}
+
+std::vector<Hero *> World::getOppHeroes() const {
+    return _oppHeroes;
+}
+
+std::vector<Hero *> World::getMyDeadHeroes() const {
+    return _myDeadHeroes;
+}
+
+std::vector<Hero *> World::getOppDeadHeroes() const {
+    return _oppDeadHeroes;
+}
 
 
 

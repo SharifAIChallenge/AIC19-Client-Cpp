@@ -20,24 +20,24 @@ public:
     Hero(Hero&&) = default;
     Hero& operator=(Hero&&) = default;
 
-
+//API:
     Ability getAbility(AbilityName _abilityName);
     int getId() const;
 
     // Updates the other three vectors as well (dodgeAbilities,...)
-    const std::vector<Ability *> &getAbilities() const;
-    const std::vector<Ability *> &getDodgeAbilities() const;
-    const std::vector<Ability *> &getDefensiveAbilities() const;
-    const std::vector<Ability *> &getOffensiveAbilities() const;
+    std::vector<Ability *> getAbilities() const;
+    std::vector<Ability *> getDodgeAbilities() const;
+    std::vector<Ability *> getDefensiveAbilities() const;
+    std::vector<Ability *> getOffensiveAbilities() const;
 
     int getCurrentHP() const;
     Cell getCurrentCell() const;
-    const std::vector<Cell *> getRecentPath() const;
+    std::vector<Cell *> getRecentPath() const;
     int getRemRespawnTime() const;
 
     // Getters for the heroConstants
     HeroName getName() const;
-    const std::vector<AbilityName> &getAbilityNames() const;
+    std::vector<AbilityName> getAbilityNames() const;
     int getMaxHP() const;
     int getMoveAPCost() const;
     int remainingRespawnTime() const;

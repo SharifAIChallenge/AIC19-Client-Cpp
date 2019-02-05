@@ -18,10 +18,11 @@ TurnMessage::TurnMessage(std::string&& json_form)
 void TurnMessage::update_game(World *_game) {
     Json::Value root = Message::get_args()[0];
 
-    _game->myScore() = root["myScore"].asInt();
-    _game->oppScore() = root["oppScore"].asInt();
-    _game->currentPhase() = convert_phase_from_string(root["currentPhase"].asString());
-    _game->currentTurn() = root["currentTurn"].asInt();
+    _game->_myScore = root["myScore"].asInt();
+    _game->_oppScore = root["oppScore"].asInt();
+    _game->_currentPhase = convert_phase_from_string(root["currentPhase"].asString());
+    _game->_currentTurn = root["currentTurn"].asInt();
+    _game->_movePhaseNum = root["movePhaseNum"].asInt();
     //TODO movePhaseNum should be added here
 
     //map cells:
@@ -45,9 +46,9 @@ void TurnMessage::update_game(World *_game) {
         output_map_cells.push_back(tmp_cell_row);
     }
 
-    _game->map().set_cells(output_map_cells);
+    _game->map()._set_cells(output_map_cells);
 
-//    for(std::vector<Cell *> _row : _game->map().get_cell_2D_vector()){
+//    for(std::vector<Cell *> _row : _game->map().getCells()){
 //        for(Cell * _cell : _row){
 //            Logger::Get(LogLevel_DEBUG) << "GOT CELL IN: " << _cell->row() << ", "
 //                                                           << _cell->column()
@@ -75,7 +76,7 @@ void TurnMessage::update_game(World *_game) {
 
             Ability* newAbility = new Ability;
 
-            newAbility->_abilityConstants = _game->getAbilityConstants(_ability);
+            newAbility->_abilityConstants = _game->_getAbilityConstants(_ability);
             newAbility->_remCooldown = cooldowns_DATA[j]["remCooldown"].asInt();
 
             _abilities_list.push_back(newAbility);
@@ -127,7 +128,7 @@ void TurnMessage::update_game(World *_game) {
 
             Ability* newAbility = new Ability;
 
-            newAbility->_abilityConstants = _game->getAbilityConstants(_ability);
+            newAbility->_abilityConstants = _game->_getAbilityConstants(_ability);
             newAbility->_remCooldown = cooldowns_DATA[j]["remCooldown"].asInt();
 
             _abilities_list.push_back(newAbility);

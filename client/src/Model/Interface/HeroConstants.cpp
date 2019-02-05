@@ -12,7 +12,7 @@ HeroName HeroConstants::getName() const {
     return _name;
 }
 
-const std::vector<AbilityName> &HeroConstants::getAbilityNames() const {
+std::vector<AbilityName> HeroConstants::getAbilityNames() const {
     return _abilityNames;
 }
 

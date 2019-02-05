@@ -17,25 +17,21 @@ public:
     //This constructor initialises the vectors, not the row and column Nums
     Map(const std::vector<std::vector<Cell*>>& cells_grid);
 
-
-    int& rowNum();
-    int rowNum() const;
-
-    int& columnNum();
-    int columnNum() const;
-
-
+//API:
+    std::vector<std::vector<Cell*>>& getCells();
     Cell getCell(int row, int column);
-
     bool isInMap(int row,int column);
+    int getRowNum() const;
+    int getColumnNum() const;
+    std::vector<Cell*>& getMyRespawnZone();
+    std::vector<Cell*>& getOppRespawnZone();
+    std::vector<Cell*>& getObjectiveZone();
 
-    void clear_cells();
+    std::vector<Cell*> _get_cells_list() const;
+    void _set_cells(const std::vector<std::vector<Cell *>> &cells_grid);
+    void _clear_cells();
 
-    void set_cells(const std::vector<std::vector<Cell*>>& cells_grid);
 
-    std::vector<Cell*> get_cells_list() const;
-
-    std::vector<std::vector<Cell*>>& get_cell_2D_vector();
 
 private:
 
@@ -49,6 +45,7 @@ private:
 
     Cell* getCell_ptr(int row, int column);
     friend class TurnMessage;
+    friend class InitMessage;
 
 };
 

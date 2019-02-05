@@ -16,7 +16,7 @@ public:
 
 
     HeroName getName() const;
-    const std::vector<AbilityName> &getAbilityNames() const;
+    std::vector<AbilityName> getAbilityNames() const;
     int getMaxHP() const;
     int getMoveAPCost() const;
     int getRespawnTime() const;

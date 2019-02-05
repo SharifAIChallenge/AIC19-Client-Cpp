@@ -153,9 +153,9 @@ void InitMessage::update_world(World *_world) {
         tmpCellLists.push_back(tmpCellRow);
     }
 
-    _world->_map.rowNum() = map_DATA["rowNum"].asInt();
-    _world->_map.columnNum() = map_DATA["columnNum"].asInt();
-    _world->_map.set_cells(tmpCellLists);
+    _world->_map._rowNum = map_DATA["rowNum"].asInt();
+    _world->_map._columnNum = map_DATA["columnNum"].asInt();
+    _world->_map._set_cells(tmpCellLists);
 
     for(std::vector<Cell *> _row : tmpCellLists){
         for(Cell* _cell : _row){
@@ -209,7 +209,7 @@ void InitMessage::update_world(World *_world) {
 //
 //        i++;
 //
-//        for(std::vector<Cell *> _row : _world->get_map().get_cell_2D_vector()){
+//        for(std::vector<Cell *> _row : _world->get_map().getCells()){
 //            for(Cell * _cell : _row){
 //                Logger::Get(LogLevel_TRACE) <<i<< "OUT+:: _cell->_row: " << _cell->row()
 //                                            << ", " << _cell->column()  << std::endl;

@@ -39,31 +39,28 @@ public:
     void set_heroConstants(const std::vector<HeroConstants *> &_heroConstants);
 
 
-    int& AP();
     int AP() const;
 
-    int& myScore();
     int myScore() const;
 
-    int& oppScore();
     int oppScore() const;
 
     int& currentTurn();
     int currentTurn() const;
 
-    int& movePhaseNum();
+//    int& movePhaseNum();
     int movePhaaseNum() const;
 
-    Phase& currentPhase();
+//    Phase& currentPhase();
     Phase currentPhase() const;
 
     // The user of the below functions shouldn't
     // delete the elements in the list
     void set_myCastAbilities(std::vector<CastAbility *> _myCAbility);
-    std::vector<CastAbility *> get_myCastAbilities() const;
+    std::vector<CastAbility *> getMyCastAbilities() const;
 
     void set_oppCastAbilities(std::vector<CastAbility *> _oppCAbility);
-    std::vector<CastAbility *> get_oppCastAbilities() const;
+    std::vector<CastAbility *> getOppCastAbilities() const;
 
     // For all Cell type inputs we will have another method with row-column inputs
     // For all hero id inputs we will have another method with Hero object
@@ -74,13 +71,6 @@ public:
     Hero getOppHero(Cell cell);
     Hero getOppHero(int cellRow, int cellColumn);
 
-    //algorithmics:
-    Cell getNextCell(const Cell& cell,const Direction& direction);
-    int crossProduct(int x1, int y1, int x2, int y2, int x3, int y3);
-    int squareCollision(const Cell& startCell,const Cell& targetCell,const Cell& cell);
-    bool isCloser(Cell currentCell, Cell targetCell, Cell nextCell);
-    void dfs(Cell& currentCell, Cell& startCell, Cell& targetCell, std::unordered_map<Cell*, bool>& isSeen,
-             std::vector<Cell *>& path);
 
     std::vector<Cell *> getRayCells(Cell startCell, Cell endCell);
     std::vector<Cell *> getImpactCells(AbilityName abilityName, Cell startCell, Cell targetCell);
@@ -111,12 +101,40 @@ public:
 
 
     void moveHero(int id, Direction direction);
+    void moveHero(Hero hero, Direction direction);
+
     void pickHero(HeroName heroName);
 
     void initData();
 
-private:
 
+    std::vector<Hero *> getMyHeroes() const;
+    std::vector<Hero *> getOppHeroes() const;
+    std::vector<Hero *> getMyDeadHeroes() const;
+    std::vector<Hero *> getOppDeadHeroes() const;
+
+    Map& getMap();
+
+    std::vector<AbilityConstants *> get_abilityConstants() const;
+    std::vector<HeroConstants *> get_heroConstants() const;
+
+    int getAP();
+    int getMyScore();
+    int getOppScore();
+    int getCurrentTurn();
+    Phase getCurrentPhase();
+    int getMaxScore();
+    int getMaxAP();
+    int getMaxTurns();
+    int getKillScore();
+    int getObjectiveZoneScore();
+    int getMovePhaseNum();
+
+
+
+
+private://TODO MaxScore, ‫‪getAbilityTargets‬‬
+//TODO CastAbility?
     Map _map;
     GameConstants _gameConstants;
     std::vector<AbilityConstants *> _abilityConstants;
@@ -139,9 +157,9 @@ private:
 
     EventQueue& _event_queue;
 
-    AbilityConstants getAbilityConstants(AbilityName abilityName);
+    AbilityConstants _getAbilityConstants(AbilityName abilityName);
 
-    HeroConstants getHeroConstants(HeroName heroName);
+    HeroConstants _getHeroConstants(HeroName heroName);
 
     //This function will also handle the _myDeadHeroes
     void set_myHeroes(std::vector<Hero *> _heroes);
@@ -151,6 +169,15 @@ private:
     friend class InitMessage;
     friend class TurnMessage;
     friend class PickMessage;
+
+
+    //algorithmics:
+    Cell getNextCell(const Cell& cell,const Direction& direction);
+    int crossProduct(int x1, int y1, int x2, int y2, int x3, int y3);
+    int squareCollision(const Cell& startCell,const Cell& targetCell,const Cell& cell);
+    bool isCloser(Cell currentCell, Cell targetCell, Cell nextCell);
+    void dfs(Cell& currentCell, Cell& startCell, Cell& targetCell, std::unordered_map<Cell*, bool>& isSeen,
+             std::vector<Cell *>& path);
 
 };
 
