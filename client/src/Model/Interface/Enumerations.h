@@ -5,7 +5,18 @@
 
 enum AbilityName//TODO Complete these enums (if you updated this please update the function below)
 {
-    HEAL_FOR_THE_GREATER_GOOD,kill,heal,suicide,attack,dodge
+    SENTRY_ATTACK,
+    SENTRY_DODGE,
+    SENTRY_RAY,
+    BLASTER_ATTACK,
+    BLASTER_DODGE,
+    BLASTER_BOMB,
+    HEALER_ATTACK,
+    HEALER_DODGE,
+    HEALER_HEAL,
+    GAURDIAN_ATTACK,
+    GAURDIAN_DODGE,
+    GAURDIAN_FORTIFY
 };
 
 AbilityName convert_abilityName_from_string(std::string str_abilityName);
