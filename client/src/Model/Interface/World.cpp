@@ -120,6 +120,15 @@ Hero World::getMyHero(Cell cell) {
     return Hero::NULL_HERO;
 }
 
+Hero* World::getMyHero_ptr(Cell cell) {
+    for(std::vector<Hero *>::iterator it = _myHeroes.begin(); it != _myHeroes.end(); ++it ){
+        //This only checks the location of the cell
+        if((*it)->getCurrentCell() == cell){
+            return *it;
+        }
+    }
+    return &Hero::NULL_HERO;
+}
 
 Hero World::getMyHero(int cellRow, int cellColumn) {
     if(!_map.isInMap(cellRow,cellColumn))
@@ -143,6 +152,16 @@ Hero World::getOppHero(Cell cell) {
         }
     }
     return Hero::NULL_HERO;
+}
+
+Hero *World::getOppHero_ptr(Cell cell) {
+    for(std::vector<Hero *>::iterator it = _oppHeroes.begin(); it!= _oppHeroes.end(); ++it){
+        //This only checks the location of the cell
+        if((*it)->getCurrentCell() == cell){
+            return *it;
+        }
+    }
+    return &Hero::NULL_HERO;
 }
 
 Hero World::getOppHero(int cellRow, int cellColumn) {
@@ -313,7 +332,7 @@ std::vector<Cell *> World::getRayCells(Cell startCell, Cell endCell) {
 }
 
 std::vector<Cell *> World::getImpactCells(AbilityName abilityName, Cell startCell, Cell targetCell) {
-    const AbilityConstants abilityConstants = _getAbilityConstants(abilityName);
+    const AbilityConstants abilityConstants = getAbilityConstants(abilityName);
     if (abilityConstants.isLobbing())
     {
         std::vector<Cell *> targetCellVec{&targetCell};
@@ -386,7 +405,7 @@ bool World::isInVision(int startCellRow, int startCellColumn, int endCellRow, in
 }
 
 //--------------private----------------
-AbilityConstants World::_getAbilityConstants(AbilityName abilityName) {
+AbilityConstants World::getAbilityConstants(AbilityName abilityName) {
     for (AbilityConstants * abilityConstants : this->_abilityConstants)
     {
         if (abilityConstants->getName() == abilityName)
@@ -398,7 +417,7 @@ AbilityConstants World::_getAbilityConstants(AbilityName abilityName) {
 }
 
 
-HeroConstants World::_getHeroConstants(HeroName heroName) {
+HeroConstants World::getHeroConstants(HeroName heroName) {
     for (HeroConstants * heroConstants : this->_heroConstants)
     {
         if(heroConstants->getName() == heroName){
@@ -652,11 +671,11 @@ Map &World::getMap() {
     return this->_map;
 }
 
-std::vector<AbilityConstants *> World::get_abilityConstants() const {
+std::vector<AbilityConstants *> World::getAbilityConstants() const {
     return _abilityConstants;
 }
 
-std::vector<HeroConstants *> World::get_heroConstants() const {
+std::vector<HeroConstants *> World::getHeroConstants() const {
     return _heroConstants;
 }
 
@@ -721,6 +740,92 @@ std::vector<Hero *> World::getOppDeadHeroes() const {
     return _oppDeadHeroes;
 }
 
+std::vector<Hero *> World::getAbilityTargets(AbilityName abilityName, Cell startCell, Cell targetCell) {
+    AbilityConstants abilityConstants = getAbilityConstants(abilityName);
+    if (abilityConstants == AbilityConstants::NULL_ABILITY_CONSTANTS ||
+            startCell == Cell::NULL_CELL || targetCell == Cell::NULL_CELL) {
+        return std::vector<Hero *>{};
+    }
+    std::vector<Cell *> impactCells = getImpactCells(abilityName, startCell, targetCell);
+    std::vector<Cell *> affectedCells = getCellsInAOE(*impactCells.back(),
+                                                  abilityConstants.getAreaOfEffect());
+    if (abilityConstants.getType() == AbilityType::DEFENSIVE) {
+        return getMyHeroesInCells(affectedCells);
+    } else {
+        return getOppHeroesInCells(affectedCells);
+    }
+}
+
+std::vector<Hero *> World::getAbilityTargets(Ability ability, Cell startCell, Cell targetCell) {
+    if (ability == Ability::NULL_ABILITY) {
+        return std::vector<Hero *>{};
+    }
+    return getAbilityTargets(ability.getName(), startCell, targetCell);
+}
+
+std::vector<Hero *>
+World::getAbilityTargets(AbilityName abilityName, int startCellRow, int startCellColumn, int targetCellRow,
+                         int targetCellColumn) {
+    if (!_map.isInMap(startCellRow, startCellColumn) || !_map.isInMap(targetCellRow, targetCellColumn))
+        return std::vector<Hero *>{};
+    return getAbilityTargets(abilityName,
+                             _map.getCell(startCellRow, startCellColumn),
+                             _map.getCell(targetCellRow, targetCellColumn));
+}
+
+std::vector<Hero *> World::getAbilityTargets(Ability ability, int startCellRow, int startCellColumn, int targetCellRow,
+                                             int targetCellColumn) {
+    if (ability == Ability::NULL_ABILITY || !_map.isInMap(startCellRow, startCellColumn) || !_map.isInMap(targetCellRow, targetCellColumn))
+        return std::vector<Hero *>{};
+    return getAbilityTargets(ability.getName(),
+                             _map.getCell(startCellRow, startCellColumn),
+                             _map.getCell(targetCellRow, targetCellColumn));
+
+}
+
+std::vector<Cell *> World::getCellsInAOE(Cell impactCell, int AOE) {
+    if (impactCell == Cell::NULL_CELL) {
+        return std::vector<Cell *>{};
+    }
+    std::vector<Cell *> cells;
+    for (int row = impactCell.getRow() - AOE; row <= impactCell.getRow() + AOE; row++) {
+        for (int col = impactCell.getColumn() - AOE; col <= impactCell.getColumn() + AOE; col++) {
+            if (!_map.isInMap(row, col)) continue;
+            Cell* cell = _map.getCell_ptr(row, col);
+            if (manhattanDistance(impactCell, *cell) <= AOE)
+                cells.push_back(cell);
+        }
+    }
+    return cells;
+}
+
+std::vector<Hero *> World::getMyHeroesInCells(std::vector<Cell *> cells) {
+    if (cells.empty()) {
+        return std::vector<Hero *>{};
+    }
+    std::vector<Hero *> heroes;
+    for (Cell* cell : cells) {
+        Hero* hero = getMyHero_ptr(*cell);
+        if (*hero != Hero::NULL_HERO) {
+            heroes.push_back(hero);
+        }
+    }
+    return heroes;
+}
+
+std::vector<Hero *> World::getOppHeroesInCells(std::vector<Cell *> cells) {
+    if (cells.empty()) {
+        return std::vector<Hero *>{};
+    }
+    std::vector<Hero *> heroes;
+    for (Cell* cell : cells) {
+        Hero* hero = getOppHero_ptr(*cell);
+        if (*hero != Hero::NULL_HERO) {
+            heroes.push_back(hero);
+        }
+    }
+    return heroes;
+}
 
 
 

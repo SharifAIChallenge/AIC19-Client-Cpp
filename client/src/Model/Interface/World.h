@@ -68,8 +68,10 @@ public:
     Hero getHero(int id);
     Hero getMyHero(Cell cell);
     Hero getMyHero(int cellRow, int cellColumn);
+    Hero* getMyHero_ptr(Cell cell);
     Hero getOppHero(Cell cell);
     Hero getOppHero(int cellRow, int cellColumn);
+    Hero* getOppHero_ptr(Cell cell);
 
 
     std::vector<Cell *> getRayCells(Cell startCell, Cell endCell);
@@ -115,8 +117,26 @@ public:
 
     Map& getMap();
 
-    std::vector<AbilityConstants *> get_abilityConstants() const;
-    std::vector<HeroConstants *> get_heroConstants() const;
+    std::vector<AbilityConstants *> getAbilityConstants() const;
+    std::vector<HeroConstants *> getHeroConstants() const;
+
+    /**
+     * Returns all the heroes an ability will affect, if we cast it from a specified cell to another.
+     * For OFFENSIVE or DODGE abilities it will return enemy heroes,
+     * and for DEFENSIVE abilities it will return ally heroes in cells around the ability's impact cell
+     * (If they are in ability's AOE).
+     *
+     * @param abilityName Name of the ability we want to cast
+     * @param startCell   The cell we want to cast from
+     * @param targetCell  The cell we are aiming to
+     * @return
+     */
+    std::vector<Hero *> getAbilityTargets(AbilityName abilityName, Cell startCell, Cell targetCell);
+    std::vector<Hero *> getAbilityTargets(Ability ability, Cell startCell, Cell targetCell);
+    std::vector<Hero *> getAbilityTargets(AbilityName abilityName, int startCellRow, int startCellColumn,
+                                          int targetCellRow, int targetCellColumn);
+    std::vector<Hero *> getAbilityTargets(Ability ability, int startCellRow, int startCellColumn, int targetCellRow,
+                                          int targetCellColumn);
 
     int getAP();
     int getMyScore();
@@ -133,8 +153,7 @@ public:
 
 
 
-private://TODO ‫‪getAbilityTargets‬‬
-//TODO CastAbility?
+private:
     Map _map;
     GameConstants _gameConstants;
     std::vector<AbilityConstants *> _abilityConstants;
@@ -157,9 +176,13 @@ private://TODO ‫‪getAbilityTargets‬‬
 
     EventQueue& _event_queue;
 
-    AbilityConstants _getAbilityConstants(AbilityName abilityName);
+    AbilityConstants getAbilityConstants(AbilityName abilityName);
 
-    HeroConstants _getHeroConstants(HeroName heroName);
+    HeroConstants getHeroConstants(HeroName heroName);
+
+    std::vector<Cell *> getCellsInAOE(Cell impactCell, int AOE);
+    std::vector<Hero *> getMyHeroesInCells(std::vector<Cell *> cells);
+    std::vector<Hero *> getOppHeroesInCells(std::vector<Cell *> cells);
 
     //This function will also handle the _myDeadHeroes
     void set_myHeroes(std::vector<Hero *> _heroes);

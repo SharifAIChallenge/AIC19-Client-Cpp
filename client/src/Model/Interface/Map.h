@@ -30,6 +30,7 @@ public:
     std::vector<Cell*> _get_cells_list() const;
     void _set_cells(const std::vector<std::vector<Cell *>> &cells_grid);
     void _clear_cells();
+    Cell* getCell_ptr(int row, int column);
 
 
 
@@ -43,7 +44,6 @@ private:
     std::vector<Cell *> _myRespawnZone;
     std::vector<Cell *> _oppRespawnZone;
 
-    Cell* getCell_ptr(int row, int column);
     friend class TurnMessage;
     friend class InitMessage;
 

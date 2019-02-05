@@ -31,7 +31,7 @@ void PickMessage::update_game(World* _game) {
 //        Logger::Get(LogLevel_INFO) << "myHero_DATA[\"type\"].asString() " << myHero_DATA[i]["type"].asString() << std::endl;
         HeroName _hero = convert_heroName_from_string(myHero_DATA[i]["type"].asString());
 //        Logger::Get(LogLevel_INFO) << "myHero_DATA[\"type\"].asString() " << myHero_DATA[i]["type"].asString() << std::endl;
-        HeroConstants heroConstants = _game->_getHeroConstants(_hero);
+        HeroConstants heroConstants = _game->getHeroConstants(_hero);
 //        Logger::Get(LogLevel_INFO) << "STEP2" << std::endl;
         std::vector<Ability *> abilities;
         for(AbilityName abilityName:heroConstants.getAbilityNames())
@@ -39,7 +39,7 @@ void PickMessage::update_game(World* _game) {
             Ability* newAbility = new Ability;
 //            Logger::Get(LogLevel_INFO) << "STEP3" << std::endl;
 
-            newAbility->_abilityConstants = _game->_getAbilityConstants(abilityName);
+            newAbility->_abilityConstants = _game->getAbilityConstants(abilityName);
 
             abilities.push_back(newAbility);
         }
@@ -57,13 +57,13 @@ void PickMessage::update_game(World* _game) {
 
         ptr_hero->_id = oppHero_DATA[i]["id"].asInt();
         HeroName _hero = convert_heroName_from_string(oppHero_DATA[i]["type"].asString());
-        HeroConstants heroConstants = _game->_getHeroConstants(_hero);
+        HeroConstants heroConstants = _game->getHeroConstants(_hero);
         std::vector<Ability *> abilities;
         for(AbilityName abilityName:heroConstants.getAbilityNames())
         {
             Ability* newAbility = new Ability;
 
-            newAbility->_abilityConstants = _game->_getAbilityConstants(abilityName);
+            newAbility->_abilityConstants = _game->getAbilityConstants(abilityName);
 
             abilities.push_back(newAbility);
         }//TODO maybe you wanta check this...
