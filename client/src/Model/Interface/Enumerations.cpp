@@ -21,12 +21,12 @@ AbilityName convert_abilityName_from_string(std::string str_abilityName){
         return AbilityName::HEALER_DODGE;
     if(str_abilityName == "HEALER_HEAL")
         return AbilityName::HEALER_HEAL;
-    if(str_abilityName == "GAURDIAN_ATTACK")
-        return AbilityName::GAURDIAN_ATTACK;
-    if(str_abilityName == "GAURDIAN_DODGE")
-        return AbilityName::GAURDIAN_DODGE;
-    if(str_abilityName == "GAURDIAN_FORTIFY")
-        return AbilityName::GAURDIAN_FORTIFY;
+    if(str_abilityName == "GUARDIAN_ATTACK")
+        return AbilityName::GUARDIAN_ATTACK;
+    if(str_abilityName == "GUARDIAN_DODGE")
+        return AbilityName::GUARDIAN_DODGE;
+    if(str_abilityName == "GUARDIAN_FORTIFY")
+        return AbilityName::GUARDIAN_FORTIFY;
     throw std::string("convert_abilityName_to_string:Wrong string input");
 }
 
@@ -50,12 +50,12 @@ std::string abilityName_to_string(AbilityName _abilityName) {
             return "HEALER_DODGE";
         case AbilityName::HEALER_HEAL:
             return "HEALER_HEAL";
-        case AbilityName::GAURDIAN_ATTACK:
-            return "GAURDIAN_ATTACK";
-        case AbilityName::GAURDIAN_DODGE:
-            return "GAURDIAN_DODGE";
-        case AbilityName::GAURDIAN_FORTIFY:
-            return "GAURDIAN_FORTIFY";
+        case AbilityName::GUARDIAN_ATTACK:
+            return "GUARDIAN_ATTACK";
+        case AbilityName::GUARDIAN_DODGE:
+            return "GUARDIAN_DODGE";
+        case AbilityName::GUARDIAN_FORTIFY:
+            return "GUARDIAN_FORTIFY";
     }
     throw std::string("abilityName_to_string:Wrong AbilityName input");
 }
@@ -63,29 +63,29 @@ std::string abilityName_to_string(AbilityName _abilityName) {
 HeroName convert_heroName_from_string(std::string str_heroname){
     if(str_heroname == "HEALER")
         return HeroName::HEALER;
-    if(str_heroname == "Ruhollah")
-        return HeroName::Ruhollah;
-    if(str_heroname == "Ali")
-        return HeroName::Ali;
-    if(str_heroname == "Omid")
-        return HeroName::Omid;
+    if(str_heroname == "SENTRY")
+        return HeroName::SENTRY;
+    if(str_heroname == "BLASTER")
+        return HeroName::BLASTER;
+    if(str_heroname == "GUARDIAN")
+        return HeroName::GUARDIAN;
 
     throw std::string("convert_heroName_to_string:Wrong string input");
 }
 
-
 std::string HeroName_to_string(HeroName _heroname) {
-    if(_heroname == HeroName::HEALER)
-        return "HEALER";
-    if(_heroname == HeroName::Ruhollah)
-        return "Ruhollah";
-    if(_heroname == HeroName::Ali)
-        return "Ali";
-    if(_heroname == HeroName::Omid)
-        return "Omid";
+    switch(_heroname){
+        case HeroName::HEALER:
+            return "HEALER";
+        case HeroName::BLASTER:
+            return "BLASTER";
+        case HeroName::SENTRY:
+            return "SENTRY";
+        case HeroName::GUARDIAN:
+            return "GUARDIAN";
+    }
     throw std::string("HeroName_to_string:Wrong HeroName input");
 }
-
 
 Phase convert_phase_from_string(std::string str_phase) {
     if(str_phase == "PICK")
@@ -98,12 +98,12 @@ Phase convert_phase_from_string(std::string str_phase) {
 }
 
 AbilityType convert_abilityType_from_string(std::string str_abilityType) {
-    if(str_abilityType == "HEAL")
-        return AbilityType::HEAL;
+    if(str_abilityType == "DEFENSIVE")
+        return AbilityType::DEFENSIVE;
     if(str_abilityType == "DODGE")
         return AbilityType::DODGE;
-    if(str_abilityType == "ATTACK")
-        return AbilityType::ATTACK;
+    if(str_abilityType == "OFFENSIVE")
+        return AbilityType::OFFENSIVE;
     throw std::string("convert_abilityType_from_string:Wrong string input");
 }
 

@@ -16,20 +16,12 @@ public:
     CastAbility(CastAbility&&) = default;
     CastAbility& operator=(CastAbility&&) = default;
 
-    int& casterId();
-    int casterId() const;
-
-    std::vector<int>& targetHeroId();
-    std::vector<int> targetHeroId() const;
-
-    Cell& startCell();
-    Cell startCell() const;
-
-    Cell& endCell();
-    Cell encCell() const;
-
-    AbilityName& abilityName();
-    AbilityName abilityName() const;
+//API:
+    int getCasterId() const;
+    std::vector<int> getTargetHeroIds() const;
+    Cell getStartCell() const;
+    Cell getEndCell() const;
+    AbilityName getAbilityName() const;
 
 private:
     int _casterId;
@@ -37,6 +29,8 @@ private:
     Cell _startCell;
     Cell _endCell;
     AbilityName _abilityName;
+
+    friend class TurnMessage;
 };
 
 

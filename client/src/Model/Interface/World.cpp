@@ -344,8 +344,8 @@ std::vector<Cell *> World::getImpactCells(AbilityName abilityName, Cell startCel
         if (manhattanDistance(startCell, **cellIt) > abilityConstants.getRange())
             break;
         lastCell = *cellIt;
-        if ((getOppHero(**cellIt) != Hero::NULL_HERO && !(abilityConstants.getType() == AbilityType::HEAL))
-            || (getMyHero(**cellIt) != Hero::NULL_HERO && abilityConstants.getType() == AbilityType::HEAL))
+        if ((getOppHero(**cellIt) != Hero::NULL_HERO && !(abilityConstants.getType() == AbilityType::DEFENSIVE))
+            || (getMyHero(**cellIt) != Hero::NULL_HERO && abilityConstants.getType() == AbilityType::DEFENSIVE))
         {
             impactCells.push_back(*cellIt);
         }

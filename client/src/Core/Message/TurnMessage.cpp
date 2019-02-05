@@ -166,23 +166,23 @@ void TurnMessage::update_game(World *_game) {
         Json::Value& myCAbility_DATA = myCAbility_LIST_DATA[i];
         CastAbility* ptr_CastAbility = new CastAbility();
 
-        ptr_CastAbility->casterId() = myCAbility_DATA["casterId"].asInt();
+        ptr_CastAbility->_casterId = myCAbility_DATA["casterId"].asInt();
         //targetHeroIds:
         for(int j = 0; j < myCAbility_DATA["targetHeroIds"].size(); ++j) {
-            ptr_CastAbility->targetHeroId().push_back(myCAbility_DATA["targetHeroIds"][j].asInt());
+            ptr_CastAbility->_targetHeroId.push_back(myCAbility_DATA["targetHeroIds"][j].asInt());
         }
         //startCell:
-        ptr_CastAbility->startCell() = _game->map().getCell(
+        ptr_CastAbility->_startCell = _game->map().getCell(
                 myCAbility_DATA["startCell"]["row"].asInt(),
                 myCAbility_DATA["startCell"]["column"].asInt()
             );
         //endCell:
-        ptr_CastAbility->startCell() = _game->map().getCell(
+        ptr_CastAbility->_endCell = _game->map().getCell(
                 myCAbility_DATA["endCell"]["row"].asInt(),
                 myCAbility_DATA["endCell"]["column"].asInt()
         );
         //abilityName:
-        ptr_CastAbility->abilityName() = convert_abilityName_from_string(
+        ptr_CastAbility->_abilityName = convert_abilityName_from_string(
                 myCAbility_DATA["abilityName"].asString());
 
         output_my_castAbility.push_back(ptr_CastAbility);
@@ -197,23 +197,23 @@ void TurnMessage::update_game(World *_game) {
         Json::Value& oppCAbility_DATA = oppCAbility_LIST_DATA[i];
         CastAbility* ptr_CastAbility = new CastAbility();
 
-        ptr_CastAbility->casterId() = oppCAbility_DATA["casterId"].asInt();
+        ptr_CastAbility->_casterId = oppCAbility_DATA["casterId"].asInt();
         //targetHeroIds:
         for(int j = 0; j < oppCAbility_DATA["targetHeroIds"].size(); ++j) {
-            ptr_CastAbility->targetHeroId().push_back(oppCAbility_DATA["targetHeroIds"][j].asInt());
+            ptr_CastAbility->_targetHeroId.push_back(oppCAbility_DATA["targetHeroIds"][j].asInt());
         }
         //startCell:
-        ptr_CastAbility->startCell() = _game->map().getCell(
+        ptr_CastAbility->_startCell = _game->map().getCell(
                 oppCAbility_DATA["startCell"]["row"].asInt(),
                 oppCAbility_DATA["startCell"]["column"].asInt()
         );
         //endCell:
-        ptr_CastAbility->startCell() = _game->map().getCell(
+        ptr_CastAbility->_endCell = _game->map().getCell(
                 oppCAbility_DATA["endCell"]["row"].asInt(),
                 oppCAbility_DATA["endCell"]["column"].asInt()
         );
         //abilityName:
-        ptr_CastAbility->abilityName() = convert_abilityName_from_string(
+        ptr_CastAbility->_abilityName = convert_abilityName_from_string(
                 oppCAbility_DATA["abilityName"].asString());
 
         output_opp_castAbility.push_back(ptr_CastAbility);

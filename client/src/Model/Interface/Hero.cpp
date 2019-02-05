@@ -71,12 +71,12 @@ void Hero::set_abilities(std::vector<Ability *> &_abilities) {
 
     for(std::vector<Ability *>::iterator it = _abilities.begin();
             it < _abilities.end(); ++it){
-        if((*it)->getType() == AbilityType::ATTACK){
-            _attackAbilities.push_back(*it);
+        if((*it)->getType() == AbilityType::OFFENSIVE){
+            _offensiveAbilities.push_back(*it);
         } else if ((*it)->getType() == AbilityType::DODGE){
             _dodgeAbilities.push_back(*it);
-        } else if ((*it)->getType() == AbilityType::HEAL){
-            _healAbilities.push_back(*it);
+        } else if ((*it)->getType() == AbilityType::DEFENSIVE){
+            _defensiveAbilities.push_back(*it);
         }
     }
 }
@@ -90,7 +90,7 @@ const std::vector<Ability *> &Hero::get_dodgeAbilities() const {
 //}
 
 const std::vector<Ability *> &Hero::get_healAbilities() const {
-    return _healAbilities;
+    return _defensiveAbilities;
 }
 //
 //void Hero::set_healAbilities(const std::vector<Ability *> &_healAbilities) {
@@ -98,7 +98,7 @@ const std::vector<Ability *> &Hero::get_healAbilities() const {
 //}
 
 const std::vector<Ability *> &Hero::get_attackAbilities() const {
-    return _attackAbilities;
+    return _offensiveAbilities;
 }
 //
 //void Hero::set_attackAbilities(const std::vector<Ability *> &_attackAbilities) {

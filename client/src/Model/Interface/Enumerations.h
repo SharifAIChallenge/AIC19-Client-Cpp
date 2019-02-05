@@ -14,9 +14,9 @@ enum AbilityName//TODO Complete these enums (if you updated this please update t
     HEALER_ATTACK,
     HEALER_DODGE,
     HEALER_HEAL,
-    GAURDIAN_ATTACK,
-    GAURDIAN_DODGE,
-    GAURDIAN_FORTIFY
+    GUARDIAN_ATTACK,
+    GUARDIAN_DODGE,
+    GUARDIAN_FORTIFY
 };
 
 AbilityName convert_abilityName_from_string(std::string str_abilityName);
@@ -24,20 +24,20 @@ std::string abilityName_to_string(AbilityName _abilityName);
 //-------------------------------------------
 enum AbilityType
 {
-    HEAL,DODGE,ATTACK
+    DEFENSIVE,DODGE,OFFENSIVE
 };
 AbilityType convert_abilityType_from_string(std::string str_abilityType);
 //-------------------------------------------
-enum HeroName//TODO Complete these enums (if you updated this please update the function below)
+enum HeroName
 {
-    HEALER,Ruhollah,Ali,Omid
+    SENTRY,BLASTER,HEALER,GUARDIAN
 };
 HeroName convert_heroName_from_string(std::string str_heroname);
 std::string HeroName_to_string(HeroName _heroname);
 //-------------------------------------------
 enum Direction
 {
-    UP, DOWN, LEFT, RIGHT, NULL_DIRECTION//TODO check if this is okay
+    UP, DOWN, LEFT, RIGHT, NULL_DIRECTION
 };
 
 std::string Direction_to_string(Direction _direction);

@@ -4,42 +4,22 @@
 
 #include "CastAbility.h"
 
-int &CastAbility::casterId() {
+int CastAbility::getCasterId() const {
     return _casterId;
 }
 
-int CastAbility::casterId() const {
-    return _casterId;
-}
-
-std::vector<int> &CastAbility::targetHeroId() {
+std::vector<int> CastAbility::getTargetHeroIds() const {
     return _targetHeroId;
 }
 
-std::vector<int> CastAbility::targetHeroId() const {
-    return _targetHeroId;
-}
-
-Cell &CastAbility::startCell() {
+Cell CastAbility::getStartCell() const {
     return _startCell;
 }
 
-Cell CastAbility::startCell() const {
-    return _startCell;
-}
-
-Cell &CastAbility::endCell() {
+Cell CastAbility::getEndCell() const {
     return _endCell;
 }
 
-Cell CastAbility::encCell() const {
-    return _endCell;
-}
-
-AbilityName &CastAbility::abilityName() {
-    return _abilityName;
-}
-
-AbilityName CastAbility::abilityName() const {
+AbilityName CastAbility::getAbilityName() const {
     return _abilityName;
 }

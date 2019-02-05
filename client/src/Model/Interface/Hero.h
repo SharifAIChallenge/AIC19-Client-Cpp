@@ -63,9 +63,9 @@ private:
     HeroConstants _heroConstants;
 
     std::vector<Ability *> _abilities;
+    std::vector<Ability *> _defensiveAbilities;
     std::vector<Ability *> _dodgeAbilities;
-    std::vector<Ability *> _healAbilities;
-    std::vector<Ability *> _attackAbilities;
+    std::vector<Ability *> _offensiveAbilities;
 
     Cell _currentCell;
     std::vector<Cell *> _recentPath;//Shouldn't delete these guys in the constructor!
