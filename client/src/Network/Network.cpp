@@ -83,7 +83,7 @@ void Network::send(std::string message) {
 std::string Network::receive() {
     Logger::Get(LogLevel_TRACE) << "Enter Network::receive" << std::endl;
 
-    constexpr size_t MAX_MESSAGE_LENGTH = 66000;
+    constexpr size_t MAX_MESSAGE_LENGTH = 660000;
     static char buffer[MAX_MESSAGE_LENGTH];
 
     if (!is_connected())

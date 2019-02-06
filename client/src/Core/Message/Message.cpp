@@ -5,6 +5,7 @@
 #include <memory>
 
 #include <Utility/Utility.h>
+#include <Utility/Logger.h>
 
 #include "ParseError.h"
 
@@ -59,6 +60,7 @@ Json::Value Message::get_args() const {
 
 std::unique_ptr<Message> Message::CreateFromJsonString(const std::string& string_form) {
     Json::Value root;
+
 
     std::istringstream stream(string_form);
     stream >> root;
