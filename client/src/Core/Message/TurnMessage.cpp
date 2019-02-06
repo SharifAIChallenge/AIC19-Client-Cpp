@@ -66,7 +66,9 @@ void TurnMessage::update_game(World *_game) {
 
         output_hero->_id = hero_DATA["id"].asInt();
         output_hero->_currentHP = hero_DATA["currentHP"].asInt();
-        output_hero->_heroConstants._name = convert_heroName_from_string(hero_DATA["type"].asString());
+
+        output_hero->_heroConstants = _game->getHeroConstants(
+                convert_heroName_from_string(hero_DATA["type"].asString()));
 
         //Cooldowns:
         std::vector<Ability *> _abilities_list;
@@ -118,7 +120,8 @@ void TurnMessage::update_game(World *_game) {
 
         output_hero->_id = hero_DATA["id"].asInt();
         output_hero->_currentHP = hero_DATA["currentHP"].asInt();
-        output_hero->_heroConstants._name = convert_heroName_from_string(hero_DATA["type"].asString());
+        output_hero->_heroConstants = _game->getHeroConstants(
+                convert_heroName_from_string(hero_DATA["type"].asString()));
 
         //Cooldowns:
         std::vector<Ability *> _abilities_list;

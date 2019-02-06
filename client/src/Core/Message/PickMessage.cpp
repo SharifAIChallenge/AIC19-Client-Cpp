@@ -43,11 +43,14 @@ void PickMessage::update_game(World* _game) {
 
             abilities.push_back(newAbility);
         }
+
 //        Logger::Get(LogLevel_INFO) << "STEP4" << std::endl;
 
+        ptr_hero->set_abilities(abilities);
+        ptr_hero->_heroConstants = heroConstants;
         tmp_my_hero_list.push_back(ptr_hero);
     }
-    _game->set_myHeroes(tmp_my_hero_list);//TODO should we use this function?!?!
+    _game->set_myHeroes(tmp_my_hero_list);
 //    Logger::Get(LogLevel_INFO) << "getting set_myHeroes" << std::endl;
     //oppHeroes:
     std::vector<Hero *> tmp_opp_hero_list;
@@ -66,11 +69,13 @@ void PickMessage::update_game(World* _game) {
             newAbility->_abilityConstants = _game->getAbilityConstants(abilityName);
 
             abilities.push_back(newAbility);
-        }//TODO maybe you wanta check this...
+        }
 
+        ptr_hero->set_abilities(abilities);
+        ptr_hero->_heroConstants = heroConstants;
         tmp_opp_hero_list.push_back(ptr_hero);
     }
-    _game->set_oppHeroes(tmp_opp_hero_list);//TODO should we use this function?!?!
+    _game->set_oppHeroes(tmp_opp_hero_list);
 
     //currentTurn:
     _game->_currentTurn = root["currentTurn"].asInt();

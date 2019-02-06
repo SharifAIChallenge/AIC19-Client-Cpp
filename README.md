@@ -1,5 +1,5 @@
 # AI Challenge 2019 C++ Client
-## Running instructions
+## Setup instructions
 ### Ubuntu
 It is recommended to use CLion (JetBtains)otherwise, follow the below instructions to build the client:
 

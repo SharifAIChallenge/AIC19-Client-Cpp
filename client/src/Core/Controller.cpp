@@ -81,7 +81,7 @@ void Controller::run() try {
 
             std::unique_ptr<std::thread> preProcThread =
                     std::unique_ptr<std::thread>(
-                            new std::thread(Controller::preProcess_event,&m_client,_world));
+                            new std::thread(Controller::preProcess_event,&m_client,_world,&(this->m_event_queue)));
             m_thread_list.push_back(std::move(preProcThread));
         }
         else if (PickMessage* pick_message = dynamic_cast<PickMessage*>(message.get())) {
@@ -93,11 +93,11 @@ void Controller::run() try {
 
             std::unique_ptr<std::thread> pickThread =
                     std::unique_ptr<std::thread>(
-                            new std::thread(Controller::pick_event,&m_client,_world));
+                            new std::thread(Controller::pick_event,&m_client,_world,&(this->m_event_queue)));
             m_thread_list.push_back(std::move(pickThread));
         }
         else if (TurnMessage* turn_message = dynamic_cast<TurnMessage*>(message.get())) {
-            Logger::Get(LogLevel_INFO) << "Received Turn message from server" << std::endl;
+//            Logger::Get(LogLevel_INFO) << "Received Turn message from server" << std::endl;
             World* _world = new World(m_world);//copying a from the initial world
             turn_message->update_game(_world);//updating the new world
             if(_world->currentPhase() == Phase::MOVE){
@@ -105,14 +105,14 @@ void Controller::run() try {
 
                 std::unique_ptr<std::thread> moveThread =
                         std::unique_ptr<std::thread>(
-                                new std::thread(Controller::move_event,&m_client,_world));
+                                new std::thread(Controller::move_event,&m_client,_world,&(this->m_event_queue)));
                 m_thread_list.push_back(std::move(moveThread));
             } else if (_world->currentPhase() == Phase::ACTION){
                 Logger::Get(LogLevel_INFO) << "Received Action message from server" << std::endl;
 
                 std::unique_ptr<std::thread> actionThread =
                         std::unique_ptr<std::thread>(
-                                new std::thread(Controller::action_event,&m_client,_world));
+                                new std::thread(Controller::action_event,&m_client,_world,&(this->m_event_queue)));
                 m_thread_list.push_back(std::move(actionThread));
             } else
                 throw std::string("Can't determine phase of turn message");
@@ -125,8 +125,7 @@ void Controller::run() try {
         }
 
 
-        Logger::Get(LogLevel_TRACE) << "Sending end message with turn = " << m_world.currentTurn() << std::endl;
-        m_event_queue.push(EndTurnMessage(m_world.currentTurn()));//TODO Uncomment please
+
     }
     Logger::Get(LogLevel_INFO) << "Closing the connection" << std::endl;
     m_event_queue.terminate();
@@ -148,23 +147,39 @@ void Controller::event_handling_loop() noexcept {
     }
 }
 
-void Controller::preProcess_event(AI *client, World *tmp_world) {
+void Controller::preProcess_event(AI *client, World *tmp_world, EventQueue *m_event_queue) {
     client->preProcess(tmp_world);
+
+    Logger::Get(LogLevel_TRACE) << "preProcess:Sending end message with turn = " << tmp_world->currentTurn() << std::endl;
+    m_event_queue->push(EndTurnMessage(tmp_world->currentTurn()));
+
     delete tmp_world;
 }
 
-void Controller::pick_event(AI* client,World* tmp_world) {
+void Controller::pick_event(AI* client,World* tmp_world, EventQueue *m_event_queue) {
     client->pick(tmp_world);
+
+    Logger::Get(LogLevel_TRACE) << "pick_event:Sending end message with turn = " << tmp_world->currentTurn() << std::endl;
+    m_event_queue->push(EndTurnMessage(tmp_world->currentTurn()));
+
     delete tmp_world;
 }
 
-void Controller::move_event(AI* client,World* tmp_world) {
+void Controller::move_event(AI* client,World* tmp_world, EventQueue *m_event_queue) {
     client->move(tmp_world);
+
+    Logger::Get(LogLevel_TRACE) << "move_event:Sending end message with turn = " << tmp_world->currentTurn() << std::endl;
+    m_event_queue->push(EndTurnMessage(tmp_world->currentTurn()));
+
     delete tmp_world;
 }
 
-void Controller::action_event(AI* client,World* tmp_world) {
+void Controller::action_event(AI* client,World* tmp_world, EventQueue *m_event_queue) {
     client->action(tmp_world);
+
+    Logger::Get(LogLevel_TRACE) << "action_event:Sending end message with turn = " << tmp_world->currentTurn() << std::endl;
+    m_event_queue->push(EndTurnMessage(tmp_world->currentTurn()));
+
     delete tmp_world;
 }
 
