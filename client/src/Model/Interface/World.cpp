@@ -540,7 +540,7 @@ void World::set_oppHeroes(std::vector<Hero *> _heroes) {
     }
     _oppDeadHeroes.clear();
 
-    _oppDeadHeroes = _heroes;
+    _oppHeroes = _heroes;
     for(std::vector<Hero *>::iterator it = _heroes.begin();
         it != _heroes.end(); ++it){
         if((*it)->getCurrentHP() == 0){
