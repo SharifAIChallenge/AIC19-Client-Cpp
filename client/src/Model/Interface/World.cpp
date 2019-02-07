@@ -137,7 +137,7 @@ Hero World::getMyHero(int cellRow, int cellColumn) {
     for(std::vector<Hero *>::iterator it = _myHeroes.begin(); it != _myHeroes.end(); ++it ){
         //This only checks the location of the cell
         if((*it)->getCurrentCell().getRow() == cellRow &&
-                (*it)->getCurrentCell().getRow() == cellColumn){
+                (*it)->getCurrentCell().getColumn() == cellColumn){
             return **it;
         }
     }
@@ -171,7 +171,7 @@ Hero World::getOppHero(int cellRow, int cellColumn) {
     for(std::vector<Hero *>::iterator it = _oppHeroes.begin(); it!= _oppHeroes.end(); ++it){
         //This only checks the location of the cell
         if((*it)->getCurrentCell().getRow() == cellRow &&
-                (*it)->getCurrentCell().getRow() == cellColumn){
+                (*it)->getCurrentCell().getColumn() == cellColumn){
             return **it;
         }
     }

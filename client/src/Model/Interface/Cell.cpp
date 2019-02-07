@@ -1,7 +1,12 @@
 #include "Cell.h"
 
 
-Cell::Cell(bool _isNull): isNull(_isNull) {}
+Cell::Cell(bool _isNull): isNull(_isNull) {
+    if(_isNull){
+        this->_column = -1;
+        this->_row = -1;
+    }
+}
 
 
 Cell::Cell(const Cell & _cell) {
@@ -13,6 +18,8 @@ Cell::Cell(const Cell & _cell) {
     this->_isInMyRespawnZone = _cell._isInMyRespawnZone;
     this->_isInOppRespawnZone = _cell._isInOppRespawnZone;
     this->_isInObjectiveZone = _cell._isInObjectiveZone;
+
+    this->isNull = _cell.isNull;
 
 }
 //---------------wall------------------
@@ -52,12 +59,12 @@ bool Cell::inThisPosition(int row, int column) const{
     return this->_row == row && this->_column == column;
 }
 
-bool Cell::operator==(const Cell _cell) const{
+bool Cell::operator==(const Cell &_cell) const{
     return this->inThisPosition(_cell.getRow(), _cell.getColumn()) &&
             (this->isNull == _cell.isNull);
 }
 
-bool Cell::operator!=(const Cell _cell) const {
+bool Cell::operator!=(const Cell &_cell) const {
     return !(*this == _cell);
 }
 

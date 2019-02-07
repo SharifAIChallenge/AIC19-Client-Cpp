@@ -223,6 +223,8 @@ void InitMessage::update_world(World *_world) {
         ptr_abilityCons->_areaOfEffect = _abilityConstant["areaOfEffect"].asInt();
         ptr_abilityCons->_power = _abilityConstant["power"].asInt();
         ptr_abilityCons->_isLobbing = _abilityConstant["isLobbing"].asBool();
+
+//        Logger::Get(LogLevel_INFO) << "_abilityConstant[\"isLobbing\"].asBool(): " << _abilityConstant["isLobbing"].asBool() << std::endl;
     }
 
 }

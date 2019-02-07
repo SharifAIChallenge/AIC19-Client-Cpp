@@ -2,10 +2,16 @@
 // Created by dot_blue on 1/23/19.
 //
 
+#include <iostream>
 #include "Hero.h"
 
 
-Hero::Hero(bool _isNull):isNull(_isNull) {}
+Hero::Hero(bool _isNull) {
+    if(_isNull) {
+//        this->_id = -1;
+        this->isNull = true;
+    }
+}
 
 
 Hero::~Hero() {// Check the vectors
@@ -24,6 +30,7 @@ Hero::Hero(Hero & _hero):_currentCell(_hero._currentCell) {
     this->_recentPath = _hero._recentPath;
 
     this->copy_abilities(_hero._abilities);
+    this->isNull = _hero.isNull;
 }
 
 //----------------id-------------------
@@ -91,11 +98,11 @@ std::vector<Cell *> Hero::getRecentPath() const {
     return _recentPath;
 }
 
-bool Hero::operator==(Hero _hero) {
+bool Hero::operator==(const Hero &_hero) {
     return (this->_id == _hero.getId()) && (this->isNull == _hero.isNull);
 }
 
-bool Hero::operator!=(Hero _hero) {
+bool Hero::operator!=(const Hero &_hero) {
     return !(*this == _hero);
 }
 

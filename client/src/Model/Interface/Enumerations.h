@@ -3,7 +3,7 @@
 
 #include "string"
 
-enum AbilityName//TODO Complete these enums (if you updated this please update the function below)
+enum AbilityName// Complete these enums (if you updated this please update the function below)
 {
     SENTRY_ATTACK,
     SENTRY_DODGE,

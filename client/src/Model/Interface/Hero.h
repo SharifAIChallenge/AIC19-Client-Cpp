@@ -45,8 +45,8 @@ public:
 
 
     // Is it enough to compare the id? answer: Yes (including the isNull's)
-    bool operator==(Hero _hero);
-    bool operator!=(Hero _hero);
+    bool operator==(const Hero &_hero);
+    bool operator!=(const Hero &_hero);
 
 private:
 

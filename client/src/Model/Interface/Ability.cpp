@@ -4,7 +4,11 @@
 
 #include "Ability.h"
 
-Ability::Ability(bool isNull) : isNull(isNull) {}
+Ability::Ability(bool isNull) : isNull(isNull) {
+    if(isNull){
+        this->_remCooldown = -1;
+    }
+}
 
 //--------------remCooldown------------
 int Ability::getRemCooldown() const {

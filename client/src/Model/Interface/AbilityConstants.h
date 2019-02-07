@@ -45,7 +45,6 @@ private:
 
     bool isNull = false;
 
-
 public:// single tone
     static AbilityConstants NULL_ABILITY_CONSTANTS;
 };

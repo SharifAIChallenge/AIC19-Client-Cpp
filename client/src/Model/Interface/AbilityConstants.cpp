@@ -2,7 +2,11 @@
 
 
 //------------constructor---------------
-AbilityConstants::AbilityConstants(bool _isNull): isNull(_isNull) {}
+AbilityConstants::AbilityConstants(bool _isNull): isNull(_isNull) {
+    if(_isNull){
+        this->_range = -1;
+    }
+}
 
 //------------AbilityName---------------
 AbilityName AbilityConstants::getName() const {
