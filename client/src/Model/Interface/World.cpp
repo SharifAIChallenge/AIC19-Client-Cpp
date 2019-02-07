@@ -194,7 +194,7 @@ int World::manhattanDistance(int startCellRow, int startCellColumn, int endCellR
 
 //------------Algorithmic--------------
 
-Cell World::getNextCell(const Cell &cell, const Direction& direction) {
+Cell& World::getNextCell(const Cell &cell, const Direction& direction) {
     switch (direction)
     {
         case Direction::UP:
@@ -427,50 +427,47 @@ HeroConstants World::getHeroConstants(HeroName heroName) {
     return HeroConstants::NULL_HERO_CONSTANT;
 }
 
-std::vector<Direction> World::getPathMoveDirections(Cell startCell, Cell endCell)
+std::vector<Direction> World::getPathMoveDirections(Cell &startCell, Cell &endCell)
 {
-    if (startCell == endCell || startCell.isWall() || endCell.isWall()){
-        std::vector<Direction> vec = {};
-        return vec;
+    if (startCell == endCell || startCell.isWall() || endCell.isWall() ||
+            startCell == Cell::NULL_CELL || endCell == Cell::NULL_CELL){
+        return std::vector<Direction>{};
     }
-
     // saves parent cell and direction to go from parent cell to current cell
-    std::map<Cell*, std::pair<Cell, Direction>> lastMoveInfo;
-    Cell* bfsQueue = new Cell[_map.getRowNum() * _map.getColumnNum() + 10];
+    std::map<Cell*, std::pair<Cell*, Direction>> lastMoveInfo;
+    Cell* bfsQueue[_map.getRowNum() * _map.getColumnNum() + 10];
     int queueHead = 0, queueTail = 0;
 
-    lastMoveInfo.insert(std::pair<Cell*, std::pair<Cell, Direction>>
-                                (&startCell, std::pair<Cell, Direction>(Cell::NULL_CELL , NULL_DIRECTION)));
-    bfsQueue[queueTail++] = startCell;
+    lastMoveInfo.insert(std::pair<Cell*, std::pair<Cell*, Direction>>
+                                (&startCell, std::pair<Cell*, Direction>(&Cell::NULL_CELL , NULL_DIRECTION)));
+    bfsQueue[queueTail++] = &startCell;
 
     while (queueHead != queueTail)
     {
-        Cell currentCell = bfsQueue[queueHead++];
-        if (currentCell == endCell)
+        Cell* currentCell = bfsQueue[queueHead++];
+        if (*currentCell == endCell)
         {
             std::vector<Direction> directions;
-            while (currentCell != startCell)
+            while (*currentCell != startCell)
             {
-                directions.insert(directions.end(), lastMoveInfo[&currentCell].second);
-                currentCell = lastMoveInfo[&currentCell].first;
+                directions.push_back(lastMoveInfo[currentCell].second);
+                currentCell = lastMoveInfo[currentCell].first;
             }
-            reverse(directions.begin(), directions.end());
+            std::reverse(directions.begin(), directions.end());
             return directions;
         }
         for (int direction = UP; direction <= RIGHT; direction++)
         {
-            Cell nextCell = getNextCell(currentCell, static_cast<Direction>(direction));
-            if (nextCell != Cell::NULL_CELL && !lastMoveInfo.count(&nextCell))
+            Cell *nextCell = &getNextCell(*currentCell, static_cast<Direction>(direction));
+            if (*nextCell != Cell::NULL_CELL && isAccessible(*nextCell) && (lastMoveInfo.find(nextCell)==lastMoveInfo.end()))
             {
-                lastMoveInfo.insert(std::pair<Cell*,
-                        std::pair<Cell, Direction>>(&nextCell,
-                                                    std::pair<Cell, Direction>(currentCell, static_cast<Direction>(direction))));
+                lastMoveInfo.insert(std::pair<Cell*, std::pair<Cell*, Direction>>(
+                        nextCell, std::pair<Cell*, Direction>(currentCell, static_cast<Direction>(direction))));
                 bfsQueue[queueTail++] = nextCell;
             }
         }
     }
-    std::vector<Direction> vec = {};
-    return vec;
+    return std::vector<Direction>{};
 }
 
 
@@ -488,6 +485,10 @@ bool World::isAccessible(int cellRow, int cellColumn) {
     if (!_map.isInMap(cellRow, cellColumn))
         return false;
     return !_map.getCell(cellRow, cellColumn).isWall();
+}
+
+bool World::isAccessible(Cell &cell) {
+    return !cell.isWall();
 }
 
 int &World::currentTurn() {
@@ -826,6 +827,7 @@ std::vector<Hero *> World::getOppHeroesInCells(std::vector<Cell *> cells) {
     }
     return heroes;
 }
+
 
 
 

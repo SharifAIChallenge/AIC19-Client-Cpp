@@ -14,11 +14,11 @@ public:
 
     Hero(bool isNull);
 
-    Hero(const Hero&) = default;
-    Hero& operator=(const Hero&) = default;
+    Hero(Hero&);
+    Hero& operator=(const Hero&) = delete;
 
-    Hero(Hero&&) = default;
-    Hero& operator=(Hero&&) = default;
+    Hero(Hero&&) = delete;
+    Hero& operator=(Hero&&) = delete;
 
 //API:
     Ability getAbility(AbilityName _abilityName);
@@ -66,6 +66,7 @@ private:
 
     HeroConstants heroConstants() const;
     void set_abilities(std::vector<Ability *> &_abilities);
+    void copy_abilities(std::vector<Ability *> &_abilities);
 
     friend class TurnMessage;
     friend class PickMessage;

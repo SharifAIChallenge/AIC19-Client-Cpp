@@ -14,6 +14,18 @@ Hero::~Hero() {// Check the vectors
     }
     _abilities.clear();
 }
+
+Hero::Hero(Hero & _hero):_currentCell(_hero._currentCell) {
+    this->_id = _hero._id;
+    this->_currentHP = _hero._currentHP;
+    this->_remRespawnTime = _hero._remRespawnTime;
+    this->_heroConstants = _hero._heroConstants;
+
+    this->_recentPath = _hero._recentPath;
+
+    this->copy_abilities(_hero._abilities);
+}
+
 //----------------id-------------------
 int Hero::getId() const {
     return _id;
@@ -48,6 +60,15 @@ void Hero::set_abilities(std::vector<Ability *> &_abilities) {
             _defensiveAbilities.push_back(*it);
         }
     }
+}
+
+void Hero::copy_abilities(std::vector<Ability *> &_abilities) {
+    std::vector<Ability *> cpy_abilities;
+    for(Ability * ability_ptr : _abilities){
+        Ability* tmp_ability_ptr = new Ability(*ability_ptr);
+        cpy_abilities.push_back(tmp_ability_ptr);
+    }
+    this->set_abilities(cpy_abilities);
 }
 
 std::vector<Ability *> Hero::getDodgeAbilities() const {
@@ -112,6 +133,7 @@ Ability Hero::getAbility(AbilityName _abilityName) {
 
 //Single tone
 Hero Hero::NULL_HERO(true);
+
 
 
 

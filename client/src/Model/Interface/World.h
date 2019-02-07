@@ -83,7 +83,7 @@ public:
     Cell getImpactCell(Ability ability, int startCellRow, int startCellColumn, int endCellRow, int endCellColumn);
 
 
-    std::vector<Direction> getPathMoveDirections(Cell startCell, Cell endCell);
+    std::vector<Direction> getPathMoveDirections(Cell &startCell, Cell &endCell);
     std::vector<Direction> getPathMoveDirections(int startCellRow, int startCellColumn, int endCellRow, int endCellColumn);
 
     int manhattanDistance(Cell startCell, Cell endCell);
@@ -91,6 +91,7 @@ public:
     bool isInVision(Cell startCell, Cell endCell);
     bool isInVision(int startCellRow, int startCellColumn, int endCellRow, int endCellColumn);
     bool isAccessible(int row, int column);
+    bool isAccessible(Cell& cell);
 
     void castAbility(int heroId, AbilityName abilityName, int targetCellRow, int targetCellColumn);
     void castAbility(int heroId, AbilityName abilityName, Cell targetCell);
@@ -195,7 +196,7 @@ private:
 
 
     //algorithmics:
-    Cell getNextCell(const Cell& cell,const Direction& direction);
+    Cell& getNextCell(const Cell& cell,const Direction& direction);
     int crossProduct(int x1, int y1, int x2, int y2, int x3, int y3);
     int squareCollision(const Cell& startCell,const Cell& targetCell,const Cell& cell);
     bool isCloser(Cell currentCell, Cell targetCell, Cell nextCell);
