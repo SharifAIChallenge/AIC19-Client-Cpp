@@ -38,6 +38,7 @@ void TurnMessage::update_game(World *_game) {
             ptr_cell->_isInMyRespawnZone = cell_DATA["isInMyRespawnZone"].asBool();
             ptr_cell->_isInOppRespawnZone = cell_DATA["isInOppRespawnZone"].asBool();
             ptr_cell->_isInObjectiveZone = cell_DATA["isInObjectiveZone"].asBool();
+            ptr_cell->_isInVision = cell_DATA["isInVision"].asBool();
             ptr_cell->_row = cell_DATA["row"].asInt();
             ptr_cell->_column = cell_DATA["column"].asInt();
 
