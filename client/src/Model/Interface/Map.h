@@ -19,7 +19,7 @@ public:
 
 //API:
     std::vector<std::vector<Cell*>>& getCells();
-    Cell getCell(int row, int column);
+    Cell& getCell(int row, int column);
     bool isInMap(int row,int column);
     int getRowNum() const;
     int getColumnNum() const;

@@ -29,8 +29,8 @@ Map::~Map() {
 
 }
 
-Cell Map::getCell(int row, int column) {
-    return *_cells[row][column];
+Cell& Map::getCell(int row, int column) {
+    return *(_cells[row][column]);
 }
 
 bool Map::isInMap(int row, int column) {
@@ -54,6 +54,10 @@ void Map::_set_cells(const std::vector<std::vector<Cell *>> &cells_grid) {//Allo
 
     for(std::vector<Cell *> _row : cells_grid){
         std::vector<Cell *> tmp_cell_row;
+        for(Cell * _cell : _row) {
+            Cell * tmp_cell_ptr = new Cell(*_cell);
+            tmp_cell_row.push_back(tmp_cell_ptr);
+        }
         this->_cells.push_back(tmp_cell_row);
     }
 
