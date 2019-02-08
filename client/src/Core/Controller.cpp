@@ -65,7 +65,6 @@ void Controller::run() try {
     Logger::Get(LogLevel_TRACE) << "Waiting for init message" << std::endl;
 
     // Start the event handling thread
-    //TODO maybe this should be called after the InitMessage
     m_event_handling_thread = std::thread(&Controller::event_handling_loop, this);
 
     while (m_network.is_connected()) {

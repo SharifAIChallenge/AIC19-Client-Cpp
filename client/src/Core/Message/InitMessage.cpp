@@ -32,7 +32,7 @@ void InitMessage::update_world(World *_world) {
         std::vector<Cell *> tmpCellRow;
         for(Json::Value& cellsList_DATA : _row){
             tmpCellRow.push_back(new Cell());
-            Cell* cell_ptr = tmpCellRow.back();//TODO cont from here
+            Cell* cell_ptr = tmpCellRow.back();
             cell_ptr->_isWall = cellsList_DATA["isWall"].asBool();
             cell_ptr->_isInMyRespawnZone = cellsList_DATA["isInMyRespawnZone"].asBool();
             cell_ptr->_isInOppRespawnZone = cellsList_DATA["isInOppRespawnZone"].asBool();

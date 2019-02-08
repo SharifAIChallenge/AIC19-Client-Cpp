@@ -261,7 +261,7 @@ bool World::isCloser(Cell currentCell, Cell targetCell, Cell nextCell)
 }
 
 void World::dfs(Cell& currentCell, Cell& startCell, Cell& targetCell, std::unordered_map<Cell*, bool>& isSeen,
-               std::vector<Cell *>& path) {
+               std::vector<Cell *>& path, bool wallPiercing) {
     isSeen[&currentCell] = true;
     path.push_back(&currentCell);
     //make sure the "Direction" enum is not initialized!
@@ -276,7 +276,7 @@ void World::dfs(Cell& currentCell, Cell& startCell, Cell& targetCell, std::unord
                 return;
             if (collisionState == 1)
             {
-                dfs(nextCell, startCell, targetCell, isSeen, path);
+                dfs(nextCell, startCell, targetCell, isSeen, path, wallPiercing);
                 return;
             }
         }
@@ -296,7 +296,7 @@ void World::dfs(Cell& currentCell, Cell& startCell, Cell& targetCell, std::unord
                     return;
                 if (collisionState == 1)
                 {
-                    dfs(nextCell, startCell, targetCell, isSeen, path);
+                    dfs(nextCell, startCell, targetCell, isSeen, path, wallPiercing);
                 }
             }
         }
@@ -311,27 +311,26 @@ void World::dfs(Cell& currentCell, Cell& startCell, Cell& targetCell, std::unord
      * @param targetCell
      * @return
      */
-std::vector<Cell *> World::getRayCells(Cell &startCell, Cell &endCell) {
+std::vector<Cell *> World::getRayCells(Cell &startCell, Cell &endCell, bool wallPiercing) {
+    if(startCell == Cell::NULL_CELL || endCell == Cell::NULL_CELL){
+        return std::vector<Cell *>{};
+    }
     std::vector<Cell *> path;
     std::unordered_map<Cell*, bool> _isSeen;
-    dfs(startCell,startCell,endCell,_isSeen,path);
+    dfs(startCell,startCell,endCell,_isSeen,path,wallPiercing);
     return path;
 }
 
 std::vector<Cell *> World::getImpactCells(const AbilityName &abilityName,Cell &startCell,Cell &targetCell) {
-    const AbilityConstants abilityConstants = getAbilityConstants(abilityName);
-    if (abilityConstants.isLobbing())
+    AbilityConstants abilityConstants = getAbilityConstants(abilityName);
+    if (startCell == Cell::NULL_CELL || targetCell == Cell::NULL_CELL || abilityConstants == AbilityConstants::NULL_ABILITY_CONSTANTS ||
+        (!abilityConstants.isLobbing() && startCell.isWall()) || startCell == targetCell)
     {
-        std::vector<Cell *> targetCellVec{&targetCell};
-        return targetCellVec;
+        return std::vector<Cell *>{&startCell};
     }
-    if (startCell.isWall() || startCell == targetCell)
-    {
-        std::vector<Cell *> startCellVec{&startCell};
-        return startCellVec;
-    }
+
     std::vector<Cell *> impactCells;
-    std::vector<Cell *> rayCells = getRayCells(startCell, targetCell);
+    std::vector<Cell *> rayCells = getRayCells(startCell, targetCell, abilityConstants.isLobbing());
     Cell* lastCell = &Cell::NULL_CELL;
     for (std::vector<Cell *>::iterator cellIt = rayCells.begin(); cellIt !=rayCells.end(); ++cellIt) {
 
@@ -342,12 +341,14 @@ std::vector<Cell *> World::getImpactCells(const AbilityName &abilityName,Cell &s
             || (getMyHero(**cellIt) != Hero::NULL_HERO && abilityConstants.getType() == AbilityType::DEFENSIVE))
         {
             impactCells.push_back(*cellIt);
+            if(!abilityConstants.isLobbing()) break;
         }
     }
-    if (std::find(impactCells.begin(),
-                  impactCells.end(), lastCell)
+    if (std::find(impactCells.begin(), impactCells.end(), lastCell)
         != impactCells.end())//does not contain!
+    {
         impactCells.push_back(lastCell);
+    }
     return impactCells;
 }
 

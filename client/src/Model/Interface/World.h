@@ -74,7 +74,7 @@ public:
     Hero* getOppHero_ptr(const Cell &cell);
 
 
-    std::vector<Cell *> getRayCells(Cell &startCell, Cell &endCell);
+    std::vector<Cell *> getRayCells(Cell &startCell, Cell &endCell, bool wallPiercing = false);
     std::vector<Cell *> getImpactCells(const AbilityName &abilityName,Cell &startCell, Cell &targetCell);
     Cell getImpactCell(AbilityName abilityName, Cell &startCell, Cell &targetCell);
     Cell getImpactCell(AbilityName abilityName, int startCellRow, int startCellColumn, int endCellRow,
@@ -201,7 +201,7 @@ private:
     int squareCollision(const Cell& startCell,const Cell& targetCell,const Cell& cell);
     bool isCloser(Cell currentCell, Cell targetCell, Cell nextCell);
     void dfs(Cell& currentCell, Cell& startCell, Cell& targetCell, std::unordered_map<Cell*, bool>& isSeen,
-             std::vector<Cell *>& path);
+             std::vector<Cell *>& path, bool wallPiercing = false);
 
 };
 
