@@ -77,6 +77,9 @@ private:
     static void move_event(AI* client,World* tmp_world,EventQueue* m_event_queue);
     static void action_event(AI* client,World* tmp_world,EventQueue* m_event_queue);
 
+public:
+    static int thread_count;
+
 };
 
 #endif // AIC19_CLIENT_CPP_CONTROLLER_H

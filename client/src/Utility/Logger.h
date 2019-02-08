@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <utility>
+#include <mutex>
 
 enum LogLevel {
     LogLevel_TRACE = 0,
@@ -42,7 +43,6 @@ public:
         std::string line = "[" + std::string(LOG_LEVEL_STRING[level]) + "]";
         line.insert(line.end(), INDENT_WIDTH - line.size(), ' ');
         instance << line;
-
         return instance;
     }
 
@@ -51,8 +51,11 @@ public:
         if (m_stderr_config.first && m_current_level >= m_stderr_config.second)
             std::cerr << message;
 
-        if (m_logfile_config.first && m_current_level >= m_logfile_config.second)
+        if (m_logfile_config.first && m_current_level >= m_logfile_config.second) {
+            m_mutex.lock();
             m_output_file << message;
+            m_mutex.unlock();
+        }
 
         return *this;
     }
@@ -61,8 +64,11 @@ public:
         if (m_stderr_config.first && m_current_level >= m_stderr_config.second)
             f(std::cerr);
 
-        if (m_logfile_config.first && m_current_level >= m_logfile_config.second)
+        if (m_logfile_config.first && m_current_level >= m_logfile_config.second) {
+            m_mutex.lock();
             f(m_output_file);
+            m_mutex.unlock();
+        }
 
         return *this;
     }
@@ -101,6 +107,9 @@ private:
 
     /// Log to file config
     LogSinkConfig m_logfile_config;
+
+    /// The Mutex for making the output file stream thread safe
+    std::mutex m_mutex;
 
 };
 

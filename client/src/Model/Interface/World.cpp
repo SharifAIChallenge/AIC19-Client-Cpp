@@ -79,20 +79,6 @@ World::~World() {
     }
     _heroConstants.clear();
 
-    //Funny bug, we don't have to delete these guys :)))))))) (we already did them in the upper for loop)
-//    for (std::vector<Hero *>::iterator it = _myDeadHeroes.begin() ; it != _myDeadHeroes.end(); ++it){
-//        delete *it;
-//        Logger::Get(LogLevel_INFO) << "deleting STEP_3" << std::endl;
-//    }
-//    _myDeadHeroes.clear();
-
-//    for (std::vector<Hero *>::iterator it = _oppDeadHeroes.begin() ; it != _oppDeadHeroes.end(); ++it){
-//        delete *it;
-//        Logger::Get(LogLevel_INFO) << "deleting STEP_4" << std::endl;
-//    }
-//    _oppDeadHeroes.clear();
-
-
 }
 
 //logical functions:
@@ -600,7 +586,7 @@ void World::castAbility(int heroId, AbilityName abilityName, int targetCellRow, 
     _event_queue.push(
             CreateCastMessage(
                     heroId,
-                    abilityName_to_string(abilityName),
+                    AbilityName_to_string(abilityName),
                     targetCellRow,
                     targetCellColumn));
 }
