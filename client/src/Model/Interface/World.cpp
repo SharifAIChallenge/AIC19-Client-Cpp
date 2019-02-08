@@ -110,7 +110,7 @@ Hero World::getHero(int id) {
     return Hero::NULL_HERO;
 }
 
-Hero World::getMyHero(Cell cell) {
+Hero World::getMyHero(const Cell &cell) {
     for(std::vector<Hero *>::iterator it = _myHeroes.begin(); it != _myHeroes.end(); ++it ){
         //This only checks the location of the cell
         if((*it)->getCurrentCell() == cell){
@@ -120,7 +120,7 @@ Hero World::getMyHero(Cell cell) {
     return Hero::NULL_HERO;
 }
 
-Hero* World::getMyHero_ptr(Cell cell) {
+Hero* World::getMyHero_ptr(const Cell &cell) {
     for(std::vector<Hero *>::iterator it = _myHeroes.begin(); it != _myHeroes.end(); ++it ){
         //This only checks the location of the cell
         if((*it)->getCurrentCell() == cell){
@@ -144,7 +144,7 @@ Hero World::getMyHero(int cellRow, int cellColumn) {
     return Hero::NULL_HERO;
 }
 
-Hero World::getOppHero(Cell cell) {
+Hero World::getOppHero(const Cell &cell) {
     for(std::vector<Hero *>::iterator it = _oppHeroes.begin(); it!= _oppHeroes.end(); ++it){
         //This only checks the location of the cell
         if((*it)->getCurrentCell() == cell){
@@ -154,7 +154,7 @@ Hero World::getOppHero(Cell cell) {
     return Hero::NULL_HERO;
 }
 
-Hero *World::getOppHero_ptr(Cell cell) {
+Hero *World::getOppHero_ptr(const Cell &cell) {
     for(std::vector<Hero *>::iterator it = _oppHeroes.begin(); it!= _oppHeroes.end(); ++it){
         //This only checks the location of the cell
         if((*it)->getCurrentCell() == cell){
@@ -178,7 +178,7 @@ Hero World::getOppHero(int cellRow, int cellColumn) {
     return Hero::NULL_HERO;
 }
 
-int World::manhattanDistance(Cell startCell, Cell endCell) {
+int World::manhattanDistance(const Cell &startCell,const Cell &endCell) {
     return abs(startCell.getRow() - endCell.getRow()) +
             abs(startCell.getColumn() - endCell.getColumn());
 }
@@ -324,14 +324,14 @@ void World::dfs(Cell& currentCell, Cell& startCell, Cell& targetCell, std::unord
      * @param targetCell
      * @return
      */
-std::vector<Cell *> World::getRayCells(Cell startCell, Cell endCell) {
+std::vector<Cell *> World::getRayCells(Cell &startCell, Cell &endCell) {
     std::vector<Cell *> path;
     std::unordered_map<Cell*, bool> _isSeen;
     dfs(startCell,startCell,endCell,_isSeen,path);
     return path;
 }
 
-std::vector<Cell *> World::getImpactCells(AbilityName abilityName, Cell startCell, Cell targetCell) {
+std::vector<Cell *> World::getImpactCells(const AbilityName &abilityName,Cell &startCell,Cell &targetCell) {
     const AbilityConstants abilityConstants = getAbilityConstants(abilityName);
     if (abilityConstants.isLobbing())
     {
@@ -365,13 +365,13 @@ std::vector<Cell *> World::getImpactCells(AbilityName abilityName, Cell startCel
 }
 
 
-Cell World::getImpactCell(AbilityName abilityName, Cell startCell, Cell targetCell) {
+Cell World::getImpactCell(AbilityName abilityName, Cell &startCell, Cell &targetCell) {
     std::vector<Cell *> impactCells = getImpactCells(abilityName, startCell, targetCell);
     return *(impactCells.back());
 }
 
 
-Cell World::getImpactCell(Ability ability, Cell startCell, Cell targetCell) {
+Cell World::getImpactCell(Ability ability, Cell &startCell, Cell &targetCell) {
     return getImpactCell(ability.getAbilityConstants().getName(), startCell, targetCell);
 }
 
@@ -390,7 +390,7 @@ Cell World::getImpactCell(AbilityName abilityName, int startCellRow, int startCe
                                                                                               endCellColumn));
 }
 
-bool World::isInVision(Cell startCell, Cell endCell) {
+bool World::isInVision(Cell &startCell, Cell &endCell) {
     if (startCell.isWall() || endCell.isWall())
         return false;
     std::vector<Cell *> rayCells = getRayCells(startCell, endCell);
@@ -487,7 +487,7 @@ bool World::isAccessible(int cellRow, int cellColumn) {
     return !_map.getCell(cellRow, cellColumn).isWall();
 }
 
-bool World::isAccessible(Cell &cell) {
+bool World::isAccessible(const Cell &cell) {
     return !cell.isWall();
 }
 
@@ -583,7 +583,7 @@ void World::moveHero(int id, Direction direction) {
 }
 
 
-void World::moveHero(Hero hero, Direction direction) {
+void World::moveHero(const Hero &hero, Direction direction) {
 
     _event_queue.push(
             CreateMoveMessage(hero.getId(), Direction_to_string(direction))
@@ -605,7 +605,7 @@ void World::castAbility(int heroId, AbilityName abilityName, int targetCellRow, 
                     targetCellColumn));
 }
 
-void World::castAbility(int heroId, AbilityName abilityName, Cell targetCell) {
+void World::castAbility(int heroId, AbilityName abilityName,const Cell &targetCell) {
     castAbility(heroId,abilityName, targetCell.getRow(), targetCell.getColumn());
 }
 
@@ -613,23 +613,23 @@ void World::castAbility(int heroId, Ability ability, int targetCellRow, int targ
     castAbility(heroId, ability.getName(),targetCellRow,targetCellColumn);
 }
 
-void World::castAbility(int heroId, Ability ability, Cell targetCell) {
+void World::castAbility(int heroId, Ability ability,const Cell &targetCell) {
     castAbility(heroId, ability.getName(), targetCell.getRow(), targetCell.getColumn());
 }
 
-void World::castAbility(const Hero hero, Ability ability, Cell targetCell) {
+void World::castAbility(const Hero &hero, Ability ability,const Cell &targetCell) {
     castAbility(hero.getId(), ability.getName(), targetCell.getRow(), targetCell.getColumn());
 }
 
-void World::castAbility(const Hero hero, AbilityName abilityName, int targetCellRow, int targetCellColumn) {
+void World::castAbility(const Hero &hero, AbilityName abilityName, int targetCellRow, int targetCellColumn) {
     castAbility(hero.getId(),abilityName,targetCellRow,targetCellColumn);
 }
 
-void World::castAbility(const Hero hero, AbilityName abilityName, Cell targetCell) {
+void World::castAbility(const Hero &hero, AbilityName abilityName,const Cell &targetCell) {
     castAbility(hero.getId(),abilityName, targetCell.getRow(), targetCell.getColumn());
 }
 
-void World::castAbility(const Hero hero, Ability ability, int targetCellRow, int targetCellColumn) {
+void World::castAbility(const Hero &hero, Ability ability, int targetCellRow, int targetCellColumn) {
     castAbility(hero.getId(), ability.getName(),targetCellRow,targetCellColumn);
 }
 
@@ -741,7 +741,7 @@ std::vector<Hero *> World::getOppDeadHeroes() const {
     return _oppDeadHeroes;
 }
 
-std::vector<Hero *> World::getAbilityTargets(AbilityName abilityName, Cell startCell, Cell targetCell) {
+std::vector<Hero *> World::getAbilityTargets(AbilityName abilityName, Cell &startCell, Cell &targetCell) {
     AbilityConstants abilityConstants = getAbilityConstants(abilityName);
     if (abilityConstants == AbilityConstants::NULL_ABILITY_CONSTANTS ||
             startCell == Cell::NULL_CELL || targetCell == Cell::NULL_CELL) {
@@ -757,7 +757,7 @@ std::vector<Hero *> World::getAbilityTargets(AbilityName abilityName, Cell start
     }
 }
 
-std::vector<Hero *> World::getAbilityTargets(Ability ability, Cell startCell, Cell targetCell) {
+std::vector<Hero *> World::getAbilityTargets(Ability ability, Cell &startCell, Cell &targetCell) {
     if (ability == Ability::NULL_ABILITY) {
         return std::vector<Hero *>{};
     }
@@ -784,7 +784,7 @@ std::vector<Hero *> World::getAbilityTargets(Ability ability, int startCellRow, 
 
 }
 
-std::vector<Cell *> World::getCellsInAOE(Cell impactCell, int AOE) {
+std::vector<Cell *> World::getCellsInAOE(const Cell &impactCell, int AOE) {
     if (impactCell == Cell::NULL_CELL) {
         return std::vector<Cell *>{};
     }

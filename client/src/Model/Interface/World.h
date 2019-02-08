@@ -66,45 +66,45 @@ public:
     // For all hero id inputs we will have another method with Hero object
     // For all Ability Object inputs we will have another method with AbilityName enum
     Hero getHero(int id);
-    Hero getMyHero(Cell cell);
+    Hero getMyHero(const Cell &cell);
     Hero getMyHero(int cellRow, int cellColumn);
-    Hero* getMyHero_ptr(Cell cell);
-    Hero getOppHero(Cell cell);
+    Hero* getMyHero_ptr(const Cell &cell);
+    Hero getOppHero(const Cell &cell);
     Hero getOppHero(int cellRow, int cellColumn);
-    Hero* getOppHero_ptr(Cell cell);
+    Hero* getOppHero_ptr(const Cell &cell);
 
 
-    std::vector<Cell *> getRayCells(Cell startCell, Cell endCell);
-    std::vector<Cell *> getImpactCells(AbilityName abilityName, Cell startCell, Cell targetCell);
-    Cell getImpactCell(AbilityName abilityName, Cell startCell, Cell targetCell);
+    std::vector<Cell *> getRayCells(Cell &startCell, Cell &endCell);
+    std::vector<Cell *> getImpactCells(const AbilityName &abilityName,Cell &startCell, Cell &targetCell);
+    Cell getImpactCell(AbilityName abilityName, Cell &startCell, Cell &targetCell);
     Cell getImpactCell(AbilityName abilityName, int startCellRow, int startCellColumn, int endCellRow,
                        int endCellColumn);
-    Cell getImpactCell(Ability ability, Cell startCell, Cell targetCell);
+    Cell getImpactCell(Ability ability, Cell &startCell, Cell &targetCell);
     Cell getImpactCell(Ability ability, int startCellRow, int startCellColumn, int endCellRow, int endCellColumn);
 
 
     std::vector<Direction> getPathMoveDirections(Cell &startCell, Cell &endCell);
     std::vector<Direction> getPathMoveDirections(int startCellRow, int startCellColumn, int endCellRow, int endCellColumn);
 
-    int manhattanDistance(Cell startCell, Cell endCell);
+    int manhattanDistance(const Cell &startCell,const Cell &endCell);
     int manhattanDistance(int startCellRow, int startCellColumn, int endCellRow, int endCellColumn);
-    bool isInVision(Cell startCell, Cell endCell);
+    bool isInVision(Cell &startCell, Cell &endCell);
     bool isInVision(int startCellRow, int startCellColumn, int endCellRow, int endCellColumn);
     bool isAccessible(int row, int column);
-    bool isAccessible(Cell& cell);
+    bool isAccessible(const Cell& cell);
 
     void castAbility(int heroId, AbilityName abilityName, int targetCellRow, int targetCellColumn);
-    void castAbility(int heroId, AbilityName abilityName, Cell targetCell);
+    void castAbility(int heroId, AbilityName abilityName,const Cell &targetCell);
     void castAbility(int heroId, Ability ability, int targetCellRow, int targetCellColumn);
-    void castAbility(int heroId, Ability ability, Cell targetCell);
-    void castAbility(const Hero hero, AbilityName abilityName, int targetCellRow, int targetCellColumn);
-    void castAbility(Hero hero, AbilityName abilityName, Cell targetCell);
-    void castAbility(Hero hero, Ability ability, int targetCellRow, int targetCellColumn);
-    void castAbility(Hero hero, Ability ability, Cell targetCell);
+    void castAbility(int heroId, Ability ability,const Cell &targetCell);
+    void castAbility(const Hero &hero, AbilityName abilityName, int targetCellRow, int targetCellColumn);
+    void castAbility(const Hero &hero, AbilityName abilityName,const Cell &targetCell);
+    void castAbility(const Hero &hero, Ability ability, int targetCellRow, int targetCellColumn);
+    void castAbility(const Hero &hero, Ability ability,const Cell &targetCell);
 
 
     void moveHero(int id, Direction direction);
-    void moveHero(Hero hero, Direction direction);
+    void moveHero(const Hero &hero, Direction direction);
 
     void pickHero(HeroName heroName);
 
@@ -132,8 +132,8 @@ public:
      * @param targetCell  The cell we are aiming to
      * @return
      */
-    std::vector<Hero *> getAbilityTargets(AbilityName abilityName, Cell startCell, Cell targetCell);
-    std::vector<Hero *> getAbilityTargets(Ability ability, Cell startCell, Cell targetCell);
+    std::vector<Hero *> getAbilityTargets(AbilityName abilityName, Cell &startCell, Cell &targetCell);
+    std::vector<Hero *> getAbilityTargets(Ability ability, Cell &startCell, Cell &targetCell);
     std::vector<Hero *> getAbilityTargets(AbilityName abilityName, int startCellRow, int startCellColumn,
                                           int targetCellRow, int targetCellColumn);
     std::vector<Hero *> getAbilityTargets(Ability ability, int startCellRow, int startCellColumn, int targetCellRow,
@@ -181,7 +181,7 @@ private:
 
     HeroConstants getHeroConstants(HeroName heroName);
 
-    std::vector<Cell *> getCellsInAOE(Cell impactCell, int AOE);
+    std::vector<Cell *> getCellsInAOE(const Cell &impactCell, int AOE);
     std::vector<Hero *> getMyHeroesInCells(std::vector<Cell *> cells);
     std::vector<Hero *> getOppHeroesInCells(std::vector<Cell *> cells);
 

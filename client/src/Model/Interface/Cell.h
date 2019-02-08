@@ -9,7 +9,12 @@ public:
     ~Cell() = default;
 
     Cell(bool _isNull);
+
     Cell(const Cell&);
+    Cell& operator=(const Cell&);
+
+    Cell(Cell&&);
+    Cell& operator=(Cell&&);
 
 //API:
     int getRow() const;
