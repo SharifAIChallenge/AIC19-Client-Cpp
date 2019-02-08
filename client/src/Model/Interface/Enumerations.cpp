@@ -107,6 +107,18 @@ AbilityType convert_abilityType_from_string(std::string str_abilityType) {
     throw std::string("convert_abilityType_from_string:Wrong string input");
 }
 
+std::string AbilityType_to_string(AbilityType _abilityType) {
+    switch(_abilityType){
+        case AbilityType::DEFENSIVE:
+            return "DEFENSIVE";
+        case AbilityType::DODGE:
+            return "DODGE";
+        case AbilityType::OFFENSIVE:
+            return "OFFENSIVE";
+    }
+    throw std::string("AbilityType_to_string:Wrong AbilityType input");
+}
+
 std::string Direction_to_string(Direction _direction) {
     switch(_direction){
         case Direction::UP:
@@ -120,5 +132,6 @@ std::string Direction_to_string(Direction _direction) {
     }
     throw std::string("Direction_to_string:Wrong Direction input");
 }
+
 
 

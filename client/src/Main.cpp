@@ -22,7 +22,6 @@
 constexpr const char* AIC_CLIENT_VERSION = "v1.0.0";
 
 bool global_verbose_flag = false;
-bool disable_log = false;
 
 int main(int argc, char** argv) {
     try {
@@ -31,14 +30,9 @@ int main(int argc, char** argv) {
 
         srand(time(nullptr));
 
-        if (disable_log){
-            Logger::Get().set_stderr_config({true, LogLevel_ERROR});
-            Logger::Get().set_logfile_config({true, LogLevel_ERROR});
-        }else if (global_verbose_flag || (argc > 1 && std::string(argv[1]) == "--verbose")) {
+        if (global_verbose_flag || (argc > 1 && std::string(argv[1]) == "--verbose")) {
             Logger::Get().set_stderr_config({true, LogLevel_TRACE});
             Logger::Get().set_logfile_config({true, LogLevel_TRACE});
-        } else {
-            Logger::Get().set_logfile_config({true, LogLevel_DEBUG});
         }
 
         Logger::Get(LogLevel_INFO) << "AI Challenge 2019 C++ Client " << AIC_CLIENT_VERSION << std::endl;

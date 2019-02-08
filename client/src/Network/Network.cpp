@@ -102,7 +102,7 @@ std::string Network::receive() {
 
     std::string result(buffer, static_cast<size_t>(offset - 1));
 
-    Logger::Get(LogLevel_TRACE) << "Received " << std::string(result.begin(), result.end()) << std::endl;
+//    Logger::Get(LogLevel_TRACE) << "Received " << std::string(result.begin(), result.end()) << std::endl;
     Logger::Get(LogLevel_TRACE) << "Exit Network::receive" << std::endl;
     return result;
 }

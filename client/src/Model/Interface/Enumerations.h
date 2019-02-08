@@ -27,6 +27,7 @@ enum AbilityType
     DEFENSIVE,DODGE,OFFENSIVE
 };
 AbilityType convert_abilityType_from_string(std::string str_abilityType);
+std::string AbilityType_to_string(AbilityType _abilityType);
 //-------------------------------------------
 enum HeroName
 {

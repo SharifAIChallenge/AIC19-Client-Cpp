@@ -79,6 +79,7 @@ World::~World() {
     }
     _heroConstants.clear();
 
+
 }
 
 //logical functions:
