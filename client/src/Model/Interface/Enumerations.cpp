@@ -30,7 +30,7 @@ AbilityName convert_abilityName_from_string(std::string str_abilityName){
     throw std::string("convert_abilityName_to_string:Wrong string input");
 }
 
-std::string abilityName_to_string(AbilityName _abilityName) {
+std::string AbilityName_to_string(AbilityName _abilityName) {
     switch(_abilityName){
         case AbilityName::SENTRY_ATTACK:
             return "SENTRY_ATTACK";
@@ -57,7 +57,7 @@ std::string abilityName_to_string(AbilityName _abilityName) {
         case AbilityName::GUARDIAN_FORTIFY:
             return "GUARDIAN_FORTIFY";
     }
-    throw std::string("abilityName_to_string:Wrong AbilityName input");
+    throw std::string("AbilityName_to_string:Wrong AbilityName input");
 }
 
 HeroName convert_heroName_from_string(std::string str_heroname){

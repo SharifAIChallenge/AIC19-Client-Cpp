@@ -20,7 +20,7 @@ enum AbilityName// Complete these enums (if you updated this please update the f
 };
 
 AbilityName convert_abilityName_from_string(std::string str_abilityName);
-std::string abilityName_to_string(AbilityName _abilityName);
+std::string AbilityName_to_string(AbilityName _abilityName);
 //-------------------------------------------
 enum AbilityType
 {

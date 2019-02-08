@@ -66,6 +66,7 @@ void InitMessage::update_world(World *_world) {
     output_gameConst._preprocessTimeout = gameConsts_DATA["preprocessTimeout"].asInt();
     output_gameConst._firstMoveTimeout = gameConsts_DATA["firstMoveTimeout"].asInt();
     output_gameConst._normalTimeout = gameConsts_DATA["normalTimeout"].asInt();
+    output_gameConst._maxScore = gameConsts_DATA["maxScore"].asInt();
 
     _world->_gameConstants = output_gameConst;
 
