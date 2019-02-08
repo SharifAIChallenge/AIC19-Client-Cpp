@@ -268,7 +268,7 @@ void World::dfs(Cell& currentCell, Cell& startCell, Cell& targetCell, std::unord
     for (int dir = Direction::UP; dir <= Direction::RIGHT ; dir++ )//(Direction direction : Direction.values())
     {
         Direction direction = static_cast<Direction>(dir);
-        Cell nextCell = getNextCell(currentCell, direction);
+        Cell& nextCell = getNextCell(currentCell, direction);
         if (nextCell != Cell::NULL_CELL && isSeen.find(&nextCell) == isSeen.end() && isCloser(currentCell, targetCell, nextCell))
         {
             int collisionState = squareCollision(startCell, targetCell, nextCell);
@@ -286,7 +286,7 @@ void World::dfs(Cell& currentCell, Cell& startCell, Cell& targetCell, std::unord
         {
             int newRow = currentCell.getRow() + dRow;
             int newColumn = currentCell.getColumn() + dColumn;
-            Cell nextCell = Cell::NULL_CELL;
+            Cell& nextCell = Cell::NULL_CELL;
             if (_map.isInMap(newRow, newColumn)) nextCell = _map.getCell(newRow, newColumn);
             //Assumed isSeen.find(nextCell) == isSeen.end() means it's not found...
             if (nextCell != Cell::NULL_CELL && isSeen.find(&nextCell) == isSeen.end() && isCloser(currentCell, targetCell, nextCell))
