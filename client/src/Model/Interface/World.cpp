@@ -345,7 +345,7 @@ std::vector<Cell *> World::getImpactCells(const AbilityName &abilityName,Cell &s
         }
     }
     if (std::find(impactCells.begin(), impactCells.end(), lastCell)
-        != impactCells.end())//does not contain!
+        == impactCells.end())//does not contain!
     {
         impactCells.push_back(lastCell);
     }
@@ -355,6 +355,7 @@ std::vector<Cell *> World::getImpactCells(const AbilityName &abilityName,Cell &s
 
 Cell World::getImpactCell(AbilityName abilityName, Cell &startCell, Cell &targetCell) {
     std::vector<Cell *> impactCells = getImpactCells(abilityName, startCell, targetCell);
+//    if()
     return *(impactCells.back());
 }
 
