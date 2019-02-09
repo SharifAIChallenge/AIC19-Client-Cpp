@@ -80,10 +80,9 @@ void Controller::run() try {
 
             World* _world = new World(m_world);
 
-            std::unique_ptr<std::thread> preProcThread =
-                    std::unique_ptr<std::thread>(
-                            new std::thread(Controller::preProcess_event,&m_client,_world,&(this->m_event_queue)));
-            m_thread_list.push_back(std::move(preProcThread));
+            std::thread * preProcThread =
+                            new std::thread(Controller::preProcess_event,&m_client,_world,&(this->m_event_queue));
+            m_thread_list.push_back(preProcThread);
         }
         else if (PickMessage* pick_message = dynamic_cast<PickMessage*>(message.get())) {
             Logger::Get(LogLevel_INFO) << "Received Pick message from server" << std::endl;
@@ -92,10 +91,9 @@ void Controller::run() try {
 
             pick_message->update_game(_world);
 
-            std::unique_ptr<std::thread> pickThread =
-                    std::unique_ptr<std::thread>(
-                            new std::thread(Controller::pick_event,&m_client,_world,&(this->m_event_queue)));
-            m_thread_list.push_back(std::move(pickThread));
+            std::thread * pickThread =
+                            new std::thread(Controller::pick_event,&m_client,_world,&(this->m_event_queue));
+            m_thread_list.push_back(pickThread);
         }
         else if (TurnMessage* turn_message = dynamic_cast<TurnMessage*>(message.get())) {
 //            Logger::Get(LogLevel_INFO) << "Received Turn message from server" << std::endl;
@@ -105,17 +103,15 @@ void Controller::run() try {
             if(_world->currentPhase() == Phase::MOVE){
                 Logger::Get(LogLevel_INFO) << "Received Move message from server" << std::endl;
 
-                std::unique_ptr<std::thread> moveThread =
-                        std::unique_ptr<std::thread>(
-                                new std::thread(Controller::move_event,&m_client,_world,&(this->m_event_queue)));
-                m_thread_list.push_back(std::move(moveThread));
+                std::thread * moveThread =
+                                new std::thread(Controller::move_event,&m_client,_world,&(this->m_event_queue));
+                m_thread_list.push_back(moveThread);
             } else if (_world->currentPhase() == Phase::ACTION){
                 Logger::Get(LogLevel_INFO) << "Received Action message from server" << std::endl;
 
-                std::unique_ptr<std::thread> actionThread =
-                        std::unique_ptr<std::thread>(
-                                new std::thread(Controller::action_event,&m_client,_world,&(this->m_event_queue)));
-                m_thread_list.push_back(std::move(actionThread));
+                std::thread* actionThread =
+                                new std::thread(Controller::action_event,&m_client,_world,&(this->m_event_queue));
+                m_thread_list.push_back(actionThread);
             } else
                 throw std::string("Can't determine phase of turn message");
 
@@ -132,7 +128,14 @@ void Controller::run() try {
     m_event_queue.terminate();
     m_network.disconnect();
 
+    Logger::Get(LogLevel_INFO) << "Joining all threads" << std::endl;
+    for (std::thread * _thread : m_thread_list){
+        _thread->join();
+        delete _thread;
+    }
+
     Logger::Get(LogLevel_TRACE) << "Exit Controller::run" << std::endl;
+
 
 }
 catch (Json::Exception&) {
