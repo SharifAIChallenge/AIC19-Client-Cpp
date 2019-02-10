@@ -72,6 +72,8 @@ std::unique_ptr<Message> Message::CreateFromJsonString(const std::string& string
         return make_unique<PickMessage>(std::move(root));
     else if (root["name"] == "turn")
         return make_unique<TurnMessage>(std::move(root));
+    else if (root["name"] == "shutdown")
+        return make_unique<ShutdownMessage>(std::move(root));
 
     throw ParseError("Unknown message type");
 }

@@ -63,7 +63,7 @@ private:
     std::thread m_event_handling_thread;
 
     /// Vector of threads that are made by receiving every pick or turn message
-    std::vector<std::unique_ptr<std::thread>> m_thread_list;
+    std::vector<std::thread*> m_thread_list;
 
     /// Instance of the game world
     World m_world;
