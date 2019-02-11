@@ -1,7 +1,6 @@
 #ifndef AIC19_CLIENT_CPP_AI_H
 #define AIC19_CLIENT_CPP_AI_H
 
-//#include <Model/World.h>
 #include <Model/Interface/World.h>
 
 class AI {
