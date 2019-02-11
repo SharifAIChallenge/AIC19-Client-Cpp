@@ -383,6 +383,8 @@ bool World::isInVision(Cell &startCell, Cell &endCell) {
     if (startCell.isWall() || endCell.isWall())
         return false;
     std::vector<Cell *> rayCells = getRayCells(startCell, endCell);
+    if(rayCells.size() == 0)
+        return false;
     Cell lastCell = *(rayCells.back());
     return lastCell == endCell;
 }
