@@ -380,7 +380,8 @@ Cell World::getImpactCell(AbilityName abilityName, int startCellRow, int startCe
 }
 
 bool World::isInVision(Cell &startCell, Cell &endCell) {
-    if (startCell.isWall() || endCell.isWall())
+    if (startCell == Cell::NULL_CELL || endCell == Cell::NULL_CELL ||
+            startCell.isWall() || endCell.isWall())
         return false;
     std::vector<Cell *> rayCells = getRayCells(startCell, endCell);
     if(rayCells.size() == 0)

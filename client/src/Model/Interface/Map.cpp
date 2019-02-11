@@ -30,6 +30,8 @@ Map::~Map() {
 }
 
 Cell& Map::getCell(int row, int column) {
+    if(!isInMap(row,column))
+        return Cell::NULL_CELL;
     return *(_cells[row][column]);
 }
 
@@ -78,6 +80,8 @@ void Map::_set_cells(const std::vector<std::vector<Cell *>> &cells_grid) {//Allo
 }
 
 Cell *Map::getCell_ptr(int row, int column) {
+    if(!isInMap(row,column))
+        return &Cell::NULL_CELL;
     return _cells[row][column];
 }
 
