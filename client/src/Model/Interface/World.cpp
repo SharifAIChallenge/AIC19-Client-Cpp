@@ -818,6 +818,74 @@ std::vector<Hero *> World::getOppHeroesInCells(std::vector<Cell *> cells) {
     return heroes;
 }
 
+bool World::isInCells(const Cell &_cell, std::vector<Cell *> _cellList) {
+    for(Cell * sampleCell : _cellList){
+        if(_cell == *sampleCell)
+            return true;
+    }
+    return false;
+}
+
+std::vector<Direction>
+World::getPathMoveDirections(Cell &startCell, Cell &endCell, std::vector<Cell *> _avoidingCells) {
+
+    if (startCell == endCell || startCell.isWall() || endCell.isWall() ||
+        startCell == Cell::NULL_CELL || endCell == Cell::NULL_CELL ||
+            isInCells(startCell,_avoidingCells) || isInCells(endCell,_avoidingCells)){
+        return std::vector<Direction>{};
+    }
+    // saves parent cell and direction to go from parent cell to current cell
+    std::map<Cell*, std::pair<Cell*, Direction>> lastMoveInfo;
+    Cell* bfsQueue[_map.getRowNum() * _map.getColumnNum() + 10];
+    int queueHead = 0, queueTail = 0;
+
+    lastMoveInfo.insert(std::pair<Cell*, std::pair<Cell*, Direction>>
+                                (&startCell, std::pair<Cell*, Direction>(&Cell::NULL_CELL , NULL_DIRECTION)));
+    bfsQueue[queueTail++] = &startCell;
+
+    while (queueHead != queueTail)
+    {
+        Cell* currentCell = bfsQueue[queueHead++];
+        if (*currentCell == endCell)
+        {
+            std::vector<Direction> directions;
+            while (*currentCell != startCell)
+            {
+                directions.push_back(lastMoveInfo[currentCell].second);
+                currentCell = lastMoveInfo[currentCell].first;
+            }
+            std::reverse(directions.begin(), directions.end());
+            return directions;
+        }
+        for (int direction = UP; direction <= RIGHT; direction++)
+        {
+            Cell *nextCell = &getNextCell(*currentCell, static_cast<Direction>(direction));
+            if (*nextCell != Cell::NULL_CELL &&
+                    isAccessible(*nextCell) &&
+                    (lastMoveInfo.find(nextCell)==lastMoveInfo.end()) &&
+                    !isInCells(*nextCell,_avoidingCells))
+            {
+                lastMoveInfo.insert(std::pair<Cell*, std::pair<Cell*, Direction>>(
+                        nextCell, std::pair<Cell*, Direction>(currentCell, static_cast<Direction>(direction))));
+                bfsQueue[queueTail++] = nextCell;
+            }
+        }
+    }
+    return std::vector<Direction>{};
+}
+
+std::vector<Direction>
+World::getPathMoveDirections(int startCellRow, int startCellColumn, int endCellRow, int endCellColumn,
+                             std::vector<Cell *> _avoidingCells) {
+
+    if(_map.isInMap(startCellRow,startCellColumn) && _map.isInMap(startCellRow,startCellColumn)){
+        return getPathMoveDirections(
+                this->_map.getCell(startCellRow,startCellColumn),
+                this->_map.getCell(endCellRow,endCellColumn),
+                _avoidingCells);
+    }
+}
+
 
 
 
