@@ -157,7 +157,7 @@ void Controller::preProcess_event(AI *client, World *tmp_world, EventQueue *m_ev
     client->preProcess(tmp_world);
 
     Logger::Get(LogLevel_TRACE) << "preProcess:Sending end message with turn = " << tmp_world->currentTurn() << std::endl;
-    m_event_queue->push(EndTurnMessage(tmp_world->currentTurn()));
+    m_event_queue->push(EndTurnMessage("init-end",{}));
 
     delete tmp_world;
     Logger::Get(LogLevel_DEBUG) << "End of preProcess Thread #" << THREAD_NUM << std::endl;
@@ -169,7 +169,7 @@ void Controller::pick_event(AI* client,World* tmp_world, EventQueue *m_event_que
     client->pick(tmp_world);
 
     Logger::Get(LogLevel_TRACE) << "pick:Sending end message with turn = " << tmp_world->currentTurn() << std::endl;
-    m_event_queue->push(EndTurnMessage(tmp_world->currentTurn()));
+    m_event_queue->push(EndTurnMessage("pick-end",{tmp_world->currentTurn()}));
 
     delete tmp_world;
     Logger::Get(LogLevel_DEBUG) << "End of pick Thread #" << THREAD_NUM << std::endl;
@@ -181,7 +181,7 @@ void Controller::move_event(AI* client,World* tmp_world, EventQueue *m_event_que
     client->move(tmp_world);
 
     Logger::Get(LogLevel_TRACE) << "move:Sending end message with turn = " << tmp_world->currentTurn() << std::endl;
-    m_event_queue->push(EndTurnMessage(tmp_world->currentTurn()));
+    m_event_queue->push(EndTurnMessage("move-end",{tmp_world->currentTurn(),tmp_world->movePhaaseNum()}));
 
     delete tmp_world;
     Logger::Get(LogLevel_DEBUG) << "End of move Thread #" << THREAD_NUM << std::endl;
@@ -193,7 +193,7 @@ void Controller::action_event(AI* client,World* tmp_world, EventQueue *m_event_q
     client->action(tmp_world);
 
     Logger::Get(LogLevel_TRACE) << "action:Sending end message with turn = " << tmp_world->currentTurn() << std::endl;
-    m_event_queue->push(EndTurnMessage(tmp_world->currentTurn()));
+    m_event_queue->push(EndTurnMessage("action-end",{tmp_world->currentTurn()}));
 
     delete tmp_world;
     Logger::Get(LogLevel_DEBUG) << "End of action Thread #" << THREAD_NUM << std::endl;

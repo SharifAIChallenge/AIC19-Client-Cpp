@@ -7,8 +7,8 @@
 
 class CreateCastMessage final: public EventMessage{
 public:
-    inline explicit CreateCastMessage(int HeroId, std::string AbilityName,int Cellrow, int Cellcolumn):
-            EventMessage("cast",{HeroId,AbilityName,Cellrow,Cellcolumn})
+    inline explicit CreateCastMessage(int HeroId, std::string AbilityName,int Cellrow, int Cellcolumn, int currentTurn):
+            EventMessage("cast",{HeroId,AbilityName,Cellrow,Cellcolumn,currentTurn})
     {
     }
 

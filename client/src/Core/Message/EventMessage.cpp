@@ -17,6 +17,7 @@ std::string EventMessage::get_type() const {
 
 void EventMessage::set_args(const std::vector<Json::Value>& args) {
     Message::get_mutable_args()[0]["args"].clear();
+    Message::get_mutable_args()[0]["args"] = Json::Value(Json::arrayValue);
     for (const Json::Value& arg : args)
         Message::get_mutable_args()[0]["args"].append(arg);
 }

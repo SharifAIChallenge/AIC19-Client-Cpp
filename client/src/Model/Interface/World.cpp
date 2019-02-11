@@ -567,7 +567,7 @@ std::vector<CastAbility *> World::getOppCastAbilities() const {
 void World::moveHero(int id, Direction direction) {
 
     _event_queue.push(
-            CreateMoveMessage(id, Direction_to_string(direction))
+            CreateMoveMessage(id, Direction_to_string(direction), this->_currentTurn, this->_movePhaseNum)
     );
 }
 
@@ -575,13 +575,13 @@ void World::moveHero(int id, Direction direction) {
 void World::moveHero(const Hero &hero, Direction direction) {
 
     _event_queue.push(
-            CreateMoveMessage(hero.getId(), Direction_to_string(direction))
+            CreateMoveMessage(hero.getId(), Direction_to_string(direction), this->_currentTurn, this->_movePhaseNum)
     );
 }
 
 void World::pickHero(HeroName heroName) {
 
-    _event_queue.push(CreatePickMessage(HeroName_to_string(heroName)));
+    _event_queue.push(CreatePickMessage(HeroName_to_string(heroName), this->_currentTurn));
 }
 
 void World::castAbility(int heroId, AbilityName abilityName, int targetCellRow, int targetCellColumn) {
@@ -591,7 +591,8 @@ void World::castAbility(int heroId, AbilityName abilityName, int targetCellRow, 
                     heroId,
                     AbilityName_to_string(abilityName),
                     targetCellRow,
-                    targetCellColumn));
+                    targetCellColumn,
+                    this->_currentTurn));
 }
 
 void World::castAbility(int heroId, AbilityName abilityName,const Cell &targetCell) {

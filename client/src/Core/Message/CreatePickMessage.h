@@ -6,8 +6,8 @@
 class CreatePickMessage final: public EventMessage{
 public:
 
-    inline explicit CreatePickMessage(std::string HeroNameStr):
-            EventMessage("pick",{HeroNameStr})
+    inline explicit CreatePickMessage(std::string HeroNameStr,int currentTurn):
+            EventMessage("pick",{HeroNameStr,currentTurn})
     {
     }
 

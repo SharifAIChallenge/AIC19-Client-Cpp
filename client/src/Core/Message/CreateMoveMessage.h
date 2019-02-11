@@ -7,8 +7,8 @@
 class CreateMoveMessage final: public EventMessage{
 public:
 
-    inline explicit CreateMoveMessage(int HeroId,Json::Value _directionStrings):
-            EventMessage("move",{HeroId,_directionStrings})
+    inline explicit CreateMoveMessage(int HeroId,Json::Value _directionStrings, int currentTurn, int movePhaseNum):
+            EventMessage("move",{HeroId,_directionStrings, currentTurn, movePhaseNum})
     {
     }
 
