@@ -6,8 +6,8 @@
 class EndTurnMessage final : public EventMessage {
 public:
 
-    inline explicit EndTurnMessage(int turn)
-            : EventMessage("end", {turn})
+    inline explicit EndTurnMessage(const std::string& type, const std::vector<Json::Value>& args)
+            : EventMessage(type, args)
     {
     }
 };

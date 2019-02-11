@@ -85,6 +85,10 @@ public:
 
     std::vector<Direction> getPathMoveDirections(Cell &startCell, Cell &endCell);
     std::vector<Direction> getPathMoveDirections(int startCellRow, int startCellColumn, int endCellRow, int endCellColumn);
+    std::vector<Direction> getPathMoveDirections(Cell &startCell, Cell &endCell, std::vector<Cell *> _avoidingCells);
+    std::vector<Direction> getPathMoveDirections(int startCellRow, int startCellColumn, int endCellRow, int endCellColumn, std::vector<Cell *> _avoidingCells);
+
+
 
     int manhattanDistance(const Cell &startCell,const Cell &endCell);
     int manhattanDistance(int startCellRow, int startCellColumn, int endCellRow, int endCellColumn);
@@ -202,6 +206,8 @@ private:
     bool isCloser(Cell currentCell, Cell targetCell, Cell nextCell);
     void dfs(Cell& currentCell, Cell& startCell, Cell& targetCell, std::unordered_map<Cell*, bool>& isSeen,
              std::vector<Cell *>& path, bool wallPiercing = false);
+
+    inline bool isInCells(const Cell& _cell,std::vector<Cell *> _cellList);
 
 };
 

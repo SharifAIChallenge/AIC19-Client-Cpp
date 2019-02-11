@@ -42,6 +42,9 @@ void Map::_clear_cells() {
     for (Cell* cell : _get_cells_list())
         delete cell;
     this->_cells.clear();
+    this->_myRespawnZone.clear();
+    this->_oppRespawnZone.clear();
+    this->_objectiveZone.clear();
 
 }
 
