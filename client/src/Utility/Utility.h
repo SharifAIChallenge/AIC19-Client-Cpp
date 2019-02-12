@@ -60,9 +60,9 @@ inline std::string format_string(const std::string& format, ...) {
     return std::string(buffer);
 }
 
-template <class T, class... Args>
-std::unique_ptr<T> make_unique(Args&&... args) {
-    return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
-}
+//template <class T, class... Args>
+//std::unique_ptr<T> make_unique(Args&&... args) {
+//    return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
+//}
 
 #endif // AIC19_CLIENT_CPP_UTILITY_H

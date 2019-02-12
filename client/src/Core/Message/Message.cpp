@@ -67,13 +67,13 @@ std::unique_ptr<Message> Message::CreateFromJsonString(const std::string& string
 
     //There are three types
     if (root["name"] == "init")
-        return make_unique<InitMessage>(std::move(root));
+        return std::unique_ptr<InitMessage>(new InitMessage(std::move(root)));
     else if (root["name"] == "pick")
-        return make_unique<PickMessage>(std::move(root));
+        return std::unique_ptr<PickMessage>(new PickMessage(std::move(root)));
     else if (root["name"] == "turn")
-        return make_unique<TurnMessage>(std::move(root));
+        return std::unique_ptr<TurnMessage>(new TurnMessage(std::move(root)));
     else if (root["name"] == "shutdown")
-        return make_unique<ShutdownMessage>(std::move(root));
+        return std::unique_ptr<ShutdownMessage>(new ShutdownMessage(std::move(root)));
 
     throw ParseError("Unknown message type");
 }
