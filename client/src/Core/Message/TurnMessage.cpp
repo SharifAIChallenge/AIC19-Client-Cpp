@@ -59,10 +59,10 @@ void TurnMessage::update_game(World *_game) {
     //myHeros:
     std::vector<Hero *> output_heros;
 
-    Json::Value& myHeros_DATA = root["myHeroes"];
+    Json::Value& myHeroes_DATA = root["myHeroes"];
 
-    for(int i = 0; i < myHeros_DATA.size(); ++i){
-        Json::Value& hero_DATA = myHeros_DATA[i];
+    for(int i = 0; i < myHeroes_DATA.size(); ++i){
+        Json::Value& hero_DATA = myHeroes_DATA[i];
         Hero* output_hero = new Hero();
 
         output_hero->_id = hero_DATA["id"].asInt();
@@ -87,8 +87,12 @@ void TurnMessage::update_game(World *_game) {
         output_hero->set_abilities(_abilities_list);
 
         //currentCell:
-        output_hero->_currentCell._row = hero_DATA["currentCell"]["row"].asInt();
-        output_hero->_currentCell._column = hero_DATA["currentCell"]["column"].asInt();
+        if(hero_DATA.isMember("currentCell")) {
+            output_hero->_currentCell = _game->_map.getCell(hero_DATA["currentCell"]["row"].asInt(),
+                                                                 hero_DATA["currentCell"]["column"].asInt());
+        } else {
+            output_hero->_currentCell = Cell::NULL_CELL;
+        }
 
         //recentPath:
         std::vector<Cell *> tmp_path;
@@ -113,10 +117,10 @@ void TurnMessage::update_game(World *_game) {
     //oppHeroes:
     std::vector<Hero *> output_oppHeros;
 
-    Json::Value& oppHeros_DATA = root["oppHeroes"];
+    Json::Value& oppHeroes_DATA = root["oppHeroes"];
 
-    for(int i = 0; i < oppHeros_DATA.size(); ++i){
-        Json::Value& hero_DATA = oppHeros_DATA[i];
+    for(int i = 0; i < oppHeroes_DATA.size(); ++i){
+        Json::Value& hero_DATA = oppHeroes_DATA[i];
         Hero* output_hero = new Hero();
 
         output_hero->_id = hero_DATA["id"].asInt();
@@ -140,8 +144,12 @@ void TurnMessage::update_game(World *_game) {
         output_hero->set_abilities(_abilities_list);
 
         //currentCell:
-        output_hero->_currentCell._row = hero_DATA["currentCell"]["row"].asInt();
-        output_hero->_currentCell._column = hero_DATA["currentCell"]["column"].asInt();
+        if(hero_DATA.isMember("currentCell")) {
+            output_hero->_currentCell = _game->_map.getCell(hero_DATA["currentCell"]["row"].asInt(),
+                                                                 hero_DATA["currentCell"]["column"].asInt());
+        } else {
+            output_hero->_currentCell = Cell::NULL_CELL;
+        }
 
         //recentPath:
         std::vector<Cell *> tmp_path;
