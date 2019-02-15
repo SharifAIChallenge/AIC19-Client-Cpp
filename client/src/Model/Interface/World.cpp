@@ -470,6 +470,7 @@ World::getPathMoveDirections(int startCellRow, int startCellColumn, int endCellR
                 this->_map.getCell(startCellRow,startCellColumn),
                 this->_map.getCell(endCellRow,endCellColumn));
     }
+    return std::vector<Direction>{};
 }
 
 
@@ -887,6 +888,7 @@ World::getPathMoveDirections(int startCellRow, int startCellColumn, int endCellR
                 this->_map.getCell(endCellRow,endCellColumn),
                 _avoidingCells);
     }
+    return std::vector<Direction>{};
 }
 
 
