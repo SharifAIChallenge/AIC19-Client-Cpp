@@ -185,15 +185,23 @@ void TurnMessage::update_game(World *_game) {
             ptr_CastAbility->_targetHeroId.push_back(myCAbility_DATA["targetHeroIds"][j].asInt());
         }
         //startCell:
-        ptr_CastAbility->_startCell = _game->map().getCell(
-                myCAbility_DATA["startCell"]["row"].asInt(),
-                myCAbility_DATA["startCell"]["column"].asInt()
+        if(myCAbility_DATA.isMember("startCell")) {
+            ptr_CastAbility->_startCell = _game->map().getCell(
+                    myCAbility_DATA["startCell"]["row"].asInt(),
+                    myCAbility_DATA["startCell"]["column"].asInt()
             );
+        } else {
+            ptr_CastAbility->_startCell = Cell::NULL_CELL;
+        }
         //endCell:
-        ptr_CastAbility->_endCell = _game->map().getCell(
-                myCAbility_DATA["endCell"]["row"].asInt(),
-                myCAbility_DATA["endCell"]["column"].asInt()
-        );
+        if(myCAbility_DATA.isMember("endCell")) {
+            ptr_CastAbility->_endCell = _game->map().getCell(
+                    myCAbility_DATA["endCell"]["row"].asInt(),
+                    myCAbility_DATA["endCell"]["column"].asInt()
+            );
+        } else {
+            ptr_CastAbility->_endCell = Cell::NULL_CELL;
+        }
         //abilityName:
         ptr_CastAbility->_abilityName = convert_abilityName_from_string(
                 myCAbility_DATA["abilityName"].asString());
@@ -216,15 +224,23 @@ void TurnMessage::update_game(World *_game) {
             ptr_CastAbility->_targetHeroId.push_back(oppCAbility_DATA["targetHeroIds"][j].asInt());
         }
         //startCell:
-        ptr_CastAbility->_startCell = _game->map().getCell(
-                oppCAbility_DATA["startCell"]["row"].asInt(),
-                oppCAbility_DATA["startCell"]["column"].asInt()
-        );
+        if(oppCAbility_DATA.isMember("startCell")) {
+            ptr_CastAbility->_startCell = _game->map().getCell(
+                    oppCAbility_DATA["startCell"]["row"].asInt(),
+                    oppCAbility_DATA["startCell"]["column"].asInt()
+            );
+        } else {
+            ptr_CastAbility->_startCell = Cell::NULL_CELL;
+        }
         //endCell:
-        ptr_CastAbility->_endCell = _game->map().getCell(
-                oppCAbility_DATA["endCell"]["row"].asInt(),
-                oppCAbility_DATA["endCell"]["column"].asInt()
-        );
+        if(oppCAbility_DATA.isMember("endCell")) {
+            ptr_CastAbility->_endCell = _game->map().getCell(
+                    oppCAbility_DATA["endCell"]["row"].asInt(),
+                    oppCAbility_DATA["endCell"]["column"].asInt()
+            );
+        } else {
+            ptr_CastAbility->_endCell = Cell::NULL_CELL;
+        }
         //abilityName:
         ptr_CastAbility->_abilityName = convert_abilityName_from_string(
                 oppCAbility_DATA["abilityName"].asString());
