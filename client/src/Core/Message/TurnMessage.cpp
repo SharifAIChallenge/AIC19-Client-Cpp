@@ -171,10 +171,10 @@ void TurnMessage::update_game(World *_game) {
     }
     _game->set_oppHeroes(output_oppHeros);
 
-    //myCastedAbilities:
+    //myCastAbilities:
     std::vector<CastAbility *> output_my_castAbility;
 
-    Json::Value& myCAbility_LIST_DATA = root["myCastedAbilities"];
+    Json::Value& myCAbility_LIST_DATA = root["myCastAbilities"];
     for(int i = 0; i < myCAbility_LIST_DATA.size(); ++i){
         Json::Value& myCAbility_DATA = myCAbility_LIST_DATA[i];
         CastAbility* ptr_CastAbility = new CastAbility();
@@ -210,10 +210,10 @@ void TurnMessage::update_game(World *_game) {
     }
     _game->set_myCastAbilities(output_my_castAbility);
 
-    //oppCastedAbilities:
+    //oppCastAbilities:
     std::vector<CastAbility *> output_opp_castAbility;
 
-    Json::Value& oppCAbility_LIST_DATA = root["oppCastedAbilities"];
+    Json::Value& oppCAbility_LIST_DATA = root["oppCastAbilities"];
     for(int i = 0; i < oppCAbility_LIST_DATA.size(); ++i){
         Json::Value& oppCAbility_DATA = oppCAbility_LIST_DATA[i];
         CastAbility* ptr_CastAbility = new CastAbility();
