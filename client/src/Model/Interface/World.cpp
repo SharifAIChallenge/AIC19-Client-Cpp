@@ -268,15 +268,15 @@ void World::dfs(Cell& currentCell, Cell& startCell, Cell& targetCell, std::unord
     for (int dir = Direction::UP; dir <= Direction::RIGHT ; dir++ )//(Direction direction : Direction.values())
     {
         Direction direction = static_cast<Direction>(dir);
-        Cell& nextCell = getNextCell(currentCell, direction);
-        if (nextCell != Cell::NULL_CELL && isSeen.find(&nextCell) == isSeen.end() && isCloser(currentCell, targetCell, nextCell))
+        Cell* nextCell = &getNextCell(currentCell, direction);
+        if (*nextCell != Cell::NULL_CELL && isSeen.find(nextCell) == isSeen.end() && isCloser(currentCell, targetCell, *nextCell))
         {
-            int collisionState = squareCollision(startCell, targetCell, nextCell);
-            if ((collisionState == 0 || collisionState == 1) && nextCell.isWall())
+            int collisionState = squareCollision(startCell, targetCell, *nextCell);
+            if ((collisionState == 0 || collisionState == 1) && nextCell->isWall())
                 return;
             if (collisionState == 1)
             {
-                dfs(nextCell, startCell, targetCell, isSeen, path, wallPiercing);
+                dfs(*nextCell, startCell, targetCell, isSeen, path, wallPiercing);
                 return;
             }
         }
@@ -286,17 +286,16 @@ void World::dfs(Cell& currentCell, Cell& startCell, Cell& targetCell, std::unord
         {
             int newRow = currentCell.getRow() + dRow;
             int newColumn = currentCell.getColumn() + dColumn;
-            Cell& nextCell = Cell::NULL_CELL;
-            if (_map.isInMap(newRow, newColumn)) nextCell = _map.getCell(newRow, newColumn);
+            Cell* nextCell = _map.getCell_ptr(newRow, newColumn);
             //Assumed isSeen.find(nextCell) == isSeen.end() means it's not found...
-            if (nextCell != Cell::NULL_CELL && isSeen.find(&nextCell) == isSeen.end() && isCloser(currentCell, targetCell, nextCell))
+            if (*nextCell != Cell::NULL_CELL && isSeen.find(nextCell) == isSeen.end() && isCloser(currentCell, targetCell, *nextCell))
             {
-                int collisionState = squareCollision(startCell, targetCell, nextCell);
-                if (collisionState == 0 || collisionState == 1 && nextCell.isWall())
+                int collisionState = squareCollision(startCell, targetCell, *nextCell);
+                if (collisionState == 0 || collisionState == 1 && nextCell->isWall())
                     return;
                 if (collisionState == 1)
                 {
-                    dfs(nextCell, startCell, targetCell, isSeen, path, wallPiercing);
+                    dfs(*nextCell, startCell, targetCell, isSeen, path, wallPiercing);
                 }
             }
         }
