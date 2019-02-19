@@ -31,7 +31,7 @@ public:
     std::vector<Ability *> getOffensiveAbilities() const;
 
     int getCurrentHP() const;
-    Cell getCurrentCell() const;
+    Cell& getCurrentCell() const;
     std::vector<Cell *> getRecentPath() const;
     int getRemRespawnTime() const;
 
@@ -60,7 +60,7 @@ private:
     std::vector<Ability *> _dodgeAbilities;
     std::vector<Ability *> _offensiveAbilities;
 
-    Cell _currentCell;
+    Cell* _currentCell;
     std::vector<Cell *> _recentPath;//Shouldn't delete these guys in the destructor!
 
 

@@ -88,10 +88,10 @@ void TurnMessage::update_game(World *_game) {
 
         //currentCell:
         if(hero_DATA.isMember("currentCell")) {
-            output_hero->_currentCell = _game->_map.getCell(hero_DATA["currentCell"]["row"].asInt(),
+            output_hero->_currentCell = _game->_map.getCell_ptr(hero_DATA["currentCell"]["row"].asInt(),
                                                                  hero_DATA["currentCell"]["column"].asInt());
         } else {
-            output_hero->_currentCell = Cell::NULL_CELL;
+            output_hero->_currentCell = &Cell::NULL_CELL;
         }
 
         //recentPath:
@@ -145,10 +145,10 @@ void TurnMessage::update_game(World *_game) {
 
         //currentCell:
         if(hero_DATA.isMember("currentCell")) {
-            output_hero->_currentCell = _game->_map.getCell(hero_DATA["currentCell"]["row"].asInt(),
+            output_hero->_currentCell = _game->_map.getCell_ptr(hero_DATA["currentCell"]["row"].asInt(),
                                                                  hero_DATA["currentCell"]["column"].asInt());
         } else {
-            output_hero->_currentCell = Cell::NULL_CELL;
+            output_hero->_currentCell = &Cell::NULL_CELL;
         }
 
         //recentPath:

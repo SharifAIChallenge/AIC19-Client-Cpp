@@ -90,8 +90,8 @@ std::vector<Ability *> Hero::getOffensiveAbilities() const {
     return _offensiveAbilities;
 }
 //-------------currentCell---------------
-Cell Hero::getCurrentCell() const {
-    return _currentCell;
+Cell& Hero::getCurrentCell() const {
+    return *_currentCell;
 }
 //-------------recentPath----------------
 std::vector<Cell *> Hero::getRecentPath() const {
