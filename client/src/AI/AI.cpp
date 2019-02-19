@@ -54,6 +54,8 @@ void AI::pick(World *world) {
 
 }
 
+bool WAR_IN_OBJECTIVE_ZONE = true;
+
 int targetCellRow[4];
 int targetCellColumn[4];
 
@@ -64,16 +66,24 @@ void AI::move(World *world) {
     if(targetRefreshPeriod <= 0){
         srand(time(0) + world->getMyHeroes()[0]->getId());//made this so we can test two clients with this exact AI code
         for (int i=0; i<4; ++i){
-            while(1){
-                targetCellRow[i] = rand() % world->map().getRowNum();
-                targetCellColumn[i] = rand() % world->map().getColumnNum();
+            if(WAR_IN_OBJECTIVE_ZONE) {
+                std::vector<Cell *> obj_list = world->map().getObjectiveZone();
 
-                //Make sure the target is not a wall!
-                if(!world->map().getCell(targetCellRow[i], targetCellColumn[i]).isWall())
-                    break;
+                Cell * targetCell = obj_list.at(rand() % obj_list.size());
+                targetCellRow[i] = targetCell->getRow();
+                targetCellColumn[i] = targetCell->getRow();
+            } else {
+                while (1) {
+                    targetCellRow[i] = rand() % world->map().getRowNum();
+                    targetCellColumn[i] = rand() % world->map().getColumnNum();
+
+                    //Make sure the target is not a wall!
+                    if (!world->map().getCell(targetCellRow[i], targetCellColumn[i]).isWall())
+                        break;
+                }
             }
         }
-        targetRefreshPeriod = 20 * 6;// Change target locations after 20 complete moves
+        targetRefreshPeriod = 10 * 6;// Change target locations after 20 complete moves
     } else
         targetRefreshPeriod--;
 
@@ -97,24 +107,78 @@ void AI::action(World *world) {
 
     for(Hero* my_hero : world->getMyHeroes()){
         if(my_hero->getName() == HeroName::BLASTER){
-            //Find the closest attacking target
-            Cell target_attack_cell = Cell::NULL_CELL;
+            //Find the closest bombing target
+            Cell bombing_cell = Cell::NULL_CELL;
             int min_dist = 10000;
             for(Hero* opp_hero : world->getOppHeroes()){
                 if(opp_hero->getCurrentCell().isInVision())//if hero is seen
                 {
                     if(min_dist > world->manhattanDistance(opp_hero->getCurrentCell(),
-                                                                   my_hero->getCurrentCell())){
+                                                           my_hero->getCurrentCell())){
                         min_dist = world->manhattanDistance(opp_hero->getCurrentCell(),
                                                             my_hero->getCurrentCell());
-                        target_attack_cell = opp_hero->getCurrentCell();
+                        bombing_cell = opp_hero->getCurrentCell();
                     }
                 }
             }
-
+            //Perform the bombing
+            if(bombing_cell != Cell::NULL_CELL) {
+                world->castAbility(*my_hero, AbilityName::BLASTER_BOMB,bombing_cell);
+            }
+        } else if(my_hero->getName() == HeroName::GUARDIAN){
+            //Find the closest attacking target
+            Cell attack_cell = Cell::NULL_CELL;
+            int min_dist = 10000;
+            for(Hero* opp_hero : world->getOppHeroes()){
+                if(opp_hero->getCurrentCell().isInVision())//if hero is seen
+                {
+                    if(min_dist > world->manhattanDistance(opp_hero->getCurrentCell(),
+                                                           my_hero->getCurrentCell())){
+                        min_dist = world->manhattanDistance(opp_hero->getCurrentCell(),
+                                                            my_hero->getCurrentCell());
+                        attack_cell = opp_hero->getCurrentCell();
+                    }
+                }
+            }
+            //Perform the attack
+            if(attack_cell != Cell::NULL_CELL) {
+                world->castAbility(*my_hero, AbilityName::GUARDIAN_ATTACK,attack_cell);
+            }
+        } else if(my_hero->getName() == HeroName::SENTRY){
+            //Find the closest shooting target
+            Cell shoot_cell = Cell::NULL_CELL;
+            int min_dist = 10000;
+            for(Hero* opp_hero : world->getOppHeroes()){
+                if(opp_hero->getCurrentCell().isInVision())//if hero is seen
+                {
+                    if(min_dist > world->manhattanDistance(opp_hero->getCurrentCell(),
+                                                           my_hero->getCurrentCell())){
+                        min_dist = world->manhattanDistance(opp_hero->getCurrentCell(),
+                                                            my_hero->getCurrentCell());
+                        shoot_cell = opp_hero->getCurrentCell();
+                    }
+                }
+            }
+            //Perform the shooting
+            if(shoot_cell != Cell::NULL_CELL) {
+                world->castAbility(*my_hero, AbilityName::SENTRY_RAY,shoot_cell);
+            }
+        } else if(my_hero->getName() == HeroName::HEALER){
+            //Find the closest healing target
+            Cell target_heal_cell = Cell::NULL_CELL;
+            int min_dist = 10000;
+            for(Hero* _hero : world->getMyHeroes()){
+                if(min_dist > world->manhattanDistance(_hero->getCurrentCell(), my_hero->getCurrentCell()) &&
+                        _hero->getRemRespawnTime() == 0 &&
+                        _hero->getCurrentHP() != _hero->getMaxHP()){
+                    min_dist = world->manhattanDistance(_hero->getCurrentCell(),
+                                                        my_hero->getCurrentCell());
+                    target_heal_cell = _hero->getCurrentCell();
+                }
+            }
             //Do the attack
-            if(target_attack_cell == Cell::NULL_CELL) {
-                world->castAbility(*my_hero, AbilityName::BLASTER_ATTACK,target_attack_cell);
+            if(target_heal_cell != Cell::NULL_CELL) {
+                world->castAbility(*my_hero, AbilityName::HEALER_HEAL,target_heal_cell);
             }
         }
     }
