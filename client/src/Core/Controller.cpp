@@ -81,7 +81,7 @@ void Controller::run() try {
             World* _world = new World(m_world);
 
             std::thread * preProcThread =
-                            new std::thread(Controller::preProcess_event,&m_client,_world,&(this->m_event_queue));
+                    new std::thread(Controller::preProcess_event,&m_client,_world,&(this->m_event_queue));
             m_thread_list.push_back(preProcThread);
         }
         else if (PickMessage* pick_message = dynamic_cast<PickMessage*>(message.get())) {
@@ -92,7 +92,7 @@ void Controller::run() try {
             pick_message->update_game(_world);
 
             std::thread * pickThread =
-                            new std::thread(Controller::pick_event,&m_client,_world,&(this->m_event_queue));
+                    new std::thread(Controller::pick_event,&m_client,_world,&(this->m_event_queue));
             m_thread_list.push_back(pickThread);
         }
         else if (TurnMessage* turn_message = dynamic_cast<TurnMessage*>(message.get())) {
@@ -104,13 +104,13 @@ void Controller::run() try {
                 Logger::Get(LogLevel_INFO) << "Received Move message from server" << std::endl;
 
                 std::thread * moveThread =
-                                new std::thread(Controller::move_event,&m_client,_world,&(this->m_event_queue));
+                        new std::thread(Controller::move_event,&m_client,_world,&(this->m_event_queue));
                 m_thread_list.push_back(moveThread);
             } else if (_world->currentPhase() == Phase::ACTION){
                 Logger::Get(LogLevel_INFO) << "Received Action message from server" << std::endl;
 
                 std::thread* actionThread =
-                                new std::thread(Controller::action_event,&m_client,_world,&(this->m_event_queue));
+                        new std::thread(Controller::action_event,&m_client,_world,&(this->m_event_queue));
                 m_thread_list.push_back(actionThread);
             } else
                 throw std::string("Can't determine phase of turn message");
@@ -153,8 +153,12 @@ void Controller::event_handling_loop() noexcept {
 
 void Controller::preProcess_event(AI *client, World *tmp_world, EventQueue *m_event_queue) {
     int THREAD_NUM = Controller::thread_count++;
-    Logger::Get(LogLevel_DEBUG) << "Launched preProcess Thread #" << THREAD_NUM << std::endl;
-    client->preProcess(tmp_world);
+    try{
+        Logger::Get(LogLevel_DEBUG) << "Launched preProcess Thread #" << THREAD_NUM << std::endl;
+        client->preProcess(tmp_world);
+    }catch(...){
+        Logger::Get(LogLevel_ERROR) << "Error in preProcess Thread #" << THREAD_NUM << std::endl;
+    }
 
     Logger::Get(LogLevel_TRACE) << "preProcess:Sending end message with turn = " << tmp_world->currentTurn() << std::endl;
     m_event_queue->push(EndTurnMessage("init-end",{}));
@@ -165,8 +169,12 @@ void Controller::preProcess_event(AI *client, World *tmp_world, EventQueue *m_ev
 
 void Controller::pick_event(AI* client,World* tmp_world, EventQueue *m_event_queue) {
     int THREAD_NUM = Controller::thread_count++;
-    Logger::Get(LogLevel_DEBUG) << "Launched pick Thread #" << THREAD_NUM << std::endl;
-    client->pick(tmp_world);
+    try {
+        Logger::Get(LogLevel_DEBUG) << "Launched pick Thread #" << THREAD_NUM << std::endl;
+        client->pick(tmp_world);
+    }catch(...){
+        Logger::Get(LogLevel_ERROR) << "Error in pick Thread #" << THREAD_NUM << std::endl;
+    }
 
     Logger::Get(LogLevel_TRACE) << "pick:Sending end message with turn = " << tmp_world->currentTurn() << std::endl;
     m_event_queue->push(EndTurnMessage("pick-end",{tmp_world->currentTurn()}));
@@ -177,8 +185,13 @@ void Controller::pick_event(AI* client,World* tmp_world, EventQueue *m_event_que
 
 void Controller::move_event(AI* client,World* tmp_world, EventQueue *m_event_queue) {
     int THREAD_NUM = Controller::thread_count++;
-    Logger::Get(LogLevel_DEBUG) << "Launched move Thread #" << THREAD_NUM << std::endl;
-    client->move(tmp_world);
+    try {
+        Logger::Get(LogLevel_DEBUG) << "Launched move Thread #" << THREAD_NUM << std::endl;
+        client->move(tmp_world);
+    }catch(...){
+        Logger::Get(LogLevel_ERROR) << "Error in move Thread #" << THREAD_NUM << std::endl;
+    }
+
 
     Logger::Get(LogLevel_TRACE) << "move:Sending end message with turn = " << tmp_world->currentTurn() << std::endl;
     m_event_queue->push(EndTurnMessage("move-end",{tmp_world->currentTurn(),tmp_world->movePhaaseNum()}));
@@ -189,8 +202,12 @@ void Controller::move_event(AI* client,World* tmp_world, EventQueue *m_event_que
 
 void Controller::action_event(AI* client,World* tmp_world, EventQueue *m_event_queue) {
     int THREAD_NUM = Controller::thread_count++;
-    Logger::Get(LogLevel_DEBUG) << "Launched action Thread #" << THREAD_NUM << std::endl;
-    client->action(tmp_world);
+    try {
+        Logger::Get(LogLevel_DEBUG) << "Launched action Thread #" << THREAD_NUM << std::endl;
+        client->action(tmp_world);
+    }catch(...){
+        Logger::Get(LogLevel_ERROR) << "Error in action Thread #" << THREAD_NUM << std::endl;
+    }
 
     Logger::Get(LogLevel_TRACE) << "action:Sending end message with turn = " << tmp_world->currentTurn() << std::endl;
     m_event_queue->push(EndTurnMessage("action-end",{tmp_world->currentTurn()}));
