@@ -156,8 +156,9 @@ void Controller::preProcess_event(AI *client, World *tmp_world, EventQueue *m_ev
     try{
         Logger::Get(LogLevel_DEBUG) << "Launched preProcess Thread #" << THREAD_NUM << std::endl;
         client->preProcess(tmp_world);
-    }catch(...){
-        Logger::Get(LogLevel_ERROR) << "Error in preProcess Thread #" << THREAD_NUM << std::endl;
+    }catch(const char* err_msg){
+        Logger::Get(LogLevel_ERROR) << "Error in preProcess Thread #" << THREAD_NUM << std::endl <<
+                                    err_msg << std::endl;
     }
 
     Logger::Get(LogLevel_TRACE) << "preProcess:Sending end message with turn = " << tmp_world->currentTurn() << std::endl;
@@ -172,8 +173,9 @@ void Controller::pick_event(AI* client,World* tmp_world, EventQueue *m_event_que
     try {
         Logger::Get(LogLevel_DEBUG) << "Launched pick Thread #" << THREAD_NUM << std::endl;
         client->pick(tmp_world);
-    }catch(...){
-        Logger::Get(LogLevel_ERROR) << "Error in pick Thread #" << THREAD_NUM << std::endl;
+    }catch(const char* err_msg){
+        Logger::Get(LogLevel_ERROR) << "Error in pick Thread #" << THREAD_NUM << std::endl <<
+                                    err_msg << std::endl;
     }
 
     Logger::Get(LogLevel_TRACE) << "pick:Sending end message with turn = " << tmp_world->currentTurn() << std::endl;
@@ -188,8 +190,9 @@ void Controller::move_event(AI* client,World* tmp_world, EventQueue *m_event_que
     try {
         Logger::Get(LogLevel_DEBUG) << "Launched move Thread #" << THREAD_NUM << std::endl;
         client->move(tmp_world);
-    }catch(...){
-        Logger::Get(LogLevel_ERROR) << "Error in move Thread #" << THREAD_NUM << std::endl;
+    }catch(const char* err_msg){
+        Logger::Get(LogLevel_ERROR) << "Error in move Thread #" << THREAD_NUM << std::endl <<
+                                    err_msg << std::endl;
     }
 
 
@@ -205,8 +208,9 @@ void Controller::action_event(AI* client,World* tmp_world, EventQueue *m_event_q
     try {
         Logger::Get(LogLevel_DEBUG) << "Launched action Thread #" << THREAD_NUM << std::endl;
         client->action(tmp_world);
-    }catch(...){
-        Logger::Get(LogLevel_ERROR) << "Error in action Thread #" << THREAD_NUM << std::endl;
+    }catch(const char* err_msg){
+        Logger::Get(LogLevel_ERROR) << "Error in action Thread #" << THREAD_NUM << std::endl<<
+                                    err_msg << std::endl;
     }
 
     Logger::Get(LogLevel_TRACE) << "action:Sending end message with turn = " << tmp_world->currentTurn() << std::endl;
