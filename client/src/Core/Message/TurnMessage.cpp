@@ -73,16 +73,27 @@ void TurnMessage::update_game(World *_game) {
 
         //Cooldowns:
         std::vector<Ability *> _abilities_list;
-        Json::Value& cooldowns_DATA = hero_DATA["cooldowns"];
-        for (int j = 0; j < cooldowns_DATA.size(); ++j){
-            AbilityName _ability = convert_abilityName_from_string(cooldowns_DATA[j]["name"].asString());
+        if(hero_DATA.isMember("cooldowns")) {
+            Json::Value &cooldowns_DATA = hero_DATA["cooldowns"];
+            for (int j = 0; j < cooldowns_DATA.size(); ++j) {
+                AbilityName _ability = convert_abilityName_from_string(cooldowns_DATA[j]["name"].asString());
 
-            Ability* newAbility = new Ability;
+                Ability *newAbility = new Ability;
 
-            newAbility->_abilityConstants = _game->getAbilityConstants(_ability);
-            newAbility->_remCooldown = cooldowns_DATA[j]["remCooldown"].asInt();
+                newAbility->_abilityConstants = _game->getAbilityConstants(_ability);
+                newAbility->_remCooldown = cooldowns_DATA[j]["remCooldown"].asInt();
 
-            _abilities_list.push_back(newAbility);
+                _abilities_list.push_back(newAbility);
+            }
+        } else {
+            for(AbilityName abilityName:output_hero->_heroConstants.getAbilityNames()){
+                Ability *newAbility = new Ability;
+
+                newAbility->_abilityConstants = _game->getAbilityConstants(abilityName);
+                newAbility->_remCooldown = -1;
+
+                _abilities_list.push_back(newAbility);
+            }
         }
         output_hero->set_abilities(_abilities_list);
 
@@ -130,16 +141,27 @@ void TurnMessage::update_game(World *_game) {
 
         //Cooldowns:
         std::vector<Ability *> _abilities_list;
-        Json::Value& cooldowns_DATA = hero_DATA["cooldowns"];
-        for (int j = 0; j < cooldowns_DATA.size(); ++j){
-            AbilityName _ability = convert_abilityName_from_string(cooldowns_DATA[j]["name"].asString());
+        if(hero_DATA.isMember("cooldowns")) {
+            Json::Value &cooldowns_DATA = hero_DATA["cooldowns"];
+            for (int j = 0; j < cooldowns_DATA.size(); ++j) {
+                AbilityName _ability = convert_abilityName_from_string(cooldowns_DATA[j]["name"].asString());
 
-            Ability* newAbility = new Ability;
+                Ability *newAbility = new Ability;
 
-            newAbility->_abilityConstants = _game->getAbilityConstants(_ability);
-            newAbility->_remCooldown = cooldowns_DATA[j]["remCooldown"].asInt();
+                newAbility->_abilityConstants = _game->getAbilityConstants(_ability);
+                newAbility->_remCooldown = cooldowns_DATA[j]["remCooldown"].asInt();
 
-            _abilities_list.push_back(newAbility);
+                _abilities_list.push_back(newAbility);
+            }
+        } else {
+            for(AbilityName abilityName:output_hero->_heroConstants.getAbilityNames()){
+                Ability *newAbility = new Ability;
+
+                newAbility->_abilityConstants = _game->getAbilityConstants(abilityName);
+                newAbility->_remCooldown = -1;
+
+                _abilities_list.push_back(newAbility);
+            }
         }
         output_hero->set_abilities(_abilities_list);
 
