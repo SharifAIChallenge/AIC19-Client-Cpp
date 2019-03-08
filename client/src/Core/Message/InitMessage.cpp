@@ -115,6 +115,7 @@ void InitMessage::update_world(World *_world) {
         ptr_abilityCons->_areaOfEffect = _abilityConstant["areaOfEffect"].asInt();
         ptr_abilityCons->_power = _abilityConstant["power"].asInt();
         ptr_abilityCons->_isLobbing = _abilityConstant["isLobbing"].asBool();
+        ptr_abilityCons->_isPiercing = _abilityConstant["isPiercing"].asBool();
 
 
 //        Logger::Get(LogLevel_INFO) << "\"name\": " << _abilityConstant["name"].asString();

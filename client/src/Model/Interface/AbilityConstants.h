@@ -28,6 +28,7 @@ public:
     int getAreaOfEffect() const;
     int getPower() const;
     bool isLobbing() const;
+    bool isPiercing() const;
 
 private:
     AbilityName _abilityName;
@@ -39,6 +40,7 @@ private:
     int _areaOfEffect;
     int _power;
     bool _isLobbing;
+    bool _isPiercing;
 
 
     friend class InitMessage;
