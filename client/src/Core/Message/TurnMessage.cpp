@@ -50,6 +50,9 @@ void TurnMessage::update_game(World *_game) {
     }
 
     _game->map()._set_cells(output_map_cells);
+    for (std::vector<Cell*> row : output_map_cells)
+        for(Cell * cell:row)
+            delete cell;
 
 //    for(std::vector<Cell *> _row : _game->map().getCells()){
 //        for(Cell * _cell : _row){
