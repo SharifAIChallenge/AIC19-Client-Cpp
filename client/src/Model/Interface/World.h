@@ -21,9 +21,7 @@ public:
 
     World() = default;
     ~World();//delete the vector items...
-
     World(EventQueue& event_queue);
-
     World(const World& _world);//Copy constructor
 
     //Getter & Setters:
@@ -40,9 +38,7 @@ public:
 
 
     int AP() const;
-
     int myScore() const;
-
     int oppScore() const;
 
     int& currentTurn();
