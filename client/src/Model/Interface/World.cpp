@@ -720,6 +720,14 @@ int World::getMovePhaseNum() {
     return _movePhaseNum;
 }
 
+int World::getMaxOvertime() {
+    return _maxOvertime;
+}
+
+int World::getRemainingOvertime() {
+    return _remainingOvertime;
+}
+
 
 std::vector<Hero *> World::getMyHeroes() const {
     return _myHeroes;

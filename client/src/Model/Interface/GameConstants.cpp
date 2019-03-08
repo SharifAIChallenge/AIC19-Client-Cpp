@@ -34,5 +34,9 @@ int GameConstants::getMaxScore() const {
     return _maxScore;
 }
 
+int GameConstants::getInitOvertime() const {
+    return _initOvertime;
+}
+
 
 

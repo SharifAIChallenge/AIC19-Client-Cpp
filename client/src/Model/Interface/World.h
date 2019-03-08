@@ -150,6 +150,8 @@ public:
     int getKillScore();
     int getObjectiveZoneScore();
     int getMovePhaseNum();
+    int getMaxOvertime();
+    int getRemainingOvertime();
 
 
 
@@ -173,6 +175,8 @@ private:
     int _oppScore;
     int _currentTurn;
     int _movePhaseNum;
+    int _maxOvertime;
+    int _remainingOvertime;
     Phase _currentPhase;
 
     EventQueue& _event_queue;

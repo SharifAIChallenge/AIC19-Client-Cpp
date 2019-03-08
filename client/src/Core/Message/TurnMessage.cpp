@@ -18,12 +18,14 @@ TurnMessage::TurnMessage(std::string&& json_form)
 void TurnMessage::update_game(World *_game) {
     Json::Value root = Message::get_args()[0];
 
+    _game->_AP = root["AP"].asInt();
     _game->_myScore = root["myScore"].asInt();
     _game->_oppScore = root["oppScore"].asInt();
     _game->_currentPhase = convert_phase_from_string(root["currentPhase"].asString());
     _game->_currentTurn = root["currentTurn"].asInt();
     _game->_movePhaseNum = root["movePhaseNum"].asInt();
-    _game->_AP = root["AP"].asInt();
+    _game->_maxOvertime = root["maxOvertime"].asInt();
+    _game->_remainingOvertime = root["remainingOvertime"].asInt();
 
     //map cells:
     std::vector<std::vector<Cell *>> output_map_cells;
