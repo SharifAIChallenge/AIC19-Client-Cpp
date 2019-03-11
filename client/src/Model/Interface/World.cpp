@@ -901,6 +901,10 @@ World::getPathMoveDirections(int startCellRow, int startCellColumn, int endCellR
     return std::vector<Direction>{};
 }
 
+int World::getMaxScoreDiff() {
+    return _gameConstants.getMaxScoreDiff();
+}
+
 
 
 

@@ -38,5 +38,9 @@ int GameConstants::getInitOvertime() const {
     return _initOvertime;
 }
 
+int GameConstants::getMaxScoreDiff() const {
+    return _maxScoreDiff;
+}
+
 
 

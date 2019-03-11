@@ -152,6 +152,7 @@ public:
     int getMovePhaseNum();
     int getMaxOvertime();
     int getRemainingOvertime();
+    int getMaxScoreDiff();
 
 
 

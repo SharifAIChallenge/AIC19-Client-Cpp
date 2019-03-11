@@ -68,6 +68,7 @@ void InitMessage::update_world(World *_world) {
     output_gameConst._normalTimeout = gameConsts_DATA["normalTimeout"].asInt();
     output_gameConst._maxScore = gameConsts_DATA["maxScore"].asInt();
     output_gameConst._initOvertime = gameConsts_DATA["initOvertime"].asInt();
+    output_gameConst._maxScoreDiff = gameConsts_DATA["maxScoreDiff"].asInt();
 
     _world->_gameConstants = output_gameConst;
 

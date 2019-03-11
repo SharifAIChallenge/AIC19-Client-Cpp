@@ -31,6 +31,7 @@ public:
     int getNormalTimeout() const;
     int getMaxScore() const;
     int getInitOvertime() const;
+    int getMaxScoreDiff() const;
 
 private:
     int _killScore;
@@ -42,6 +43,7 @@ private:
     int _normalTimeout;
     int _maxScore;
     int _initOvertime;
+    int _maxScoreDiff;
     
     friend class InitMessage;
     
