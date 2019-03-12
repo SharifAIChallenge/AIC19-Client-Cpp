@@ -27,6 +27,7 @@ public:
     //Getter & Setters:
     void set_map(const Map &_map);
     Map& map();
+    Map& getMap();
 
 
     void set_gameConstants(const GameConstants &_gameConstants);
@@ -85,7 +86,6 @@ public:
     std::vector<Direction> getPathMoveDirections(int startCellRow, int startCellColumn, int endCellRow, int endCellColumn, std::vector<Cell *> _avoidingCells);
 
 
-
     int manhattanDistance(const Cell &startCell,const Cell &endCell);
     int manhattanDistance(int startCellRow, int startCellColumn, int endCellRow, int endCellColumn);
     bool isInVision(Cell &startCell, Cell &endCell);
@@ -115,8 +115,6 @@ public:
     std::vector<Hero *> getOppHeroes() const;
     std::vector<Hero *> getMyDeadHeroes() const;
     std::vector<Hero *> getOppDeadHeroes() const;
-
-    Map& getMap();
 
     std::vector<AbilityConstants *> getAbilityConstants() const;
     std::vector<HeroConstants *> getHeroConstants() const;
@@ -153,6 +151,8 @@ public:
     int getMaxOvertime();
     int getRemainingOvertime();
     int getMaxScoreDiff();
+    int getInitOvertime();
+    int getTotalMovePhases();
 
 
 

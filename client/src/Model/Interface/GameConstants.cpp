@@ -42,5 +42,9 @@ int GameConstants::getMaxScoreDiff() const {
     return _maxScoreDiff;
 }
 
+int GameConstants::getTotalMovePhases() const {
+    return _totalMovePhases;
+}
+
 
 

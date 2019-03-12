@@ -905,10 +905,13 @@ int World::getMaxScoreDiff() {
     return _gameConstants.getMaxScoreDiff();
 }
 
+int World::getInitOvertime() {
+    return _gameConstants.getInitOvertime();
+}
 
-
-
-
+int World::getTotalMovePhases() {
+    return _gameConstants.getTotalMovePhases();
+}
 
 
 
