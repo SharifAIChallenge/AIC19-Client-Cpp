@@ -15,10 +15,10 @@ public:
     Hero(bool isNull);
 
     Hero(Hero&);
-    Hero& operator=(const Hero&) = delete;
-
-    Hero(Hero&&) = delete;
-    Hero& operator=(Hero&&) = delete;
+//    Hero& operator=(const Hero&) = delete;
+//
+//    Hero(Hero&&) = delete;
+//    Hero& operator=(Hero&&) = delete;
 
 //API:
     Ability getAbility(AbilityName _abilityName);
