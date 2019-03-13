@@ -30,6 +30,9 @@ public:
     int getFirstMoveTimeout() const;
     int getNormalTimeout() const;
     int getMaxScore() const;
+    int getInitOvertime() const;
+    int getMaxScoreDiff() const;
+    int getTotalMovePhases() const;
 
 private:
     int _killScore;
@@ -40,6 +43,9 @@ private:
     int _firstMoveTimeout;
     int _normalTimeout;
     int _maxScore;
+    int _initOvertime;
+    int _maxScoreDiff;
+    int _totalMovePhases;
     
     friend class InitMessage;
     

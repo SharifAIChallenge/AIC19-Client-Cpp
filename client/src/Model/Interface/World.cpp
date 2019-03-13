@@ -272,7 +272,7 @@ void World::dfs(Cell& currentCell, Cell& startCell, Cell& targetCell, std::unord
         if (*nextCell != Cell::NULL_CELL && isSeen.find(nextCell) == isSeen.end() && isCloser(currentCell, targetCell, *nextCell))
         {
             int collisionState = squareCollision(startCell, targetCell, *nextCell);
-            if ((collisionState == 0 || collisionState == 1) && nextCell->isWall())
+            if ((collisionState == 0 || collisionState == 1) && (nextCell->isWall() && !wallPiercing))
                 return;
             if (collisionState == 1)
             {
@@ -291,7 +291,7 @@ void World::dfs(Cell& currentCell, Cell& startCell, Cell& targetCell, std::unord
             if (*nextCell != Cell::NULL_CELL && isSeen.find(nextCell) == isSeen.end() && isCloser(currentCell, targetCell, *nextCell))
             {
                 int collisionState = squareCollision(startCell, targetCell, *nextCell);
-                if (collisionState == 0 || collisionState == 1 && nextCell->isWall())
+                if (collisionState == 0 || collisionState == 1 && (nextCell->isWall() && !wallPiercing))
                     return;
                 if (collisionState == 1)
                 {
@@ -336,11 +336,14 @@ std::vector<Cell *> World::getImpactCells(const AbilityName &abilityName,Cell &s
         if (manhattanDistance(startCell, **cellIt) > abilityConstants.getRange())
             break;
         lastCell = *cellIt;
-        if ((getOppHero(**cellIt) != Hero::NULL_HERO && !(abilityConstants.getType() == AbilityType::DEFENSIVE))
+        if(abilityConstants.isLobbing()){
+            continue;
+        }
+        if ((getOppHero(**cellIt) != Hero::NULL_HERO && abilityConstants.getType() != AbilityType::DEFENSIVE)
             || (getMyHero(**cellIt) != Hero::NULL_HERO && abilityConstants.getType() == AbilityType::DEFENSIVE))
         {
             impactCells.push_back(*cellIt);
-            if(!abilityConstants.isLobbing()) break;
+            if(!abilityConstants.isPiercing()) break;
         }
     }
     if (std::find(impactCells.begin(), impactCells.end(), lastCell)
@@ -717,6 +720,14 @@ int World::getMovePhaseNum() {
     return _movePhaseNum;
 }
 
+int World::getMaxOvertime() {
+    return _maxOvertime;
+}
+
+int World::getRemainingOvertime() {
+    return _remainingOvertime;
+}
+
 
 std::vector<Hero *> World::getMyHeroes() const {
     return _myHeroes;
@@ -741,8 +752,13 @@ std::vector<Hero *> World::getAbilityTargets(AbilityName abilityName, Cell &star
         return std::vector<Hero *>{};
     }
     std::vector<Cell *> impactCells = getImpactCells(abilityName, startCell, targetCell);
-    std::vector<Cell *> affectedCells = getCellsInAOE(*impactCells.back(),
-                                                  abilityConstants.getAreaOfEffect());
+    std::vector<Cell *> affectedCells{};
+    if(impactCells.size() > 1){
+        affectedCells.insert(affectedCells.end(),impactCells.begin(),impactCells.end());
+    } else {
+        affectedCells = getCellsInAOE(*impactCells.back(),
+                                                          abilityConstants.getAreaOfEffect());
+    }
     if (abilityConstants.getType() == AbilityType::DEFENSIVE) {
         return getMyHeroesInCells(affectedCells);
     } else {
@@ -890,10 +906,17 @@ World::getPathMoveDirections(int startCellRow, int startCellColumn, int endCellR
     return std::vector<Direction>{};
 }
 
+int World::getMaxScoreDiff() {
+    return _gameConstants.getMaxScoreDiff();
+}
 
+int World::getInitOvertime() {
+    return _gameConstants.getInitOvertime();
+}
 
-
-
+int World::getTotalMovePhases() {
+    return _gameConstants.getTotalMovePhases();
+}
 
 
 

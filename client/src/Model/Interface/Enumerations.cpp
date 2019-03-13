@@ -27,6 +27,12 @@ AbilityName convert_abilityName_from_string(std::string str_abilityName){
         return AbilityName::GUARDIAN_DODGE;
     if(str_abilityName == "GUARDIAN_FORTIFY")
         return AbilityName::GUARDIAN_FORTIFY;
+    if(str_abilityName == "SHADOW_ATTACK")
+        return AbilityName::SHADOW_ATTACK;
+    if(str_abilityName == "SHADOW_DODGE")
+        return AbilityName::SHADOW_DODGE;
+    if(str_abilityName == "SHADOW_SLASH")
+        return AbilityName::SHADOW_SLASH;
     throw std::string("convert_abilityName_to_string:Wrong string input");
 }
 
@@ -56,6 +62,12 @@ std::string AbilityName_to_string(AbilityName _abilityName) {
             return "GUARDIAN_DODGE";
         case AbilityName::GUARDIAN_FORTIFY:
             return "GUARDIAN_FORTIFY";
+        case AbilityName::SHADOW_ATTACK:
+            return "SHADOW_ATTACK";
+        case AbilityName::SHADOW_SLASH:
+            return "SHADOW_SLASH";
+        case AbilityName::SHADOW_DODGE:
+            return "SHADOW_DODGE";
     }
     throw std::string("AbilityName_to_string:Wrong AbilityName input");
 }
@@ -69,6 +81,8 @@ HeroName convert_heroName_from_string(std::string str_heroname){
         return HeroName::BLASTER;
     if(str_heroname == "GUARDIAN")
         return HeroName::GUARDIAN;
+    if(str_heroname == "SHADOW")
+        return HeroName::SHADOW;
 
     throw std::string("convert_heroName_to_string:Wrong string input");
 }
@@ -83,6 +97,8 @@ std::string HeroName_to_string(HeroName _heroname) {
             return "SENTRY";
         case HeroName::GUARDIAN:
             return "GUARDIAN";
+        case HeroName::SHADOW:
+            return "SHADOW";
     }
     throw std::string("HeroName_to_string:Wrong HeroName input");
 }

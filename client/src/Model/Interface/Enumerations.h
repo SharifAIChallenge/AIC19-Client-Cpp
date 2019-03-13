@@ -16,7 +16,10 @@ enum AbilityName// Complete these enums (if you updated this please update the f
     HEALER_HEAL,
     GUARDIAN_ATTACK,
     GUARDIAN_DODGE,
-    GUARDIAN_FORTIFY
+    GUARDIAN_FORTIFY,
+    SHADOW_ATTACK,
+    SHADOW_DODGE,
+    SHADOW_SLASH
 };
 
 AbilityName convert_abilityName_from_string(std::string str_abilityName);
@@ -31,7 +34,7 @@ std::string AbilityType_to_string(AbilityType _abilityType);
 //-------------------------------------------
 enum HeroName
 {
-    SENTRY,BLASTER,HEALER,GUARDIAN
+    SENTRY,BLASTER,HEALER,GUARDIAN,SHADOW
 };
 HeroName convert_heroName_from_string(std::string str_heroname);
 std::string HeroName_to_string(HeroName _heroname);

@@ -34,5 +34,15 @@ int GameConstants::getMaxScore() const {
     return _maxScore;
 }
 
+int GameConstants::getInitOvertime() const {
+    return _initOvertime;
+}
 
+int GameConstants::getMaxScoreDiff() const {
+    return _maxScoreDiff;
+}
+
+int GameConstants::getTotalMovePhases() const {
+    return _totalMovePhases;
+}
 

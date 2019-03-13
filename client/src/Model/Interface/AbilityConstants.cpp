@@ -40,6 +40,10 @@ int AbilityConstants::getPower() const {
 bool AbilityConstants::isLobbing() const {
     return _isLobbing;
 }
+//--------------isPiercing--------------
+bool AbilityConstants::isPiercing() const {
+    return _isPiercing;
+}
 
 //single tone:
 AbilityConstants AbilityConstants::NULL_ABILITY_CONSTANTS(true);

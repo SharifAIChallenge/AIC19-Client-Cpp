@@ -67,6 +67,9 @@ void InitMessage::update_world(World *_world) {
     output_gameConst._firstMoveTimeout = gameConsts_DATA["firstMoveTimeout"].asInt();
     output_gameConst._normalTimeout = gameConsts_DATA["normalTimeout"].asInt();
     output_gameConst._maxScore = gameConsts_DATA["maxScore"].asInt();
+    output_gameConst._initOvertime = gameConsts_DATA["initOvertime"].asInt();
+    output_gameConst._maxScoreDiff = gameConsts_DATA["maxScoreDiff"].asInt();
+    output_gameConst._totalMovePhases = gameConsts_DATA["totalMovePhases"].asInt();
 
     _world->_gameConstants = output_gameConst;
 
@@ -115,6 +118,7 @@ void InitMessage::update_world(World *_world) {
         ptr_abilityCons->_areaOfEffect = _abilityConstant["areaOfEffect"].asInt();
         ptr_abilityCons->_power = _abilityConstant["power"].asInt();
         ptr_abilityCons->_isLobbing = _abilityConstant["isLobbing"].asBool();
+        ptr_abilityCons->_isPiercing = _abilityConstant["isPiercing"].asBool();
 
 
 //        Logger::Get(LogLevel_INFO) << "\"name\": " << _abilityConstant["name"].asString();
