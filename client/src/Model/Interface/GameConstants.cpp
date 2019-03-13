@@ -46,5 +46,3 @@ int GameConstants::getTotalMovePhases() const {
     return _totalMovePhases;
 }
 
-
-

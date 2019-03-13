@@ -752,8 +752,13 @@ std::vector<Hero *> World::getAbilityTargets(AbilityName abilityName, Cell &star
         return std::vector<Hero *>{};
     }
     std::vector<Cell *> impactCells = getImpactCells(abilityName, startCell, targetCell);
-    std::vector<Cell *> affectedCells = getCellsInAOE(*impactCells.back(),
-                                                  abilityConstants.getAreaOfEffect());
+    std::vector<Cell *> affectedCells{};
+    if(impactCells.size() > 1){
+        affectedCells.insert(affectedCells.end(),impactCells.begin(),impactCells.end());
+    } else {
+        affectedCells = getCellsInAOE(*impactCells.back(),
+                                                          abilityConstants.getAreaOfEffect());
+    }
     if (abilityConstants.getType() == AbilityType::DEFENSIVE) {
         return getMyHeroesInCells(affectedCells);
     } else {
