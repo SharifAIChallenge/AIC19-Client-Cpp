@@ -62,8 +62,8 @@ void Hero::set_abilities(std::vector<Ability *> &input_abilities) {
         this->_abilities.push_back(tmp_abil);
     }
 
-    for(std::vector<Ability *>::iterator it = input_abilities.begin();
-            it < input_abilities.end(); ++it){
+    for(std::vector<Ability *>::iterator it = this->_abilities.begin();
+        it < this->_abilities.end(); ++it){
         if((*it)->getType() == AbilityType::OFFENSIVE){
             _offensiveAbilities.push_back(*it);
         } else if ((*it)->getType() == AbilityType::DODGE){
@@ -79,6 +79,17 @@ void Hero::copy_abilities(std::vector<Ability *> &_abilities) {
     for(Ability * ability_ptr : _abilities){
         Ability* tmp_ability_ptr = new Ability(*ability_ptr);
         this->_abilities.push_back(tmp_ability_ptr);
+    }
+
+    for(std::vector<Ability *>::iterator it = this->_abilities.begin();
+        it < this->_abilities.end(); ++it){
+        if((*it)->getType() == AbilityType::OFFENSIVE){
+            _offensiveAbilities.push_back(*it);
+        } else if ((*it)->getType() == AbilityType::DODGE){
+            _dodgeAbilities.push_back(*it);
+        } else if ((*it)->getType() == AbilityType::DEFENSIVE){
+            _defensiveAbilities.push_back(*it);
+        }
     }
 }
 
@@ -145,6 +156,9 @@ void Hero::clear_abilities() {
         delete *it;
     }
     this->_abilities.clear();
+    this->_offensiveAbilities.clear();
+    this->_dodgeAbilities.clear();
+    this->_defensiveAbilities.clear();
 }
 
 
