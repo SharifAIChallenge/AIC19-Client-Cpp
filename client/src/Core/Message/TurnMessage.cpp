@@ -101,6 +101,9 @@ void TurnMessage::update_game(World *_game) {
             }
         }
         output_hero->set_abilities(_abilities_list);
+        for(Ability* _ability:_abilities_list){
+            delete _ability;
+        }
 
         //currentCell:
         if(hero_DATA.isMember("currentCell")) {
@@ -169,6 +172,9 @@ void TurnMessage::update_game(World *_game) {
             }
         }
         output_hero->set_abilities(_abilities_list);
+        for(Ability* _ability:_abilities_list){
+            delete _ability;
+        }
 
         //currentCell:
         if(hero_DATA.isMember("currentCell")) {

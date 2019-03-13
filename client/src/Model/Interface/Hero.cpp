@@ -54,11 +54,16 @@ std::vector<Ability *> Hero::getAbilities() const {
     return _abilities;
 }
 
-void Hero::set_abilities(std::vector<Ability *> &_abilities) {
-    Hero::_abilities = _abilities;
+void Hero::set_abilities(std::vector<Ability *> &input_abilities) {
+    this->clear_abilities();
 
-    for(std::vector<Ability *>::iterator it = _abilities.begin();
-            it < _abilities.end(); ++it){
+    for(Ability* _abil:input_abilities) {
+        Ability* tmp_abil = new Ability(*_abil);
+        this->_abilities.push_back(tmp_abil);
+    }
+
+    for(std::vector<Ability *>::iterator it = input_abilities.begin();
+            it < input_abilities.end(); ++it){
         if((*it)->getType() == AbilityType::OFFENSIVE){
             _offensiveAbilities.push_back(*it);
         } else if ((*it)->getType() == AbilityType::DODGE){
@@ -70,12 +75,11 @@ void Hero::set_abilities(std::vector<Ability *> &_abilities) {
 }
 
 void Hero::copy_abilities(std::vector<Ability *> &_abilities) {
-    std::vector<Ability *> cpy_abilities;
+    this->clear_abilities();
     for(Ability * ability_ptr : _abilities){
         Ability* tmp_ability_ptr = new Ability(*ability_ptr);
-        cpy_abilities.push_back(tmp_ability_ptr);
+        this->_abilities.push_back(tmp_ability_ptr);
     }
-    this->set_abilities(cpy_abilities);
 }
 
 std::vector<Ability *> Hero::getDodgeAbilities() const {
@@ -136,10 +140,17 @@ Ability Hero::getAbility(AbilityName _abilityName) {
     return Ability::NULL_ABILITY;
 }
 
+void Hero::clear_abilities() {
+    for (std::vector<Ability *>::iterator it = this->_abilities.begin() ; it != this->_abilities.end(); ++it){
+        delete *it;
+    }
+    this->_abilities.clear();
+}
 
 
 //Single tone
 Hero Hero::NULL_HERO(true);
+
 
 
 
