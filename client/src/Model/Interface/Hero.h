@@ -67,6 +67,7 @@ private:
     HeroConstants heroConstants() const;
     void set_abilities(std::vector<Ability *> &_abilities);
     void copy_abilities(std::vector<Ability *> &_abilities);
+    void clear_abilities();
 
     friend class TurnMessage;
     friend class PickMessage;
