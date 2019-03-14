@@ -62,12 +62,12 @@ public:
     // For all Cell type inputs we will have another method with row-column inputs
     // For all hero id inputs we will have another method with Hero object
     // For all Ability Object inputs we will have another method with AbilityName enum
-    Hero getHero(int id);
-    Hero getMyHero(const Cell &cell);
-    Hero getMyHero(int cellRow, int cellColumn);
+    Hero& getHero(int id);
+    Hero& getMyHero(const Cell &cell);
+    Hero& getMyHero(int cellRow, int cellColumn);
     Hero* getMyHero_ptr(const Cell &cell);
-    Hero getOppHero(const Cell &cell);
-    Hero getOppHero(int cellRow, int cellColumn);
+    Hero& getOppHero(const Cell &cell);
+    Hero& getOppHero(int cellRow, int cellColumn);
     Hero* getOppHero_ptr(const Cell &cell);
 
 

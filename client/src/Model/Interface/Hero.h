@@ -71,7 +71,6 @@ private:
 
     friend class TurnMessage;
     friend class PickMessage;
-    friend class AI;
 
     bool isNull = false;
 

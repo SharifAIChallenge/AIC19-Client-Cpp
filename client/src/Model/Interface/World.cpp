@@ -83,7 +83,7 @@ World::~World() {
 }
 
 //logical functions:
-Hero World::getHero(int id) {
+Hero& World::getHero(int id) {
     for(std::vector<Hero *>::iterator it = _myHeroes.begin(); it != _myHeroes.end(); ++it){
         if(static_cast<const Hero *>(*it)->getId() == id){
             return **it;
@@ -97,7 +97,7 @@ Hero World::getHero(int id) {
     return Hero::NULL_HERO;
 }
 
-Hero World::getMyHero(const Cell &cell) {
+Hero& World::getMyHero(const Cell &cell) {
     for(std::vector<Hero *>::iterator it = _myHeroes.begin(); it != _myHeroes.end(); ++it ){
         //This only checks the location of the cell
         if((*it)->getCurrentCell() == cell){
@@ -117,7 +117,7 @@ Hero* World::getMyHero_ptr(const Cell &cell) {
     return &Hero::NULL_HERO;
 }
 
-Hero World::getMyHero(int cellRow, int cellColumn) {
+Hero& World::getMyHero(int cellRow, int cellColumn) {
     if(!_map.isInMap(cellRow,cellColumn))
         return Hero::NULL_HERO;
 
@@ -131,7 +131,7 @@ Hero World::getMyHero(int cellRow, int cellColumn) {
     return Hero::NULL_HERO;
 }
 
-Hero World::getOppHero(const Cell &cell) {
+Hero& World::getOppHero(const Cell &cell) {
     for(std::vector<Hero *>::iterator it = _oppHeroes.begin(); it!= _oppHeroes.end(); ++it){
         //This only checks the location of the cell
         if((*it)->getCurrentCell() == cell){
@@ -151,7 +151,7 @@ Hero *World::getOppHero_ptr(const Cell &cell) {
     return &Hero::NULL_HERO;
 }
 
-Hero World::getOppHero(int cellRow, int cellColumn) {
+Hero& World::getOppHero(int cellRow, int cellColumn) {
     if(!_map.isInMap(cellRow,cellColumn))
         return Hero::NULL_HERO;
 
